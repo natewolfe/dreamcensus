@@ -18,6 +18,13 @@ def parse_args() -> argparse.Namespace:
         )
     )
     parser.add_argument(
+        "--from-json",
+        help=(
+            "Skip the Typeform API request and load a previously exported JSON file "
+            "to generate the Markdown summary."
+        ),
+    )
+    parser.add_argument(
         "--form-id",
         default="NpE4W7",
         help="The Typeform form ID (e.g., the NpE4W7 portion of the Dream Census URL).",
@@ -60,7 +67,17 @@ def fetch_form_definition(form_id: str, token: str) -> Dict[str, Any]:
             f"Failed to fetch form {form_id} (HTTP {err.code}): {err.reason}"
         ) from err
     except urllib.error.URLError as err:
-        raise RuntimeError(f"Failed to reach Typeform: {err.reason}") from err
+        raise RuntimeError(
+            "Failed to reach Typeform: "
+            f"{err.reason}. If you are behind a proxy or offline, try --from-json."
+        ) from err
+
+
+def load_form_definition(path: Path) -> Dict[str, Any]:
+    if not path.exists():
+        raise FileNotFoundError(f"JSON file not found: {path}")
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
 
 
 def write_json_export(payload: Dict[str, Any], path: Path) -> None:
@@ -153,11 +170,21 @@ def write_markdown_summary(payload: Dict[str, Any], path: Path) -> None:
 def main() -> int:
     args = parse_args()
     try:
-        token = ensure_token(args.token)
-        payload = fetch_form_definition(args.form_id, token)
-        write_json_export(payload, Path(args.json_out))
+        if args.from_json:
+            payload = load_form_definition(Path(args.from_json))
+        else:
+            token = ensure_token(args.token)
+            payload = fetch_form_definition(args.form_id, token)
+            write_json_export(payload, Path(args.json_out))
+
         write_markdown_summary(payload, Path(args.markdown_out))
-        print(f"Exported form {args.form_id} to {args.json_out} and {args.markdown_out}")
+        if args.from_json:
+            print(
+                f"Rendered Markdown summary from cached JSON {args.from_json} "
+                f"to {args.markdown_out}"
+            )
+        else:
+            print(f"Exported form {args.form_id} to {args.json_out} and {args.markdown_out}")
         return 0
     except Exception as exc:  # noqa: BLE001
         print(f"Error: {exc}", file=sys.stderr)

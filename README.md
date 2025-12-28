@@ -17,7 +17,18 @@ Because the form is hosted on Typeform, the first step is to export the question
 
 3. Open `docs/questionnaire.md` to review the captured questions, options, welcome/thank-you screens, and branching logic. The raw Typeform schema is saved next to it for reference.
 
-If the environment cannot reach Typeform (for example, in an offline or proxied CI environment), the script will print a clear error and exit. You can still populate `docs/questionnaire.md` manually using the provided section headers.
+### Offline or blocked network environments
+
+If the environment cannot reach Typeform (for example, behind a restrictive proxy), the script will print a clear error and exit. In that case:
+
+- Use the provided `--from-json` flag with a previously exported JSON payload (e.g., one generated on a machine with network access):
+
+  ```bash
+  python scripts/export_typeform.py --from-json data/typeform-NpE4W7.json \
+    --markdown-out docs/questionnaire.md
+  ```
+
+- If no cached JSON is available, you can still populate `docs/questionnaire.md` manually using the provided section headers.
 
 ## Next steps
 

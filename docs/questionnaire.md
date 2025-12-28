@@ -1,6 +1,6 @@
 # Dream Census Typeform Capture
 
-The Typeform questionnaire for The Dream Census has not been exported yet in this repository. Use `scripts/export_typeform.py` with a valid Typeform token to fetch the live form and populate this file automatically.
+The Typeform questionnaire for The Dream Census has not been exported yet in this repository. Use `scripts/export_typeform.py` with a valid Typeform token to fetch the live form and populate this file automatically. If network egress is blocked, run the script on a machine with access and commit the resulting `data/typeform-NpE4W7.json`, then regenerate this Markdown via `--from-json`.
 
 If you prefer to fill this manually, capture the following details:
 
