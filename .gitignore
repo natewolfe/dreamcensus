@@ -1,0 +1,5 @@
+# Exported Typeform payloads
+data/*.json
+
+# Python cache
+__pycache__/
