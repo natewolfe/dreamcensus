@@ -1,8 +1,6 @@
 # The Dream Census v1.2
 
-**Form ID:** NpE4W7
-
-## Welcome Screens
+## Welcome screens
 - **Hello Dreamer,
 Tell us about your dreams...**: 
 
@@ -46,7 +44,7 @@ _*By filling out the census,*_ _you agree to grant The Dream Census license to i
      - required: False
      - max_length: 800
 
-## Thank You Screens
+## Thank you screens
 - **And that's it. You're done!**: Thank you for participating in the Dream Census! Follow us on social media to stay informed about how this data is being turned into art.
 - **Thanks for completing this typeform
-Now *create your own* — it's free, easy, & beautiful**: 
+Now *create your own* — it's free, easy, & beautiful**:
