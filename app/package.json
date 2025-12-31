@@ -1,0 +1,50 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "@use-gesture/react": "^10.3.0",
+    "motion": "^11.15.0",
+    "next": "16.1.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-is": "^19.0.0",
+    "recharts": "^2.10.0",
+    "use-debounce": "^10.0.0",
+    "zod": "^4.2.1"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.19.1",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/testing-library__jest-dom": "^6.0.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.0.4",
+    "@vitest/ui": "^2.0.4",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "jsdom": "^24.1.1",
+    "prisma": "^6.19.1",
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5",
+    "vitest": "^2.0.4"
+  },
+  "overrides": {
+    "react-is": "19.0.0"
+  }
+}

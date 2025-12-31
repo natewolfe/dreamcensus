@@ -1,0 +1,420 @@
+// Prisma schema for Dream Census
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER & AUTH
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String?   @unique
+  emailVerified DateTime?
+  
+  // Identity (from onboarding)
+  displayName    String?
+  birthYear      Int?
+  country        String?
+  dreamFrequency String?  // "rarely", "sometimes", "often", "always"
+  
+  // Onboarding state
+  onboardingStep Int @default(0)
+  
+  locale    String   @default("en")
+  timezone  String   @default("UTC")
+  
+  // Consent flags
+  consentData      Boolean @default(false)
+  consentMarketing Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  sessions           Session[]
+  verificationTokens VerificationToken[]
+  censusResponses    CensusResponse[]
+  dreamEntries       DreamEntry[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+}
+
+model VerificationToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  token     String    @unique
+  code      String?   // 6-digit code alternative
+  type      String    // "email_verify", "magic_link"
+  
+  expiresAt DateTime
+  usedAt    DateTime?
+  
+  createdAt DateTime  @default(now())
+  
+  @@index([userId])
+  @@index([token])
+}
+
+// ============================================================================
+// CONTENT BLOCKS (Server-driven questionnaire schema)
+// ============================================================================
+
+// Defines the structure/type of a question or content element
+model ContentBlock {
+  id         String   @id @default(cuid())
+  externalId String   @unique // Original Typeform ref for deduplication
+  
+  // Block type: statement, legal, short_text, long_text, email, date, number,
+  // single_choice, multi_choice, picture_choice, dropdown, opinion_scale, 
+  // rating, yes_no, group
+  kind       String
+  
+  // Display content
+  label      String   // Question title/text
+  help       String?  // Description/help text
+  
+  // Type-specific properties stored as JSON
+  // For choices: { choices: [{ref, label, imageUrl?}], allowOther?, randomize? }
+  // For scales: { steps: 5, labels: {left, center, right} }
+  // For validation: merged into props
+  props      Json     @default("{}")
+  
+  // Versioning for analytics consistency
+  version    Int      @default(1)
+  sourceHash String?  // Hash of original content for change detection
+  
+  // Localization
+  locale     String   @default("en")
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  // Relations
+  steps      CensusStep[]
+  
+  @@index([kind])
+  @@index([locale])
+}
+
+// ============================================================================
+// CENSUS STRUCTURE (Steps and flow)
+// ============================================================================
+
+// Logical groupings of census steps into completable chapters
+model CensusChapter {
+  id               String   @id @default(cuid())
+  slug             String   @unique // "threshold", "who-you-are", etc.
+  name             String
+  description      String?
+  orderIndex       Int
+  iconEmoji        String?
+  estimatedMinutes Int
+  
+  createdAt        DateTime @default(now())
+  
+  // Relations
+  steps            CensusStep[]
+  
+  @@index([orderIndex])
+}
+
+// Represents a step in the census flow
+model CensusStep {
+  id           String   @id @default(cuid())
+  
+  // Link to content
+  blockId      String
+  block        ContentBlock @relation(fields: [blockId], references: [id])
+  
+  // Link to chapter (nullable during migration)
+  chapterId    String?
+  chapter      CensusChapter? @relation(fields: [chapterId], references: [id])
+  
+  // For nested questions (groups), reference parent step
+  parentId     String?
+  parent       CensusStep?  @relation("StepHierarchy", fields: [parentId], references: [id])
+  children     CensusStep[] @relation("StepHierarchy")
+  
+  // Ordering within parent (or top-level if no parent)
+  orderHint    Int
+  
+  // Analytics key for response tracking
+  analyticsKey String?
+  
+  // Version must match ContentBlock version
+  version      Int      @default(1)
+  
+  createdAt    DateTime @default(now())
+  
+  // Relations
+  responseParts CensusResponsePart[]
+  
+  @@unique([blockId, version])
+  @@index([parentId])
+  @@index([orderHint])
+  @@index([chapterId])
+  @@index([chapterId, version])
+}
+
+// Future: Conditional branching edges
+// model CensusEdge {
+//   id          String @id @default(cuid())
+//   fromStepId  String
+//   toStepId    String
+//   condition   String // JSON expression tree
+//   version     Int
+// }
+
+// ============================================================================
+// CENSUS RESPONSES
+// ============================================================================
+
+// A complete census submission
+model CensusResponse {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Version of the census schema used
+  version   Int
+  
+  // Completion status
+  status    String   @default("in_progress") // in_progress, completed, abandoned
+  
+  // Device/context metadata
+  device    String?
+  userAgent String?
+  
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  
+  // Individual answers
+  parts     CensusResponsePart[]
+  
+  @@index([userId])
+  @@index([status])
+  @@index([userId, version, status])
+}
+
+// Individual answer within a census response
+model CensusResponsePart {
+  id         String   @id @default(cuid())
+  responseId String
+  response   CensusResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  
+  stepId     String
+  step       CensusStep @relation(fields: [stepId], references: [id])
+  
+  // Answer stored as JSON
+  // Format depends on step type:
+  // - text: "answer string"
+  // - single_choice: "choice_ref"
+  // - multi_choice: ["ref1", "ref2"]
+  // - scale: 3
+  // - date: "2024-01-15"
+  answer     Json
+  
+  answeredAt DateTime @default(now())
+  
+  @@unique([responseId, stepId])
+  @@index([stepId])
+}
+
+// ============================================================================
+// STREAM (Endless question exploration)
+// ============================================================================
+
+// Questions for the exploration stream interface
+model StreamQuestion {
+  id           String   @id @default(cuid())
+  text         String
+  category     String   // "dreams", "sleep", "imagination", "perception", etc.
+  tags         Json     @default("[]")
+  tier         Int      @default(2) // 1=census, 2=extended, 3=generated
+  parentId     String?
+  yesFollowups Json     @default("[]")
+  noFollowups  Json     @default("[]")
+  
+  // Analytics
+  timesShown   Int      @default(0)
+  yesCount     Int      @default(0)
+  noCount      Int      @default(0)
+  expandRate   Float    @default(0)
+  
+  // Content moderation
+  approved     Boolean  @default(true)
+  
+  createdAt    DateTime @default(now())
+  
+  // Relations
+  responses    StreamResponse[]
+  
+  @@index([category])
+  @@index([tier])
+  @@index([approved])
+}
+
+// User responses to stream questions
+model StreamResponse {
+  id           String   @id @default(cuid())
+  userId       String
+  questionId   String
+  question     StreamQuestion @relation(fields: [questionId], references: [id])
+  
+  response     String   // "yes", "no", "skip"
+  expandedText String?  // Longer written response
+  threadPath   Json     @default("[]")
+  timeOnCard   Int?     // milliseconds
+  
+  createdAt    DateTime @default(now())
+  
+  @@index([userId])
+  @@index([questionId])
+  @@index([createdAt])
+  @@index([userId, createdAt])
+}
+
+// ============================================================================
+// DREAM JOURNAL
+// ============================================================================
+
+model DreamEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Capture context
+  capturedAt  DateTime @default(now())  // When dream occurred
+  captureMode String   @default("text") // "text", "voice", "drawing"
+  
+  // Content
+  textRaw     String   // Original user input
+  transcript  String?  // If captured via audio
+  audioUrl    String?  // Voice recording storage URL
+  drawingUrl  String?  // Sketch/drawing storage URL
+  
+  // Quick metadata (1-5 scales)
+  clarity     Int?     // How clear/vivid
+  lucidity    Int?     // Awareness during dream
+  emotional   Int?     // Emotional intensity
+  isNightmare Boolean  @default(false)
+  isRecurring Boolean  @default(false)
+  
+  // Sleep context
+  sleepDuration Float?  // hours
+  sleepQuality  Int?    // 1-5 scale
+  
+  // Processing status
+  aiProcessed Boolean  @default(false)  // Has AI extracted symbols/emotions
+  processedAt DateTime?
+  
+  // Privacy
+  isPublicAnon Boolean @default(true)   // Can be used in aggregate data
+  
+  // Device context
+  device String?
+  
+  // RAG/Embedding support (requires pgvector extension - disabled until available)
+  // embedding      Unsupported("vector(1536)")?  // OpenAI ada-002 or text-embedding-3-small
+  // embeddingModel String?                        // Track which model generated it
+  // embeddedAt     DateTime?                      // When embedding was generated
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  emotions DreamEntryEmotion[]
+  symbols  DreamEntrySymbol[]
+  
+  @@index([userId])
+  @@index([capturedAt])
+  @@index([userId, capturedAt])
+  // @@index([userId, embeddedAt])  // Disabled until pgvector is available
+  @@index([isPublicAnon, aiProcessed])
+}
+
+// ============================================================================
+// SYMBOLS & EMOTIONS (Taxonomy)
+// ============================================================================
+
+model Symbol {
+  id       String @id @default(cuid())
+  name     String
+  taxonomy String? // Category/grouping
+  locale   String @default("en")
+  
+  // RAG/Embedding support (smaller model for taxonomy - disabled until available)
+  // embedding Unsupported("vector(384)")?  // all-MiniLM-L6-v2 or similar
+  
+  entries  DreamEntrySymbol[]
+  
+  @@unique([name, locale])
+}
+
+model Emotion {
+  id       String @id @default(cuid())
+  name     String
+  valence  Float? // -1 to 1 (negative to positive)
+  arousal  Float? // 0 to 1 (calm to excited)
+  locale   String @default("en")
+  
+  entries  DreamEntryEmotion[]
+  
+  @@unique([name, locale])
+}
+
+model DreamEntrySymbol {
+  id       String     @id @default(cuid())
+  entryId  String
+  entry    DreamEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  symbolId String
+  symbol   Symbol     @relation(fields: [symbolId], references: [id])
+  
+  strength Float      @default(1.0) // 0-1, relevance/prominence
+  
+  @@unique([entryId, symbolId])
+}
+
+model DreamEntryEmotion {
+  id        String     @id @default(cuid())
+  entryId   String
+  entry     DreamEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  emotionId String
+  emotion   Emotion    @relation(fields: [emotionId], references: [id])
+  
+  intensity Float      @default(1.0) // 0-1
+  
+  @@unique([entryId, emotionId])
+}
+
+// ============================================================================
+// AGGREGATE STATISTICS (Cached Analytics)
+// ============================================================================
+
+model AggregateStats {
+  id          String   @id @default(cuid())
+  statKey     String   @unique
+  statValue   Json
+  lastUpdated DateTime @default(now())
+  
+  @@index([statKey])
+}
