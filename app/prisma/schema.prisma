@@ -39,11 +39,18 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
+  // Referrals
+  referralCode       String?   @unique
+  referredById       String?
+  referredBy         Referral? @relation("ReferredBy", fields: [referredById], references: [id])
+  
   // Relations
   sessions           Session[]
   verificationTokens VerificationToken[]
   censusResponses    CensusResponse[]
   dreamEntries       DreamEntry[]
+  preferences        UserPreferences?
+  referralsMade      Referral[] @relation("ReferralsMade")
 }
 
 model Session {
@@ -72,6 +79,22 @@ model VerificationToken {
   
   @@index([userId])
   @@index([token])
+}
+
+model UserPreferences {
+  id       String @id @default(cuid())
+  userId   String @unique
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  theme    String @default("dark") // 'light', 'dark', 'aurora', 'midnight', etc.
+  
+  // Custom theme overrides (JSON for flexibility)
+  customColors Json?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
 }
 
 // ============================================================================
@@ -294,6 +317,99 @@ model StreamResponse {
 }
 
 // ============================================================================
+// UNIFIED QUESTION SYSTEM (Phase 1: Census-Card Unification)
+// ============================================================================
+
+// Themes organize questions into cohesive chapters
+model Theme {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  description  String?
+  icon         String?  // Emoji or icon identifier
+  orderIndex   Int
+  
+  // Unlock conditions
+  prerequisiteThemeId String?
+  prerequisiteTheme   Theme?  @relation("ThemePrerequisite", fields: [prerequisiteThemeId], references: [id])
+  dependentThemes     Theme[] @relation("ThemePrerequisite")
+  
+  // Metadata
+  estimatedMinutes Int
+  totalQuestions   Int     @default(0)
+  
+  createdAt    DateTime @default(now())
+  
+  questions    Question[]
+  
+  @@index([orderIndex])
+  @@index([prerequisiteThemeId])
+}
+
+// Unified question model (replaces both StreamQuestion and CensusStep)
+model Question {
+  id           String   @id @default(cuid())
+  
+  // Content
+  kind         String   // yes_no, single_choice, multi_choice, opinion_scale, etc.
+  text         String   // The question text
+  help         String?  // Description/help text
+  props        Json     @default("{}") // Type-specific properties (choices, labels, etc.)
+  imageUrl     String?  // Optional image for the question
+  
+  // Classification
+  category     String   // dreams, sleep, imagination, perception, etc.
+  tier         Int      @default(2) // 1=census-core, 2=census-extended, 3=exploration
+  tags         Json     @default("[]")
+  
+  // Theme/Chapter linkage
+  themeId      String?
+  theme        Theme?   @relation(fields: [themeId], references: [id])
+  orderInTheme Int?     // Order within the theme
+  
+  // Analytics
+  timesShown   Int      @default(0)
+  responseRate Float    @default(0)
+  
+  // Versioning
+  version      Int      @default(1)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  responses    QuestionResponse[]
+  
+  @@index([tier])
+  @@index([themeId, orderInTheme])
+  @@index([category])
+  @@index([tier, timesShown])
+}
+
+// Unified response model (replaces both StreamResponse and CensusResponsePart)
+model QuestionResponse {
+  id           String   @id @default(cuid())
+  userId       String
+  questionId   String
+  question     Question @relation(fields: [questionId], references: [id])
+  
+  // Flexible answer storage
+  answer       Json     // Format depends on question.kind
+  expandedText String?  // Optional written elaboration
+  
+  // Context
+  source       String   @default("card") // card, census-map, focus-mode, ritual
+  timeOnCard   Int?     // milliseconds
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@unique([userId, questionId])
+  @@index([userId])
+  @@index([questionId])
+  @@index([userId, createdAt])
+}
+
+// ============================================================================
 // DREAM JOURNAL
 // ============================================================================
 
@@ -342,8 +458,10 @@ model DreamEntry {
   updatedAt DateTime @updatedAt
   
   // Relations
-  emotions DreamEntryEmotion[]
-  symbols  DreamEntrySymbol[]
+  emotions          DreamEntryEmotion[]
+  symbols           DreamEntrySymbol[]
+  entityOccurrences EntityOccurrence[]
+  tagOccurrences    TagOccurrence[]
   
   @@index([userId])
   @@index([capturedAt])
@@ -407,6 +525,97 @@ model DreamEntryEmotion {
 }
 
 // ============================================================================
+// ENTITY SYSTEM (Personal Named Entities)
+// ============================================================================
+
+// User-created named entities (people, places, things in dreams)
+model Entity {
+  id             String   @id @default(cuid())
+  userId         String
+  
+  // Identity
+  name           String
+  normalizedName String   // Lowercase for matching
+  type           String   // person, place, thing
+  label          String?  // Optional category (e.g., "Friend", "Family", "Work")
+  aliases        Json     @default("[]")  // Alternative names/spellings
+  
+  // Metadata
+  firstSeenAt    DateTime @default(now())
+  
+  // Relations
+  occurrences    EntityOccurrence[]
+  
+  @@unique([userId, normalizedName])
+  @@index([userId, type])
+}
+
+model EntityOccurrence {
+  id           String     @id @default(cuid())
+  entityId     String
+  entity       Entity     @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  dreamEntryId String
+  dreamEntry   DreamEntry @relation(fields: [dreamEntryId], references: [id], onDelete: Cascade)
+  
+  // Position in text (for highlighting)
+  startIndex   Int
+  endIndex     Int
+  
+  createdAt    DateTime   @default(now())
+  
+  @@unique([entityId, dreamEntryId, startIndex])
+  @@index([dreamEntryId])
+  @@index([entityId])
+}
+
+// ============================================================================
+// TAG SYSTEM (Auto-detected and Manual Tags)
+// ============================================================================
+
+// Shared tag taxonomy (symbols, emotions, themes, actions)
+model Tag {
+  id             String   @id @default(cuid())
+  
+  // Identity
+  name           String
+  normalizedName String
+  type           String   // symbol, emotion, theme, action
+  category       String?  // Grouping (e.g., "nature", "architecture", "people")
+  aliases        Json     @default("[]")
+  
+  // Collective stats
+  totalOccurrences Int @default(0)
+  
+  // Relations
+  occurrences    TagOccurrence[]
+  
+  @@unique([name, type])
+  @@index([type])
+  @@index([normalizedName])
+}
+
+model TagOccurrence {
+  id           String     @id @default(cuid())
+  tagId        String
+  tag          Tag        @relation(fields: [tagId], references: [id])
+  dreamEntryId String
+  dreamEntry   DreamEntry @relation(fields: [dreamEntryId], references: [id], onDelete: Cascade)
+  
+  // Position in text (for highlighting)
+  startIndex   Int?
+  endIndex     Int?
+  
+  // Confidence (for auto-detected tags)
+  confidence   Float      @default(1.0)
+  source       String     @default("auto") // auto, manual, ai
+  
+  createdAt    DateTime   @default(now())
+  
+  @@index([dreamEntryId])
+  @@index([tagId])
+}
+
+// ============================================================================
 // AGGREGATE STATISTICS (Cached Analytics)
 // ============================================================================
 
@@ -418,3 +627,26 @@ model AggregateStats {
   
   @@index([statKey])
 }
+
+// ============================================================================
+// REFERRAL SYSTEM
+// ============================================================================
+
+model Referral {
+  id            String   @id @default(cuid())
+  referrerId    String
+  referrer      User     @relation("ReferralsMade", fields: [referrerId], references: [id])
+  
+  // Tracking
+  code          String   @unique
+  clicks        Int      @default(0)
+  
+  // Referred users
+  referredUsers User[]   @relation("ReferredBy")
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([referrerId])
+  @@index([code])
+}
+

@@ -4,24 +4,24 @@
 
 export const NAV_ITEMS = [
   { 
-    id: 'stream', 
-    label: 'Stream', 
-    icon: '🌊', 
+    id: 'home', 
+    label: 'Home', 
+    icon: '🏠', 
     href: '/', 
-    description: 'Endless questions' 
+    description: 'Dashboard and rituals' 
   },
   { 
     id: 'census', 
     label: 'Census', 
     icon: '📋', 
-    href: '/census', 
+    href: '/census/map', 
     description: 'Explore your mind' 
   },
   { 
-    id: 'data', 
-    label: 'Data', 
-    icon: '📊', 
-    href: '/data', 
+    id: 'explore', 
+    label: 'Explore', 
+    icon: '🔭', 
+    href: '/explore', 
     description: 'Collective insights' 
   },
   { 
@@ -39,9 +39,14 @@ export type NavItemId = typeof NAV_ITEMS[number]['id']
  * Determine active navigation item from pathname
  */
 export function getActiveNavFromPath(pathname: string): NavItemId | null {
-  if (pathname === '/') return 'stream'
+  if (pathname === '/') return 'home'
+  
+  // Check for census routes
+  if (pathname.startsWith('/census')) return 'census'
+  
+  // Check for explore/data routes
+  if (pathname.startsWith('/explore') || pathname.startsWith('/data')) return 'explore'
   
   const item = NAV_ITEMS.find(n => pathname.startsWith(n.href) && n.href !== '/')
   return item?.id ?? null
 }
-

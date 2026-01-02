@@ -1,6 +1,31 @@
 /**
- * Type definitions for the census wizard
+ * Shared type definitions for Dream Census
  */
+
+// ============================================================================
+// UNIFIED QUESTION MODEL
+// ============================================================================
+
+/**
+ * Unified question interface for both Census and Stream questions
+ * This interface can represent any type of question across the app
+ */
+export interface Question {
+  id: string
+  text: string
+  category: string
+  kind?: StepKind
+  props?: StepProps
+  tier?: 1 | 2 | 3  // 1=census-core, 2=census-extended, 3=exploration
+  themeId?: string
+  themeSlug?: string
+  help?: string | null
+  tags?: string[]
+}
+
+// ============================================================================
+// CONTENT BLOCK TYPES
+// ============================================================================
 
 // Content block kinds matching the database schema
 export type StepKind =
@@ -86,6 +111,29 @@ export interface CensusProgress {
   totalSteps: number
   answeredSteps: number
   isComplete: boolean
+}
+
+// ============================================================================
+// RESPONSE TYPES
+// ============================================================================
+
+/**
+ * A response to a question
+ */
+export interface QuestionResponse {
+  questionId: string
+  response: 'yes' | 'no' | 'skip' | AnswerValue
+  expandedText?: string | null
+  createdAt?: Date
+}
+
+/**
+ * An answered question with its response
+ */
+export interface AnsweredQuestion {
+  question: Question
+  response: 'yes' | 'no' | AnswerValue
+  expandedText?: string | null
 }
 
 

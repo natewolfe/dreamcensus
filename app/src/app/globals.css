@@ -6,42 +6,37 @@ A nocturnal, ethereal aesthetic inspired by dreams and liminal spaces
 ================================================================== */
 
 :root {
-  /* Core palette - deep night sky with aurora accents */
+  /* Theme colors - Dynamically set by ThemeProvider */
+  /* Default values (dark theme) for SSR/initial render */
   --background: #0c0e1a;
   --background-subtle: #12152a;
   --background-elevated: #1a1e3a;
-  
-  /* RGB values for gradient transparency */
   --background-elevated-rgb: 26, 30, 58;
   
   --foreground: #e8eaf6;
   --foreground-muted: #9fa8da;
   --foreground-subtle: #8293f3;
   
-  /* Accent - aurora/dream glow */
   --accent: #b093ff;
   --accent-glow: #c4a2ff;
   --accent-muted: #574992;
   
-  /* Secondary - moonlight silver */
   --secondary: #c5cae9;
   --secondary-muted: #7986cb;
   
-  /* States */
   --success: #69f0ae;
   --warning: #ffd54f;
   --error: #ff5252;
   
-  /* Borders & surfaces */
   --border: rgba(156, 163, 220, 0.15);
   --border-focus: rgba(124, 77, 255, 0.5);
   --border-subtle: rgba(156, 163, 220, 0.08);
   --surface-glass: rgba(26, 30, 58, 0.7);
   
-  /* Shadows */
   --shadow-glow: 0 0 40px rgba(124, 77, 255, 0.15);
   --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.3);
   
+  /* Static tokens (not theme-dependent) */
   /* Typography - Next.js font variables will be injected via className */
   --font-family-display: var(--font-playfair), Georgia, serif;
   --font-family-body: var(--font-noto-sans), system-ui, sans-serif;
@@ -66,29 +61,6 @@ A nocturnal, ethereal aesthetic inspired by dreams and liminal spaces
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
   --transition-slow: 500ms ease;
-}
-
-/* Light mode override (optional, default is dark) */
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #f5f5ff;
-    --background-subtle: #e8eaf6;
-    --background-elevated: #ffffff;
-    
-    /* RGB values for gradient transparency */
-    --background-elevated-rgb: 255, 255, 255;
-    
-    --foreground: #1a1e3a;
-    --foreground-muted: #3f51b5;
-    --foreground-subtle: #7986cb;
-    
-    --border: rgba(63, 81, 181, 0.15);
-    --border-subtle: rgba(63, 81, 181, 0.08);
-    --surface-glass: rgba(255, 255, 255, 0.8);
-    
-    --shadow-glow: 0 0 40px rgba(124, 77, 255, 0.1);
-    --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.08);
-  }
 }
 
 /* ==================================================================
@@ -235,9 +207,9 @@ Progress Indicator
 ================================================================== */
 
 .progress-bar {
-  height: 4px;
-  background: var(--background-elevated);
-  border-radius: 2px;
+  height: 5px;
+  background: var(--background-subtle);
+  border-radius: 3px;
   overflow: hidden;
 }
 

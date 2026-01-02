@@ -1,24 +1,13 @@
 'use client'
 
 import { useState, useCallback, useEffect, useMemo } from 'react'
-
-export interface Question {
-  id: string
-  text: string
-  category: string
-}
+import type { Question, AnsweredQuestion } from '@/lib/types'
 
 export interface ResponseRecord {
   questionId: string
   response: 'yes' | 'no'
   expandedText?: string
   index: number
-}
-
-export interface AnsweredQuestion {
-  question: Question
-  response: 'yes' | 'no'
-  expandedText?: string | null
 }
 
 export interface StreamState {

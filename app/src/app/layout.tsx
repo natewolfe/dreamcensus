@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next"
 import { Noto_Sans } from "next/font/google"
 import { Playfair_Display } from "next/font/google"
+import { ThemeProvider } from "@/lib/theme/ThemeProvider"
+import { getThemePreference } from "@/lib/theme/theme-actions"
 import "./globals.css"
 
 const notoSans = Noto_Sans({
@@ -40,15 +42,19 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const initialTheme = await getThemePreference()
+  
   return (
-    <html lang="en" className={`dark ${notoSans.variable} ${playfairDisplay.variable}`}>
+    <html lang="en" className={`${notoSans.variable} ${playfairDisplay.variable}`}>
       <body className="antialiased">
-        {children}
+        <ThemeProvider initialTheme={initialTheme}>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
