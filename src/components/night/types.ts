@@ -1,0 +1,103 @@
+// Night Mode Types
+
+export type NightStep =
+  | 'welcome'
+  | 'day_reflect'
+  | 'breathing'
+  | 'intention'
+  | 'tomorrow'
+  | 'complete'
+
+export type NightEvent =
+  | { type: 'START' }
+  | { type: 'SKIP_REFLECTION' }
+  | { type: 'SUBMIT_REFLECTION'; mood: string; notes?: string }
+  | { type: 'BREATHING_COMPLETE' }
+  | { type: 'SKIP_BREATHING' }
+  | { type: 'SET_INTENTION'; intention: string }
+  | { type: 'SKIP_INTENTION' }
+  | { type: 'SET_REMINDER'; time: string; enabled: boolean }
+  | { type: 'SKIP_REMINDER' }
+  | { type: 'COMPLETE' }
+
+export type MoodType = 'rough' | 'okay' | 'good' | 'great' | 'amazing'
+
+export interface DayReflectionData {
+  mood: MoodType
+  dayNotes?: string
+}
+
+export interface BreathingPattern {
+  inhale: number
+  hold: number
+  exhale: number
+}
+
+export interface NightCheckInData {
+  mood?: MoodType
+  dayNotes?: string
+  intention?: string
+  plannedWakeTime?: string
+  reminderEnabled?: boolean
+  date: string
+}
+
+export interface NightModeProps {
+  initialStep?: NightStep
+  onComplete: () => void
+  onCancel: () => void
+}
+
+export interface NightWelcomeProps {
+  globalStep: number
+  totalSteps: number
+  onBegin: () => void
+  onNotTonight: () => void
+}
+
+export interface DayReflectionProps {
+  globalStep: number
+  totalSteps: number
+  direction?: 'forward' | 'back'
+  onComplete: (data: DayReflectionData) => void
+  onSkip: () => void
+  onBack: () => void
+}
+
+export interface BreathingGuideProps {
+  globalStep: number
+  totalSteps: number
+  duration?: 30 | 60 | 90 | 120
+  pattern?: BreathingPattern
+  onComplete: () => void
+  onSkip: () => void
+}
+
+export interface DreamIntentionProps {
+  globalStep: number
+  totalSteps: number
+  direction?: 'forward' | 'back'
+  suggestions?: string[]
+  previousIntentions?: string[]
+  onComplete: (intention: string) => void
+  onSkip: () => void
+  onBack: () => void
+}
+
+export interface TomorrowSetupProps {
+  globalStep: number
+  totalSteps: number
+  direction?: 'forward' | 'back'
+  defaultWakeTime?: string
+  onComplete: (data: { wakeTime: string; enableReminder: boolean }) => void
+  onSkip: () => void
+  onBack: () => void
+}
+
+export interface NightCompleteProps {
+  intention?: string
+  reminderTime?: string
+  tip?: string
+  onClose: () => void
+}
+

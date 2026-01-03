@@ -1,0 +1,692 @@
+// =============================================================================
+// PRISMA CONFIGURATION
+// =============================================================================
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+  output          = "../src/generated/prisma"
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgvector(map: "vector")]
+}
+
+// =============================================================================
+// CORE: USERS & AUTHENTICATION
+// =============================================================================
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Profile (optional, user-controlled)
+  displayName String?
+  email       String?  @unique
+  emailVerifiedAt DateTime?
+  timezone    String   @default("UTC")
+  locale      String   @default("en")
+  
+  // Key management
+  encryptionKeyVersion Int     @default(1)
+  keyRecoveryMethod    String? // "passphrase" | "device" | "none"
+  keySalt              Bytes?  // For passphrase-based derivation
+  
+  // Relations
+  sessions       Session[]
+  dreamEntries   DreamEntry[]
+  censusAnswers  CensusAnswer[]
+  promptResponses PromptResponse[]
+  consents       Consent[]
+  events         Event[]
+  studyParticipations StudyParticipation[]
+  categoryProgress CategoryProgress[]
+  
+  // Indexes
+  @@index([email])
+  @@index([createdAt])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  tokenHash String   @unique // SHA-256 of session token
+  expiresAt DateTime
+  
+  // Device binding (optional)
+  deviceId    String?
+  deviceName  String?
+  lastActiveAt DateTime @default(now())
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model VerificationToken {
+  identifier String   // Email or phone
+  token      String   @unique
+  expiresAt  DateTime
+  
+  createdAt DateTime @default(now())
+  
+  @@unique([identifier, token])
+}
+
+// =============================================================================
+// EVENT SOURCING
+// =============================================================================
+
+model Event {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type      String   // "journal.entry.created", etc.
+  payload   Json
+  timestamp DateTime @default(now())
+  
+  // Ordering guarantee
+  sequence  BigInt   @default(autoincrement())
+  
+  // Optionally link to aggregate
+  aggregateId   String?
+  aggregateType String?
+  
+  @@index([userId, type])
+  @@index([type])
+  @@index([timestamp])
+  @@index([sequence])
+  @@index([aggregateId, aggregateType])
+}
+
+// =============================================================================
+// JOURNAL: DREAM ENTRIES
+// =============================================================================
+
+model DreamEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Encrypted content
+  ciphertext Bytes?   // AES-GCM encrypted narrative
+  iv         Bytes?   // Initialization vector
+  keyVersion Int      @default(1)
+  
+  // Optional: audio recording URL (encrypted separately)
+  audioUrl   String?
+  
+  // User-reported structure (not encrypted)
+  title      String?
+  emotions   String[] // Emotion tags
+  vividness  Int?     // 0-100
+  lucidity   String?  // "no" | "maybe" | "yes"
+  dreamTypes String[] // "nightmare", "recurring", "lucid", etc.
+  
+  // Sleep context
+  sleepQuality  Int?  // 0-100
+  hoursSlept    Float?
+  wakeTime      DateTime?
+  
+  // Waking life link
+  wakingLifeLink String?
+  
+  // Metadata
+  capturedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  // Relations
+  facts      JournalFact[]
+  tags       DreamTag[]
+  
+  @@index([userId, capturedAt])
+  @@index([capturedAt])
+}
+
+model JournalFact {
+  id           String     @id @default(cuid())
+  dreamEntryId String
+  dreamEntry   DreamEntry @relation(fields: [dreamEntryId], references: [id], onDelete: Cascade)
+  
+  factType     String     // "emotion", "theme", "symbol", "entity", etc.
+  value        Json       // Typed fact data (see journal-fact-schema.md)
+  
+  // Confidence and provenance
+  confidence      Float    @default(1.0) // 0-1
+  ontologyVersion Int      // Version of taxonomy used
+  modelVersion    String   // AI model identifier
+  promptVersion   Int      // Extraction prompt version
+  
+  // Optional: text span reference
+  startIndex Int?
+  endIndex   Int?
+  
+  extractedAt DateTime @default(now())
+  
+  @@index([dreamEntryId, factType])
+  @@index([factType])
+  @@index([modelVersion])
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  category  String   // "symbol", "emotion", "theme", "custom"
+  
+  // Taxonomy linkage
+  taxonomyId      String?
+  taxonomyVersion Int?
+  
+  // Usage tracking
+  usageCount Int @default(0)
+  
+  // Relations
+  dreamTags DreamTag[]
+  
+  @@index([category])
+  @@index([slug])
+}
+
+model DreamTag {
+  id           String     @id @default(cuid())
+  dreamEntryId String
+  dreamEntry   DreamEntry @relation(fields: [dreamEntryId], references: [id], onDelete: Cascade)
+  tagId        String
+  tag          Tag        @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  // Source: "user" | "ai_suggested" | "ai_auto"
+  source String @default("user")
+  
+  createdAt DateTime @default(now())
+  
+  @@unique([dreamEntryId, tagId])
+  @@index([tagId])
+}
+
+// =============================================================================
+// CENSUS: STRUCTURED QUESTIONNAIRE
+// =============================================================================
+
+model CensusInstrument {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?
+  version     Int      @default(1)
+  
+  // Configuration
+  isActive    Boolean  @default(true)
+  isRequired  Boolean  @default(false)
+  
+  // Ordering
+  sortOrder   Int      @default(0)
+  
+  // Relations
+  sections CensusSection[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([isActive, sortOrder])
+}
+
+model CensusSection {
+  id           String           @id @default(cuid())
+  instrumentId String
+  instrument   CensusInstrument @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  
+  slug         String
+  name         String
+  description  String?
+  icon         String?
+  
+  // Ordering
+  sortOrder    Int @default(0)
+  
+  // Estimated time (seconds)
+  estimatedTime Int @default(120)
+  
+  // Relations
+  questions CensusQuestion[]
+  
+  @@unique([instrumentId, slug])
+  @@index([instrumentId, sortOrder])
+}
+
+model CensusQuestion {
+  id        String        @id @default(cuid())
+  sectionId String
+  section   CensusSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  
+  // Question content
+  slug      String
+  text      String
+  helpText  String?
+  
+  // Question type
+  type      String  // "statement", "single_choice", "multi_choice", "scale", "text", "number", etc.
+  props     Json    // Type-specific props (choices, scale range, etc.)
+  
+  // Validation
+  isRequired Boolean @default(false)
+  validation Json?   // Zod schema as JSON
+  
+  // Ordering
+  sortOrder Int @default(0)
+  
+  // Adaptive scoring (optional)
+  irtParams Json? // Item Response Theory parameters
+  
+  // NEW: Conditional display logic
+  showWhen  Json?   // { questionId: string, operator: 'eq'|'ne'|'contains'|'gt'|'lt', value: any }
+  
+  // NEW: Question grouping for matrix questions
+  groupId   String?
+  groupLabel String?
+  
+  // Relations
+  answers CensusAnswer[]
+  
+  @@unique([sectionId, slug])
+  @@index([sectionId, sortOrder])
+}
+
+model CensusAnswer {
+  id         String         @id @default(cuid())
+  userId     String
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId String
+  question   CensusQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  value      Json           // Answer value
+  
+  // Versioning
+  instrumentVersion Int @default(1)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, questionId])
+  @@index([userId])
+  @@index([questionId])
+}
+
+model CensusProgress {
+  id        String @id @default(cuid())
+  userId    String @unique
+  
+  // Per-section progress
+  sectionProgress Json // { [sectionId]: { completed: number, total: number } }
+  
+  // Overall
+  totalCompleted Int @default(0)
+  totalQuestions Int @default(0)
+  
+  // Scoring
+  scores Json? // Section and overall scores
+  
+  lastActivityAt DateTime @default(now())
+  completedAt    DateTime?
+  
+  @@index([userId])
+}
+
+// =============================================================================
+// CENSUS CATEGORIES & FORMS (New unified system)
+// =============================================================================
+
+model CensusCategory {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String?
+  icon        String?
+  color       String?
+  sortOrder   Int      @default(0)
+  
+  forms       CensusForm[]
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([sortOrder])
+}
+
+model CensusForm {
+  id               String         @id @default(cuid())
+  categoryId       String
+  category         CensusCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  slug             String
+  name             String
+  description      String?
+  estimatedMinutes Int            @default(5)
+  sortOrder        Int            @default(0)
+  
+  // Unlock mechanics
+  prerequisiteFormId String?
+  promptThreshold    Int?         // Answers needed in category to unlock
+  
+  createdAt        DateTime       @default(now())
+  
+  @@unique([categoryId, slug])
+  @@index([categoryId, sortOrder])
+}
+
+model CategoryProgress {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId     String
+  
+  promptAnswers  Int      @default(0)
+  formsStarted   String[] @default([])
+  formsComplete  String[] @default([])
+  
+  lastActivityAt DateTime @default(now())
+  
+  @@unique([userId, categoryId])
+  @@index([userId])
+}
+
+// =============================================================================
+// PROMPTS: DAILY QUESTIONS
+// =============================================================================
+
+model Prompt {
+  id        String   @id @default(cuid())
+  
+  // Content
+  text      String
+  type      String   // "reflection", "exploration", "research", "creative"
+  
+  // Response configuration
+  responseType String // "text", "scale", "choice", "multi_choice"
+  responseProps Json? // Type-specific configuration
+  
+  // Scheduling
+  isActive  Boolean  @default(true)
+  frequency String?  // "daily", "weekly", "once"
+  
+  // Targeting (optional)
+  targetingRules Json? // Rules for who sees this prompt
+  
+  // Research linkage (optional)
+  studyId String?
+  study   Study?   @relation(fields: [studyId], references: [id])
+  
+  // Relations
+  responses PromptResponse[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([isActive])
+  @@index([type])
+}
+
+model PromptResponse {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  promptId String
+  prompt   Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  
+  value    Json   // Response value
+  
+  // Engagement tracking
+  shownAt     DateTime
+  respondedAt DateTime @default(now())
+  skipped     Boolean  @default(false)
+  
+  @@unique([userId, promptId, shownAt])
+  @@index([userId])
+  @@index([promptId])
+  @@index([respondedAt])
+}
+
+// =============================================================================
+// CONSENT: PRIVACY LADDER
+// =============================================================================
+
+model Consent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Scope: "personal", "insights", "commons", "study:{studyId}"
+  scope     String
+  version   Int      // Consent policy version at time of action
+  
+  // State
+  granted   Boolean
+  
+  // Audit
+  timestamp    DateTime @default(now())
+  receiptHash  String   // SHA-256 hash for verification
+  policyHash   String   // Hash of policy text at time of consent
+  jurisdiction String?  // Region for compliance
+  
+  // IP address (hashed) for legal purposes
+  ipHash String?
+  
+  @@index([userId, scope])
+  @@index([scope])
+  @@index([timestamp])
+}
+
+// =============================================================================
+// WEATHER: AGGREGATES
+// =============================================================================
+
+model WeatherAggregate {
+  id        String   @id @default(cuid())
+  
+  // Metric identity
+  metric    String   // "emotion_joy", "theme_flying", etc.
+  period    String   // "hourly", "daily", "weekly", "monthly"
+  periodStart DateTime
+  
+  // Aggregated value
+  value     Json     // Metric-specific aggregation
+  sampleN   Int      // Number of contributing data points
+  
+  // Privacy parameters
+  dpEpsilon    Float?  // Differential privacy epsilon
+  dpDelta      Float?  // Differential privacy delta
+  minNThreshold Int @default(50) // Minimum N to display
+  
+  // Geographic (optional)
+  region    String?  // ISO region code
+  
+  // Provenance
+  methodVersion Int
+  computedAt    DateTime @default(now())
+  
+  @@unique([metric, period, periodStart, region])
+  @@index([metric])
+  @@index([period, periodStart])
+  @@index([region])
+}
+
+model PersonalWeather {
+  id        String @id @default(cuid())
+  userId    String @unique
+  
+  // Current computed weather
+  weather   Json   // Personal weather data
+  
+  // Streaks and patterns
+  streaks   Json?  // Capture streaks, patterns
+  
+  lastComputedAt DateTime @default(now())
+  
+  @@index([userId])
+}
+
+// =============================================================================
+// RESEARCH: STUDIES
+// =============================================================================
+
+model Study {
+  id          String   @id @default(cuid())
+  
+  // Study metadata
+  slug        String   @unique
+  title       String
+  description String
+  institution String?
+  
+  // Study configuration
+  dataScope   Json     // What data is requested
+  duration    String?  // Expected duration
+  
+  // Consent
+  consentText    String  // Full consent document
+  consentVersion Int     @default(1)
+  
+  // Status
+  status      String   @default("draft") // "draft", "recruiting", "active", "completed", "archived"
+  startsAt    DateTime?
+  endsAt      DateTime?
+  
+  // Participation limits
+  maxParticipants Int?
+  
+  // Relations
+  participations StudyParticipation[]
+  prompts        Prompt[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([status])
+  @@index([slug])
+}
+
+model StudyParticipation {
+  id      String @id @default(cuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studyId String
+  study   Study  @relation(fields: [studyId], references: [id], onDelete: Cascade)
+  
+  // Consent
+  consentedAt     DateTime @default(now())
+  consentVersion  Int
+  
+  // Status
+  status          String   @default("active") // "active", "withdrawn", "completed"
+  withdrawnAt     DateTime?
+  withdrawalReason String?
+  completedAt     DateTime?
+  
+  @@unique([userId, studyId])
+  @@index([studyId])
+  @@index([status])
+}
+
+// =============================================================================
+// TAXONOMY: REFERENCE DATA
+// =============================================================================
+
+model Emotion {
+  id        String @id @default(cuid())
+  
+  name      String
+  slug      String @unique
+  
+  // Dimensional model
+  valence   Float  // -1 (negative) to 1 (positive)
+  arousal   Float  // 0 (calm) to 1 (excited)
+  
+  // Hierarchy
+  parentId  String?
+  parent    Emotion?  @relation("EmotionHierarchy", fields: [parentId], references: [id])
+  children  Emotion[] @relation("EmotionHierarchy")
+  
+  // Localization
+  translations Json? // { "en": "Joy", "es": "Alegría", ... }
+  
+  version   Int @default(1)
+  
+  @@index([slug])
+  @@index([parentId])
+}
+
+model Symbol {
+  id        String @id @default(cuid())
+  
+  name      String
+  slug      String @unique
+  
+  // Categorization
+  category  String  // "archetype", "common", "cultural"
+  
+  // Description
+  description String?
+  
+  // Common interpretations
+  interpretations Json? // Array of interpretation objects
+  
+  // Localization
+  translations Json?
+  
+  version   Int @default(1)
+  
+  @@index([slug])
+  @@index([category])
+}
+
+model Theme {
+  id        String @id @default(cuid())
+  
+  name      String
+  slug      String @unique
+  
+  description String?
+  
+  // Related themes
+  relatedSlugs String[]
+  
+  // Localization
+  translations Json?
+  
+  version   Int @default(1)
+  
+  @@index([slug])
+}
+
+// =============================================================================
+// OFFLINE: SYNC QUEUE (optional, if using server-side queue)
+// =============================================================================
+
+model SyncQueueItem {
+  id        String   @id @default(cuid())
+  userId    String
+  
+  // Operation
+  operation String   // "create", "update", "delete"
+  resource  String   // "dreamEntry", "promptResponse", etc.
+  payload   Json
+  
+  // Status
+  status    String   @default("pending") // "pending", "processing", "completed", "failed"
+  attempts  Int      @default(0)
+  lastError String?
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  processedAt DateTime?
+  
+  @@index([userId, status])
+  @@index([status, createdAt])
+}
+
