@@ -49,7 +49,7 @@ export function Toggle<T extends string>({
               'focus-visible:outline-none',
               sizeStyles[size],
               isSelected
-                ? 'bg-accent text-white shadow-sm'
+                ? 'bg-accent text-foreground shadow-sm'
                 : 'text-muted hover:text-foreground'
             )}
             role="radio"

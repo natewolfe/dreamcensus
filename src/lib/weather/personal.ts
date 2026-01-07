@@ -1,12 +1,12 @@
 import { db } from '../db'
-import type { PersonalWeatherData, EmotionDistribution, SymbolFrequency } from './types'
+import type { PersonalWeatherData, EmotionDistribution, SymbolFrequency, TimeRange } from './types'
 
 /**
  * Compute personal weather for a user
  */
 export async function computePersonalWeather(
   userId: string,
-  timeRange: '7d' | '30d' | '90d' | 'all' = '30d'
+  timeRange: TimeRange | 'all' = '7d'
 ): Promise<PersonalWeatherData> {
   const now = new Date()
   const startDate = getStartDate(now, timeRange)
@@ -130,10 +130,16 @@ async function computeCaptureStreak(userId: string): Promise<number> {
 /**
  * Get start date for time range
  */
-function getStartDate(now: Date, timeRange: '7d' | '30d' | '90d' | 'all'): Date {
+function getStartDate(now: Date, timeRange: TimeRange | 'all'): Date {
   const start = new Date(now)
   
   switch (timeRange) {
+    case '1d':
+      start.setDate(start.getDate() - 1)
+      break
+    case '3d':
+      start.setDate(start.getDate() - 3)
+      break
     case '7d':
       start.setDate(start.getDate() - 7)
       break

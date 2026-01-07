@@ -1,152 +1,107 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { motion } from 'motion/react'
-import { FlowCard } from '@/components/ui'
+import { FlowCard, Switch, TimePicker } from '@/components/ui'
+import { useSubStepFlow } from '@/hooks/use-sub-step-flow'
+import { useAlarm } from '@/hooks/use-alarm'
 import { cn } from '@/lib/utils'
 import type { TomorrowSetupProps } from './types'
 
-// Internal step types for single-prompt flow
-type TomorrowSetupSubStep = 'wakeTime' | 'reminder'
-
-const SUB_STEPS: TomorrowSetupSubStep[] = ['wakeTime', 'reminder']
-
-const WAKE_TIME_PRESETS = [
-  { value: '6:00', label: '6:00 AM' },
-  { value: '6:30', label: '6:30 AM' },
-  { value: '7:00', label: '7:00 AM' },
-  { value: '7:30', label: '7:30 AM' },
-  { value: '8:00', label: '8:00 AM' },
-  { value: '8:30', label: '8:30 AM' },
-  { value: '9:00', label: '9:00 AM' },
-]
+const SUB_STEPS = ['wakeTime', 'alarm'] as const
 
 export function TomorrowSetup({
-  globalStep,
-  totalSteps,
   direction: parentDirection,
-  defaultWakeTime = '7:00',
+  defaultWakeTime = '07:00',
   onComplete,
   onSkip,
   onBack,
 }: TomorrowSetupProps) {
-  const [subStep, setSubStep] = useState<TomorrowSetupSubStep>('wakeTime')
-  const [direction, setDirection] = useState<'forward' | 'back'>(parentDirection || 'forward')
-  
   const [wakeTime, setWakeTime] = useState(defaultWakeTime)
   const [enableReminder, setEnableReminder] = useState(true)
+  const { isArmed: alarmIsArmed } = useAlarm()
+  const [armAlarm, setArmAlarm] = useState(alarmIsArmed)
 
-  const currentSubIndex = SUB_STEPS.indexOf(subStep)
-  const localStep = globalStep + currentSubIndex
-  const isLastSubStep = currentSubIndex === SUB_STEPS.length - 1
-
-  const goNext = useCallback(() => {
-    if (isLastSubStep) {
-      onComplete({ wakeTime, enableReminder })
-    } else {
-      setDirection('forward')
-      setSubStep(SUB_STEPS[currentSubIndex + 1] as TomorrowSetupSubStep)
-    }
-  }, [isLastSubStep, currentSubIndex, wakeTime, enableReminder, onComplete])
-
-  const goBack = useCallback(() => {
-    if (currentSubIndex === 0) {
-      onBack()
-    } else {
-      setDirection('back')
-      setSubStep(SUB_STEPS[currentSubIndex - 1] as TomorrowSetupSubStep)
-    }
-  }, [currentSubIndex, onBack])
+  const { subStep, direction, isLastSubStep, goNext, goBack } = useSubStepFlow({
+    steps: SUB_STEPS,
+    parentDirection,
+    onComplete: () => onComplete({ wakeTime, enableReminder, armAlarm }),
+    onBack,
+  })
 
   // Render step content
   const renderStep = () => {
     switch (subStep) {
       case 'wakeTime':
         return (
-          <div className="w-full max-w-xs space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              {WAKE_TIME_PRESETS.map((time) => (
-                <motion.button
-                  key={time.value}
-                  onClick={() => setWakeTime(time.value)}
-                  whileTap={{ scale: 0.95 }}
-                  className={cn(
-                    'rounded-xl px-4 py-3 font-medium transition-all',
-                    'border-2',
-                    wakeTime === time.value
-                      ? 'bg-accent border-accent text-white'
-                      : 'border-border bg-subtle/30 text-foreground hover:border-accent/50'
-                  )}
-                >
-                  {time.label}
-                </motion.button>
-              ))}
-            </div>
-            
-            <div className="text-center pt-2">
-              <button
-                onClick={() => {
-                  const custom = prompt('Enter wake time (HH:MM)', wakeTime)
-                  if (custom) setWakeTime(custom)
-                }}
-                className="text-sm text-muted hover:text-foreground transition-colors"
-              >
-                Custom time...
-              </button>
-            </div>
-          </div>
+          <TimePicker
+            value={wakeTime}
+            onChange={setWakeTime}
+          />
         )
 
-      case 'reminder':
+      case 'alarm':
         return (
-          <div className="w-full max-w-sm space-y-4">
-            <motion.button
-              onClick={() => setEnableReminder(true)}
-              whileTap={{ scale: 0.98 }}
-              className={cn(
-                'w-full rounded-xl p-5 text-left',
-                'border-2 transition-all',
-                enableReminder
-                  ? 'border-accent bg-accent/10'
-                  : 'border-border bg-subtle/30 hover:border-accent/50'
-              )}
-            >
-              <div className="flex items-center gap-4">
-                <div className="text-2xl">🔔</div>
-                <div>
-                  <div className="font-medium text-foreground">
-                    Remind me at {wakeTime} AM
+          <div className="w-full max-w-sm">
+            {/* Alarm toggle */}
+            <div className="rounded-xl border-2 border-border bg-card-bg p-5 mb-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="text-2xl">
+                    {armAlarm ? '🔔' : '🔕'}
                   </div>
-                  <div className="text-sm text-muted mt-0.5">
-                    Gentle nudge to capture your dreams
+                  <div>
+                    <div className="font-medium text-foreground">
+                      {armAlarm ? 'Your alarm' : 'Your alarm'}
+                    </div>
+                    <div className="text-sm text-muted mt-0.5">
+                      {armAlarm ? `Set for ${wakeTime} AM` : 'Not set'}
+                    </div>
                   </div>
                 </div>
+                <Switch
+                  checked={armAlarm}
+                  onChange={setArmAlarm}
+                  size="lg"
+                />
               </div>
-            </motion.button>
+            </div>
 
-            <motion.button
-              onClick={() => setEnableReminder(false)}
-              whileTap={{ scale: 0.98 }}
-              className={cn(
-                'w-full rounded-xl p-5 text-left',
-                'border-2 transition-all',
-                !enableReminder
-                  ? 'border-accent bg-accent/10'
-                  : 'border-border bg-subtle/30 hover:border-accent/50'
-              )}
-            >
-              <div className="flex items-center gap-4">
-                <div className="text-2xl">🔕</div>
-                <div>
-                  <div className="font-medium text-foreground">
-                    No reminder
-                  </div>
-                  <div className="text-sm text-muted mt-0.5">
-                    I'll remember on my own
+            {/* Optional reminder */}
+            <div className="pt-2">
+              <motion.button
+                onClick={() => setEnableReminder(!enableReminder)}
+                whileTap={{ scale: 0.98 }}
+                className={cn(
+                  'w-full rounded-xl p-4 text-left',
+                  'border-2 transition-all',
+                  armAlarm ? 'opacity-100' : 'opacity-50 cursor-not-allowed pointer-events-none',
+                  enableReminder
+                    ? 'border-accent/50 bg-accent/5'
+                    : 'border-border bg-subtle/10 hover:border-accent/30'
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={enableReminder}
+                    onChange={(e) => {
+                      e.stopPropagation()
+                      setEnableReminder(e.target.checked)
+                    }}
+                    className="w-5 h-5"
+                  />
+                  <div>
+                    <div className="text-sm font-medium text-foreground">
+                      Browser reminder
+                    </div>
+                    <div className="text-xs text-muted mt-0.5">
+                      Backup notification if alarm doesn't ring
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.button>
+              </motion.button>
+            </div>
           </div>
         )
     }
@@ -155,34 +110,38 @@ export function TomorrowSetup({
   const getTitle = () => {
     switch (subStep) {
       case 'wakeTime':
-        return 'When will you wake up?'
-      case 'reminder':
-        return 'Want a reminder?'
+        return 'When do you want to wake up?'
+      case 'alarm':
+        return 'Want to set an alarm?'
     }
   }
 
   const getSubtitle = () => {
-    switch (subStep) {
-      case 'wakeTime':
-        return `Wake at ${wakeTime} AM`
-      case 'reminder':
-        return enableReminder ? 'Reminder enabled' : 'No reminder set'
-    }
+    return undefined
   }
 
   const getStepValid = () => {
     switch (subStep) {
       case 'wakeTime':
-        return !!wakeTime
-      case 'reminder':
+        return false // Show "Skip" - step is optional
+      case 'alarm':
         return true // Always valid - user made a choice
+    }
+  }
+
+  // Handle skip for each sub-step
+  const handleSkip = () => {
+    if (subStep === 'wakeTime') {
+      // Skip to alarm step with default time
+      goNext()
+    } else {
+      // Skip entire tomorrow setup
+      onSkip()
     }
   }
 
   return (
     <FlowCard
-      currentStep={localStep}
-      totalSteps={totalSteps}
       direction={direction}
       title={getTitle()}
       subtitle={getSubtitle()}
@@ -192,7 +151,7 @@ export function TomorrowSetup({
       isLastStep={isLastSubStep}
       onNext={goNext}
       onBack={goBack}
-      onSkip={onSkip}
+      onSkip={handleSkip}
       canGoBack={true}
       canGoForward={true}
     >

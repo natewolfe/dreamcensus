@@ -108,7 +108,7 @@ export function PromptDetail({
                 'w-full rounded-xl px-6 py-4 text-lg font-medium transition-all',
                 'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
                 selectedResponse
-                  ? 'bg-accent border-accent text-white hover:bg-accent/90'
+                  ? 'bg-accent border-accent text-foreground hover:bg-accent/90'
                   : 'bg-subtle border-border text-muted cursor-not-allowed'
               )}
             >

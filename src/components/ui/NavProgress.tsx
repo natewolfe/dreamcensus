@@ -51,9 +51,8 @@ export function NavProgress({
           </svg>
         </button>
         
-        <span className="text-sm text-muted">
-          {currentStep + 1} of {totalSteps}
-        </span>
+        {/* Step counter removed - totalSteps calculation is complex with dynamic paths */}
+        <div />
         
         <button
           onClick={onForward}

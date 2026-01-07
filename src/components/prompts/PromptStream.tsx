@@ -55,9 +55,9 @@ export function PromptStream({
   }
 
   return (
-    <div className="relative px-6 flex-1 flex items-center justify-center overflow-hidden">
+    <div className="relative px-4 pb-12 md:pb-8 md:px-6 flex-1 flex items-center justify-center overflow-hidden">
       {/* Controls */}
-      <div className="absolute top-4 left-0 right-0 w-full max-w-5xl mx-auto flex items-center justify-between p-3 z-10">
+      <div className="absolute top-2 left-4 right-4 md:left-6 md:right-6 max-w-5xl mx-auto flex items-center justify-between p-2 z-10">
         {/* Undo button */}
         <button
           onClick={state.previousCard}

@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { FlowCard, PoolSelector, EmojiCard } from '@/components/ui'
 import { cn } from '@/lib/utils'
+import { useSubStepFlow } from '@/hooks/use-sub-step-flow'
+import { useDebouncedCommit } from '@/hooks/use-debounced-commit'
 import type { QuickFactsProps, RecallLevel } from './types'
 import { CORE_EMOTIONS } from './types'
-
-// Internal step types for single-prompt flow
-type QuickFactsSubStep = 'recall' | 'emotions' | 'flags'
 
 const RECALL_LEVELS: { value: RecallLevel; label: string; description: string }[] = [
   { value: 'nothing', label: 'Nothing', description: 'No memory at all' },
@@ -16,7 +15,7 @@ const RECALL_LEVELS: { value: RecallLevel; label: string; description: string }[
   { value: 'full', label: 'Full story', description: 'Complete narrative' },
 ]
 
-const SUB_STEPS: QuickFactsSubStep[] = ['recall', 'emotions', 'flags']
+const SUB_STEPS = ['recall', 'emotions', 'flags'] as const
 
 export function QuickFacts({ 
   globalStep,
@@ -27,44 +26,35 @@ export function QuickFacts({
   onSkip, 
   onBack 
 }: QuickFactsProps) {
-  const [subStep, setSubStep] = useState<QuickFactsSubStep>('recall')
-  const [direction, setDirection] = useState<'forward' | 'back'>(parentDirection || 'forward')
-  
-  const [recallLevel, setRecallLevel] = useState<RecallLevel>(
-    initialData?.recallLevel ?? 'fragments'
+  const [recallLevel, setRecallLevel] = useState<RecallLevel | undefined>(
+    initialData?.recallLevel
   )
   const [emotions, setEmotions] = useState<string[]>(initialData?.emotions ?? [])
   const [isLucid, setIsLucid] = useState(initialData?.isLucid ?? false)
   const [isNightmare, setIsNightmare] = useState(initialData?.isNightmare ?? false)
   const [isRecurring, setIsRecurring] = useState(initialData?.isRecurring ?? false)
 
-  const currentSubIndex = SUB_STEPS.indexOf(subStep)
-  const localStep = globalStep + currentSubIndex
-  const isLastSubStep = currentSubIndex === SUB_STEPS.length - 1
-
-  const goNext = useCallback(() => {
-    if (isLastSubStep) {
-      onComplete({
-        recallLevel,
-        emotions,
-        isLucid,
-        isNightmare,
-        isRecurring,
-      })
-    } else {
-      setDirection('forward')
-      setSubStep(SUB_STEPS[currentSubIndex + 1] as QuickFactsSubStep)
-    }
-  }, [isLastSubStep, currentSubIndex, recallLevel, emotions, isLucid, isNightmare, isRecurring, onComplete])
-
-  const goBack = useCallback(() => {
-    if (currentSubIndex === 0) {
-      onBack()
-    } else {
-      setDirection('back')
-      setSubStep(SUB_STEPS[currentSubIndex - 1] as QuickFactsSubStep)
-    }
-  }, [currentSubIndex, onBack])
+  const { subStep, direction, localStep, goNext, goBack } = useSubStepFlow({
+    steps: SUB_STEPS,
+    globalStep,
+    parentDirection,
+    onComplete: () => onComplete({
+      recallLevel: recallLevel!,  // Will be validated before reaching here
+      emotions,
+      isLucid,
+      isNightmare,
+      isRecurring,
+    }),
+    onBack,
+  })
+  
+  // Track if user is returning to a previously answered sub-step
+  const isRecallAnswered = initialData?.recallLevel !== undefined
+  
+  const { scheduleCommit: commitRecall } = useDebouncedCommit({
+    onCommit: goNext,
+    disabled: isRecallAnswered || subStep !== 'recall',
+  })
 
   // Render step content
   const renderStep = () => {
@@ -75,16 +65,19 @@ export function QuickFacts({
             {RECALL_LEVELS.map((level) => (
               <button
                 key={level.value}
-                onClick={() => setRecallLevel(level.value)}
+                onClick={() => {
+                  setRecallLevel(level.value)
+                  commitRecall()
+                }}
                 className={cn(
-                  'w-full rounded-xl px-5 py-4 text-left transition-all',
+                  'w-full rounded-xl px-5 py-4 text-center transition-all',
                   'border',
                   recallLevel === level.value
-                    ? 'bg-accent/10 border-accent text-foreground'
-                    : 'bg-subtle/30 border-border text-muted hover:border-accent/50 hover:text-foreground'
+                    ? 'bg-accent/20 border-2 border-accent text-foreground'
+                    : 'bg-card-bg border border-border text-muted hover:border-accent/50 hover:text-foreground'
                 )}
               >
-                <div className="font-medium">{level.label}</div>
+                <div className="font-medium text-foreground">{level.label}</div>
                 <div className="text-sm text-muted mt-0.5">{level.description}</div>
               </button>
             ))}

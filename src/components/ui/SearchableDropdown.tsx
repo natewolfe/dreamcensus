@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils'
 export interface DropdownOption {
   value: string
   label: string
+  /** Optional description shown in subtle text below label */
+  description?: string
 }
 
 export interface SearchableDropdownProps {
@@ -17,6 +19,10 @@ export interface SearchableDropdownProps {
   allowOther?: boolean
   disabled?: boolean
   className?: string
+  /** Called after selection for auto-advance */
+  onCommit?: () => void
+  /** Show search input in dropdown (default: true) */
+  showSearch?: boolean
 }
 
 export function SearchableDropdown({
@@ -27,6 +33,8 @@ export function SearchableDropdown({
   allowOther = false,
   disabled = false,
   className,
+  onCommit,
+  showSearch = true,
 }: SearchableDropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -86,6 +94,7 @@ export function SearchableDropdown({
     setIsOpen(false)
     setSearchQuery('')
     setShowOtherInput(false)
+    onCommit?.() // Regular selection auto-advances
   }
 
   const handleOtherClick = () => {
@@ -162,7 +171,7 @@ export function SearchableDropdown({
           <button
             type="button"
             onClick={handleOtherSubmit}
-            className="px-4 py-3 rounded-lg bg-accent text-white font-medium hover:opacity-90 transition-opacity"
+            className="px-4 py-3 rounded-lg bg-accent text-foreground font-medium hover:opacity-90 transition-opacity"
           >
             ✓
           </button>
@@ -194,27 +203,29 @@ export function SearchableDropdown({
             )}
           >
             {/* Search input */}
-            <div className="p-3 border-b border-border">
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search..."
-                className={cn(
-                  'w-full px-3 py-2 rounded-md',
-                  'bg-background border border-border',
-                  'text-foreground text-sm',
-                  'focus:outline-none focus:ring-2 focus:ring-accent',
-                  'transition-colors'
-                )}
-              />
-            </div>
+            {showSearch && (
+              <div className="p-3 border-b border-border">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search..."
+                  className={cn(
+                    'w-full px-3 py-2 rounded-md',
+                    'bg-background border border-border',
+                    'text-foreground text-sm',
+                    'focus:outline-none focus:ring-2 focus:ring-accent',
+                    'transition-colors'
+                  )}
+                />
+              </div>
+            )}
 
             {/* Options list */}
             <div className="max-h-64 overflow-y-auto">
-              {filteredOptions.length > 0 ? (
-                filteredOptions.map((option) => {
+              {(showSearch ? filteredOptions : options).length > 0 ? (
+                (showSearch ? filteredOptions : options).map((option) => {
                   const isSelected = value === option.value
 
                   return (
@@ -223,12 +234,17 @@ export function SearchableDropdown({
                       type="button"
                       onClick={() => handleSelect(option.value)}
                       className={cn(
-                        'w-full px-4 py-3 text-left transition-colors',
+                        'w-full px-4 py-3 text-left opacity-80 transition-colors',
                         'hover:bg-accent/10',
-                        isSelected && 'bg-accent/20 text-accent font-medium'
+                        isSelected && 'bg-accent/20 text-foreground font-medium opacity-100'
                       )}
                     >
-                      {option.label}
+                      <span>{option.label}</span>
+                      {option.description && (
+                        <span className="text-sm text-muted mt-0.5 ml-2">
+                          {option.description}
+                        </span>
+                      )}
                     </button>
                   )
                 })

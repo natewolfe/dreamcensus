@@ -1,135 +1,146 @@
 'use server'
 
-import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { getSession } from '@/lib/auth'
-import { db } from '@/lib/db'
 import { emitEvent } from '@/lib/events'
-import { selectDailyPrompt, hasRespondedToday } from '@/lib/prompts'
-
-// =============================================================================
-// SCHEMAS
-// =============================================================================
-
-const RespondToPromptSchema = z.object({
-  promptId: z.string(),
-  value: z.unknown(),
-})
-
-const SaveStreamResponseSchema = z.object({
-  questionId: z.string(),
-  response: z.string(),
-  expandedText: z.string().optional(),
-})
-
-// =============================================================================
-// TYPES
-// =============================================================================
-
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string }
-
-interface TodayPrompt {
-  id: string
-  question: string
-  description?: string
-  responseType: string
-  config?: Record<string, unknown>
-  hasResponded: boolean
-}
-
-// =============================================================================
-// ACTIONS
-// =============================================================================
+import { db } from '@/lib/db'
+import type { ActionResult } from '@/lib/actions'
 
 /**
- * Get today's prompt for the user
+ * Get stream of questions for prompts page
  */
-export async function getTodayPrompt(): Promise<ActionResult<TodayPrompt | null>> {
+export async function getStreamQuestions(limit: number = 10): Promise<ActionResult<Array<{
+  id: string
+  text: string
+  type: string
+}>>> {
   try {
     const session = await getSession()
     if (!session) {
       return { success: false, error: 'Not authenticated' }
     }
 
-    // Get user's prompt response history
-    const responses = await db.promptResponse.findMany({
-      where: { userId: session.userId },
-      select: {
-        promptId: true,
-        shownAt: true,
-        skipped: true,
+    const prompts = await db.prompt.findMany({
+      where: {
+        isActive: true,
       },
-      orderBy: { shownAt: 'desc' },
+      select: {
+        id: true,
+        text: true,
+        type: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: limit,
     })
 
-    // Build user history
-    const historyMap = new Map<string, any>()
-    responses.forEach((r: any) => {
-      if (!historyMap.has(r.promptId)) {
-        historyMap.set(r.promptId, {
-          promptId: r.promptId,
-          shownCount: 0,
-          skippedCount: 0,
-          lastShownAt: null,
-          lastRespondedAt: null,
-        })
-      }
-      
-      const history = historyMap.get(r.promptId)
-      history.shownCount++
-      if (r.skipped) {
-        history.skippedCount++
-      } else {
-        history.lastRespondedAt = r.shownAt
-      }
-      if (!history.lastShownAt || r.shownAt > history.lastShownAt) {
-        history.lastShownAt = r.shownAt
-      }
+    return {
+      success: true,
+      data: prompts,
+    }
+  } catch (error) {
+    console.error('getStreamQuestions error:', error)
+    return { success: false, error: 'Failed to load questions' }
+  }
+}
+
+/**
+ * Get today's prompt for the user
+ */
+export async function getTodayPrompt(): Promise<ActionResult<{
+  id: string
+  text: string
+  type: string
+  responseType: string
+  options?: string[]
+} | null>> {
+  try {
+    const session = await getSession()
+    if (!session) {
+      return { success: false, error: 'Not authenticated' }
+    }
+
+    // Check if user already responded today
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
+    const existingResponse = await db.promptResponse.findFirst({
+      where: {
+        userId: session.userId,
+        respondedAt: {
+          gte: today,
+          lt: tomorrow,
+        },
+      },
     })
 
-    const userHistory = Array.from(historyMap.values())
-
-    // Check if already responded today
-    if (hasRespondedToday(userHistory)) {
+    if (existingResponse) {
       return { success: true, data: null }
     }
 
-    // Get dream count
-    const dreamCount = await db.dreamEntry.count({
-      where: { userId: session.userId },
+    // Get a prompt the user hasn't seen recently
+    const recentResponses = await db.promptResponse.findMany({
+      where: {
+        userId: session.userId,
+        respondedAt: {
+          gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+        },
+      },
+      select: { promptId: true },
     })
 
-    // Select today's prompt
-    const prompt = selectDailyPrompt(userHistory, dreamCount)
-    
+    const recentPromptIds = recentResponses.map((r) => r.promptId)
+
+    const prompt = await db.prompt.findFirst({
+      where: {
+        isActive: true,
+        id: {
+          notIn: recentPromptIds,
+        },
+      },
+      orderBy: {
+        createdAt: 'asc', // Rotate through prompts
+      },
+    })
+
     if (!prompt) {
       return { success: true, data: null }
     }
+
+    // Emit prompt shown event
+    await emitEvent({
+      type: 'prompt.shown',
+      userId: session.userId,
+      payload: {
+        promptId: prompt.id,
+        shownAt: new Date().toISOString(),
+      },
+    })
 
     return {
       success: true,
       data: {
         id: prompt.id,
-        question: prompt.question,
-        description: prompt.description,
+        text: prompt.text,
+        type: prompt.type,
         responseType: prompt.responseType,
-        config: prompt.config as Record<string, unknown> | undefined,
-        hasResponded: false,
       },
     }
   } catch (error) {
     console.error('getTodayPrompt error:', error)
-    return { success: false, error: 'Failed to fetch prompt' }
+    return { success: false, error: 'Failed to load prompt' }
   }
 }
 
 /**
- * Respond to a prompt
+ * Submit a response to a prompt
  */
 export async function respondToPrompt(
-  input: z.infer<typeof RespondToPromptSchema>
+  promptId: string,
+  value: Record<string, unknown>
 ): Promise<ActionResult<void>> {
   try {
     const session = await getSession()
@@ -137,9 +148,6 @@ export async function respondToPrompt(
       return { success: false, error: 'Not authenticated' }
     }
 
-    const { promptId, value } = RespondToPromptSchema.parse(input)
-
-    // Emit event
     await emitEvent({
       type: 'prompt.responded',
       userId: session.userId,
@@ -150,21 +158,18 @@ export async function respondToPrompt(
       },
     })
 
+    revalidatePath('/prompts')
     revalidatePath('/today')
 
     return { success: true, data: undefined }
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { success: false, error: 'Invalid input' }
-    }
-    
     console.error('respondToPrompt error:', error)
-    return { success: false, error: 'Failed to save response' }
+    return { success: false, error: 'Failed to submit response' }
   }
 }
 
 /**
- * Skip today's prompt
+ * Skip a prompt
  */
 export async function skipPrompt(promptId: string): Promise<ActionResult<void>> {
   try {
@@ -173,7 +178,6 @@ export async function skipPrompt(promptId: string): Promise<ActionResult<void>> 
       return { success: false, error: 'Not authenticated' }
     }
 
-    // Emit event
     await emitEvent({
       type: 'prompt.skipped',
       userId: session.userId,
@@ -183,6 +187,7 @@ export async function skipPrompt(promptId: string): Promise<ActionResult<void>> 
       },
     })
 
+    revalidatePath('/prompts')
     revalidatePath('/today')
 
     return { success: true, data: undefined }
@@ -192,103 +197,109 @@ export async function skipPrompt(promptId: string): Promise<ActionResult<void>> 
   }
 }
 
-// =============================================================================
-// STREAM ACTIONS
-// =============================================================================
-
 /**
- * Get stream questions for endless prompt flow
+ * Save a stream response (binary question format)
+ * Used by the prompt stream and embedded prompt stack
  */
-export async function getStreamQuestions(_limit: number = 10): Promise<ActionResult<any[]>> {
+export async function saveStreamResponse(input: {
+  questionId: string
+  response: string
+  expandedText?: string
+}): Promise<ActionResult<void>> {
   try {
     const session = await getSession()
     if (!session) {
       return { success: false, error: 'Not authenticated' }
     }
 
-    // For now, return mock data until schema is updated
-    // TODO: Replace with actual DB query after migration
-    const mockQuestions = [
-      {
-        id: 'q1',
-        text: 'I often remember my dreams in vivid detail',
-        category: 'Dream Recall',
-        variant: 'agree_disagree',
-      },
-      {
-        id: 'q2',
-        text: 'Do you ever realize you\'re dreaming while still in the dream?',
-        category: 'Lucidity',
-        variant: 'yes_no',
-      },
-      {
-        id: 'q3',
-        text: 'Water appears frequently in my dreams',
-        category: 'Symbolism',
-        variant: 'agree_disagree',
-      },
-    ]
-
-    return { success: true, data: mockQuestions }
-  } catch (error) {
-    console.error('getStreamQuestions error:', error)
-    return { success: false, error: 'Failed to fetch questions' }
-  }
-}
-
-/**
- * Save a stream response
- */
-export async function saveStreamResponse(
-  input: z.infer<typeof SaveStreamResponseSchema>
-): Promise<ActionResult<void>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
-    }
-
-    const { questionId, response, expandedText } = SaveStreamResponseSchema.parse(input)
-
-    // Emit event
     await emitEvent({
       type: 'prompt.responded',
       userId: session.userId,
       payload: {
-        promptId: questionId,
-        value: { response, expandedText },
+        promptId: input.questionId,
+        value: {
+          response: input.response,
+          expandedText: input.expandedText,
+        },
         shownAt: new Date().toISOString(),
       },
     })
 
     revalidatePath('/prompts')
+    revalidatePath('/today')
 
     return { success: true, data: undefined }
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { success: false, error: 'Invalid input' }
-    }
-    
     console.error('saveStreamResponse error:', error)
     return { success: false, error: 'Failed to save response' }
   }
 }
 
 /**
- * Get category progress for funnel triggers
+ * Get stream questions formatted for the binary card UI
+ * Returns questions with category and variant fields for the frontend
  */
-export async function getCategoryProgress(_categoryId: string): Promise<ActionResult<{ promptAnswers: number }>> {
+export async function getStreamQuestionsFormatted(limit: number = 10): Promise<ActionResult<Array<{
+  id: string
+  text: string
+  category: string
+  variant: 'yes_no' | 'agree_disagree' | 'true_false'
+}>>> {
   try {
     const session = await getSession()
     if (!session) {
       return { success: false, error: 'Not authenticated' }
     }
 
-    // TODO: Query actual CategoryProgress table after migration
-    return { success: true, data: { promptAnswers: 0 } }
+    const prompts = await db.prompt.findMany({
+      where: {
+        isActive: true,
+      },
+      select: {
+        id: true,
+        text: true,
+        type: true,
+        responseType: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: limit,
+    })
+
+    // Transform to frontend format
+    const formatted = prompts.map(p => ({
+      id: p.id,
+      text: p.text,
+      category: formatCategory(p.type),
+      variant: deriveVariant(p.responseType),
+    }))
+
+    return {
+      success: true,
+      data: formatted,
+    }
   } catch (error) {
-    console.error('getCategoryProgress error:', error)
-    return { success: false, error: 'Failed to fetch progress' }
+    console.error('getStreamQuestionsFormatted error:', error)
+    return { success: false, error: 'Failed to load questions' }
   }
 }
 
+// Helper: Format category for display
+function formatCategory(type: string): string {
+  return type.charAt(0).toUpperCase() + type.slice(1)
+}
+
+// Helper: Derive binary variant from responseType
+function deriveVariant(responseType: string): 'yes_no' | 'agree_disagree' | 'true_false' {
+  // Map response types to binary variants
+  // Default to 'agree_disagree' for statement-style prompts
+  switch (responseType) {
+    case 'choice':
+      return 'yes_no'
+    case 'scale':
+      return 'agree_disagree'
+    default:
+      return 'agree_disagree'
+  }
+}

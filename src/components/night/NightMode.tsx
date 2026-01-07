@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { NightWelcome } from './NightWelcome'
 import { DayReflection } from './DayReflection'
@@ -8,7 +8,9 @@ import { BreathingGuide } from './BreathingGuide'
 import { DreamIntention } from './DreamIntention'
 import { TomorrowSetup } from './TomorrowSetup'
 import { NightComplete } from './NightComplete'
-import { getStepOffset, TOTAL_STEPS } from './stepConfig'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import { useToast } from '@/hooks/use-toast'
+import { saveNightCheckIn } from '@/app/(app)/today/actions'
 import type {
   NightModeProps,
   NightStep,
@@ -27,9 +29,7 @@ export function NightMode({
     date: new Date().toISOString().split('T')[0],
   })
   const [isSaving, setIsSaving] = useState(false)
-  
-  // Calculate global step position
-  const stepOffset = useMemo(() => getStepOffset(step), [step])
+  const { toast } = useToast()
 
   const updateData = useCallback((updates: Partial<NightCheckInData>) => {
     setData((prev) => ({ ...prev, ...updates }))
@@ -63,9 +63,11 @@ export function NightMode({
   const handleTomorrowComplete = async ({
     wakeTime,
     enableReminder,
+    armAlarm,
   }: {
     wakeTime: string
     enableReminder: boolean
+    armAlarm: boolean
   }) => {
     updateData({
       plannedWakeTime: wakeTime,
@@ -75,12 +77,28 @@ export function NightMode({
     // Save to server
     setIsSaving(true)
     try {
-      // In production, call saveNightCheckIn server action
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      // Save night check-in
+      const result = await saveNightCheckIn({
+        mood: data.mood,
+        dayNotes: data.dayNotes,
+        intention: data.intention,
+        plannedWakeTime: wakeTime,
+        reminderEnabled: enableReminder,
+      })
+      
+      if (!result.success) {
+        throw new Error(result.error)
+      }
+
+      // Update alarm armed state if changed
+      const { setAlarmArmed } = await import('@/app/(app)/settings/alarm/actions')
+      await setAlarmArmed(armAlarm)
+      
       setStep('complete')
+      toast.success('Night check-in saved!')
     } catch (error) {
       console.error('Failed to save night check-in:', error)
-      // TODO: Show error
+      toast.error('Failed to save check-in. Please try again.')
     } finally {
       setIsSaving(false)
     }
@@ -96,8 +114,6 @@ export function NightMode({
         {step === 'welcome' && (
           <NightWelcome
             key="welcome"
-            globalStep={stepOffset}
-            totalSteps={TOTAL_STEPS}
             onBegin={handleStart}
             onNotTonight={onCancel}
           />
@@ -106,8 +122,6 @@ export function NightMode({
         {step === 'day_reflect' && (
           <DayReflection
             key="day_reflect"
-            globalStep={stepOffset}
-            totalSteps={TOTAL_STEPS}
             direction={direction}
             onComplete={handleReflectionComplete}
             onSkip={() => {
@@ -124,13 +138,15 @@ export function NightMode({
         {step === 'breathing' && (
           <BreathingGuide
             key="breathing"
-            globalStep={stepOffset}
-            totalSteps={TOTAL_STEPS}
             duration={60}
             onComplete={handleBreathingComplete}
             onSkip={() => {
               setDirection('forward')
               setStep('intention')
+            }}
+            onBack={() => {
+              setDirection('back')
+              setStep('day_reflect')
             }}
           />
         )}
@@ -138,8 +154,6 @@ export function NightMode({
         {step === 'intention' && (
           <DreamIntention
             key="intention"
-            globalStep={stepOffset}
-            totalSteps={TOTAL_STEPS}
             direction={direction}
             onComplete={handleIntentionComplete}
             onSkip={() => {
@@ -156,12 +170,10 @@ export function NightMode({
         {step === 'tomorrow' && (
           <TomorrowSetup
             key="tomorrow"
-            globalStep={stepOffset}
-            totalSteps={TOTAL_STEPS}
             direction={direction}
             defaultWakeTime="7:00"
             onComplete={handleTomorrowComplete}
-            onSkip={() => handleTomorrowComplete({ wakeTime: '7:00', enableReminder: false })}
+            onSkip={() => handleTomorrowComplete({ wakeTime: '7:00', enableReminder: false, armAlarm: false })}
             onBack={() => {
               setDirection('back')
               setStep('intention')
@@ -173,21 +185,12 @@ export function NightMode({
           <NightComplete
             key="complete"
             intention={data.intention}
-            reminderTime={data.plannedWakeTime}
             onClose={handleClose}
           />
         )}
       </AnimatePresence>
 
-      {/* Loading overlay */}
-      {isSaving && (
-        <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-          <div className="text-center">
-            <div className="text-4xl mb-4 animate-pulse">✨</div>
-            <p className="text-muted">Saving...</p>
-          </div>
-        </div>
-      )}
+      <LoadingOverlay isVisible={isSaving} message="Saving..." />
     </>
   )
 }

@@ -95,7 +95,7 @@ export function EmotionWheel({
                 className={cn(
                   'w-20 h-20 rounded-full',
                   'flex items-center justify-center',
-                  'font-medium text-white text-sm',
+                  'font-medium text-foreground text-sm',
                   'transition-all',
                   'border-2 border-white/20',
                   selectedPrimary === emotion.value && 'ring-4 ring-accent/30 scale-110'
@@ -137,7 +137,7 @@ export function EmotionWheel({
                       'rounded-full px-4 py-2 text-sm font-medium transition-all',
                       'border-2',
                       value?.secondary === secondary
-                        ? 'bg-accent border-accent text-white'
+                        ? 'bg-accent border-accent text-foreground'
                         : 'border-border bg-card-bg text-foreground hover:border-accent/50'
                     )}
                   >

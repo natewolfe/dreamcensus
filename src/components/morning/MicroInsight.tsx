@@ -24,14 +24,14 @@ export function MicroInsight({ text, type, onTap }: MicroInsightProps) {
       whileTap={{ scale: 0.98 }}
       onClick={onTap}
       className={cn(
-        'w-full rounded-xl p-4 text-left',
+        'w-full rounded-xl p-4 text-center',
         'bg-gradient-to-br from-accent/10 to-accent/5',
         'border border-accent/20',
         'transition-all duration-200',
         onTap && 'cursor-pointer hover:border-accent/40'
       )}
     >
-      <div className="flex items-start gap-3">
+      <div className="flex items-center justify-center gap-3">
         <span className="text-xl">{ICONS[type]}</span>
         <p className="text-sm text-foreground leading-relaxed">
           {text}

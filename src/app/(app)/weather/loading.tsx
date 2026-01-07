@@ -12,18 +12,12 @@ export default function WeatherLoading() {
 
       <div className="grid lg:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-xl font-semibold text-foreground mb-4">
-            Your Patterns
-          </h2>
           <Card padding="lg">
             <WeatherChartSkeleton />
           </Card>
         </div>
 
         <div>
-          <h2 className="text-xl font-semibold text-foreground mb-4">
-            Collective Patterns
-          </h2>
           <Card padding="lg">
             <WeatherChartSkeleton />
           </Card>

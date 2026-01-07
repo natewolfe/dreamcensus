@@ -128,7 +128,7 @@ export function MatrixQuestion({
                             'w-full px-4 py-3 rounded-lg text-left transition-all',
                             'border-2',
                             isSelected
-                              ? 'bg-accent border-accent text-white'
+                              ? 'bg-accent border-accent text-foreground'
                               : 'bg-background border-border hover:border-accent/50'
                           )}
                         >

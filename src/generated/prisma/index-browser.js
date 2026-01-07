@@ -252,9 +252,9 @@ exports.Prisma.CensusQuestionScalarFieldEnum = {
   validation: 'validation',
   sortOrder: 'sortOrder',
   irtParams: 'irtParams',
-  showWhen: 'showWhen',
   groupId: 'groupId',
-  groupLabel: 'groupLabel'
+  groupLabel: 'groupLabel',
+  showWhen: 'showWhen'
 };
 
 exports.Prisma.CensusAnswerScalarFieldEnum = {
@@ -434,6 +434,18 @@ exports.Prisma.ThemeScalarFieldEnum = {
   version: 'version'
 };
 
+exports.Prisma.NightCheckInScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  mood: 'mood',
+  dayNotes: 'dayNotes',
+  intention: 'intention',
+  plannedWakeTime: 'plannedWakeTime',
+  reminderEnabled: 'reminderEnabled',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SyncQueueItemScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -445,6 +457,20 @@ exports.Prisma.SyncQueueItemScalarFieldEnum = {
   lastError: 'lastError',
   createdAt: 'createdAt',
   processedAt: 'processedAt'
+};
+
+exports.Prisma.AlarmSettingsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  isArmed: 'isArmed',
+  schedule: 'schedule',
+  soundId: 'soundId',
+  volume: 'volume',
+  snoozeMinutes: 'snoozeMinutes',
+  maxSnoozes: 'maxSnoozes',
+  lastSetTime: 'lastSetTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -505,7 +531,9 @@ exports.Prisma.ModelName = {
   Emotion: 'Emotion',
   Symbol: 'Symbol',
   Theme: 'Theme',
-  SyncQueueItem: 'SyncQueueItem'
+  NightCheckIn: 'NightCheckIn',
+  SyncQueueItem: 'SyncQueueItem',
+  AlarmSettings: 'AlarmSettings'
 };
 
 /**

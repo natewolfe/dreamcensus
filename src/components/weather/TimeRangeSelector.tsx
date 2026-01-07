@@ -1,11 +1,18 @@
 'use client'
 
 import { useRouter, usePathname } from 'next/navigation'
-
-type TimeRange = '7d' | '30d' | '90d'
+import type { TimeRange } from '@/lib/weather/types'
 
 interface TimeRangeSelectorProps {
   currentRange: TimeRange
+}
+
+const TIMERANGE_LABELS: Record<TimeRange, { short: string; long: string }> = {
+  '1d': { short: '1d', long: '1 day' },
+  '3d': { short: '3d', long: '3 days' },
+  '7d': { short: '7d', long: '7 days' },
+  '30d': { short: '30d', long: '30 days' },
+  '90d': { short: '90d', long: '90 days' },
 }
 
 export function TimeRangeSelector({ currentRange }: TimeRangeSelectorProps) {
@@ -17,21 +24,29 @@ export function TimeRangeSelector({ currentRange }: TimeRangeSelectorProps) {
   }
 
   return (
-    <div className="flex gap-2 mb-6">
-      {(['7d', '30d', '90d'] as const).map((range) => (
+    <div className="flex items-center gap-1 md:gap-2">
+      <svg className="hidden h-6 w-6 md:h-7 md:w-7 text-muted opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      {(['1d', '3d', '7d', '30d', '90d'] as const).map((range) => (
         <button
           key={range}
           onClick={() => handleRangeChange(range)}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+          className={`rounded-sm px-3 md:px-4 py-2 md:py-3 text-sm md:text-md font-medium transition-all ${
             currentRange === range
-              ? 'bg-accent text-white'
-              : 'bg-card-bg border border-border text-muted hover:text-foreground'
+              ? 'bg-subtle text-foreground'
+              : 'bg-card-bg/30 border border-border/70 text-muted hover:text-foreground hover:bg-subtle/15 cursor-pointer'
           }`}
         >
-          {range === '7d' ? '7 days' : range === '30d' ? '30 days' : '90 days'}
+          <span>{TIMERANGE_LABELS[range].short}</span>
+          <span className="hidden">{TIMERANGE_LABELS[range].long}</span>
         </button>
       ))}
     </div>
   )
 }
-

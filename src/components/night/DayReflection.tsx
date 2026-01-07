@@ -1,14 +1,13 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { FlowCard, EmojiCardGroup } from '@/components/ui'
+import { useSubStepFlow } from '@/hooks/use-sub-step-flow'
+import { useDebouncedCommit } from '@/hooks/use-debounced-commit'
 import { cn } from '@/lib/utils'
 import type { DayReflectionProps, MoodType } from './types'
 
-// Internal step types for single-prompt flow
-type DayReflectionSubStep = 'mood' | 'notes'
-
-const SUB_STEPS: DayReflectionSubStep[] = ['mood', 'notes']
+const SUB_STEPS = ['mood', 'notes'] as const
 
 const MOODS = [
   { value: 'rough', emoji: '😔', label: 'rough' },
@@ -19,45 +18,35 @@ const MOODS = [
 ] as const
 
 export function DayReflection({ 
-  globalStep,
-  totalSteps,
   direction: parentDirection,
   onComplete, 
   onSkip,
   onBack
 }: DayReflectionProps) {
-  const [subStep, setSubStep] = useState<DayReflectionSubStep>('mood')
-  const [direction, setDirection] = useState<'forward' | 'back'>(parentDirection || 'forward')
-  
   const [mood, setMood] = useState<MoodType | null>(null)
   const [notes, setNotes] = useState('')
 
-  const currentSubIndex = SUB_STEPS.indexOf(subStep)
-  const localStep = globalStep + currentSubIndex
-  const isLastSubStep = currentSubIndex === SUB_STEPS.length - 1
-
-  const goNext = useCallback(() => {
-    if (isLastSubStep) {
+  const { subStep, direction, goNext, goBack } = useSubStepFlow({
+    steps: SUB_STEPS,
+    parentDirection,
+    onComplete: () => {
       if (mood) {
         onComplete({
           mood,
           dayNotes: notes.trim() || undefined,
         })
       }
-    } else {
-      setDirection('forward')
-      setSubStep(SUB_STEPS[currentSubIndex + 1] as DayReflectionSubStep)
-    }
-  }, [isLastSubStep, currentSubIndex, mood, notes, onComplete])
-
-  const goBack = useCallback(() => {
-    if (currentSubIndex === 0) {
-      onBack()
-    } else {
-      setDirection('back')
-      setSubStep(SUB_STEPS[currentSubIndex - 1] as DayReflectionSubStep)
-    }
-  }, [currentSubIndex, onBack])
+    },
+    onBack,
+  })
+  
+  // Track if mood was already set (user went back)
+  const isMoodAnswered = mood !== null
+  
+  const { scheduleCommit: commitMood } = useDebouncedCommit({
+    onCommit: goNext,
+    disabled: isMoodAnswered || subStep !== 'mood',
+  })
 
   // Render step content
   const renderStep = () => {
@@ -69,6 +58,7 @@ export function DayReflection({
             value={mood}
             onChange={(v) => setMood(v as MoodType | null)}
             size="sm"
+            onCommit={commitMood}
           />
         )
 
@@ -123,8 +113,6 @@ export function DayReflection({
 
   return (
     <FlowCard
-      currentStep={localStep}
-      totalSteps={totalSteps}
       direction={direction}
       title={getTitle()}
       subtitle={getSubtitle()}

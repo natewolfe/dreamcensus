@@ -3,14 +3,9 @@
 import { type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Button } from './Button'
-import { NavProgress } from './NavProgress'
 import { getButtonState, type SkipBehavior } from '@/lib/flow-navigation'
 
 export interface FlowCardProps {
-  /** Current step index (0-based) */
-  currentStep: number
-  /** Total number of steps */
-  totalSteps: number
   /** Direction of navigation for animation */
   direction: 'forward' | 'back'
   /** Main question/prompt heading */
@@ -44,8 +39,6 @@ export interface FlowCardProps {
  * Used for Morning/Night mode steps
  */
 export function FlowCard({
-  currentStep,
-  totalSteps,
   direction,
   title,
   subtitle,
@@ -66,15 +59,37 @@ export function FlowCard({
   const shouldShowSkip = !isValid && (skipBehavior === 'optional' || skipBehavior === 'skippable') && onSkip
 
   return (
-    <div className="space-y-8">
-      <NavProgress
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        onBack={onBack}
-        onForward={onNext}
-        canGoBack={canGoBack}
-        canGoForward={canGoForward && !buttonState.disabled}
-      />
+    <div className="space-y-6">
+      {/* Navigation buttons without step counter */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={onBack}
+          disabled={!canGoBack}
+          className="p-2 text-muted hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          aria-label="Previous step"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        
+        <div />
+        
+        {!isLastStep ? (
+          <button
+            onClick={onNext}
+            disabled={!canGoForward || buttonState.disabled}
+            className="p-2 text-muted hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            aria-label="Next step"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        ) : (
+          <div className="w-9" /> 
+        )}
+      </div>
       
       {/* Question/content with animation */}
       <AnimatePresence mode="wait" custom={direction}>

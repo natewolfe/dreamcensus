@@ -109,7 +109,7 @@ export function RankingQuestion({
                     'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center',
                     'font-bold text-sm',
                     isWithinMax
-                      ? 'bg-accent text-white'
+                      ? 'bg-accent text-foreground'
                       : 'bg-subtle/30 text-muted'
                   )}
                 >

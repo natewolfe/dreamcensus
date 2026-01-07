@@ -25,6 +25,7 @@ export function QuestionRenderer({
   question,
   value,
   onChange,
+  onCommit,
 }: QuestionRendererProps) {
   switch (question.type) {
     case 'statement':
@@ -33,6 +34,7 @@ export function QuestionRenderer({
           question={question}
           value={value as number | null}
           onChange={onChange}
+          onCommit={onCommit}
         />
       )
     
@@ -43,6 +45,7 @@ export function QuestionRenderer({
             variant={(question.config?.variant as any) ?? 'yes_no'}
             value={value as BinaryValue | null}
             onChange={onChange as (value: BinaryValue) => void}
+            onCommit={onCommit}
           />
         </QuestionCard>
       )
@@ -56,6 +59,7 @@ export function QuestionRenderer({
             onChange={(val) => onChange(val)}
             allowMultiple={false}
             allowOther={question.config?.allowOther}
+            onCommit={question.config?.allowOther ? undefined : onCommit}
           />
         </QuestionCard>
       )
@@ -84,6 +88,7 @@ export function QuestionRenderer({
             maxLabel={question.config?.maxLabel}
             value={value as number | null}
             onChange={onChange as (value: number) => void}
+            onCommit={onCommit}
           />
         </QuestionCard>
       )
@@ -97,6 +102,7 @@ export function QuestionRenderer({
             anchorSet={question.config?.anchorSet ?? 'standard'}
             steps={question.config?.frequencySteps ?? 5}
             allowNA={question.config?.allowNA}
+            onCommit={onCommit}
           />
         </QuestionCard>
       )
@@ -159,6 +165,7 @@ export function QuestionRenderer({
             onChange={onChange as (value: string | string[]) => void}
             allowMultiple={question.config?.allowMultiple}
             columns={question.config?.columns}
+            onCommit={question.config?.allowMultiple ? undefined : onCommit}
           />
         </QuestionCard>
       )
@@ -174,6 +181,7 @@ export function QuestionRenderer({
             value={(value as string) ?? null}
             onChange={onChange as (value: string) => void}
             allowOther={question.config?.allowOther}
+            onCommit={onCommit}
           />
         </QuestionCard>
       )

@@ -22,6 +22,7 @@ export function StatementQuestion({
   question,
   value,
   onChange,
+  onCommit,
 }: StatementQuestionProps) {
   const scaleType = question.config?.scaleType ?? 'agreement'
   const steps = question.config?.steps ?? 5
@@ -36,6 +37,7 @@ export function StatementQuestion({
         onChange={onChange}
         minLabel={labels?.left ?? 'Disagree'}
         maxLabel={labels?.right ?? 'Agree'}
+        onCommit={onCommit}
       />
     </QuestionCard>
   )

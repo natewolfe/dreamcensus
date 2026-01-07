@@ -1,7 +1,7 @@
 import { openDB, type IDBPDatabase } from 'idb'
 
 const DB_NAME = 'dream-census'
-const DB_VERSION = 1
+const DB_VERSION = 2
 
 export interface DreamDraft {
   id: string
@@ -30,6 +30,17 @@ export interface SyncQueueItem {
   errorMessage?: string
 }
 
+export interface AlarmRuntimeState {
+  nextAlarmAtISO: string | null
+  isRinging: boolean
+  ringStartedAtISO: string | null
+  snoozeUntilISO: string | null
+  snoozeCount: number
+  lastComputedAtISO: string
+  source: 'schedule' | 'override' | null
+  sourceDate: string | null
+}
+
 export interface DreamCensusDB {
   drafts: {
     key: string
@@ -44,6 +55,10 @@ export interface DreamCensusDB {
   metadata: {
     key: string
     value: unknown
+  }
+  alarmState: {
+    key: 'current'
+    value: AlarmRuntimeState
   }
 }
 
@@ -74,6 +89,11 @@ export function getDB(): Promise<IDBPDatabase<DreamCensusDB>> {
         if (!db.objectStoreNames.contains('metadata')) {
           db.createObjectStore('metadata')
         }
+
+        // Alarm state store (singleton)
+        if (!db.objectStoreNames.contains('alarmState')) {
+          db.createObjectStore('alarmState')
+        }
       },
       blocked() {
         console.warn('IndexedDB upgrade blocked')
@@ -97,12 +117,13 @@ export function getDB(): Promise<IDBPDatabase<DreamCensusDB>> {
 export async function clearDB(): Promise<void> {
   const db = await getDB()
   
-  const tx = db.transaction(['drafts', 'syncQueue', 'metadata'], 'readwrite')
+  const tx = db.transaction(['drafts', 'syncQueue', 'metadata', 'alarmState'], 'readwrite')
   
   await Promise.all([
     tx.objectStore('drafts').clear(),
     tx.objectStore('syncQueue').clear(),
     tx.objectStore('metadata').clear(),
+    tx.objectStore('alarmState').clear(),
   ])
   
   await tx.done

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { AnimatePresence } from 'motion/react'
+import { DateSelect } from './DateSelect'
 import { MorningStart } from './MorningStart'
 import { QuickFacts } from './QuickFacts'
 import { VoiceCapture } from './VoiceCapture'
@@ -10,10 +11,13 @@ import { MicroStructure } from './MicroStructure'
 import { FastTags } from './FastTags'
 import { CloseRitual } from './CloseRitual'
 import { DreamComplete } from './DreamComplete'
+import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { getTotalSteps, getStepOffset, getPathFromRecall, type MorningPath, type CaptureMethod } from './stepConfig'
-import { createDreamEntry } from '@/app/(app)/today/actions'
+import { createDreamEntry, getTagSuggestions } from '@/app/(app)/today/actions'
 import { useEncryptionKey } from '@/hooks/use-encryption-key'
+import { useToast } from '@/hooks/use-toast'
 import { encrypt, encodeBase64 } from '@/lib/encryption'
+import { saveDraft, getTodaysDraft, deleteDraft } from '@/lib/offline/drafts'
 import type {
   MorningModeProps,
   MorningStep,
@@ -35,23 +39,36 @@ const INITIAL_DRAFT: MorningDraft = {
 
 export function MorningMode({
   initialStep = 'start',
+  mode = 'morning',
   onComplete,
   onCancel,
+  onCaptureAnother,
+  onHasDataChange,
+  onCompletionVisible,
+  alarmContext,
 }: MorningModeProps) {
-  const [step, setStep] = useState<MorningStep>(initialStep)
+  // Determine actual initial step based on mode
+  const actualInitialStep: MorningStep = mode === 'journal' ? 'date-select' : initialStep
+  const [step, setStep] = useState<MorningStep>(actualInitialStep)
   const [direction, setDirection] = useState<'forward' | 'back'>('forward')
   const [draft, setDraft] = useState<MorningDraft>({
     ...INITIAL_DRAFT,
     id: crypto.randomUUID(),
-    step: initialStep,
+    step: actualInitialStep,
     startedAt: new Date(),
     lastUpdatedAt: new Date(),
   })
   const [savedDreamId, setSavedDreamId] = useState<string | null>(null)
+  const [savedDreamNumber, setSavedDreamNumber] = useState<number | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+  const [tagSuggestions, setTagSuggestions] = useState<{ suggestions: string[]; lexicon: string[] }>({
+    suggestions: [],
+    lexicon: [],
+  })
   
-  // Get encryption key
+  // Get encryption key and toast
   const { key: encryptionKey } = useEncryptionKey(1)
+  const { toast } = useToast()
   
   // Calculate path from recall level (determined in QuickFacts)
   const path: MorningPath = useMemo(() => getPathFromRecall(draft.recallLevel), [draft.recallLevel])
@@ -62,47 +79,138 @@ export function MorningMode({
   const totalSteps = useMemo(() => getTotalSteps(path, captureMethod), [path, captureMethod])
   const stepOffset = useMemo(() => getStepOffset(step, path, captureMethod), [step, path, captureMethod])
 
-  // Update draft helper
-  const updateDraft = useCallback((updates: Partial<MorningDraft>) => {
-    setDraft(prev => ({
-      ...prev,
-      ...updates,
-      lastUpdatedAt: new Date(),
-    }))
-  }, [])
-
-  // Save draft to localStorage (in production, use IndexedDB)
-  useEffect(() => {
-    if (draft.narrative || draft.emotions.length > 0) {
-      localStorage.setItem('morning-draft', JSON.stringify(draft))
-    }
+  // Check if draft has meaningful data
+  const hasData = useMemo(() => {
+    return !!(
+      draft.narrative ||
+      draft.emotions.length > 0 ||
+      draft.recallLevel ||
+      draft.vividness !== 50 ||  // Changed from default
+      draft.lucidity !== null ||
+      draft.dreamDate ||
+      draft.tags.length > 0 ||
+      draft.title ||
+      draft.wakingLifeLink
+    )
   }, [draft])
+
+  // Notify parent when hasData changes
+  useEffect(() => {
+    onHasDataChange?.(hasData)
+  }, [hasData, onHasDataChange])
+
+  // Notify parent when completion screen is visible
+  useEffect(() => {
+    onCompletionVisible?.(step === 'complete')
+  }, [step, onCompletionVisible])
+
+  // Update draft helper with debounced save
+  const updateDraft = useCallback((updates: Partial<MorningDraft>) => {
+    setDraft(prev => {
+      const updated = {
+        ...prev,
+        ...updates,
+        lastUpdatedAt: new Date(),
+      }
+      
+      // Save to IndexedDB (debounced)
+      if (updated.narrative || updated.emotions.length > 0) {
+        saveDraft({
+          ...updated,
+          userId: '', // Will be set by the caller if needed, or can use session
+          startedAt: updated.startedAt.toISOString(),
+          lastUpdatedAt: updated.lastUpdatedAt.toISOString(),
+        }).catch(err => {
+          console.error('Failed to save draft:', err)
+        })
+      }
+      
+      return updated
+    })
+  }, [])
 
   // Load draft on mount
   useEffect(() => {
-    const savedDraft = localStorage.getItem('morning-draft')
-    if (savedDraft) {
+    let mounted = true
+    
+    // Try to load from IndexedDB first
+    const loadDraft = async () => {
       try {
-        const parsed = JSON.parse(savedDraft)
-        // Only restore if it's from today
-        const savedDate = new Date(parsed.startedAt).toDateString()
-        const today = new Date().toDateString()
-        if (savedDate === today && parsed.narrative) {
+        const todayDraft = await getTodaysDraft('') // TODO: Use actual userId from session
+        if (mounted && todayDraft && todayDraft.narrative) {
           setDraft({
-            ...parsed,
-            startedAt: new Date(parsed.startedAt),
-            lastUpdatedAt: new Date(parsed.lastUpdatedAt),
+            ...todayDraft,
+            startedAt: new Date(todayDraft.startedAt),
+            lastUpdatedAt: new Date(todayDraft.lastUpdatedAt),
           })
           // Resume from where they left off
-          if (parsed.narrative) {
+          if (todayDraft.narrative) {
             setStep('structure')
           }
+        } else {
+          // Fallback: Try localStorage migration
+          const savedDraft = localStorage.getItem('morning-draft')
+          if (savedDraft) {
+            try {
+              const parsed = JSON.parse(savedDraft)
+              const savedDate = new Date(parsed.startedAt).toDateString()
+              const today = new Date().toDateString()
+              if (savedDate === today && parsed.narrative) {
+                const migratedDraft = {
+                  ...parsed,
+                  startedAt: new Date(parsed.startedAt),
+                  lastUpdatedAt: new Date(parsed.lastUpdatedAt),
+                }
+                if (mounted) {
+                  setDraft(migratedDraft)
+                  // Save to IndexedDB
+                  await saveDraft({
+                    ...migratedDraft,
+                    userId: '',
+                    startedAt: migratedDraft.startedAt.toISOString(),
+                    lastUpdatedAt: migratedDraft.lastUpdatedAt.toISOString(),
+                  })
+                  // Clear localStorage
+                  localStorage.removeItem('morning-draft')
+                  if (parsed.narrative) {
+                    setStep('structure')
+                  }
+                }
+              }
+            } catch (err) {
+              console.error('Failed to migrate draft:', err)
+            }
+          }
         }
-      } catch {
-        // Ignore invalid draft
+      } catch (err) {
+        console.error('Failed to load draft:', err)
       }
     }
+    
+    loadDraft()
+    
+    return () => {
+      mounted = false
+    }
   }, [])
+
+  // Handle date selection (journal mode)
+  const handleDateSelectComplete = (data: {
+    type: string
+    date?: Date
+    approximateValue?: string
+  }) => {
+    const selectedDate = data.date ?? new Date()
+    updateDraft({
+      dreamDate: data.date,
+      approximateDate: data.type !== 'last-night' && data.type !== 'specific'
+        ? { type: data.type as any, value: data.approximateValue }
+        : undefined,
+      startedAt: selectedDate,
+    })
+    setDirection('forward')
+    setStep('start')
+  }
 
   // Handle capture method selection from MorningStart
   const handleSelectVoice = () => {
@@ -148,8 +256,17 @@ export function MorningMode({
   }
 
   // Handle capture complete
-  const handleCaptureComplete = (transcript: string) => {
+  const handleCaptureComplete = async (transcript: string) => {
     updateDraft({ narrative: transcript })
+    
+    // Fetch tag suggestions based on narrative
+    if (transcript.trim()) {
+      const result = await getTagSuggestions(transcript)
+      if (result.success) {
+        setTagSuggestions(result.data)
+      }
+    }
+    
     setDirection('forward')
     setStep('structure')
   }
@@ -157,7 +274,6 @@ export function MorningMode({
   // Handle micro-structure
   const handleStructureComplete = (data: MicroStructureData) => {
     updateDraft({
-      emotions: data.emotions,
       vividness: data.vividness,
       lucidity: data.lucidity,
     })
@@ -166,7 +282,6 @@ export function MorningMode({
 
   const handleSaveAndExit = async (data: MicroStructureData) => {
     updateDraft({
-      emotions: data.emotions,
       vividness: data.vividness,
       lucidity: data.lucidity,
     })
@@ -232,20 +347,32 @@ export function MorningMode({
         isRecurring: draft.isRecurring,
         captureMethod: draft.captureMethod,
         capturedAt: draft.startedAt.toISOString(),
+        // Alarm metadata if triggered by alarm
+        alarmTriggered: !!alarmContext,
+        alarmScheduledTime: alarmContext?.scheduledTime,
+        alarmStopTime: alarmContext?.actualStopTime,
+        alarmSnoozeCount: alarmContext?.snoozeCount,
       })
 
       if (!result.success) {
         throw new Error(result.error)
       }
 
-      // Clear the draft
+      // Clear the draft from IndexedDB
+      await deleteDraft(draft.id).catch(err => {
+        console.error('Failed to delete draft:', err)
+      })
+      
+      // Also clear localStorage for any legacy drafts
       localStorage.removeItem('morning-draft')
       
       setSavedDreamId(result.data.id)
+      setSavedDreamNumber(result.data.dreamNumber)
       setStep('complete')
+      toast.success('Dream saved successfully!')
     } catch (error) {
       console.error('Failed to save dream:', error)
-      // TODO: Show error toast to user
+      toast.error('Failed to save dream. Please try again.')
     } finally {
       setIsSaving(false)
     }
@@ -254,6 +381,25 @@ export function MorningMode({
   // Handle completion
   const handleContinue = () => {
     onComplete(savedDreamId!)
+  }
+
+  // Handle capture another dream
+  const handleCaptureAnother = () => {
+    // Reset draft state
+    setDraft({
+      ...INITIAL_DRAFT,
+      id: crypto.randomUUID(),
+      startedAt: new Date(),
+      lastUpdatedAt: new Date(),
+    })
+    setSavedDreamId(null)
+    setSavedDreamNumber(null)
+    setDirection('forward')
+    // Go back to start (or date-select in journal mode)
+    setStep(mode === 'journal' ? 'date-select' : 'start')
+    
+    // Notify parent if provided
+    onCaptureAnother?.()
   }
 
   // Navigation helpers
@@ -277,13 +423,6 @@ export function MorningMode({
     }
   }
 
-  // Mock suggestions for tags (in production, these come from AI)
-  const mockSuggestions = draft.narrative
-    ? ['grandmother', 'house', 'hallway', 'childhood']
-    : []
-
-  const mockUserLexicon = ['the red door', 'recurring places', 'flying']
-
   // Mock insight (in production, this comes from analysis)
   const mockInsight = draft.narrative
     ? {
@@ -295,6 +434,15 @@ export function MorningMode({
   return (
     <>
       <AnimatePresence mode="wait">
+        {step === 'date-select' && mode === 'journal' && (
+          <DateSelect
+            key="date-select"
+            globalStep={stepOffset}
+            totalSteps={totalSteps}
+            onComplete={handleDateSelectComplete}
+          />
+        )}
+
         {step === 'start' && (
           <MorningStart
             key="start"
@@ -373,7 +521,6 @@ export function MorningMode({
             totalSteps={totalSteps}
             direction={direction}
             initialData={{
-              emotions: draft.emotions,
               vividness: draft.vividness,
               lucidity: draft.lucidity,
             }}
@@ -389,8 +536,8 @@ export function MorningMode({
             globalStep={stepOffset}
             totalSteps={totalSteps}
             direction={direction}
-            suggestions={mockSuggestions}
-            userLexicon={mockUserLexicon}
+            suggestions={tagSuggestions.suggestions}
+            userLexicon={tagSuggestions.lexicon}
             selectedTags={draft.tags}
             onComplete={handleTagsComplete}
             onSkip={() => {
@@ -430,6 +577,7 @@ export function MorningMode({
               capturedAt: draft.startedAt,
               emotions: draft.emotions,
               vividness: draft.vividness,
+              dreamNumber: savedDreamNumber ?? undefined,
             }}
             insight={mockInsight}
             onContinue={handleContinue}
@@ -437,19 +585,12 @@ export function MorningMode({
               // Navigate to insights
               handleContinue()
             }}
+            onCaptureAnother={handleCaptureAnother}
           />
         )}
       </AnimatePresence>
 
-      {/* Loading overlay */}
-      {isSaving && (
-        <div className="fixed inset-0 bg-background/80 flex items-center justify-center z-50">
-          <div className="text-center">
-            <div className="text-4xl mb-4 animate-pulse">✨</div>
-            <p className="text-muted">Saving your dream...</p>
-          </div>
-        </div>
-      )}
+      <LoadingOverlay isVisible={isSaving} message="Saving your dream..." />
     </>
   )
 }

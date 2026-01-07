@@ -1,9 +1,9 @@
 import { PageHeader } from '@/components/layout'
 import { PromptStreamClient } from './PromptStreamClient'
-import { getStreamQuestions } from './actions'
+import { getStreamQuestionsFormatted } from './actions'
 
 export default async function PromptsPage() {
-  const questionsResult = await getStreamQuestions(10)
+  const questionsResult = await getStreamQuestionsFormatted(10)
 
   if (!questionsResult.success) {
     return (

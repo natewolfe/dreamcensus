@@ -116,7 +116,7 @@ export function FAB({ timeOfDay, onPrimaryAction, onLongPress }: FABProps) {
         className={cn(
           'fixed bottom-20 right-4 z-30',
           'w-14 h-14 rounded-full',
-          'bg-accent text-white',
+          'bg-accent text-foreground',
           'flex items-center justify-center',
           'shadow-lg shadow-accent/30',
           'transition-all'

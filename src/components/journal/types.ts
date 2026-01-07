@@ -14,16 +14,20 @@ export interface Dream {
   wakingLifeLink?: string
   capturedAt: Date
   updatedAt: Date
+  /** Chronological position (1-indexed, oldest = 1) for generating fallback titles */
+  dreamNumber?: number
 }
 
 export interface DreamCardProps {
   dream: Dream
   variant?: 'compact' | 'expanded'
+  href?: string
   onClick?: () => void
 }
 
 export interface JournalListProps {
   dreams: Dream[]
+  initialSearch?: string
   onSearch?: (query: string) => void
 }
 

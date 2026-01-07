@@ -308,7 +308,7 @@ function RhythmScreen({
                 onClick={() => onChange({ ...settings, bedtime: time })}
                 className={`px-4 py-2 rounded-lg text-sm transition-colors ${
                   settings.bedtime === time
-                    ? 'bg-accent text-white'
+                    ? 'bg-accent text-foreground'
                     : 'bg-surface hover:bg-muted/20 border border-border'
                 }`}
               >
@@ -328,7 +328,7 @@ function RhythmScreen({
                 onClick={() => onChange({ ...settings, wakeTime: time })}
                 className={`px-4 py-2 rounded-lg text-sm transition-colors ${
                   settings.wakeTime === time
-                    ? 'bg-accent text-white'
+                    ? 'bg-accent text-foreground'
                     : 'bg-surface hover:bg-muted/20 border border-border'
                 }`}
               >

@@ -38,8 +38,9 @@ export function TextArea({
         className={cn(
           'w-full rounded-xl px-4 py-3 resize-none',
           'bg-card-bg border border-border text-foreground',
-          'placeholder:text-subtle',
-          'focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent',
+          'placeholder:text-muted/50',
+          'focus:outline-none focus:border-accent',
+          'focus-visible:outline-none',
           'transition-colors',
           disabled && 'opacity-50 cursor-not-allowed'
         )}

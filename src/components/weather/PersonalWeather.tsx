@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card } from '@/components/ui'
 import { EmotionChart } from './EmotionChart'
 import { SymbolCloud } from './SymbolCloud'
@@ -12,6 +13,7 @@ interface PersonalWeatherProps {
 }
 
 export function PersonalWeather({ data }: PersonalWeatherProps) {
+  const router = useRouter()
   const [showMethodCard, setShowMethodCard] = useState(false)
 
   return (
@@ -85,7 +87,7 @@ export function PersonalWeather({ data }: PersonalWeatherProps) {
               data={data.symbols.slice(0, 20)}
               onSymbolClick={(symbol) => {
                 // Navigate to journal filtered by symbol
-                window.location.href = `/journal?tag=${encodeURIComponent(symbol)}`
+                router.push(`/journal?tag=${encodeURIComponent(symbol)}`)
               }}
             />
           </div>

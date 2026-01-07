@@ -142,14 +142,14 @@ export function PromptCard({
               e.stopPropagation()
               onSkip()
             }}
-            className="p-3 absolute top-2 right-5 text-md text-muted hover:text-foreground transition-colors z-10"
+            className="p-3 absolute top-2 right-5 text-md text-muted hover:text-foreground transition-colors z-10 opacity-30 hover:opacity-100"
           >
             Skip
           </button>
         )}
 
         {/* Question */}
-        <div className="flex-1 flex items-center justify-center px-8">
+        <div className="flex-1 flex items-center justify-center px-8 md:px-10">
           <h2 className="text-2xl md:text-3xl font-medium text-center leading-relaxed">
             {question.text}
           </h2>

@@ -8,7 +8,7 @@ export default function LandingPage() {
       <header className="border-b border-border">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-foreground">
               <span className="text-lg font-bold">DC</span>
             </div>
             <span className="text-lg font-semibold">Dream Census</span>
@@ -21,9 +21,7 @@ export default function LandingPage() {
             >
               Sign In
             </Link>
-            <Link href="/onboarding">
-              <Button size="sm">Get Started</Button>
-            </Link>
+            <Button size="sm" href="/onboarding">Get Started</Button>
           </nav>
         </div>
       </header>
@@ -41,16 +39,12 @@ export default function LandingPage() {
           </p>
 
           <div className="flex gap-4 justify-center mb-12">
-            <Link href="/onboarding">
-              <Button size="lg">
-                Get Started →
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button size="lg" variant="secondary">
-                Sign In
-              </Button>
-            </Link>
+            <Button size="lg" href="/onboarding">
+              Get Started →
+            </Button>
+            <Button size="lg" variant="secondary" href="/login">
+              Sign In
+            </Button>
           </div>
 
           {/* Feature Grid */}

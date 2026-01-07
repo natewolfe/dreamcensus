@@ -1,5 +1,6 @@
 // Morning Mode Components
 export { MorningMode } from './MorningMode'
+export { DateSelect } from './DateSelect'
 export { MorningStart } from './MorningStart'
 export { QuickFacts } from './QuickFacts'
 export { VoiceCapture } from './VoiceCapture'

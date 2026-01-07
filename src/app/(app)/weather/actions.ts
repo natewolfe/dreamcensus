@@ -1,18 +1,15 @@
 'use server'
 
 import { getSession } from '@/lib/auth'
-import { computePersonalWeather, computeCollectiveWeather } from '@/lib/weather'
-import type { PersonalWeatherData, CollectiveWeatherData } from '@/lib/weather/types'
-
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string }
+import { computePersonalWeather, computeCollectiveWeather, computeWeatherChartData } from '@/lib/weather'
+import type { PersonalWeatherData, CollectiveWeatherData, DreamWeatherChartData, TimeRange } from '@/lib/weather/types'
+import type { ActionResult } from '@/lib/actions'
 
 /**
  * Get personal weather for current user
  */
 export async function getPersonalWeather(
-  timeRange: '7d' | '30d' | '90d' | 'all' = '30d'
+  timeRange: TimeRange | 'all' = '30d'
 ): Promise<ActionResult<PersonalWeatherData>> {
   try {
     const session = await getSession()
@@ -33,7 +30,7 @@ export async function getPersonalWeather(
  * Get collective weather
  */
 export async function getCollectiveWeather(
-  timeRange: '7d' | '30d' | '90d' = '30d'
+  timeRange: TimeRange = '7d'
 ): Promise<ActionResult<CollectiveWeatherData | null>> {
   try {
     const weather = await computeCollectiveWeather(timeRange)
@@ -42,6 +39,22 @@ export async function getCollectiveWeather(
   } catch (error) {
     console.error('getCollectiveWeather error:', error)
     return { success: false, error: 'Failed to fetch collective weather' }
+  }
+}
+
+/**
+ * Get dream weather chart data (time-series sentiment)
+ */
+export async function getWeatherChart(
+  timeRange: TimeRange = '7d'
+): Promise<ActionResult<DreamWeatherChartData | null>> {
+  try {
+    const data = await computeWeatherChartData(timeRange)
+
+    return { success: true, data }
+  } catch (error) {
+    console.error('getWeatherChart error:', error)
+    return { success: false, error: 'Failed to compute weather chart' }
   }
 }
 

@@ -22,7 +22,7 @@ export default function NightCheckInPage() {
 
   return (
     <FlowPageWrapper
-      title="Night Check-In"
+      title="Bedtime"
       subtitle="Wind down for sleep"
       onExit={handleExit}
       exitText="Exit"

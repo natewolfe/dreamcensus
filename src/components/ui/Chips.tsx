@@ -58,7 +58,7 @@ export function Chips<T extends string>({
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
               'active:scale-95',
               isSelected
-                ? 'bg-accent text-white border-accent'
+                ? 'bg-accent text-foreground border-accent'
                 : 'bg-transparent text-foreground border-border hover:border-accent'
             )}
             aria-pressed={isSelected}

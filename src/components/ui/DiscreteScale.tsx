@@ -14,6 +14,8 @@ export interface DiscreteScaleProps {
   showLabels?: boolean
   disabled?: boolean
   className?: string
+  /** Called after selection for auto-advance */
+  onCommit?: () => void
 }
 
 export function DiscreteScale({
@@ -26,6 +28,7 @@ export function DiscreteScale({
   showLabels = true,
   disabled = false,
   className,
+  onCommit,
 }: DiscreteScaleProps) {
   const [hoveredValue, setHoveredValue] = useState<number | null>(null)
   
@@ -56,7 +59,10 @@ export function DiscreteScale({
             <motion.button
               key={stepValue}
               type="button"
-              onClick={() => onChange(stepValue)}
+              onClick={() => {
+                onChange(stepValue)
+                onCommit?.()
+              }}
               onMouseEnter={() => setHoveredValue(stepValue)}
               onMouseLeave={() => setHoveredValue(null)}
               disabled={disabled}
@@ -67,7 +73,7 @@ export function DiscreteScale({
                 'flex items-center justify-center',
                 'text-base font-medium transition-all',
                 'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
-                isSelected && 'bg-accent border-accent text-white shadow-lg shadow-accent/30',
+                isSelected && 'bg-accent border-accent text-foreground shadow-lg shadow-accent/30',
                 !isSelected && isHovered && 'border-accent/50 bg-accent/10 text-accent',
                 !isSelected && !isHovered && 'border-border bg-card-bg text-muted hover:text-foreground',
                 disabled && 'opacity-50 cursor-not-allowed'

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'motion/react'
-import { Button, NavProgress } from '@/components/ui'
+import { Button, FlowCard } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import type { VoiceCaptureProps, VoiceCaptureState } from './types'
 
@@ -279,7 +279,7 @@ export function VoiceCapture({
           whileTap={{ scale: 0.95 }}
           onClick={startRecording}
           className={cn(
-            'h-24 w-24 rounded-full bg-accent text-white',
+            'h-24 w-24 rounded-full bg-accent text-foreground',
             'flex items-center justify-center text-3xl',
             'shadow-lg shadow-accent/30',
             'transition-all hover:brightness-110'
@@ -299,101 +299,93 @@ export function VoiceCapture({
     )
   }
 
-  // Recording / Complete state
+  // Recording / Complete state - use FlowCard for consistency
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="space-y-8"
+    <FlowCard
+      currentStep={globalStep}
+      totalSteps={totalSteps}
+      direction="forward"
+      title={state === 'recording' ? 'Recording...' : 'Review your recording'}
+      subtitle={`${formatDuration(duration)} recorded`}
+      stepKey={`voice-${state}`}
+      isValid={canSubmit}
+      skipBehavior="optional"
+      isLastStep={false}
+      onNext={canSubmit ? handleDone : (onSkip ?? handleDone)}
+      onBack={onCancel}
+      onSkip={onSkip}
+      canGoBack={true}
+      canGoForward={true}
     >
-      <NavProgress
-        currentStep={globalStep}
-        totalSteps={totalSteps}
-        onBack={onCancel}
-        onForward={canSubmit ? handleDone : undefined}
-        canGoBack={true}
-        canGoForward={canSubmit}
-      />
+      <div className="w-full space-y-4">
 
-      {/* Title */}
-      <div className="text-center">
-        <h3 className="text-lg font-medium text-foreground mb-2">
-          {state === 'recording' ? 'Recording...' : 'Review your recording'}
-        </h3>
-        <p className="text-sm text-muted">
-          {formatDuration(duration)} recorded
-        </p>
-      </div>
+        {/* Waveform visualization placeholder */}
+        <div className="h-16 rounded-lg bg-subtle/30 border border-border overflow-hidden">
+          <div className="flex h-full items-center justify-center gap-1">
+            {state === 'recording' ? (
+              Array.from({ length: 20 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="w-1 bg-accent rounded-full"
+                  animate={{
+                    height: [8, 24 + Math.random() * 16, 8],
+                  }}
+                  transition={{
+                    duration: 0.5,
+                    repeat: Infinity,
+                    delay: i * 0.05,
+                  }}
+                />
+              ))
+            ) : (
+              <span className="text-muted text-sm">Recording complete</span>
+            )}
+          </div>
+        </div>
 
-      {/* Waveform visualization placeholder */}
-      <div className="h-16 rounded-lg bg-subtle/30 border border-border overflow-hidden">
-        <div className="flex h-full items-center justify-center gap-1">
-          {state === 'recording' ? (
-            Array.from({ length: 20 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="w-1 bg-accent rounded-full"
-                animate={{
-                  height: [8, 24 + Math.random() * 16, 8],
-                }}
-                transition={{
-                  duration: 0.5,
-                  repeat: Infinity,
-                  delay: i * 0.05,
-                }}
-              />
-            ))
+        {/* Transcript */}
+        <div className={cn(
+          'min-h-[150px] rounded-xl border border-border bg-subtle/30 p-4',
+          isEditing && 'ring-1 ring-accent'
+        )}>
+          {isEditing ? (
+            <textarea
+              value={transcript}
+              onChange={(e) => setTranscript(e.target.value)}
+              className="w-full h-full min-h-[130px] bg-transparent text-foreground resize-none focus:outline-none"
+              placeholder="Your transcription will appear here..."
+            />
           ) : (
-            <span className="text-muted text-sm">Recording complete</span>
+            <>
+              <p className="text-foreground whitespace-pre-wrap">
+                {fullTranscript || (
+                  <span className="text-muted">
+                    {state === 'recording' 
+                      ? 'Listening...' 
+                      : 'Your transcription will appear here...'}
+                  </span>
+                )}
+              </p>
+              {transcript && (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="mt-4 text-sm text-accent hover:underline"
+                >
+                  Edit ✏️
+                </button>
+              )}
+            </>
           )}
         </div>
-      </div>
 
-      {/* Transcript */}
-      <div className={cn(
-        'min-h-[150px] rounded-xl border border-border bg-subtle/30 p-4',
-        isEditing && 'ring-1 ring-accent'
-      )}>
-        {isEditing ? (
-          <textarea
-            value={transcript}
-            onChange={(e) => setTranscript(e.target.value)}
-            className="w-full h-full min-h-[130px] bg-transparent text-foreground resize-none focus:outline-none"
-            placeholder="Your transcription will appear here..."
-          />
-        ) : (
-          <>
-            <p className="text-foreground whitespace-pre-wrap">
-              {fullTranscript || (
-                <span className="text-muted">
-                  {state === 'recording' 
-                    ? 'Listening...' 
-                    : 'Your transcription will appear here...'}
-                </span>
-              )}
-            </p>
-            {transcript && (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="mt-4 text-sm text-accent hover:underline"
-              >
-                Edit ✏️
-              </button>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* Recording controls / Action button */}
-      <div className="pt-4 space-y-4">
-        {state === 'recording' ? (
-          <div className="flex flex-col items-center gap-4">
+        {/* Recording controls - shown when actively recording */}
+        {state === 'recording' && (
+          <div className="flex flex-col items-center gap-4 pt-4">
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={stopRecording}
               className={cn(
-                'h-16 w-16 rounded-full bg-red-500 text-white',
+                'h-16 w-16 rounded-full bg-red-500 text-foreground',
                 'flex items-center justify-center',
                 'shadow-lg animate-pulse'
               )}
@@ -403,17 +395,9 @@ export function VoiceCapture({
             </motion.button>
             <p className="text-xs text-subtle">Tap to stop recording</p>
           </div>
-        ) : (
-          <Button
-            variant={canSubmit ? 'primary' : 'secondary'}
-            onClick={canSubmit ? handleDone : (onSkip ?? handleDone)}
-            fullWidth
-          >
-            {canSubmit ? 'Next →' : 'Skip →'}
-          </Button>
         )}
       </div>
-    </motion.div>
+    </FlowCard>
   )
 }
 

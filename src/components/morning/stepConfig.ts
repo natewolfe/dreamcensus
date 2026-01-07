@@ -31,7 +31,7 @@ export const STEP_COUNTS: Record<MorningStep, number> = {
   'quick-facts': 3,  // recall, emotions, flags
   'voice': 1,
   'text': 1,
-  'structure': 3,    // emotions, vividness, lucidity
+  'structure': 2,    // vividness, lucidity
   'tags': 1,
   'close': 2,        // title, waking life
   'complete': 0,     // Completion screen has no counter
@@ -47,19 +47,19 @@ export function getTotalSteps(path: MorningPath, _captureMethod?: CaptureMethod)
   }
   
   if (path === 'minimal') {
-    // Minimal: start(1) + structure(3) + close(2) = 6
+    // Minimal: start(1) + structure(2) + close(2) = 5
     // No quick-facts, no capture, no tags
-    return 6
+    return 5
   }
   
   if (path === 'fragments') {
-    // Fragments: start(1) + quickFacts(3) + capture(1) + structure(3) + close(2) = 10
+    // Fragments: start(1) + quickFacts(3) + capture(1) + structure(2) + close(2) = 9
     // Skip tags for fragments
-    return 10
+    return 9
   }
   
-  // Full: start(1) + quickFacts(3) + capture(1) + structure(3) + tags(1) + close(2) = 11
-  return 11
+  // Full: start(1) + quickFacts(3) + capture(1) + structure(2) + tags(1) + close(2) = 10
+  return 10
 }
 
 /**

@@ -9,7 +9,7 @@ function getTimeGreeting(): string {
   if (hour >= 5 && hour < 12) return 'Good morning'
   if (hour >= 12 && hour < 17) return 'Good day'
   if (hour >= 17 && hour < 21) return 'Good evening'
-  return 'Sweet dreams'
+  return 'Welcome back'
 }
 
 export function MorningStart({ globalStep, totalSteps, onVoice, onText, onEmotionOnly, onSkip: _onSkip }: MorningStartProps) {
@@ -23,13 +23,6 @@ export function MorningStart({ globalStep, totalSteps, onVoice, onText, onEmotio
       transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
       className="space-y-8"
     >
-      {/* Step counter */}
-      <div className="text-center">
-        <span className="text-sm text-muted">
-          {globalStep + 1} of {totalSteps}
-        </span>
-      </div>
-
       <div className="flex min-h-[50vh] flex-col items-center justify-center px-4"
       >
         <motion.div

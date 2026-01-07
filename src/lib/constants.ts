@@ -66,6 +66,15 @@ export const EVENT_TYPES = {
 
   // Night mode
   NIGHT_CHECKED_IN: 'night.checked_in',
+
+  // Alarm
+  ALARM_SETTINGS_UPDATED: 'alarm.settings.updated',
+  ALARM_ARMED: 'alarm.armed',
+  ALARM_DISARMED: 'alarm.disarmed',
+  ALARM_RANG: 'alarm.rang',
+  ALARM_SNOOZED: 'alarm.snoozed',
+  ALARM_STOPPED: 'alarm.stopped',
+  ALARM_MISSED: 'alarm.missed',
 } as const
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES]
@@ -158,8 +167,9 @@ export const MAX_VALUES = {
  */
 export const NAV_ITEMS = [
   { href: '/today', label: 'Dashboard', icon: 'home' },
-  { href: '/journal', label: 'Journal', icon: 'book' },
-  { href: '/census', label: 'Census', icon: 'clipboard' },
   { href: '/weather', label: 'Weather', icon: 'cloud' },
+  { href: '/census', label: 'Census', icon: 'clipboard' },
+  { href: '/journal', label: 'Journal', icon: 'book' },
+  { href: '/learn', label: 'Learn', icon: 'academic' },
 ] as const
 

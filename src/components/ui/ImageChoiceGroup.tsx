@@ -20,6 +20,8 @@ export interface ImageChoiceGroupProps {
   columns?: 2 | 3 | 4
   disabled?: boolean
   className?: string
+  /** Called after selection for auto-advance (single-select only) */
+  onCommit?: () => void
 }
 
 export function ImageChoiceGroup({
@@ -30,6 +32,7 @@ export function ImageChoiceGroup({
   columns = 2,
   disabled = false,
   className,
+  onCommit,
 }: ImageChoiceGroupProps) {
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
@@ -46,6 +49,7 @@ export function ImageChoiceGroup({
       }
     } else {
       onChange(optionId)
+      onCommit?.() // Only fires for single-select
     }
   }
 
@@ -136,7 +140,7 @@ export function ImageChoiceGroup({
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    className="w-12 h-12 rounded-full bg-accent text-white flex items-center justify-center shadow-lg"
+                    className="w-12 h-12 rounded-full bg-accent text-foreground flex items-center justify-center shadow-lg"
                   >
                     <svg
                       className="w-7 h-7"
@@ -160,7 +164,7 @@ export function ImageChoiceGroup({
             <div
               className={cn(
                 'px-3 py-2 text-sm font-medium transition-colors',
-                selected ? 'bg-accent text-white' : 'bg-card-bg text-foreground'
+                selected ? 'bg-accent text-foreground' : 'bg-card-bg text-foreground'
               )}
             >
               {option.label}

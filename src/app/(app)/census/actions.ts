@@ -6,6 +6,7 @@ import { getSession } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { emitEvent } from '@/lib/events'
 import type { CensusSection, CensusProgress } from '@/components/census/types'
+import type { ActionResult } from '@/lib/actions'
 
 // =============================================================================
 // SCHEMAS
@@ -18,14 +19,6 @@ const SubmitAnswersSchema = z.object({
     value: z.unknown(),
   })),
 })
-
-// =============================================================================
-// TYPES
-// =============================================================================
-
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string }
 
 // =============================================================================
 // ACTIONS

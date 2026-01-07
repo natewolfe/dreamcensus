@@ -1,4 +1,5 @@
 import { type ReactNode, type ButtonHTMLAttributes } from 'react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,13 +10,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode
   iconPosition?: 'left' | 'right'
   children: ReactNode
+  /** When provided, renders as a Link instead of button */
+  href?: string
 }
 
 const variantStyles = {
-  primary: 'bg-accent text-white hover:brightness-110 active:brightness-95',
+  primary: 'bg-accent text-foreground hover:brightness-110 active:brightness-95',
   secondary: 'bg-subtle text-foreground hover:bg-muted',
   ghost: 'bg-transparent hover:bg-subtle',
-  danger: 'bg-red-600 text-white hover:bg-red-700',
+  danger: 'bg-red-600 text-foreground hover:bg-red-700',
 }
 
 const sizeStyles = {
@@ -34,43 +37,61 @@ export function Button({
   children,
   className,
   disabled,
+  href,
   ...props
 }: ButtonProps) {
+  const isLink = !!href && !disabled
+
+  const classes = cn(
+    // Base styles
+    'inline-flex items-center justify-center gap-2',
+    'rounded-lg font-medium cursor-pointer',
+    'transition-all duration-150 ease-out',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
+    'active:scale-98',
+    // Disabled state (for button)
+    'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+    // Mark as button-link to exclude from global <a> styles
+    isLink && 'btn-link',
+    // Variant and size
+    variantStyles[variant],
+    sizeStyles[size],
+    // Full width
+    fullWidth && 'w-full',
+    // Loading state
+    loading && 'pointer-events-none',
+    className
+  )
+
+  const content = loading ? (
+    <>
+      <Spinner size="sm" />
+      {children}
+    </>
+  ) : (
+    <>
+      {icon && iconPosition === 'left' && icon}
+      {children}
+      {icon && iconPosition === 'right' && icon}
+    </>
+  )
+
+  // Render as Link when href is provided
+  if (isLink) {
+    return (
+      <Link href={href} className={classes}>
+        {content}
+      </Link>
+    )
+  }
+
   return (
     <button
-      className={cn(
-        // Base styles
-        'inline-flex items-center justify-center gap-2',
-        'rounded-lg font-medium',
-        'transition-all duration-150 ease-out',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
-        'active:scale-98',
-        // Disabled state
-        'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
-        // Variant and size
-        variantStyles[variant],
-        sizeStyles[size],
-        // Full width
-        fullWidth && 'w-full',
-        // Loading state
-        loading && 'pointer-events-none',
-        className
-      )}
+      className={classes}
       disabled={disabled || loading}
       {...props}
     >
-      {loading ? (
-        <>
-          <Spinner size="sm" />
-          {children}
-        </>
-      ) : (
-        <>
-          {icon && iconPosition === 'left' && icon}
-          {children}
-          {icon && iconPosition === 'right' && icon}
-        </>
-      )}
+      {content}
     </button>
   )
 }

@@ -14,9 +14,11 @@ export default function SettingsPage() {
       <div className="space-y-6">
         {/* Appearance */}
         <div>
-          <h2 className="text-lg font-semibold text-foreground mb-3">
-            Appearance
-          </h2>
+          <div className='mb-3'>
+            <h2 className="text-lg font-semibold text-foreground">
+              Appearance
+            </h2>
+          </div>
           <Card padding="lg">
             <div className="space-y-4">
               <div>
@@ -34,11 +36,13 @@ export default function SettingsPage() {
 
         {/* Privacy & Data */}
         <div>
-          <h2 className="text-lg font-semibold text-foreground mb-3">
-            Privacy & Data
-          </h2>
+          <div className='mb-3'>
+            <h2 className="text-lg font-semibold text-foreground">
+              Privacy & Data
+            </h2>
+          </div>
           <div className="space-y-2">
-            <Link href="/settings/privacy">
+            <Link href="/settings/privacy" className="block">
               <Card variant="interactive" padding="md">
                 <div className="flex items-center justify-between">
                   <div>
@@ -66,25 +70,31 @@ export default function SettingsPage() {
 
         {/* Daily Rhythm */}
         <div>
-          <h2 className="text-lg font-semibold text-foreground mb-3">
-            Daily Rhythm
-          </h2>
-          <Card variant="interactive" padding="md">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium text-foreground">Sleep Schedule</h3>
-                <p className="text-sm text-muted">Bedtime & wake time</p>
+          <div className='mb-3'>
+            <h2 className="text-lg font-semibold text-foreground">
+              Daily Rhythm
+            </h2>
+          </div>
+          <Link href="/settings/alarm">
+            <Card variant="interactive" padding="md">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium text-foreground">Wake Alarm</h3>
+                  <p className="text-sm text-muted">Schedule your morning alarm</p>
+                </div>
+                <span className="text-muted">→</span>
               </div>
-              <span className="text-muted">→</span>
-            </div>
-          </Card>
+            </Card>
+          </Link>
         </div>
 
         {/* Security */}
         <div>
-          <h2 className="text-lg font-semibold text-foreground mb-3">
-            Security
-          </h2>
+          <div className='mb-3'>
+            <h2 className="text-lg font-semibold text-foreground">
+              Security
+            </h2>
+          </div>
           <Card variant="interactive" padding="md">
             <div className="flex items-center justify-between">
               <div>
@@ -98,9 +108,11 @@ export default function SettingsPage() {
 
         {/* Account */}
         <div>
-          <h2 className="text-lg font-semibold text-foreground mb-3">
-            Account
-          </h2>
+          <div className='mb-3'>
+            <h2 className="text-lg font-semibold text-foreground">
+              Account
+            </h2>
+          </div>
           <div className="space-y-2">
             <Card variant="interactive" padding="md">
               <div className="flex items-center justify-between">
@@ -128,9 +140,11 @@ export default function SettingsPage() {
 
         {/* About */}
         <div>
-          <h2 className="text-lg font-semibold text-foreground mb-3">
-            About
-          </h2>
+          <div className='mb-3'>
+            <h2 className="text-lg font-semibold text-foreground">
+              About
+            </h2>
+          </div>
           <div className="space-y-2">
             <Card padding="md">
               <div className="text-sm text-muted">

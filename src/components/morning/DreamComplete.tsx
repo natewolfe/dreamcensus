@@ -3,6 +3,12 @@
 import { motion } from 'motion/react'
 import { Button, Card } from '@/components/ui'
 import { MicroInsight } from './MicroInsight'
+import {
+  formatDreamDateWithYear,
+  formatTime,
+  getVividnessLabel,
+  getDreamDisplayTitle,
+} from '@/lib/utils'
 import type { DreamCompleteProps } from './types'
 
 export function DreamComplete({
@@ -10,30 +16,8 @@ export function DreamComplete({
   insight,
   onContinue,
   onViewInsights,
+  onCaptureAnother,
 }: DreamCompleteProps) {
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    })
-  }
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    })
-  }
-
-  const getVividnessLabel = (vividness?: number) => {
-    if (vividness === undefined) return null
-    if (vividness < 25) return 'faint'
-    if (vividness < 50) return 'hazy'
-    if (vividness < 75) return 'clear'
-    return 'vivid'
-  }
 
   return (
     <motion.div
@@ -72,7 +56,7 @@ export function DreamComplete({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.3 }}
-        className="mb-8 text-2xl font-light text-foreground"
+        className="text-2xl font-light text-foreground"
       >
         Dream Captured
       </motion.h1>
@@ -82,37 +66,58 @@ export function DreamComplete({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.4 }}
-        className="w-full max-w-sm mb-6"
+        className="w-full max-w-sm mt-6 mb-6"
       >
-        <Card variant="elevated" padding="lg">
-          {dream.title && (
-            <h2 className="text-lg font-medium text-foreground mb-2">
-              "{dream.title}"
-            </h2>
-          )}
-          
-          <p className="text-sm text-muted">
-            {formatDate(dream.capturedAt)} · {formatTime(dream.capturedAt)}
-          </p>
-
-          {(dream.emotions.length > 0 || dream.vividness !== undefined) && (
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              {dream.emotions.map((emotion) => (
-                <span
-                  key={emotion}
-                  className="rounded-full bg-accent/20 px-2 py-0.5 text-xs text-accent"
-                >
-                  {emotion}
-                </span>
-              ))}
-              
-              {dream.vividness !== undefined && (
-                <span className="text-xs text-muted">
-                  · {getVividnessLabel(dream.vividness)}
-                </span>
-              )}
+        <Card variant="elevated" padding="md">
+          <div className="divide-y divide-border">
+            {/* Title */}
+            <div className="pb-3 text-center">
+              <h2 className="text-base font-medium text-foreground">
+                {dream.title ? `"${dream.title}"` : getDreamDisplayTitle(dream.title, dream.dreamNumber)}
+              </h2>
             </div>
-          )}
+            
+            {/* Date & Time */}
+            <div className="py-3">
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-muted">Date</span>
+                <span className="text-foreground">{formatDreamDateWithYear(dream.capturedAt)}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm mt-1">
+                <span className="text-muted">Time</span>
+                <span className="text-foreground">{formatTime(dream.capturedAt)}</span>
+              </div>
+            </div>
+
+            {/* Emotions */}
+            {dream.emotions.length > 0 && (
+              <div className="py-3">
+                <div className="flex justify-between items-start text-sm">
+                  <span className="text-muted">Emotions</span>
+                  <div className="flex flex-wrap justify-end gap-1.5 max-w-[65%]">
+                    {dream.emotions.map((emotion) => (
+                      <span
+                        key={emotion}
+                        className="rounded-full bg-accent/20 px-2 py-0.5 text-xs text-accent capitalize"
+                      >
+                        {emotion}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Vividness */}
+            {dream.vividness !== undefined && (
+              <div className="pt-3">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-muted">Vividness</span>
+                  <span className="text-foreground capitalize">{getVividnessLabel(dream.vividness)}</span>
+                </div>
+              </div>
+            )}
+          </div>
         </Card>
       </motion.div>
 
@@ -137,16 +142,27 @@ export function DreamComplete({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8, duration: 0.3 }}
-        className="flex gap-4"
+        className="flex flex-col items-center gap-3 w-full max-w-sm"
       >
-        <Button variant="primary" onClick={onContinue}>
-          Continue to Today
-        </Button>
-        
-        {insight && (
-          <Button variant="secondary" onClick={onViewInsights}>
-            See Insights
+        <div className="flex gap-3 w-full">
+          <Button variant="primary" onClick={onContinue} className="flex-1">
+            Done
           </Button>
+          
+          {insight && (
+            <Button variant="secondary" onClick={onViewInsights}>
+              See Insights
+            </Button>
+          )}
+        </div>
+        
+        {/* Capture Another */}
+        {onCaptureAnother && (
+          <div className="flex gap-3 w-full">
+            <Button variant="secondary" onClick={onCaptureAnother} className="flex-1">
+              Record another
+            </Button>
+          </div>
         )}
       </motion.div>
     </motion.div>

@@ -49,15 +49,11 @@ export interface NightModeProps {
 }
 
 export interface NightWelcomeProps {
-  globalStep: number
-  totalSteps: number
   onBegin: () => void
   onNotTonight: () => void
 }
 
 export interface DayReflectionProps {
-  globalStep: number
-  totalSteps: number
   direction?: 'forward' | 'back'
   onComplete: (data: DayReflectionData) => void
   onSkip: () => void
@@ -65,17 +61,14 @@ export interface DayReflectionProps {
 }
 
 export interface BreathingGuideProps {
-  globalStep: number
-  totalSteps: number
   duration?: 30 | 60 | 90 | 120
   pattern?: BreathingPattern
   onComplete: () => void
   onSkip: () => void
+  onBack: () => void
 }
 
 export interface DreamIntentionProps {
-  globalStep: number
-  totalSteps: number
   direction?: 'forward' | 'back'
   suggestions?: string[]
   previousIntentions?: string[]
@@ -85,19 +78,15 @@ export interface DreamIntentionProps {
 }
 
 export interface TomorrowSetupProps {
-  globalStep: number
-  totalSteps: number
   direction?: 'forward' | 'back'
   defaultWakeTime?: string
-  onComplete: (data: { wakeTime: string; enableReminder: boolean }) => void
+  onComplete: (data: { wakeTime: string; enableReminder: boolean; armAlarm: boolean }) => void
   onSkip: () => void
   onBack: () => void
 }
 
 export interface NightCompleteProps {
   intention?: string
-  reminderTime?: string
-  tip?: string
   onClose: () => void
 }
 

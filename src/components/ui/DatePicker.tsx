@@ -136,7 +136,7 @@ export function DatePicker({
       <div className="flex gap-2">
         {/* Day */}
         <div className="flex-1">
-          <label htmlFor="day" className="block text-xs text-muted mb-1">
+          <label htmlFor="day" className="block text-xs text-muted text-center mb-1">
             Day
           </label>
           <input
@@ -162,7 +162,7 @@ export function DatePicker({
 
         {/* Month */}
         <div className="flex-1">
-          <label htmlFor="month" className="block text-xs text-muted mb-1">
+          <label htmlFor="month" className="block text-xs text-muted text-center mb-1">
             Month
           </label>
           <input
@@ -188,7 +188,7 @@ export function DatePicker({
 
         {/* Year */}
         <div className="flex-[1.5]">
-          <label htmlFor="year" className="block text-xs text-muted mb-1">
+          <label htmlFor="year" className="block text-xs text-muted text-center mb-1">
             Year
           </label>
           <input

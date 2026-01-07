@@ -1,14 +1,12 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { FlowCard } from '@/components/ui'
+import { useSubStepFlow } from '@/hooks/use-sub-step-flow'
 import { cn } from '@/lib/utils'
 import type { CloseRitualProps } from './types'
 
-// Internal step types for single-prompt flow
-type CloseRitualSubStep = 'title' | 'wakingLife'
-
-const SUB_STEPS: CloseRitualSubStep[] = ['title', 'wakingLife']
+const SUB_STEPS = ['title', 'wakingLife'] as const
 
 export function CloseRitual({
   globalStep,
@@ -19,36 +17,19 @@ export function CloseRitual({
   onSkip,
   onBack,
 }: CloseRitualProps) {
-  const [subStep, setSubStep] = useState<CloseRitualSubStep>('title')
-  const [direction, setDirection] = useState<'forward' | 'back'>(parentDirection || 'forward')
-  
   const [title, setTitle] = useState(suggestedTitle ?? '')
   const [wakingLife, setWakingLife] = useState('')
 
-  const currentSubIndex = SUB_STEPS.indexOf(subStep)
-  const localStep = globalStep + currentSubIndex
-  const isLastSubStep = currentSubIndex === SUB_STEPS.length - 1
-
-  const goNext = useCallback(() => {
-    if (isLastSubStep) {
-      onComplete({
-        title: title.trim() || undefined,
-        wakingLife: wakingLife.trim() || undefined,
-      })
-    } else {
-      setDirection('forward')
-      setSubStep(SUB_STEPS[currentSubIndex + 1] as CloseRitualSubStep)
-    }
-  }, [isLastSubStep, currentSubIndex, title, wakingLife, onComplete])
-
-  const goBack = useCallback(() => {
-    if (currentSubIndex === 0) {
-      onBack()
-    } else {
-      setDirection('back')
-      setSubStep(SUB_STEPS[currentSubIndex - 1] as CloseRitualSubStep)
-    }
-  }, [currentSubIndex, onBack])
+  const { subStep, direction, localStep, isLastSubStep, goNext, goBack } = useSubStepFlow({
+    steps: SUB_STEPS,
+    globalStep,
+    parentDirection,
+    onComplete: () => onComplete({
+      title: title.trim() || undefined,
+      wakingLife: wakingLife.trim() || undefined,
+    }),
+    onBack,
+  })
 
   // Render step content
   const renderStep = () => {

@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Button } from '@/components/ui'
 
 export default function NotFound() {
@@ -16,11 +15,9 @@ export default function NotFound() {
           </p>
         </div>
 
-        <Link href="/today">
-          <Button variant="primary">
-            Go to Today
-          </Button>
-        </Link>
+        <Button variant="primary" href="/today">
+          Go to Today
+        </Button>
       </div>
     </div>
   )

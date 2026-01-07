@@ -979,7 +979,7 @@ export function Select<T extends string>({
     px-4 py-2
     h-10 min-w-[100px]
     text-sm font-medium
-    bg-accent text-white
+    bg-accent text-foreground
     rounded-lg shadow-sm
     hover:brightness-110
     disabled:opacity-50 disabled:cursor-not-allowed
@@ -1003,7 +1003,7 @@ export function cn(...inputs: ClassValue[]) {
 
 // Usage
 const buttonVariants = {
-  primary: 'bg-accent text-white hover:brightness-110',
+  primary: 'bg-accent text-foreground hover:brightness-110',
   secondary: 'bg-subtle text-foreground hover:bg-muted',
   ghost: 'bg-transparent hover:bg-subtle',
 }

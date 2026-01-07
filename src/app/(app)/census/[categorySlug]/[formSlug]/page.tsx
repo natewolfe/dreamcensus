@@ -1,6 +1,5 @@
 import { PageHeader } from '@/components/layout'
 import { Card, Button } from '@/components/ui'
-import Link from 'next/link'
 
 interface FormPageProps {
   params: Promise<{ categorySlug: string; formSlug: string }>
@@ -25,11 +24,9 @@ export default async function FormPage({ params }: FormPageProps) {
             Form runner will be available after schema migration
           </p>
           <div className="flex justify-center">
-            <Link href={`/census/${categorySlug}`}>
-              <Button variant="secondary">
-                ← Back to Category
-              </Button>
-            </Link>
+            <Button variant="secondary" href={`/census/${categorySlug}`}>
+              ← Back to Category
+            </Button>
           </div>
         </Card>
       </div>

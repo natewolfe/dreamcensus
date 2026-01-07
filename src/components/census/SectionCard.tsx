@@ -9,6 +9,7 @@ export function SectionCard({
   section,
   progress,
   isLocked = false,
+  prerequisiteName,
   onClick,
 }: SectionCardProps) {
   const completionPercentage = progress.totalQuestions > 0
@@ -28,7 +29,7 @@ export function SectionCard({
       whileTap={!isLocked ? { scale: 0.99 } : undefined}
     >
       <Card
-        variant={isLocked ? 'outlined' : 'interactive'}
+        variant={isLocked ? 'dashed' : 'interactive'}
         padding="lg"
         as={isLocked ? 'div' : 'button'}
         onClick={!isLocked ? onClick : undefined}
@@ -37,24 +38,26 @@ export function SectionCard({
           'text-left',
           isLocked && 'opacity-50'
         )}>
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex items-start gap-3">
+          <div className="flex items-start justify-between mb-3 w-full">
+            <div className="flex items-start gap-3 w-full">
               {section.icon && (
                 <div className="text-2xl">{section.icon}</div>
               )}
-              <div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  {section.name}
-                </h3>
+              <div className="w-full">
+                <div className="flex flex-row items-center justify-between gap-2">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {section.name}
+                  </h3>
+                  {isLocked && (
+                    <span className="text-subtle text-sm">🔒</span>
+                  )}
+                </div>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="text-sm text-muted">
                     {progress.answeredQuestions}/{progress.totalQuestions} complete
                   </span>
                   {isComplete && (
                     <span className="text-accent text-sm">✓</span>
-                  )}
-                  {isLocked && (
-                    <span className="text-subtle text-sm">🔒</span>
                   )}
                 </div>
               </div>
@@ -81,7 +84,11 @@ export function SectionCard({
 
           {/* Footer */}
           <div className="flex items-center justify-between">
-            {estimatedRemaining !== undefined && estimatedRemaining > 0 ? (
+            {isLocked && prerequisiteName ? (
+              <span className="text-xs text-muted">
+                Complete {prerequisiteName} first
+              </span>
+            ) : estimatedRemaining !== undefined && estimatedRemaining > 0 ? (
               <span className="text-xs text-muted">
                 ~{estimatedRemaining} min remaining
               </span>

@@ -5,6 +5,8 @@ import type { CensusQuestion } from './types'
 import { getSkipBehavior } from './types'
 import { hasValidAnswer } from '@/lib/census'
 import { getButtonState as getButtonStateUtil, type ButtonState as ButtonStateType } from '@/lib/flow-navigation'
+import { shouldAutoAdvance } from '@/lib/flow/auto-advance'
+import { useDebouncedCommit } from '@/hooks/use-debounced-commit'
 
 interface NavigationState {
   currentIndex: number
@@ -69,6 +71,15 @@ export function useQuestionNavigation(
   // Can navigate forward?
   const canGoForward = skipBehavior !== 'required' || isValid
   
+  // Determine if auto-advance should be disabled for current question
+  const shouldDisableAutoAdvance = useMemo(() => {
+    if (!currentQuestion) return true
+    if (isLastQuestion) return true // Never auto-advance on last question
+    if (isReturning) return true // User went back to review/change answer
+    if (!shouldAutoAdvance(currentQuestion.type, currentQuestion.config)) return true
+    return false
+  }, [currentQuestion, isLastQuestion, isReturning])
+  
   // Button state computation using shared utility
   const buttonState: ButtonState = useMemo(() => {
     // Use shared utility for base state
@@ -103,6 +114,12 @@ export function useQuestionNavigation(
     setAnswers(prev => new Map(prev).set(currentQuestion.id, value))
   }, [currentQuestion])
   
+  // Auto-advance handler
+  const { scheduleCommit: triggerAutoAdvance } = useDebouncedCommit({
+    onCommit: goForward,
+    disabled: shouldDisableAutoAdvance,
+  })
+  
   return {
     // State
     currentIndex: state.currentIndex,
@@ -122,6 +139,7 @@ export function useQuestionNavigation(
     goBack,
     goForward,
     setAnswer,
+    triggerAutoAdvance,
   }
 }
 

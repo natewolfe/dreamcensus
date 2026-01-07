@@ -21,7 +21,7 @@ export function TodayClient({ promptsAnswered }: TodayClientProps) {
                 : 'Explore questions about dreams'}
             </p>
           </div>
-          <span className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white">
+          <span className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-foreground">
             Continue →
           </span>
         </div>

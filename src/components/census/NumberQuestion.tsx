@@ -72,7 +72,7 @@ export function NumberQuestion({
                     'text-lg font-medium transition-all border-2',
                     'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent',
                     isSelected
-                      ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30'
+                      ? 'bg-accent border-accent text-foreground shadow-lg shadow-accent/30'
                       : 'border-border bg-card-bg text-muted hover:text-foreground hover:border-accent/50'
                   )}
                 >

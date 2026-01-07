@@ -152,6 +152,8 @@ export interface StatementQuestionProps {
   question: CensusQuestion
   value: number | null
   onChange: (value: number) => void
+  /** Called after selection for auto-advance */
+  onCommit?: () => void
 }
 
 export interface ChoiceQuestionProps {
@@ -190,6 +192,8 @@ export interface SectionCardProps {
   section: CensusSection
   progress: CensusProgress
   isLocked?: boolean
+  /** Name of the section that must be completed to unlock this one */
+  prerequisiteName?: string
   onClick?: () => void
 }
 
@@ -204,5 +208,7 @@ export interface QuestionRendererProps {
   question: CensusQuestion
   value: unknown
   onChange: (value: unknown) => void
+  /** Called when a single-action selection is finalized (for auto-advance) */
+  onCommit?: () => void
 }
 

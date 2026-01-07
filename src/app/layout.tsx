@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
+import { ToastProvider } from '@/providers/toast-provider'
+import { AlarmProvider } from '@/providers/alarm-provider'
 
 export const metadata: Metadata = {
   title: 'Dream Census',
@@ -25,10 +27,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <a href="#main-content" className="skip-link">
-            Skip to content
-          </a>
-          {children}
+          <ToastProvider>
+            <AlarmProvider>
+              <a href="#main-content" className="skip-link">
+                Skip to content
+              </a>
+              {children}
+            </AlarmProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -70,11 +70,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('theme-preference', pref)
   }, [])
 
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return <>{children}</>
-  }
-
+  // Always provide context, but use safe defaults before mounting
+  // to prevent hydration mismatch while still allowing useTheme() to work
   return (
     <ThemeContext.Provider value={{ preference, resolved, setPreference }}>
       {children}

@@ -1,26 +1,30 @@
-import Link from 'next/link'
 import { PageHeader } from '@/components/layout'
 import { Button, Card } from '@/components/ui'
 import { JournalList } from '@/components/journal'
 import { getDreams } from './actions'
 
-export default async function JournalPage() {
+interface JournalPageProps {
+  searchParams: Promise<{ tag?: string }>
+}
+
+export default async function JournalPage({ searchParams }: JournalPageProps) {
+  const params = await searchParams
   const result = await getDreams(50, 0)
   const dreams = result.success ? result.data.dreams : []
 
   return (
     <div id="main-content" className="container mx-auto max-w-4xl px-4 py-8">
-      <PageHeader
-        title="Dream Journal"
-        subtitle="Your personal dream archive"
-        actions={
-          <Link href="/today/morning">
-            <Button size="sm">
-              + New Dream
+      <div className="mb-6 md:mb-0">
+        <PageHeader
+          title="Journal"
+          subtitle="Your personal dream archive"
+          actions={
+            <Button size="md" variant="secondary" href="/journal/new">
+              ✏️ New Dream
             </Button>
-          </Link>
-        }
-      />
+          }
+        />
+      </div>
 
       {dreams.length === 0 ? (
         <Card padding="lg">
@@ -28,17 +32,15 @@ export default async function JournalPage() {
             <div className="mb-4 text-6xl">📖</div>
             <h3 className="text-xl font-semibold mb-2">No dreams yet</h3>
             <p className="text-sm mb-6">
-              Start your journey by capturing your first dream in Morning Mode
+              Start your journey by capturing your first dream
             </p>
-            <Link href="/today/morning">
-              <Button variant="primary">
-                Capture Your First Dream
-              </Button>
-            </Link>
+            <Button variant="primary" href="/journal/new">
+              Capture Your First Dream
+            </Button>
           </div>
         </Card>
       ) : (
-        <JournalList dreams={dreams} />
+        <JournalList dreams={dreams} initialSearch={params.tag} />
       )}
     </div>
   )

@@ -14,6 +14,8 @@ export interface ChoiceGroupProps {
   maxSelections?: number
   disabled?: boolean
   className?: string
+  /** Called after selection for auto-advance (single-select only) */
+  onCommit?: () => void
 }
 
 export function ChoiceGroup({
@@ -25,6 +27,7 @@ export function ChoiceGroup({
   maxSelections,
   disabled = false,
   className,
+  onCommit,
 }: ChoiceGroupProps) {
   const [showOther, setShowOther] = useState(() => {
     if (!allowOther) return false
@@ -67,8 +70,10 @@ export function ChoiceGroup({
         onChange([...currentArray, option])
       }
     } else {
+      // Single select: commit after selection
       onChange(option)
       setShowOther(false)
+      onCommit?.() // Only fires for regular options, not "Other"
     }
   }
 
@@ -111,7 +116,7 @@ export function ChoiceGroup({
           className={cn(
             'w-full rounded-xl px-4 py-3 text-center',
             'transition-all border-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
-            isSelected(option) && 'bg-accent border-accent text-white',
+            isSelected(option) && 'bg-accent border-accent text-foreground',
             !isSelected(option) && 'border-border bg-card-bg text-foreground hover:border-accent/50',
             disabled && 'opacity-50 cursor-not-allowed'
           )}

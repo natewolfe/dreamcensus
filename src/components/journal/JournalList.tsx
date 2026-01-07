@@ -6,8 +6,8 @@ import { Input } from '@/components/ui'
 import { DreamCard } from './DreamCard'
 import type { JournalListProps, Dream } from './types'
 
-export function JournalList({ dreams, onSearch }: JournalListProps) {
-  const [searchQuery, setSearchQuery] = useState('')
+export function JournalList({ dreams, initialSearch, onSearch }: JournalListProps) {
+  const [searchQuery, setSearchQuery] = useState(initialSearch ?? '')
 
   // Filter dreams by search query
   const filteredDreams = useMemo(() => {
@@ -55,16 +55,22 @@ export function JournalList({ dreams, onSearch }: JournalListProps) {
     onSearch?.(value)
   }
 
+  const handleClear = () => {
+    setSearchQuery('')
+    onSearch?.('')
+  }
+
   return (
     <div className="space-y-6">
       {/* Search */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm pb-4">
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm pb-4 text-lg">
         <Input
-          type="search"
+          type="text"
           placeholder="Search dreams, emotions, tags..."
           value={searchQuery}
           onChange={handleSearchChange}
-          className="w-full"
+          clearable
+          onClear={handleClear}
         />
       </div>
 
@@ -106,21 +112,18 @@ export function JournalList({ dreams, onSearch }: JournalListProps) {
               className="space-y-3"
             >
               {/* Date header */}
-              <h2 className="text-sm font-medium text-muted sticky top-16 bg-background py-2">
+              <h3 className="text-sm font-medium text-muted sticky top-16 bg-background pb-3">
                 {date}
-              </h2>
+              </h3>
 
               {/* Dreams for this date */}
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {dateDreams.map((dream) => (
                   <DreamCard
                     key={dream.id}
                     dream={dream}
                     variant="compact"
-                    onClick={() => {
-                      // Navigate to detail page
-                      window.location.href = `/journal/${dream.id}`
-                    }}
+                    href={`/journal/${dream.id}`}
                   />
                 ))}
               </div>

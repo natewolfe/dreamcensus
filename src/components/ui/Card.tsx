@@ -2,7 +2,7 @@ import { type ReactNode, type ElementType } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface CardProps {
-  variant?: 'elevated' | 'outlined' | 'ghost' | 'interactive'
+  variant?: 'elevated' | 'outlined' | 'dashed' | 'ghost' | 'plain' | 'interactive'
   padding?: 'none' | 'sm' | 'md' | 'lg'
   as?: ElementType
   className?: string
@@ -11,18 +11,20 @@ export interface CardProps {
 }
 
 const variantStyles = {
-  elevated: 'bg-card-bg border border-border shadow-md',
-  outlined: 'bg-transparent border border-border',
+  elevated: 'bg-card-bg border border-border',
+  outlined: 'bg-transparent border border-border/50',
+  dashed: 'bg-transparent border border-border border-dashed',
   ghost: 'bg-card-bg/50 border-0',
+  plain: 'bg-transparent border-0',
   interactive:
-    'bg-card-bg border border-border shadow-md hover:shadow-lg transition-shadow cursor-pointer',
+    'bg-card-bg border border-border hover:shadow-lg transition-shadow cursor-pointer',
 }
 
 const paddingStyles = {
   none: 'p-0',
-  sm: 'p-3',
-  md: 'p-4',
-  lg: 'p-6',
+  sm: 'p-2 md:p-3',
+  md: 'p-3 md:p-4',
+  lg: 'p-4 md:p-6',
 }
 
 export function Card({

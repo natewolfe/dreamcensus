@@ -2,23 +2,18 @@ import { db } from './db'
 import type { Event } from '@/generated/prisma'
 import type { EventType } from './constants'
 import { dispatchEventHandlers } from './events/handlers'
+import type { EmitEventInput } from './events/types'
 
-/**
- * Input for emitting an event
- */
-export interface EmitEventInput {
-  type: EventType
-  userId: string
-  payload: Record<string, unknown>
-  aggregateId?: string
-  aggregateType?: string
-}
+// Re-export types for convenience
+export type { EmitEventInput } from './events/types'
 
 /**
  * Emit an event to the event store
  * This is the primary way to record state changes in the system
  */
-export async function emitEvent(input: EmitEventInput): Promise<Event> {
+export async function emitEvent<T extends EventType>(
+  input: EmitEventInput<T>
+): Promise<Event> {
   // Create event in database
   const event = await db.event.create({
     data: {

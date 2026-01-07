@@ -93,6 +93,8 @@ export interface EmojiCardGroupProps {
   size?: 'sm' | 'md'
   /** Additional class name */
   className?: string
+  /** Called after selection for auto-advance */
+  onCommit?: () => void
 }
 
 /**
@@ -104,6 +106,7 @@ export function EmojiCardGroup({
   onChange,
   size = 'md',
   className,
+  onCommit,
 }: EmojiCardGroupProps) {
   return (
     <div className={cn('flex flex-wrap justify-center gap-3', className)}>
@@ -114,7 +117,10 @@ export function EmojiCardGroup({
           label={option.label}
           description={option.description}
           selected={value === option.value}
-          onChange={(selected) => onChange(selected ? option.value : null)}
+          onChange={(selected) => {
+            onChange(selected ? option.value : null)
+            if (selected) onCommit?.() // Only commit when selecting, not deselecting
+          }}
           size={size}
         />
       ))}

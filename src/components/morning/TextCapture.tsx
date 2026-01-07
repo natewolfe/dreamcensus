@@ -79,7 +79,7 @@ export function TextCapture({
     if (saveStatus === 'saving') return 'Saving...'
     if (saveStatus === 'saved') return 'Auto-saved ✓'
     if (canSubmit) return `${text.trim().split(/\s+/).length} words`
-    return 'Fragments are perfect'
+    return 'Write as much or as little as you wish'
   }
 
   return (
@@ -87,7 +87,7 @@ export function TextCapture({
       currentStep={globalStep}
       totalSteps={totalSteps}
       direction="forward"
-      title="Write your dream"
+      title="What do you remember?"
       subtitle={getSubtitle()}
       stepKey="text-capture"
       isValid={canSubmit}
@@ -104,7 +104,7 @@ export function TextCapture({
           ref={textareaRef}
           value={text}
           onChange={handleTextChange}
-          placeholder="Write whatever you remember..."
+          placeholder="I remember..."
           rows={8}
           className={cn(
             'w-full resize-none',

@@ -2,7 +2,6 @@
 
 import { motion } from 'motion/react'
 import { Button, Card } from '@/components/ui'
-import Link from 'next/link'
 
 interface FunnelCardProps {
   category: {
@@ -64,11 +63,9 @@ export function FunnelCard({
 
         {/* Actions */}
         <div className="flex flex-col gap-3">
-          <Link href={`/census/${category.slug}/${form.slug}`}>
-            <Button variant="primary" fullWidth>
-              Explore {category.name} →
-            </Button>
-          </Link>
+          <Button variant="primary" fullWidth href={`/census/${category.slug}/${form.slug}`}>
+            Explore {category.name} →
+          </Button>
           
           <Button variant="ghost" onClick={onDismiss} fullWidth>
             Continue prompts

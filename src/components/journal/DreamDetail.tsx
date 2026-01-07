@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Button, Card, Modal } from '@/components/ui'
 import { TagPill } from './TagPill'
+import { getDreamDisplayTitle } from '@/lib/utils'
 import type { DreamDetailProps } from './types'
 
 export function DreamDetail({ dream, onEdit, onDelete }: DreamDetailProps) {
@@ -60,11 +61,9 @@ export function DreamDetail({ dream, onEdit, onDelete }: DreamDetailProps) {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          {dream.title && (
-            <h1 className="text-2xl font-medium text-foreground mb-2">
-              "{dream.title}"
-            </h1>
-          )}
+          <h1 className="text-2xl font-medium text-foreground mb-2">
+            {dream.title ? `"${dream.title}"` : getDreamDisplayTitle(dream.title, dream.dreamNumber)}
+          </h1>
           <div className="flex items-center gap-2 text-sm text-muted">
             <span>{formatDate(dream.capturedAt)}</span>
             <span>·</span>

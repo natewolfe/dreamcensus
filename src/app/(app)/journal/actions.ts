@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { getSession } from '@/lib/auth'
 import { db } from '@/lib/db'
+import type { ActionResult } from '@/lib/actions'
 
 // =============================================================================
 // SCHEMAS
@@ -24,10 +25,6 @@ const GetTagSuggestionsSchema = z.object({
 // TYPES
 // =============================================================================
 
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string }
-
 interface DreamListItem {
   id: string
   userId: string
@@ -39,6 +36,8 @@ interface DreamListItem {
   keyVersion: number
   capturedAt: Date
   updatedAt: Date
+  /** Chronological position (1-indexed, oldest = 1) for generating fallback titles */
+  dreamNumber?: number
 }
 
 // =============================================================================
@@ -57,6 +56,11 @@ export async function getDreams(
     if (!session) {
       return { success: false, error: 'Not authenticated' }
     }
+
+    // Get total count for calculating dream numbers
+    const totalCount = await db.dreamEntry.count({
+      where: { userId: session.userId },
+    })
 
     const dreams = await db.dreamEntry.findMany({
       where: { userId: session.userId },
@@ -84,10 +88,13 @@ export async function getDreams(
     return {
       success: true,
       data: {
-        dreams: dreamList.map((d: any) => ({
+        // For DESC ordering: dream at index 0 (most recent) = totalCount, index 1 = totalCount-1, etc.
+        // Adjusted for offset: dreamNumber = totalCount - offset - index
+        dreams: dreamList.map((d: any, index: number) => ({
           ...d,
           emotions: d.emotions as string[],
           tags: d.tags as string[],
+          dreamNumber: totalCount - offset - index,
         })),
         hasMore,
       },
@@ -125,6 +132,14 @@ export async function getDream(
       return { success: false, error: 'Dream not found' }
     }
 
+    // Calculate dream number: count dreams captured at or before this one
+    const dreamNumber = await db.dreamEntry.count({
+      where: {
+        userId: session.userId,
+        capturedAt: { lte: dream.capturedAt },
+      },
+    })
+
     return {
       success: true,
       data: {
@@ -141,6 +156,7 @@ export async function getDream(
         wakingLifeLink: dream.wakingLifeLink ?? undefined,
         capturedAt: dream.capturedAt,
         updatedAt: dream.updatedAt,
+        dreamNumber,
       },
     }
   } catch (error) {
@@ -167,6 +183,11 @@ export async function searchDreams(
       // If no query, return recent dreams
       return getDreams(limit, offset)
     }
+
+    // Get total count for calculating dream numbers
+    const totalCount = await db.dreamEntry.count({
+      where: { userId: session.userId },
+    })
 
     // Basic search - in production would use full-text search
     const dreams = await db.dreamEntry.findMany({
@@ -206,10 +227,12 @@ export async function searchDreams(
     return {
       success: true,
       data: {
-        dreams: dreamList.map((d: any) => ({
+        // For DESC ordering, calculate dream number based on position
+        dreams: dreamList.map((d: any, index: number) => ({
           ...d,
           emotions: d.emotions as string[],
           tags: d.tags as string[],
+          dreamNumber: totalCount - offset - index,
         })),
         hasMore,
       },

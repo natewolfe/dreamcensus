@@ -1,14 +1,11 @@
 import { getDB, type DreamDraft } from './store'
 
 /**
- * Save or update a draft
+ * Save a draft to IndexedDB
  */
 export async function saveDraft(draft: DreamDraft): Promise<void> {
   const db = await getDB()
-  await db.put('drafts', {
-    ...draft,
-    lastUpdatedAt: new Date().toISOString(),
-  })
+  await db.put('drafts', draft)
 }
 
 /**
@@ -20,27 +17,16 @@ export async function getDraft(id: string): Promise<DreamDraft | undefined> {
 }
 
 /**
- * Get all drafts for a user
+ * Get today's draft for a user (if any)
+ * Useful for restoring in-progress draft
  */
-export async function getUserDrafts(userId: string): Promise<DreamDraft[]> {
+export async function getTodaysDraft(userId: string): Promise<DreamDraft | undefined> {
   const db = await getDB()
-  return db.getAllFromIndex('drafts', 'by-user', userId)
-}
-
-/**
- * Get most recent draft for a user
- */
-export async function getRecentDraft(userId: string): Promise<DreamDraft | undefined> {
-  const drafts = await getUserDrafts(userId)
+  const today = new Date().toISOString().split('T')[0]
+  if (!today) return undefined
   
-  if (drafts.length === 0) return undefined
-  
-  // Sort by lastUpdatedAt descending
-  drafts.sort((a, b) => {
-    return new Date(b.lastUpdatedAt).getTime() - new Date(a.lastUpdatedAt).getTime()
-  })
-  
-  return drafts[0]
+  const all = await db.getAllFromIndex('drafts', 'by-user', userId)
+  return all.find(d => d.startedAt.startsWith(today))
 }
 
 /**
@@ -52,37 +38,28 @@ export async function deleteDraft(id: string): Promise<void> {
 }
 
 /**
- * Delete all drafts for a user
+ * Get all drafts for a user
  */
-export async function deleteUserDrafts(userId: string): Promise<void> {
-  const drafts = await getUserDrafts(userId)
+export async function getUserDrafts(userId: string): Promise<DreamDraft[]> {
   const db = await getDB()
-  
-  const tx = db.transaction('drafts', 'readwrite')
-  await Promise.all(drafts.map((draft) => tx.store.delete(draft.id)))
-  await tx.done
+  return db.getAllFromIndex('drafts', 'by-user', userId)
 }
 
 /**
- * Clean up old drafts (older than N days)
+ * Clear old drafts (older than 7 days)
  */
-export async function cleanupOldDrafts(daysOld: number = 7): Promise<number> {
+export async function clearOldDrafts(): Promise<void> {
   const db = await getDB()
-  const allDrafts = await db.getAll('drafts')
+  const cutoff = new Date()
+  cutoff.setDate(cutoff.getDate() - 7)
   
-  const cutoffDate = new Date()
-  cutoffDate.setDate(cutoffDate.getDate() - daysOld)
-  
-  const oldDrafts = allDrafts.filter((draft) => {
-    return new Date(draft.lastUpdatedAt) < cutoffDate
+  const all = await db.getAll('drafts')
+  const toDelete = all.filter(d => {
+    const draftDate = new Date(d.lastUpdatedAt)
+    return draftDate < cutoff
   })
   
-  if (oldDrafts.length > 0) {
-    const tx = db.transaction('drafts', 'readwrite')
-    await Promise.all(oldDrafts.map((draft) => tx.store.delete(draft.id)))
-    await tx.done
+  for (const draft of toDelete) {
+    await db.delete('drafts', draft.id)
   }
-  
-  return oldDrafts.length
 }
-

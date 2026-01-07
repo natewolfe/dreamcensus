@@ -144,10 +144,20 @@ export type Symbol = $Result.DefaultSelection<Prisma.$SymbolPayload>
  */
 export type Theme = $Result.DefaultSelection<Prisma.$ThemePayload>
 /**
+ * Model NightCheckIn
+ * 
+ */
+export type NightCheckIn = $Result.DefaultSelection<Prisma.$NightCheckInPayload>
+/**
  * Model SyncQueueItem
  * 
  */
 export type SyncQueueItem = $Result.DefaultSelection<Prisma.$SyncQueueItemPayload>
+/**
+ * Model AlarmSettings
+ * 
+ */
+export type AlarmSettings = $Result.DefaultSelection<Prisma.$AlarmSettingsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -528,6 +538,16 @@ export class PrismaClient<
   get theme(): Prisma.ThemeDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.nightCheckIn`: Exposes CRUD operations for the **NightCheckIn** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NightCheckIns
+    * const nightCheckIns = await prisma.nightCheckIn.findMany()
+    * ```
+    */
+  get nightCheckIn(): Prisma.NightCheckInDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.syncQueueItem`: Exposes CRUD operations for the **SyncQueueItem** model.
     * Example usage:
     * ```ts
@@ -536,6 +556,16 @@ export class PrismaClient<
     * ```
     */
   get syncQueueItem(): Prisma.SyncQueueItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.alarmSettings`: Exposes CRUD operations for the **AlarmSettings** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AlarmSettings
+    * const alarmSettings = await prisma.alarmSettings.findMany()
+    * ```
+    */
+  get alarmSettings(): Prisma.AlarmSettingsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1003,7 +1033,9 @@ export namespace Prisma {
     Emotion: 'Emotion',
     Symbol: 'Symbol',
     Theme: 'Theme',
-    SyncQueueItem: 'SyncQueueItem'
+    NightCheckIn: 'NightCheckIn',
+    SyncQueueItem: 'SyncQueueItem',
+    AlarmSettings: 'AlarmSettings'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1022,7 +1054,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "verificationToken" | "event" | "dreamEntry" | "journalFact" | "tag" | "dreamTag" | "censusInstrument" | "censusSection" | "censusQuestion" | "censusAnswer" | "censusProgress" | "censusCategory" | "censusForm" | "categoryProgress" | "prompt" | "promptResponse" | "consent" | "weatherAggregate" | "personalWeather" | "study" | "studyParticipation" | "emotion" | "symbol" | "theme" | "syncQueueItem"
+      modelProps: "user" | "session" | "verificationToken" | "event" | "dreamEntry" | "journalFact" | "tag" | "dreamTag" | "censusInstrument" | "censusSection" | "censusQuestion" | "censusAnswer" | "censusProgress" | "censusCategory" | "censusForm" | "categoryProgress" | "prompt" | "promptResponse" | "consent" | "weatherAggregate" | "personalWeather" | "study" | "studyParticipation" | "emotion" | "symbol" | "theme" | "nightCheckIn" | "syncQueueItem" | "alarmSettings"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2950,6 +2982,80 @@ export namespace Prisma {
           }
         }
       }
+      NightCheckIn: {
+        payload: Prisma.$NightCheckInPayload<ExtArgs>
+        fields: Prisma.NightCheckInFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NightCheckInFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NightCheckInFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>
+          }
+          findFirst: {
+            args: Prisma.NightCheckInFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NightCheckInFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>
+          }
+          findMany: {
+            args: Prisma.NightCheckInFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>[]
+          }
+          create: {
+            args: Prisma.NightCheckInCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>
+          }
+          createMany: {
+            args: Prisma.NightCheckInCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NightCheckInCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>[]
+          }
+          delete: {
+            args: Prisma.NightCheckInDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>
+          }
+          update: {
+            args: Prisma.NightCheckInUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>
+          }
+          deleteMany: {
+            args: Prisma.NightCheckInDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NightCheckInUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NightCheckInUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>[]
+          }
+          upsert: {
+            args: Prisma.NightCheckInUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NightCheckInPayload>
+          }
+          aggregate: {
+            args: Prisma.NightCheckInAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNightCheckIn>
+          }
+          groupBy: {
+            args: Prisma.NightCheckInGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NightCheckInGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NightCheckInCountArgs<ExtArgs>
+            result: $Utils.Optional<NightCheckInCountAggregateOutputType> | number
+          }
+        }
+      }
       SyncQueueItem: {
         payload: Prisma.$SyncQueueItemPayload<ExtArgs>
         fields: Prisma.SyncQueueItemFieldRefs
@@ -3021,6 +3127,80 @@ export namespace Prisma {
           count: {
             args: Prisma.SyncQueueItemCountArgs<ExtArgs>
             result: $Utils.Optional<SyncQueueItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      AlarmSettings: {
+        payload: Prisma.$AlarmSettingsPayload<ExtArgs>
+        fields: Prisma.AlarmSettingsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AlarmSettingsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AlarmSettingsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>
+          }
+          findFirst: {
+            args: Prisma.AlarmSettingsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AlarmSettingsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>
+          }
+          findMany: {
+            args: Prisma.AlarmSettingsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>[]
+          }
+          create: {
+            args: Prisma.AlarmSettingsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>
+          }
+          createMany: {
+            args: Prisma.AlarmSettingsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AlarmSettingsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>[]
+          }
+          delete: {
+            args: Prisma.AlarmSettingsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>
+          }
+          update: {
+            args: Prisma.AlarmSettingsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>
+          }
+          deleteMany: {
+            args: Prisma.AlarmSettingsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AlarmSettingsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AlarmSettingsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>[]
+          }
+          upsert: {
+            args: Prisma.AlarmSettingsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlarmSettingsPayload>
+          }
+          aggregate: {
+            args: Prisma.AlarmSettingsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAlarmSettings>
+          }
+          groupBy: {
+            args: Prisma.AlarmSettingsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AlarmSettingsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AlarmSettingsCountArgs<ExtArgs>
+            result: $Utils.Optional<AlarmSettingsCountAggregateOutputType> | number
           }
         }
       }
@@ -3146,7 +3326,9 @@ export namespace Prisma {
     emotion?: EmotionOmit
     symbol?: SymbolOmit
     theme?: ThemeOmit
+    nightCheckIn?: NightCheckInOmit
     syncQueueItem?: SyncQueueItemOmit
+    alarmSettings?: AlarmSettingsOmit
   }
 
   /* Types for Logging */
@@ -3227,25 +3409,27 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    sessions: number
-    dreamEntries: number
-    censusAnswers: number
-    promptResponses: number
-    consents: number
-    events: number
-    studyParticipations: number
     categoryProgress: number
+    censusAnswers: number
+    consents: number
+    dreamEntries: number
+    events: number
+    nightCheckIns: number
+    promptResponses: number
+    sessions: number
+    studyParticipations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
-    dreamEntries?: boolean | UserCountOutputTypeCountDreamEntriesArgs
-    censusAnswers?: boolean | UserCountOutputTypeCountCensusAnswersArgs
-    promptResponses?: boolean | UserCountOutputTypeCountPromptResponsesArgs
-    consents?: boolean | UserCountOutputTypeCountConsentsArgs
-    events?: boolean | UserCountOutputTypeCountEventsArgs
-    studyParticipations?: boolean | UserCountOutputTypeCountStudyParticipationsArgs
     categoryProgress?: boolean | UserCountOutputTypeCountCategoryProgressArgs
+    censusAnswers?: boolean | UserCountOutputTypeCountCensusAnswersArgs
+    consents?: boolean | UserCountOutputTypeCountConsentsArgs
+    dreamEntries?: boolean | UserCountOutputTypeCountDreamEntriesArgs
+    events?: boolean | UserCountOutputTypeCountEventsArgs
+    nightCheckIns?: boolean | UserCountOutputTypeCountNightCheckInsArgs
+    promptResponses?: boolean | UserCountOutputTypeCountPromptResponsesArgs
+    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    studyParticipations?: boolean | UserCountOutputTypeCountStudyParticipationsArgs
   }
 
   // Custom InputTypes
@@ -3262,15 +3446,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountDreamEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DreamEntryWhereInput
+  export type UserCountOutputTypeCountCategoryProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CategoryProgressWhereInput
   }
 
   /**
@@ -3283,15 +3460,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountPromptResponsesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PromptResponseWhereInput
+  export type UserCountOutputTypeCountConsentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsentWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountConsentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ConsentWhereInput
+  export type UserCountOutputTypeCountDreamEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DreamEntryWhereInput
   }
 
   /**
@@ -3304,15 +3481,29 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountStudyParticipationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StudyParticipationWhereInput
+  export type UserCountOutputTypeCountNightCheckInsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NightCheckInWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCategoryProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CategoryProgressWhereInput
+  export type UserCountOutputTypeCountPromptResponsesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PromptResponseWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountStudyParticipationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyParticipationWhereInput
   }
 
 
@@ -3321,13 +3512,13 @@ export namespace Prisma {
    */
 
   export type DreamEntryCountOutputType = {
-    facts: number
     tags: number
+    facts: number
   }
 
   export type DreamEntryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    facts?: boolean | DreamEntryCountOutputTypeCountFactsArgs
     tags?: boolean | DreamEntryCountOutputTypeCountTagsArgs
+    facts?: boolean | DreamEntryCountOutputTypeCountFactsArgs
   }
 
   // Custom InputTypes
@@ -3344,15 +3535,15 @@ export namespace Prisma {
   /**
    * DreamEntryCountOutputType without action
    */
-  export type DreamEntryCountOutputTypeCountFactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: JournalFactWhereInput
+  export type DreamEntryCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DreamTagWhereInput
   }
 
   /**
    * DreamEntryCountOutputType without action
    */
-  export type DreamEntryCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DreamTagWhereInput
+  export type DreamEntryCountOutputTypeCountFactsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JournalFactWhereInput
   }
 
 
@@ -3547,13 +3738,13 @@ export namespace Prisma {
    */
 
   export type StudyCountOutputType = {
-    participations: number
     prompts: number
+    participations: number
   }
 
   export type StudyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    participations?: boolean | StudyCountOutputTypeCountParticipationsArgs
     prompts?: boolean | StudyCountOutputTypeCountPromptsArgs
+    participations?: boolean | StudyCountOutputTypeCountParticipationsArgs
   }
 
   // Custom InputTypes
@@ -3570,15 +3761,15 @@ export namespace Prisma {
   /**
    * StudyCountOutputType without action
    */
-  export type StudyCountOutputTypeCountParticipationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StudyParticipationWhereInput
+  export type StudyCountOutputTypeCountPromptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PromptWhereInput
   }
 
   /**
    * StudyCountOutputType without action
    */
-  export type StudyCountOutputTypeCountPromptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PromptWhereInput
+  export type StudyCountOutputTypeCountParticipationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudyParticipationWhereInput
   }
 
 
@@ -3863,14 +4054,16 @@ export namespace Prisma {
     encryptionKeyVersion?: boolean
     keyRecoveryMethod?: boolean
     keySalt?: boolean
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
-    dreamEntries?: boolean | User$dreamEntriesArgs<ExtArgs>
-    censusAnswers?: boolean | User$censusAnswersArgs<ExtArgs>
-    promptResponses?: boolean | User$promptResponsesArgs<ExtArgs>
-    consents?: boolean | User$consentsArgs<ExtArgs>
-    events?: boolean | User$eventsArgs<ExtArgs>
-    studyParticipations?: boolean | User$studyParticipationsArgs<ExtArgs>
+    alarmSettings?: boolean | User$alarmSettingsArgs<ExtArgs>
     categoryProgress?: boolean | User$categoryProgressArgs<ExtArgs>
+    censusAnswers?: boolean | User$censusAnswersArgs<ExtArgs>
+    consents?: boolean | User$consentsArgs<ExtArgs>
+    dreamEntries?: boolean | User$dreamEntriesArgs<ExtArgs>
+    events?: boolean | User$eventsArgs<ExtArgs>
+    nightCheckIns?: boolean | User$nightCheckInsArgs<ExtArgs>
+    promptResponses?: boolean | User$promptResponsesArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    studyParticipations?: boolean | User$studyParticipationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3918,14 +4111,16 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "displayName" | "email" | "emailVerifiedAt" | "timezone" | "locale" | "encryptionKeyVersion" | "keyRecoveryMethod" | "keySalt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
-    dreamEntries?: boolean | User$dreamEntriesArgs<ExtArgs>
-    censusAnswers?: boolean | User$censusAnswersArgs<ExtArgs>
-    promptResponses?: boolean | User$promptResponsesArgs<ExtArgs>
-    consents?: boolean | User$consentsArgs<ExtArgs>
-    events?: boolean | User$eventsArgs<ExtArgs>
-    studyParticipations?: boolean | User$studyParticipationsArgs<ExtArgs>
+    alarmSettings?: boolean | User$alarmSettingsArgs<ExtArgs>
     categoryProgress?: boolean | User$categoryProgressArgs<ExtArgs>
+    censusAnswers?: boolean | User$censusAnswersArgs<ExtArgs>
+    consents?: boolean | User$consentsArgs<ExtArgs>
+    dreamEntries?: boolean | User$dreamEntriesArgs<ExtArgs>
+    events?: boolean | User$eventsArgs<ExtArgs>
+    nightCheckIns?: boolean | User$nightCheckInsArgs<ExtArgs>
+    promptResponses?: boolean | User$promptResponsesArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    studyParticipations?: boolean | User$studyParticipationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3934,14 +4129,16 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      sessions: Prisma.$SessionPayload<ExtArgs>[]
-      dreamEntries: Prisma.$DreamEntryPayload<ExtArgs>[]
-      censusAnswers: Prisma.$CensusAnswerPayload<ExtArgs>[]
-      promptResponses: Prisma.$PromptResponsePayload<ExtArgs>[]
-      consents: Prisma.$ConsentPayload<ExtArgs>[]
-      events: Prisma.$EventPayload<ExtArgs>[]
-      studyParticipations: Prisma.$StudyParticipationPayload<ExtArgs>[]
+      alarmSettings: Prisma.$AlarmSettingsPayload<ExtArgs> | null
       categoryProgress: Prisma.$CategoryProgressPayload<ExtArgs>[]
+      censusAnswers: Prisma.$CensusAnswerPayload<ExtArgs>[]
+      consents: Prisma.$ConsentPayload<ExtArgs>[]
+      dreamEntries: Prisma.$DreamEntryPayload<ExtArgs>[]
+      events: Prisma.$EventPayload<ExtArgs>[]
+      nightCheckIns: Prisma.$NightCheckInPayload<ExtArgs>[]
+      promptResponses: Prisma.$PromptResponsePayload<ExtArgs>[]
+      sessions: Prisma.$SessionPayload<ExtArgs>[]
+      studyParticipations: Prisma.$StudyParticipationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4349,14 +4546,16 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    dreamEntries<T extends User$dreamEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$dreamEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DreamEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    censusAnswers<T extends User$censusAnswersArgs<ExtArgs> = {}>(args?: Subset<T, User$censusAnswersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CensusAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    promptResponses<T extends User$promptResponsesArgs<ExtArgs> = {}>(args?: Subset<T, User$promptResponsesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromptResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    consents<T extends User$consentsArgs<ExtArgs> = {}>(args?: Subset<T, User$consentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    events<T extends User$eventsArgs<ExtArgs> = {}>(args?: Subset<T, User$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    studyParticipations<T extends User$studyParticipationsArgs<ExtArgs> = {}>(args?: Subset<T, User$studyParticipationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyParticipationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    alarmSettings<T extends User$alarmSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$alarmSettingsArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     categoryProgress<T extends User$categoryProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$categoryProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    censusAnswers<T extends User$censusAnswersArgs<ExtArgs> = {}>(args?: Subset<T, User$censusAnswersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CensusAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    consents<T extends User$consentsArgs<ExtArgs> = {}>(args?: Subset<T, User$consentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dreamEntries<T extends User$dreamEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$dreamEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DreamEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    events<T extends User$eventsArgs<ExtArgs> = {}>(args?: Subset<T, User$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    nightCheckIns<T extends User$nightCheckInsArgs<ExtArgs> = {}>(args?: Subset<T, User$nightCheckInsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    promptResponses<T extends User$promptResponsesArgs<ExtArgs> = {}>(args?: Subset<T, User$promptResponsesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromptResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    studyParticipations<T extends User$studyParticipationsArgs<ExtArgs> = {}>(args?: Subset<T, User$studyParticipationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyParticipationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4785,51 +4984,46 @@ export namespace Prisma {
   }
 
   /**
-   * User.sessions
+   * User.alarmSettings
    */
-  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$alarmSettingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Session
+     * Select specific fields to fetch from the AlarmSettings
      */
-    select?: SessionSelect<ExtArgs> | null
+    select?: AlarmSettingsSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Session
+     * Omit specific fields from the AlarmSettings
      */
-    omit?: SessionOmit<ExtArgs> | null
+    omit?: AlarmSettingsOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SessionInclude<ExtArgs> | null
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
-    cursor?: SessionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    where?: AlarmSettingsWhereInput
   }
 
   /**
-   * User.dreamEntries
+   * User.categoryProgress
    */
-  export type User$dreamEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$categoryProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DreamEntry
+     * Select specific fields to fetch from the CategoryProgress
      */
-    select?: DreamEntrySelect<ExtArgs> | null
+    select?: CategoryProgressSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DreamEntry
+     * Omit specific fields from the CategoryProgress
      */
-    omit?: DreamEntryOmit<ExtArgs> | null
+    omit?: CategoryProgressOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: DreamEntryInclude<ExtArgs> | null
-    where?: DreamEntryWhereInput
-    orderBy?: DreamEntryOrderByWithRelationInput | DreamEntryOrderByWithRelationInput[]
-    cursor?: DreamEntryWhereUniqueInput
+    include?: CategoryProgressInclude<ExtArgs> | null
+    where?: CategoryProgressWhereInput
+    orderBy?: CategoryProgressOrderByWithRelationInput | CategoryProgressOrderByWithRelationInput[]
+    cursor?: CategoryProgressWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: DreamEntryScalarFieldEnum | DreamEntryScalarFieldEnum[]
+    distinct?: CategoryProgressScalarFieldEnum | CategoryProgressScalarFieldEnum[]
   }
 
   /**
@@ -4857,30 +5051,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.promptResponses
-   */
-  export type User$promptResponsesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PromptResponse
-     */
-    select?: PromptResponseSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PromptResponse
-     */
-    omit?: PromptResponseOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PromptResponseInclude<ExtArgs> | null
-    where?: PromptResponseWhereInput
-    orderBy?: PromptResponseOrderByWithRelationInput | PromptResponseOrderByWithRelationInput[]
-    cursor?: PromptResponseWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PromptResponseScalarFieldEnum | PromptResponseScalarFieldEnum[]
-  }
-
-  /**
    * User.consents
    */
   export type User$consentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4902,6 +5072,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConsentScalarFieldEnum | ConsentScalarFieldEnum[]
+  }
+
+  /**
+   * User.dreamEntries
+   */
+  export type User$dreamEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamEntry
+     */
+    select?: DreamEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamEntry
+     */
+    omit?: DreamEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamEntryInclude<ExtArgs> | null
+    where?: DreamEntryWhereInput
+    orderBy?: DreamEntryOrderByWithRelationInput | DreamEntryOrderByWithRelationInput[]
+    cursor?: DreamEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DreamEntryScalarFieldEnum | DreamEntryScalarFieldEnum[]
   }
 
   /**
@@ -4929,6 +5123,78 @@ export namespace Prisma {
   }
 
   /**
+   * User.nightCheckIns
+   */
+  export type User$nightCheckInsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    where?: NightCheckInWhereInput
+    orderBy?: NightCheckInOrderByWithRelationInput | NightCheckInOrderByWithRelationInput[]
+    cursor?: NightCheckInWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NightCheckInScalarFieldEnum | NightCheckInScalarFieldEnum[]
+  }
+
+  /**
+   * User.promptResponses
+   */
+  export type User$promptResponsesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PromptResponse
+     */
+    select?: PromptResponseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PromptResponse
+     */
+    omit?: PromptResponseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PromptResponseInclude<ExtArgs> | null
+    where?: PromptResponseWhereInput
+    orderBy?: PromptResponseOrderByWithRelationInput | PromptResponseOrderByWithRelationInput[]
+    cursor?: PromptResponseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PromptResponseScalarFieldEnum | PromptResponseScalarFieldEnum[]
+  }
+
+  /**
+   * User.sessions
+   */
+  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Session
+     */
+    omit?: SessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SessionInclude<ExtArgs> | null
+    where?: SessionWhereInput
+    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    cursor?: SessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+  }
+
+  /**
    * User.studyParticipations
    */
   export type User$studyParticipationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4950,30 +5216,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StudyParticipationScalarFieldEnum | StudyParticipationScalarFieldEnum[]
-  }
-
-  /**
-   * User.categoryProgress
-   */
-  export type User$categoryProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CategoryProgress
-     */
-    select?: CategoryProgressSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CategoryProgress
-     */
-    omit?: CategoryProgressOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CategoryProgressInclude<ExtArgs> | null
-    where?: CategoryProgressWhereInput
-    orderBy?: CategoryProgressOrderByWithRelationInput | CategoryProgressOrderByWithRelationInput[]
-    cursor?: CategoryProgressWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CategoryProgressScalarFieldEnum | CategoryProgressScalarFieldEnum[]
   }
 
   /**
@@ -8500,8 +8742,8 @@ export namespace Prisma {
     capturedAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    facts?: boolean | DreamEntry$factsArgs<ExtArgs>
     tags?: boolean | DreamEntry$tagsArgs<ExtArgs>
+    facts?: boolean | DreamEntry$factsArgs<ExtArgs>
     _count?: boolean | DreamEntryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dreamEntry"]>
 
@@ -8570,8 +8812,8 @@ export namespace Prisma {
   export type DreamEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "ciphertext" | "iv" | "keyVersion" | "audioUrl" | "title" | "emotions" | "vividness" | "lucidity" | "dreamTypes" | "sleepQuality" | "hoursSlept" | "wakeTime" | "wakingLifeLink" | "capturedAt" | "updatedAt", ExtArgs["result"]["dreamEntry"]>
   export type DreamEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    facts?: boolean | DreamEntry$factsArgs<ExtArgs>
     tags?: boolean | DreamEntry$tagsArgs<ExtArgs>
+    facts?: boolean | DreamEntry$factsArgs<ExtArgs>
     _count?: boolean | DreamEntryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DreamEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8585,8 +8827,8 @@ export namespace Prisma {
     name: "DreamEntry"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      facts: Prisma.$JournalFactPayload<ExtArgs>[]
       tags: Prisma.$DreamTagPayload<ExtArgs>[]
+      facts: Prisma.$JournalFactPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9001,8 +9243,8 @@ export namespace Prisma {
   export interface Prisma__DreamEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    facts<T extends DreamEntry$factsArgs<ExtArgs> = {}>(args?: Subset<T, DreamEntry$factsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalFactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends DreamEntry$tagsArgs<ExtArgs> = {}>(args?: Subset<T, DreamEntry$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DreamTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    facts<T extends DreamEntry$factsArgs<ExtArgs> = {}>(args?: Subset<T, DreamEntry$factsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JournalFactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9445,30 +9687,6 @@ export namespace Prisma {
   }
 
   /**
-   * DreamEntry.facts
-   */
-  export type DreamEntry$factsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the JournalFact
-     */
-    select?: JournalFactSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the JournalFact
-     */
-    omit?: JournalFactOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: JournalFactInclude<ExtArgs> | null
-    where?: JournalFactWhereInput
-    orderBy?: JournalFactOrderByWithRelationInput | JournalFactOrderByWithRelationInput[]
-    cursor?: JournalFactWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: JournalFactScalarFieldEnum | JournalFactScalarFieldEnum[]
-  }
-
-  /**
    * DreamEntry.tags
    */
   export type DreamEntry$tagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9490,6 +9708,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DreamTagScalarFieldEnum | DreamTagScalarFieldEnum[]
+  }
+
+  /**
+   * DreamEntry.facts
+   */
+  export type DreamEntry$factsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JournalFact
+     */
+    select?: JournalFactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JournalFact
+     */
+    omit?: JournalFactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JournalFactInclude<ExtArgs> | null
+    where?: JournalFactWhereInput
+    orderBy?: JournalFactOrderByWithRelationInput | JournalFactOrderByWithRelationInput[]
+    cursor?: JournalFactWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JournalFactScalarFieldEnum | JournalFactScalarFieldEnum[]
   }
 
   /**
@@ -14292,8 +14534,8 @@ export namespace Prisma {
     icon?: boolean
     sortOrder?: boolean
     estimatedTime?: boolean
-    instrument?: boolean | CensusInstrumentDefaultArgs<ExtArgs>
     questions?: boolean | CensusSection$questionsArgs<ExtArgs>
+    instrument?: boolean | CensusInstrumentDefaultArgs<ExtArgs>
     _count?: boolean | CensusSectionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["censusSection"]>
 
@@ -14334,8 +14576,8 @@ export namespace Prisma {
 
   export type CensusSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "instrumentId" | "slug" | "name" | "description" | "icon" | "sortOrder" | "estimatedTime", ExtArgs["result"]["censusSection"]>
   export type CensusSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    instrument?: boolean | CensusInstrumentDefaultArgs<ExtArgs>
     questions?: boolean | CensusSection$questionsArgs<ExtArgs>
+    instrument?: boolean | CensusInstrumentDefaultArgs<ExtArgs>
     _count?: boolean | CensusSectionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CensusSectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14348,8 +14590,8 @@ export namespace Prisma {
   export type $CensusSectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "CensusSection"
     objects: {
-      instrument: Prisma.$CensusInstrumentPayload<ExtArgs>
       questions: Prisma.$CensusQuestionPayload<ExtArgs>[]
+      instrument: Prisma.$CensusInstrumentPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14754,8 +14996,8 @@ export namespace Prisma {
    */
   export interface Prisma__CensusSectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    instrument<T extends CensusInstrumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CensusInstrumentDefaultArgs<ExtArgs>>): Prisma__CensusInstrumentClient<$Result.GetResult<Prisma.$CensusInstrumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     questions<T extends CensusSection$questionsArgs<ExtArgs> = {}>(args?: Subset<T, CensusSection$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CensusQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    instrument<T extends CensusInstrumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CensusInstrumentDefaultArgs<ExtArgs>>): Prisma__CensusInstrumentClient<$Result.GetResult<Prisma.$CensusInstrumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15289,9 +15531,9 @@ export namespace Prisma {
     validation: number
     sortOrder: number
     irtParams: number
-    showWhen: number
     groupId: number
     groupLabel: number
+    showWhen: number
     _all: number
   }
 
@@ -15342,9 +15584,9 @@ export namespace Prisma {
     validation?: true
     sortOrder?: true
     irtParams?: true
-    showWhen?: true
     groupId?: true
     groupLabel?: true
+    showWhen?: true
     _all?: true
   }
 
@@ -15446,9 +15688,9 @@ export namespace Prisma {
     validation: JsonValue | null
     sortOrder: number
     irtParams: JsonValue | null
-    showWhen: JsonValue | null
     groupId: string | null
     groupLabel: string | null
+    showWhen: JsonValue | null
     _count: CensusQuestionCountAggregateOutputType | null
     _avg: CensusQuestionAvgAggregateOutputType | null
     _sum: CensusQuestionSumAggregateOutputType | null
@@ -15482,11 +15724,11 @@ export namespace Prisma {
     validation?: boolean
     sortOrder?: boolean
     irtParams?: boolean
-    showWhen?: boolean
     groupId?: boolean
     groupLabel?: boolean
-    section?: boolean | CensusSectionDefaultArgs<ExtArgs>
+    showWhen?: boolean
     answers?: boolean | CensusQuestion$answersArgs<ExtArgs>
+    section?: boolean | CensusSectionDefaultArgs<ExtArgs>
     _count?: boolean | CensusQuestionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["censusQuestion"]>
 
@@ -15502,9 +15744,9 @@ export namespace Prisma {
     validation?: boolean
     sortOrder?: boolean
     irtParams?: boolean
-    showWhen?: boolean
     groupId?: boolean
     groupLabel?: boolean
+    showWhen?: boolean
     section?: boolean | CensusSectionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["censusQuestion"]>
 
@@ -15520,9 +15762,9 @@ export namespace Prisma {
     validation?: boolean
     sortOrder?: boolean
     irtParams?: boolean
-    showWhen?: boolean
     groupId?: boolean
     groupLabel?: boolean
+    showWhen?: boolean
     section?: boolean | CensusSectionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["censusQuestion"]>
 
@@ -15538,15 +15780,15 @@ export namespace Prisma {
     validation?: boolean
     sortOrder?: boolean
     irtParams?: boolean
-    showWhen?: boolean
     groupId?: boolean
     groupLabel?: boolean
+    showWhen?: boolean
   }
 
-  export type CensusQuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sectionId" | "slug" | "text" | "helpText" | "type" | "props" | "isRequired" | "validation" | "sortOrder" | "irtParams" | "showWhen" | "groupId" | "groupLabel", ExtArgs["result"]["censusQuestion"]>
+  export type CensusQuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sectionId" | "slug" | "text" | "helpText" | "type" | "props" | "isRequired" | "validation" | "sortOrder" | "irtParams" | "groupId" | "groupLabel" | "showWhen", ExtArgs["result"]["censusQuestion"]>
   export type CensusQuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    section?: boolean | CensusSectionDefaultArgs<ExtArgs>
     answers?: boolean | CensusQuestion$answersArgs<ExtArgs>
+    section?: boolean | CensusSectionDefaultArgs<ExtArgs>
     _count?: boolean | CensusQuestionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CensusQuestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15559,8 +15801,8 @@ export namespace Prisma {
   export type $CensusQuestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "CensusQuestion"
     objects: {
-      section: Prisma.$CensusSectionPayload<ExtArgs>
       answers: Prisma.$CensusAnswerPayload<ExtArgs>[]
+      section: Prisma.$CensusSectionPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15574,9 +15816,9 @@ export namespace Prisma {
       validation: Prisma.JsonValue | null
       sortOrder: number
       irtParams: Prisma.JsonValue | null
-      showWhen: Prisma.JsonValue | null
       groupId: string | null
       groupLabel: string | null
+      showWhen: Prisma.JsonValue | null
     }, ExtArgs["result"]["censusQuestion"]>
     composites: {}
   }
@@ -15971,8 +16213,8 @@ export namespace Prisma {
    */
   export interface Prisma__CensusQuestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    section<T extends CensusSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CensusSectionDefaultArgs<ExtArgs>>): Prisma__CensusSectionClient<$Result.GetResult<Prisma.$CensusSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     answers<T extends CensusQuestion$answersArgs<ExtArgs> = {}>(args?: Subset<T, CensusQuestion$answersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CensusAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    section<T extends CensusSectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CensusSectionDefaultArgs<ExtArgs>>): Prisma__CensusSectionClient<$Result.GetResult<Prisma.$CensusSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16013,9 +16255,9 @@ export namespace Prisma {
     readonly validation: FieldRef<"CensusQuestion", 'Json'>
     readonly sortOrder: FieldRef<"CensusQuestion", 'Int'>
     readonly irtParams: FieldRef<"CensusQuestion", 'Json'>
-    readonly showWhen: FieldRef<"CensusQuestion", 'Json'>
     readonly groupId: FieldRef<"CensusQuestion", 'String'>
     readonly groupLabel: FieldRef<"CensusQuestion", 'String'>
+    readonly showWhen: FieldRef<"CensusQuestion", 'Json'>
   }
     
 
@@ -16664,8 +16906,8 @@ export namespace Prisma {
     instrumentVersion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     question?: boolean | CensusQuestionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["censusAnswer"]>
 
   export type CensusAnswerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16676,8 +16918,8 @@ export namespace Prisma {
     instrumentVersion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     question?: boolean | CensusQuestionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["censusAnswer"]>
 
   export type CensusAnswerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16688,8 +16930,8 @@ export namespace Prisma {
     instrumentVersion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     question?: boolean | CensusQuestionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["censusAnswer"]>
 
   export type CensusAnswerSelectScalar = {
@@ -16704,23 +16946,23 @@ export namespace Prisma {
 
   export type CensusAnswerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "questionId" | "value" | "instrumentVersion" | "createdAt" | "updatedAt", ExtArgs["result"]["censusAnswer"]>
   export type CensusAnswerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     question?: boolean | CensusQuestionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CensusAnswerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     question?: boolean | CensusQuestionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CensusAnswerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     question?: boolean | CensusQuestionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $CensusAnswerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "CensusAnswer"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       question: Prisma.$CensusQuestionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17124,8 +17366,8 @@ export namespace Prisma {
    */
   export interface Prisma__CensusAnswerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     question<T extends CensusQuestionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CensusQuestionDefaultArgs<ExtArgs>>): Prisma__CensusQuestionClient<$Result.GetResult<Prisma.$CensusQuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23411,8 +23653,8 @@ export namespace Prisma {
     shownAt?: boolean
     respondedAt?: boolean
     skipped?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     prompt?: boolean | PromptDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["promptResponse"]>
 
   export type PromptResponseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -23423,8 +23665,8 @@ export namespace Prisma {
     shownAt?: boolean
     respondedAt?: boolean
     skipped?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     prompt?: boolean | PromptDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["promptResponse"]>
 
   export type PromptResponseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -23435,8 +23677,8 @@ export namespace Prisma {
     shownAt?: boolean
     respondedAt?: boolean
     skipped?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     prompt?: boolean | PromptDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["promptResponse"]>
 
   export type PromptResponseSelectScalar = {
@@ -23451,23 +23693,23 @@ export namespace Prisma {
 
   export type PromptResponseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "promptId" | "value" | "shownAt" | "respondedAt" | "skipped", ExtArgs["result"]["promptResponse"]>
   export type PromptResponseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     prompt?: boolean | PromptDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type PromptResponseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     prompt?: boolean | PromptDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type PromptResponseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     prompt?: boolean | PromptDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $PromptResponsePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PromptResponse"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       prompt: Prisma.$PromptPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -23871,8 +24113,8 @@ export namespace Prisma {
    */
   export interface Prisma__PromptResponseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     prompt<T extends PromptDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PromptDefaultArgs<ExtArgs>>): Prisma__PromptClient<$Result.GetResult<Prisma.$PromptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27877,8 +28119,8 @@ export namespace Prisma {
     maxParticipants?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    participations?: boolean | Study$participationsArgs<ExtArgs>
     prompts?: boolean | Study$promptsArgs<ExtArgs>
+    participations?: boolean | Study$participationsArgs<ExtArgs>
     _count?: boolean | StudyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["study"]>
 
@@ -27938,8 +28180,8 @@ export namespace Prisma {
 
   export type StudyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "title" | "description" | "institution" | "dataScope" | "duration" | "consentText" | "consentVersion" | "status" | "startsAt" | "endsAt" | "maxParticipants" | "createdAt" | "updatedAt", ExtArgs["result"]["study"]>
   export type StudyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    participations?: boolean | Study$participationsArgs<ExtArgs>
     prompts?: boolean | Study$promptsArgs<ExtArgs>
+    participations?: boolean | Study$participationsArgs<ExtArgs>
     _count?: boolean | StudyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -27948,8 +28190,8 @@ export namespace Prisma {
   export type $StudyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Study"
     objects: {
-      participations: Prisma.$StudyParticipationPayload<ExtArgs>[]
       prompts: Prisma.$PromptPayload<ExtArgs>[]
+      participations: Prisma.$StudyParticipationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -28361,8 +28603,8 @@ export namespace Prisma {
    */
   export interface Prisma__StudyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    participations<T extends Study$participationsArgs<ExtArgs> = {}>(args?: Subset<T, Study$participationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyParticipationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     prompts<T extends Study$promptsArgs<ExtArgs> = {}>(args?: Subset<T, Study$promptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participations<T extends Study$participationsArgs<ExtArgs> = {}>(args?: Subset<T, Study$participationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudyParticipationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -28795,30 +29037,6 @@ export namespace Prisma {
   }
 
   /**
-   * Study.participations
-   */
-  export type Study$participationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the StudyParticipation
-     */
-    select?: StudyParticipationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the StudyParticipation
-     */
-    omit?: StudyParticipationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StudyParticipationInclude<ExtArgs> | null
-    where?: StudyParticipationWhereInput
-    orderBy?: StudyParticipationOrderByWithRelationInput | StudyParticipationOrderByWithRelationInput[]
-    cursor?: StudyParticipationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: StudyParticipationScalarFieldEnum | StudyParticipationScalarFieldEnum[]
-  }
-
-  /**
    * Study.prompts
    */
   export type Study$promptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -28840,6 +29058,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PromptScalarFieldEnum | PromptScalarFieldEnum[]
+  }
+
+  /**
+   * Study.participations
+   */
+  export type Study$participationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudyParticipation
+     */
+    select?: StudyParticipationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudyParticipation
+     */
+    omit?: StudyParticipationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudyParticipationInclude<ExtArgs> | null
+    where?: StudyParticipationWhereInput
+    orderBy?: StudyParticipationOrderByWithRelationInput | StudyParticipationOrderByWithRelationInput[]
+    cursor?: StudyParticipationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudyParticipationScalarFieldEnum | StudyParticipationScalarFieldEnum[]
   }
 
   /**
@@ -29091,8 +29333,8 @@ export namespace Prisma {
     withdrawnAt?: boolean
     withdrawalReason?: boolean
     completedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     study?: boolean | StudyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studyParticipation"]>
 
   export type StudyParticipationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -29105,8 +29347,8 @@ export namespace Prisma {
     withdrawnAt?: boolean
     withdrawalReason?: boolean
     completedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     study?: boolean | StudyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studyParticipation"]>
 
   export type StudyParticipationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -29119,8 +29361,8 @@ export namespace Prisma {
     withdrawnAt?: boolean
     withdrawalReason?: boolean
     completedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     study?: boolean | StudyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studyParticipation"]>
 
   export type StudyParticipationSelectScalar = {
@@ -29137,23 +29379,23 @@ export namespace Prisma {
 
   export type StudyParticipationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "studyId" | "consentedAt" | "consentVersion" | "status" | "withdrawnAt" | "withdrawalReason" | "completedAt", ExtArgs["result"]["studyParticipation"]>
   export type StudyParticipationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     study?: boolean | StudyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type StudyParticipationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     study?: boolean | StudyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type StudyParticipationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     study?: boolean | StudyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $StudyParticipationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StudyParticipation"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       study: Prisma.$StudyPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -29559,8 +29801,8 @@ export namespace Prisma {
    */
   export interface Prisma__StudyParticipationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     study<T extends StudyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudyDefaultArgs<ExtArgs>>): Prisma__StudyClient<$Result.GetResult<Prisma.$StudyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -33305,6 +33547,1116 @@ export namespace Prisma {
 
 
   /**
+   * Model NightCheckIn
+   */
+
+  export type AggregateNightCheckIn = {
+    _count: NightCheckInCountAggregateOutputType | null
+    _min: NightCheckInMinAggregateOutputType | null
+    _max: NightCheckInMaxAggregateOutputType | null
+  }
+
+  export type NightCheckInMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    date: string | null
+    mood: string | null
+    dayNotes: string | null
+    intention: string | null
+    plannedWakeTime: string | null
+    reminderEnabled: boolean | null
+    createdAt: Date | null
+  }
+
+  export type NightCheckInMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    date: string | null
+    mood: string | null
+    dayNotes: string | null
+    intention: string | null
+    plannedWakeTime: string | null
+    reminderEnabled: boolean | null
+    createdAt: Date | null
+  }
+
+  export type NightCheckInCountAggregateOutputType = {
+    id: number
+    userId: number
+    date: number
+    mood: number
+    dayNotes: number
+    intention: number
+    plannedWakeTime: number
+    reminderEnabled: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NightCheckInMinAggregateInputType = {
+    id?: true
+    userId?: true
+    date?: true
+    mood?: true
+    dayNotes?: true
+    intention?: true
+    plannedWakeTime?: true
+    reminderEnabled?: true
+    createdAt?: true
+  }
+
+  export type NightCheckInMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    date?: true
+    mood?: true
+    dayNotes?: true
+    intention?: true
+    plannedWakeTime?: true
+    reminderEnabled?: true
+    createdAt?: true
+  }
+
+  export type NightCheckInCountAggregateInputType = {
+    id?: true
+    userId?: true
+    date?: true
+    mood?: true
+    dayNotes?: true
+    intention?: true
+    plannedWakeTime?: true
+    reminderEnabled?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NightCheckInAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NightCheckIn to aggregate.
+     */
+    where?: NightCheckInWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NightCheckIns to fetch.
+     */
+    orderBy?: NightCheckInOrderByWithRelationInput | NightCheckInOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NightCheckInWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NightCheckIns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NightCheckIns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NightCheckIns
+    **/
+    _count?: true | NightCheckInCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NightCheckInMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NightCheckInMaxAggregateInputType
+  }
+
+  export type GetNightCheckInAggregateType<T extends NightCheckInAggregateArgs> = {
+        [P in keyof T & keyof AggregateNightCheckIn]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNightCheckIn[P]>
+      : GetScalarType<T[P], AggregateNightCheckIn[P]>
+  }
+
+
+
+
+  export type NightCheckInGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NightCheckInWhereInput
+    orderBy?: NightCheckInOrderByWithAggregationInput | NightCheckInOrderByWithAggregationInput[]
+    by: NightCheckInScalarFieldEnum[] | NightCheckInScalarFieldEnum
+    having?: NightCheckInScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NightCheckInCountAggregateInputType | true
+    _min?: NightCheckInMinAggregateInputType
+    _max?: NightCheckInMaxAggregateInputType
+  }
+
+  export type NightCheckInGroupByOutputType = {
+    id: string
+    userId: string
+    date: string
+    mood: string | null
+    dayNotes: string | null
+    intention: string | null
+    plannedWakeTime: string | null
+    reminderEnabled: boolean
+    createdAt: Date
+    _count: NightCheckInCountAggregateOutputType | null
+    _min: NightCheckInMinAggregateOutputType | null
+    _max: NightCheckInMaxAggregateOutputType | null
+  }
+
+  type GetNightCheckInGroupByPayload<T extends NightCheckInGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NightCheckInGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NightCheckInGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NightCheckInGroupByOutputType[P]>
+            : GetScalarType<T[P], NightCheckInGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NightCheckInSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    mood?: boolean
+    dayNotes?: boolean
+    intention?: boolean
+    plannedWakeTime?: boolean
+    reminderEnabled?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nightCheckIn"]>
+
+  export type NightCheckInSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    mood?: boolean
+    dayNotes?: boolean
+    intention?: boolean
+    plannedWakeTime?: boolean
+    reminderEnabled?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nightCheckIn"]>
+
+  export type NightCheckInSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    mood?: boolean
+    dayNotes?: boolean
+    intention?: boolean
+    plannedWakeTime?: boolean
+    reminderEnabled?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nightCheckIn"]>
+
+  export type NightCheckInSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    date?: boolean
+    mood?: boolean
+    dayNotes?: boolean
+    intention?: boolean
+    plannedWakeTime?: boolean
+    reminderEnabled?: boolean
+    createdAt?: boolean
+  }
+
+  export type NightCheckInOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "date" | "mood" | "dayNotes" | "intention" | "plannedWakeTime" | "reminderEnabled" | "createdAt", ExtArgs["result"]["nightCheckIn"]>
+  export type NightCheckInInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NightCheckInIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type NightCheckInIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $NightCheckInPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NightCheckIn"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      date: string
+      mood: string | null
+      dayNotes: string | null
+      intention: string | null
+      plannedWakeTime: string | null
+      reminderEnabled: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["nightCheckIn"]>
+    composites: {}
+  }
+
+  type NightCheckInGetPayload<S extends boolean | null | undefined | NightCheckInDefaultArgs> = $Result.GetResult<Prisma.$NightCheckInPayload, S>
+
+  type NightCheckInCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NightCheckInFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NightCheckInCountAggregateInputType | true
+    }
+
+  export interface NightCheckInDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NightCheckIn'], meta: { name: 'NightCheckIn' } }
+    /**
+     * Find zero or one NightCheckIn that matches the filter.
+     * @param {NightCheckInFindUniqueArgs} args - Arguments to find a NightCheckIn
+     * @example
+     * // Get one NightCheckIn
+     * const nightCheckIn = await prisma.nightCheckIn.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NightCheckInFindUniqueArgs>(args: SelectSubset<T, NightCheckInFindUniqueArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NightCheckIn that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NightCheckInFindUniqueOrThrowArgs} args - Arguments to find a NightCheckIn
+     * @example
+     * // Get one NightCheckIn
+     * const nightCheckIn = await prisma.nightCheckIn.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NightCheckInFindUniqueOrThrowArgs>(args: SelectSubset<T, NightCheckInFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NightCheckIn that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NightCheckInFindFirstArgs} args - Arguments to find a NightCheckIn
+     * @example
+     * // Get one NightCheckIn
+     * const nightCheckIn = await prisma.nightCheckIn.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NightCheckInFindFirstArgs>(args?: SelectSubset<T, NightCheckInFindFirstArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NightCheckIn that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NightCheckInFindFirstOrThrowArgs} args - Arguments to find a NightCheckIn
+     * @example
+     * // Get one NightCheckIn
+     * const nightCheckIn = await prisma.nightCheckIn.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NightCheckInFindFirstOrThrowArgs>(args?: SelectSubset<T, NightCheckInFindFirstOrThrowArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NightCheckIns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NightCheckInFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NightCheckIns
+     * const nightCheckIns = await prisma.nightCheckIn.findMany()
+     * 
+     * // Get first 10 NightCheckIns
+     * const nightCheckIns = await prisma.nightCheckIn.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const nightCheckInWithIdOnly = await prisma.nightCheckIn.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NightCheckInFindManyArgs>(args?: SelectSubset<T, NightCheckInFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NightCheckIn.
+     * @param {NightCheckInCreateArgs} args - Arguments to create a NightCheckIn.
+     * @example
+     * // Create one NightCheckIn
+     * const NightCheckIn = await prisma.nightCheckIn.create({
+     *   data: {
+     *     // ... data to create a NightCheckIn
+     *   }
+     * })
+     * 
+     */
+    create<T extends NightCheckInCreateArgs>(args: SelectSubset<T, NightCheckInCreateArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NightCheckIns.
+     * @param {NightCheckInCreateManyArgs} args - Arguments to create many NightCheckIns.
+     * @example
+     * // Create many NightCheckIns
+     * const nightCheckIn = await prisma.nightCheckIn.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NightCheckInCreateManyArgs>(args?: SelectSubset<T, NightCheckInCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NightCheckIns and returns the data saved in the database.
+     * @param {NightCheckInCreateManyAndReturnArgs} args - Arguments to create many NightCheckIns.
+     * @example
+     * // Create many NightCheckIns
+     * const nightCheckIn = await prisma.nightCheckIn.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NightCheckIns and only return the `id`
+     * const nightCheckInWithIdOnly = await prisma.nightCheckIn.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NightCheckInCreateManyAndReturnArgs>(args?: SelectSubset<T, NightCheckInCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NightCheckIn.
+     * @param {NightCheckInDeleteArgs} args - Arguments to delete one NightCheckIn.
+     * @example
+     * // Delete one NightCheckIn
+     * const NightCheckIn = await prisma.nightCheckIn.delete({
+     *   where: {
+     *     // ... filter to delete one NightCheckIn
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NightCheckInDeleteArgs>(args: SelectSubset<T, NightCheckInDeleteArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NightCheckIn.
+     * @param {NightCheckInUpdateArgs} args - Arguments to update one NightCheckIn.
+     * @example
+     * // Update one NightCheckIn
+     * const nightCheckIn = await prisma.nightCheckIn.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NightCheckInUpdateArgs>(args: SelectSubset<T, NightCheckInUpdateArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NightCheckIns.
+     * @param {NightCheckInDeleteManyArgs} args - Arguments to filter NightCheckIns to delete.
+     * @example
+     * // Delete a few NightCheckIns
+     * const { count } = await prisma.nightCheckIn.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NightCheckInDeleteManyArgs>(args?: SelectSubset<T, NightCheckInDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NightCheckIns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NightCheckInUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NightCheckIns
+     * const nightCheckIn = await prisma.nightCheckIn.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NightCheckInUpdateManyArgs>(args: SelectSubset<T, NightCheckInUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NightCheckIns and returns the data updated in the database.
+     * @param {NightCheckInUpdateManyAndReturnArgs} args - Arguments to update many NightCheckIns.
+     * @example
+     * // Update many NightCheckIns
+     * const nightCheckIn = await prisma.nightCheckIn.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NightCheckIns and only return the `id`
+     * const nightCheckInWithIdOnly = await prisma.nightCheckIn.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NightCheckInUpdateManyAndReturnArgs>(args: SelectSubset<T, NightCheckInUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NightCheckIn.
+     * @param {NightCheckInUpsertArgs} args - Arguments to update or create a NightCheckIn.
+     * @example
+     * // Update or create a NightCheckIn
+     * const nightCheckIn = await prisma.nightCheckIn.upsert({
+     *   create: {
+     *     // ... data to create a NightCheckIn
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NightCheckIn we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NightCheckInUpsertArgs>(args: SelectSubset<T, NightCheckInUpsertArgs<ExtArgs>>): Prisma__NightCheckInClient<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NightCheckIns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NightCheckInCountArgs} args - Arguments to filter NightCheckIns to count.
+     * @example
+     * // Count the number of NightCheckIns
+     * const count = await prisma.nightCheckIn.count({
+     *   where: {
+     *     // ... the filter for the NightCheckIns we want to count
+     *   }
+     * })
+    **/
+    count<T extends NightCheckInCountArgs>(
+      args?: Subset<T, NightCheckInCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NightCheckInCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NightCheckIn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NightCheckInAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NightCheckInAggregateArgs>(args: Subset<T, NightCheckInAggregateArgs>): Prisma.PrismaPromise<GetNightCheckInAggregateType<T>>
+
+    /**
+     * Group by NightCheckIn.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NightCheckInGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NightCheckInGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NightCheckInGroupByArgs['orderBy'] }
+        : { orderBy?: NightCheckInGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NightCheckInGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNightCheckInGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NightCheckIn model
+   */
+  readonly fields: NightCheckInFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NightCheckIn.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NightCheckInClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NightCheckIn model
+   */
+  interface NightCheckInFieldRefs {
+    readonly id: FieldRef<"NightCheckIn", 'String'>
+    readonly userId: FieldRef<"NightCheckIn", 'String'>
+    readonly date: FieldRef<"NightCheckIn", 'String'>
+    readonly mood: FieldRef<"NightCheckIn", 'String'>
+    readonly dayNotes: FieldRef<"NightCheckIn", 'String'>
+    readonly intention: FieldRef<"NightCheckIn", 'String'>
+    readonly plannedWakeTime: FieldRef<"NightCheckIn", 'String'>
+    readonly reminderEnabled: FieldRef<"NightCheckIn", 'Boolean'>
+    readonly createdAt: FieldRef<"NightCheckIn", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NightCheckIn findUnique
+   */
+  export type NightCheckInFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * Filter, which NightCheckIn to fetch.
+     */
+    where: NightCheckInWhereUniqueInput
+  }
+
+  /**
+   * NightCheckIn findUniqueOrThrow
+   */
+  export type NightCheckInFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * Filter, which NightCheckIn to fetch.
+     */
+    where: NightCheckInWhereUniqueInput
+  }
+
+  /**
+   * NightCheckIn findFirst
+   */
+  export type NightCheckInFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * Filter, which NightCheckIn to fetch.
+     */
+    where?: NightCheckInWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NightCheckIns to fetch.
+     */
+    orderBy?: NightCheckInOrderByWithRelationInput | NightCheckInOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NightCheckIns.
+     */
+    cursor?: NightCheckInWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NightCheckIns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NightCheckIns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NightCheckIns.
+     */
+    distinct?: NightCheckInScalarFieldEnum | NightCheckInScalarFieldEnum[]
+  }
+
+  /**
+   * NightCheckIn findFirstOrThrow
+   */
+  export type NightCheckInFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * Filter, which NightCheckIn to fetch.
+     */
+    where?: NightCheckInWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NightCheckIns to fetch.
+     */
+    orderBy?: NightCheckInOrderByWithRelationInput | NightCheckInOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NightCheckIns.
+     */
+    cursor?: NightCheckInWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NightCheckIns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NightCheckIns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NightCheckIns.
+     */
+    distinct?: NightCheckInScalarFieldEnum | NightCheckInScalarFieldEnum[]
+  }
+
+  /**
+   * NightCheckIn findMany
+   */
+  export type NightCheckInFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * Filter, which NightCheckIns to fetch.
+     */
+    where?: NightCheckInWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NightCheckIns to fetch.
+     */
+    orderBy?: NightCheckInOrderByWithRelationInput | NightCheckInOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NightCheckIns.
+     */
+    cursor?: NightCheckInWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NightCheckIns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NightCheckIns.
+     */
+    skip?: number
+    distinct?: NightCheckInScalarFieldEnum | NightCheckInScalarFieldEnum[]
+  }
+
+  /**
+   * NightCheckIn create
+   */
+  export type NightCheckInCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NightCheckIn.
+     */
+    data: XOR<NightCheckInCreateInput, NightCheckInUncheckedCreateInput>
+  }
+
+  /**
+   * NightCheckIn createMany
+   */
+  export type NightCheckInCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NightCheckIns.
+     */
+    data: NightCheckInCreateManyInput | NightCheckInCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NightCheckIn createManyAndReturn
+   */
+  export type NightCheckInCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * The data used to create many NightCheckIns.
+     */
+    data: NightCheckInCreateManyInput | NightCheckInCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NightCheckIn update
+   */
+  export type NightCheckInUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NightCheckIn.
+     */
+    data: XOR<NightCheckInUpdateInput, NightCheckInUncheckedUpdateInput>
+    /**
+     * Choose, which NightCheckIn to update.
+     */
+    where: NightCheckInWhereUniqueInput
+  }
+
+  /**
+   * NightCheckIn updateMany
+   */
+  export type NightCheckInUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NightCheckIns.
+     */
+    data: XOR<NightCheckInUpdateManyMutationInput, NightCheckInUncheckedUpdateManyInput>
+    /**
+     * Filter which NightCheckIns to update
+     */
+    where?: NightCheckInWhereInput
+    /**
+     * Limit how many NightCheckIns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NightCheckIn updateManyAndReturn
+   */
+  export type NightCheckInUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * The data used to update NightCheckIns.
+     */
+    data: XOR<NightCheckInUpdateManyMutationInput, NightCheckInUncheckedUpdateManyInput>
+    /**
+     * Filter which NightCheckIns to update
+     */
+    where?: NightCheckInWhereInput
+    /**
+     * Limit how many NightCheckIns to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NightCheckIn upsert
+   */
+  export type NightCheckInUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NightCheckIn to update in case it exists.
+     */
+    where: NightCheckInWhereUniqueInput
+    /**
+     * In case the NightCheckIn found by the `where` argument doesn't exist, create a new NightCheckIn with this data.
+     */
+    create: XOR<NightCheckInCreateInput, NightCheckInUncheckedCreateInput>
+    /**
+     * In case the NightCheckIn was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NightCheckInUpdateInput, NightCheckInUncheckedUpdateInput>
+  }
+
+  /**
+   * NightCheckIn delete
+   */
+  export type NightCheckInDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+    /**
+     * Filter which NightCheckIn to delete.
+     */
+    where: NightCheckInWhereUniqueInput
+  }
+
+  /**
+   * NightCheckIn deleteMany
+   */
+  export type NightCheckInDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NightCheckIns to delete
+     */
+    where?: NightCheckInWhereInput
+    /**
+     * Limit how many NightCheckIns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NightCheckIn without action
+   */
+  export type NightCheckInDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NightCheckIn
+     */
+    select?: NightCheckInSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NightCheckIn
+     */
+    omit?: NightCheckInOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NightCheckInInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model SyncQueueItem
    */
 
@@ -34395,6 +35747,1180 @@ export namespace Prisma {
 
 
   /**
+   * Model AlarmSettings
+   */
+
+  export type AggregateAlarmSettings = {
+    _count: AlarmSettingsCountAggregateOutputType | null
+    _avg: AlarmSettingsAvgAggregateOutputType | null
+    _sum: AlarmSettingsSumAggregateOutputType | null
+    _min: AlarmSettingsMinAggregateOutputType | null
+    _max: AlarmSettingsMaxAggregateOutputType | null
+  }
+
+  export type AlarmSettingsAvgAggregateOutputType = {
+    volume: number | null
+    snoozeMinutes: number | null
+    maxSnoozes: number | null
+  }
+
+  export type AlarmSettingsSumAggregateOutputType = {
+    volume: number | null
+    snoozeMinutes: number | null
+    maxSnoozes: number | null
+  }
+
+  export type AlarmSettingsMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    isArmed: boolean | null
+    soundId: string | null
+    volume: number | null
+    snoozeMinutes: number | null
+    maxSnoozes: number | null
+    lastSetTime: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AlarmSettingsMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    isArmed: boolean | null
+    soundId: string | null
+    volume: number | null
+    snoozeMinutes: number | null
+    maxSnoozes: number | null
+    lastSetTime: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AlarmSettingsCountAggregateOutputType = {
+    id: number
+    userId: number
+    isArmed: number
+    schedule: number
+    soundId: number
+    volume: number
+    snoozeMinutes: number
+    maxSnoozes: number
+    lastSetTime: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AlarmSettingsAvgAggregateInputType = {
+    volume?: true
+    snoozeMinutes?: true
+    maxSnoozes?: true
+  }
+
+  export type AlarmSettingsSumAggregateInputType = {
+    volume?: true
+    snoozeMinutes?: true
+    maxSnoozes?: true
+  }
+
+  export type AlarmSettingsMinAggregateInputType = {
+    id?: true
+    userId?: true
+    isArmed?: true
+    soundId?: true
+    volume?: true
+    snoozeMinutes?: true
+    maxSnoozes?: true
+    lastSetTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AlarmSettingsMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    isArmed?: true
+    soundId?: true
+    volume?: true
+    snoozeMinutes?: true
+    maxSnoozes?: true
+    lastSetTime?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AlarmSettingsCountAggregateInputType = {
+    id?: true
+    userId?: true
+    isArmed?: true
+    schedule?: true
+    soundId?: true
+    volume?: true
+    snoozeMinutes?: true
+    maxSnoozes?: true
+    lastSetTime?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AlarmSettingsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlarmSettings to aggregate.
+     */
+    where?: AlarmSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlarmSettings to fetch.
+     */
+    orderBy?: AlarmSettingsOrderByWithRelationInput | AlarmSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AlarmSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlarmSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlarmSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AlarmSettings
+    **/
+    _count?: true | AlarmSettingsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AlarmSettingsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AlarmSettingsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AlarmSettingsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AlarmSettingsMaxAggregateInputType
+  }
+
+  export type GetAlarmSettingsAggregateType<T extends AlarmSettingsAggregateArgs> = {
+        [P in keyof T & keyof AggregateAlarmSettings]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAlarmSettings[P]>
+      : GetScalarType<T[P], AggregateAlarmSettings[P]>
+  }
+
+
+
+
+  export type AlarmSettingsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlarmSettingsWhereInput
+    orderBy?: AlarmSettingsOrderByWithAggregationInput | AlarmSettingsOrderByWithAggregationInput[]
+    by: AlarmSettingsScalarFieldEnum[] | AlarmSettingsScalarFieldEnum
+    having?: AlarmSettingsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AlarmSettingsCountAggregateInputType | true
+    _avg?: AlarmSettingsAvgAggregateInputType
+    _sum?: AlarmSettingsSumAggregateInputType
+    _min?: AlarmSettingsMinAggregateInputType
+    _max?: AlarmSettingsMaxAggregateInputType
+  }
+
+  export type AlarmSettingsGroupByOutputType = {
+    id: string
+    userId: string
+    isArmed: boolean
+    schedule: JsonValue
+    soundId: string
+    volume: number
+    snoozeMinutes: number
+    maxSnoozes: number
+    lastSetTime: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: AlarmSettingsCountAggregateOutputType | null
+    _avg: AlarmSettingsAvgAggregateOutputType | null
+    _sum: AlarmSettingsSumAggregateOutputType | null
+    _min: AlarmSettingsMinAggregateOutputType | null
+    _max: AlarmSettingsMaxAggregateOutputType | null
+  }
+
+  type GetAlarmSettingsGroupByPayload<T extends AlarmSettingsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AlarmSettingsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AlarmSettingsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AlarmSettingsGroupByOutputType[P]>
+            : GetScalarType<T[P], AlarmSettingsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AlarmSettingsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    isArmed?: boolean
+    schedule?: boolean
+    soundId?: boolean
+    volume?: boolean
+    snoozeMinutes?: boolean
+    maxSnoozes?: boolean
+    lastSetTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alarmSettings"]>
+
+  export type AlarmSettingsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    isArmed?: boolean
+    schedule?: boolean
+    soundId?: boolean
+    volume?: boolean
+    snoozeMinutes?: boolean
+    maxSnoozes?: boolean
+    lastSetTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alarmSettings"]>
+
+  export type AlarmSettingsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    isArmed?: boolean
+    schedule?: boolean
+    soundId?: boolean
+    volume?: boolean
+    snoozeMinutes?: boolean
+    maxSnoozes?: boolean
+    lastSetTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alarmSettings"]>
+
+  export type AlarmSettingsSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    isArmed?: boolean
+    schedule?: boolean
+    soundId?: boolean
+    volume?: boolean
+    snoozeMinutes?: boolean
+    maxSnoozes?: boolean
+    lastSetTime?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AlarmSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "isArmed" | "schedule" | "soundId" | "volume" | "snoozeMinutes" | "maxSnoozes" | "lastSetTime" | "createdAt" | "updatedAt", ExtArgs["result"]["alarmSettings"]>
+  export type AlarmSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AlarmSettingsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AlarmSettingsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AlarmSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AlarmSettings"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      isArmed: boolean
+      schedule: Prisma.JsonValue
+      soundId: string
+      volume: number
+      snoozeMinutes: number
+      maxSnoozes: number
+      lastSetTime: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["alarmSettings"]>
+    composites: {}
+  }
+
+  type AlarmSettingsGetPayload<S extends boolean | null | undefined | AlarmSettingsDefaultArgs> = $Result.GetResult<Prisma.$AlarmSettingsPayload, S>
+
+  type AlarmSettingsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AlarmSettingsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AlarmSettingsCountAggregateInputType | true
+    }
+
+  export interface AlarmSettingsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AlarmSettings'], meta: { name: 'AlarmSettings' } }
+    /**
+     * Find zero or one AlarmSettings that matches the filter.
+     * @param {AlarmSettingsFindUniqueArgs} args - Arguments to find a AlarmSettings
+     * @example
+     * // Get one AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AlarmSettingsFindUniqueArgs>(args: SelectSubset<T, AlarmSettingsFindUniqueArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AlarmSettings that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AlarmSettingsFindUniqueOrThrowArgs} args - Arguments to find a AlarmSettings
+     * @example
+     * // Get one AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AlarmSettingsFindUniqueOrThrowArgs>(args: SelectSubset<T, AlarmSettingsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AlarmSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlarmSettingsFindFirstArgs} args - Arguments to find a AlarmSettings
+     * @example
+     * // Get one AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AlarmSettingsFindFirstArgs>(args?: SelectSubset<T, AlarmSettingsFindFirstArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AlarmSettings that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlarmSettingsFindFirstOrThrowArgs} args - Arguments to find a AlarmSettings
+     * @example
+     * // Get one AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AlarmSettingsFindFirstOrThrowArgs>(args?: SelectSubset<T, AlarmSettingsFindFirstOrThrowArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AlarmSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlarmSettingsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.findMany()
+     * 
+     * // Get first 10 AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const alarmSettingsWithIdOnly = await prisma.alarmSettings.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AlarmSettingsFindManyArgs>(args?: SelectSubset<T, AlarmSettingsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AlarmSettings.
+     * @param {AlarmSettingsCreateArgs} args - Arguments to create a AlarmSettings.
+     * @example
+     * // Create one AlarmSettings
+     * const AlarmSettings = await prisma.alarmSettings.create({
+     *   data: {
+     *     // ... data to create a AlarmSettings
+     *   }
+     * })
+     * 
+     */
+    create<T extends AlarmSettingsCreateArgs>(args: SelectSubset<T, AlarmSettingsCreateArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AlarmSettings.
+     * @param {AlarmSettingsCreateManyArgs} args - Arguments to create many AlarmSettings.
+     * @example
+     * // Create many AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AlarmSettingsCreateManyArgs>(args?: SelectSubset<T, AlarmSettingsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AlarmSettings and returns the data saved in the database.
+     * @param {AlarmSettingsCreateManyAndReturnArgs} args - Arguments to create many AlarmSettings.
+     * @example
+     * // Create many AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AlarmSettings and only return the `id`
+     * const alarmSettingsWithIdOnly = await prisma.alarmSettings.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AlarmSettingsCreateManyAndReturnArgs>(args?: SelectSubset<T, AlarmSettingsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AlarmSettings.
+     * @param {AlarmSettingsDeleteArgs} args - Arguments to delete one AlarmSettings.
+     * @example
+     * // Delete one AlarmSettings
+     * const AlarmSettings = await prisma.alarmSettings.delete({
+     *   where: {
+     *     // ... filter to delete one AlarmSettings
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AlarmSettingsDeleteArgs>(args: SelectSubset<T, AlarmSettingsDeleteArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AlarmSettings.
+     * @param {AlarmSettingsUpdateArgs} args - Arguments to update one AlarmSettings.
+     * @example
+     * // Update one AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AlarmSettingsUpdateArgs>(args: SelectSubset<T, AlarmSettingsUpdateArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AlarmSettings.
+     * @param {AlarmSettingsDeleteManyArgs} args - Arguments to filter AlarmSettings to delete.
+     * @example
+     * // Delete a few AlarmSettings
+     * const { count } = await prisma.alarmSettings.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AlarmSettingsDeleteManyArgs>(args?: SelectSubset<T, AlarmSettingsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AlarmSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlarmSettingsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AlarmSettingsUpdateManyArgs>(args: SelectSubset<T, AlarmSettingsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AlarmSettings and returns the data updated in the database.
+     * @param {AlarmSettingsUpdateManyAndReturnArgs} args - Arguments to update many AlarmSettings.
+     * @example
+     * // Update many AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AlarmSettings and only return the `id`
+     * const alarmSettingsWithIdOnly = await prisma.alarmSettings.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AlarmSettingsUpdateManyAndReturnArgs>(args: SelectSubset<T, AlarmSettingsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AlarmSettings.
+     * @param {AlarmSettingsUpsertArgs} args - Arguments to update or create a AlarmSettings.
+     * @example
+     * // Update or create a AlarmSettings
+     * const alarmSettings = await prisma.alarmSettings.upsert({
+     *   create: {
+     *     // ... data to create a AlarmSettings
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AlarmSettings we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AlarmSettingsUpsertArgs>(args: SelectSubset<T, AlarmSettingsUpsertArgs<ExtArgs>>): Prisma__AlarmSettingsClient<$Result.GetResult<Prisma.$AlarmSettingsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AlarmSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlarmSettingsCountArgs} args - Arguments to filter AlarmSettings to count.
+     * @example
+     * // Count the number of AlarmSettings
+     * const count = await prisma.alarmSettings.count({
+     *   where: {
+     *     // ... the filter for the AlarmSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends AlarmSettingsCountArgs>(
+      args?: Subset<T, AlarmSettingsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AlarmSettingsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AlarmSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlarmSettingsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AlarmSettingsAggregateArgs>(args: Subset<T, AlarmSettingsAggregateArgs>): Prisma.PrismaPromise<GetAlarmSettingsAggregateType<T>>
+
+    /**
+     * Group by AlarmSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlarmSettingsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AlarmSettingsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AlarmSettingsGroupByArgs['orderBy'] }
+        : { orderBy?: AlarmSettingsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AlarmSettingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAlarmSettingsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AlarmSettings model
+   */
+  readonly fields: AlarmSettingsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AlarmSettings.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AlarmSettingsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AlarmSettings model
+   */
+  interface AlarmSettingsFieldRefs {
+    readonly id: FieldRef<"AlarmSettings", 'String'>
+    readonly userId: FieldRef<"AlarmSettings", 'String'>
+    readonly isArmed: FieldRef<"AlarmSettings", 'Boolean'>
+    readonly schedule: FieldRef<"AlarmSettings", 'Json'>
+    readonly soundId: FieldRef<"AlarmSettings", 'String'>
+    readonly volume: FieldRef<"AlarmSettings", 'Int'>
+    readonly snoozeMinutes: FieldRef<"AlarmSettings", 'Int'>
+    readonly maxSnoozes: FieldRef<"AlarmSettings", 'Int'>
+    readonly lastSetTime: FieldRef<"AlarmSettings", 'String'>
+    readonly createdAt: FieldRef<"AlarmSettings", 'DateTime'>
+    readonly updatedAt: FieldRef<"AlarmSettings", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AlarmSettings findUnique
+   */
+  export type AlarmSettingsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * Filter, which AlarmSettings to fetch.
+     */
+    where: AlarmSettingsWhereUniqueInput
+  }
+
+  /**
+   * AlarmSettings findUniqueOrThrow
+   */
+  export type AlarmSettingsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * Filter, which AlarmSettings to fetch.
+     */
+    where: AlarmSettingsWhereUniqueInput
+  }
+
+  /**
+   * AlarmSettings findFirst
+   */
+  export type AlarmSettingsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * Filter, which AlarmSettings to fetch.
+     */
+    where?: AlarmSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlarmSettings to fetch.
+     */
+    orderBy?: AlarmSettingsOrderByWithRelationInput | AlarmSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlarmSettings.
+     */
+    cursor?: AlarmSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlarmSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlarmSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlarmSettings.
+     */
+    distinct?: AlarmSettingsScalarFieldEnum | AlarmSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * AlarmSettings findFirstOrThrow
+   */
+  export type AlarmSettingsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * Filter, which AlarmSettings to fetch.
+     */
+    where?: AlarmSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlarmSettings to fetch.
+     */
+    orderBy?: AlarmSettingsOrderByWithRelationInput | AlarmSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlarmSettings.
+     */
+    cursor?: AlarmSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlarmSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlarmSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlarmSettings.
+     */
+    distinct?: AlarmSettingsScalarFieldEnum | AlarmSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * AlarmSettings findMany
+   */
+  export type AlarmSettingsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * Filter, which AlarmSettings to fetch.
+     */
+    where?: AlarmSettingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlarmSettings to fetch.
+     */
+    orderBy?: AlarmSettingsOrderByWithRelationInput | AlarmSettingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AlarmSettings.
+     */
+    cursor?: AlarmSettingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlarmSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlarmSettings.
+     */
+    skip?: number
+    distinct?: AlarmSettingsScalarFieldEnum | AlarmSettingsScalarFieldEnum[]
+  }
+
+  /**
+   * AlarmSettings create
+   */
+  export type AlarmSettingsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AlarmSettings.
+     */
+    data: XOR<AlarmSettingsCreateInput, AlarmSettingsUncheckedCreateInput>
+  }
+
+  /**
+   * AlarmSettings createMany
+   */
+  export type AlarmSettingsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AlarmSettings.
+     */
+    data: AlarmSettingsCreateManyInput | AlarmSettingsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AlarmSettings createManyAndReturn
+   */
+  export type AlarmSettingsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * The data used to create many AlarmSettings.
+     */
+    data: AlarmSettingsCreateManyInput | AlarmSettingsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AlarmSettings update
+   */
+  export type AlarmSettingsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AlarmSettings.
+     */
+    data: XOR<AlarmSettingsUpdateInput, AlarmSettingsUncheckedUpdateInput>
+    /**
+     * Choose, which AlarmSettings to update.
+     */
+    where: AlarmSettingsWhereUniqueInput
+  }
+
+  /**
+   * AlarmSettings updateMany
+   */
+  export type AlarmSettingsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AlarmSettings.
+     */
+    data: XOR<AlarmSettingsUpdateManyMutationInput, AlarmSettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which AlarmSettings to update
+     */
+    where?: AlarmSettingsWhereInput
+    /**
+     * Limit how many AlarmSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AlarmSettings updateManyAndReturn
+   */
+  export type AlarmSettingsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * The data used to update AlarmSettings.
+     */
+    data: XOR<AlarmSettingsUpdateManyMutationInput, AlarmSettingsUncheckedUpdateManyInput>
+    /**
+     * Filter which AlarmSettings to update
+     */
+    where?: AlarmSettingsWhereInput
+    /**
+     * Limit how many AlarmSettings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AlarmSettings upsert
+   */
+  export type AlarmSettingsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AlarmSettings to update in case it exists.
+     */
+    where: AlarmSettingsWhereUniqueInput
+    /**
+     * In case the AlarmSettings found by the `where` argument doesn't exist, create a new AlarmSettings with this data.
+     */
+    create: XOR<AlarmSettingsCreateInput, AlarmSettingsUncheckedCreateInput>
+    /**
+     * In case the AlarmSettings was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AlarmSettingsUpdateInput, AlarmSettingsUncheckedUpdateInput>
+  }
+
+  /**
+   * AlarmSettings delete
+   */
+  export type AlarmSettingsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+    /**
+     * Filter which AlarmSettings to delete.
+     */
+    where: AlarmSettingsWhereUniqueInput
+  }
+
+  /**
+   * AlarmSettings deleteMany
+   */
+  export type AlarmSettingsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlarmSettings to delete
+     */
+    where?: AlarmSettingsWhereInput
+    /**
+     * Limit how many AlarmSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AlarmSettings without action
+   */
+  export type AlarmSettingsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlarmSettings
+     */
+    select?: AlarmSettingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlarmSettings
+     */
+    omit?: AlarmSettingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlarmSettingsInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -34569,9 +37095,9 @@ export namespace Prisma {
     validation: 'validation',
     sortOrder: 'sortOrder',
     irtParams: 'irtParams',
-    showWhen: 'showWhen',
     groupId: 'groupId',
-    groupLabel: 'groupLabel'
+    groupLabel: 'groupLabel',
+    showWhen: 'showWhen'
   };
 
   export type CensusQuestionScalarFieldEnum = (typeof CensusQuestionScalarFieldEnum)[keyof typeof CensusQuestionScalarFieldEnum]
@@ -34799,6 +37325,21 @@ export namespace Prisma {
   export type ThemeScalarFieldEnum = (typeof ThemeScalarFieldEnum)[keyof typeof ThemeScalarFieldEnum]
 
 
+  export const NightCheckInScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    date: 'date',
+    mood: 'mood',
+    dayNotes: 'dayNotes',
+    intention: 'intention',
+    plannedWakeTime: 'plannedWakeTime',
+    reminderEnabled: 'reminderEnabled',
+    createdAt: 'createdAt'
+  };
+
+  export type NightCheckInScalarFieldEnum = (typeof NightCheckInScalarFieldEnum)[keyof typeof NightCheckInScalarFieldEnum]
+
+
   export const SyncQueueItemScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -34813,6 +37354,23 @@ export namespace Prisma {
   };
 
   export type SyncQueueItemScalarFieldEnum = (typeof SyncQueueItemScalarFieldEnum)[keyof typeof SyncQueueItemScalarFieldEnum]
+
+
+  export const AlarmSettingsScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    isArmed: 'isArmed',
+    schedule: 'schedule',
+    soundId: 'soundId',
+    volume: 'volume',
+    snoozeMinutes: 'snoozeMinutes',
+    maxSnoozes: 'maxSnoozes',
+    lastSetTime: 'lastSetTime',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AlarmSettingsScalarFieldEnum = (typeof AlarmSettingsScalarFieldEnum)[keyof typeof AlarmSettingsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -34991,14 +37549,16 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFilter<"User"> | number
     keyRecoveryMethod?: StringNullableFilter<"User"> | string | null
     keySalt?: BytesNullableFilter<"User"> | Bytes | null
-    sessions?: SessionListRelationFilter
-    dreamEntries?: DreamEntryListRelationFilter
-    censusAnswers?: CensusAnswerListRelationFilter
-    promptResponses?: PromptResponseListRelationFilter
-    consents?: ConsentListRelationFilter
-    events?: EventListRelationFilter
-    studyParticipations?: StudyParticipationListRelationFilter
+    alarmSettings?: XOR<AlarmSettingsNullableScalarRelationFilter, AlarmSettingsWhereInput> | null
     categoryProgress?: CategoryProgressListRelationFilter
+    censusAnswers?: CensusAnswerListRelationFilter
+    consents?: ConsentListRelationFilter
+    dreamEntries?: DreamEntryListRelationFilter
+    events?: EventListRelationFilter
+    nightCheckIns?: NightCheckInListRelationFilter
+    promptResponses?: PromptResponseListRelationFilter
+    sessions?: SessionListRelationFilter
+    studyParticipations?: StudyParticipationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -35013,14 +37573,16 @@ export namespace Prisma {
     encryptionKeyVersion?: SortOrder
     keyRecoveryMethod?: SortOrderInput | SortOrder
     keySalt?: SortOrderInput | SortOrder
-    sessions?: SessionOrderByRelationAggregateInput
-    dreamEntries?: DreamEntryOrderByRelationAggregateInput
-    censusAnswers?: CensusAnswerOrderByRelationAggregateInput
-    promptResponses?: PromptResponseOrderByRelationAggregateInput
-    consents?: ConsentOrderByRelationAggregateInput
-    events?: EventOrderByRelationAggregateInput
-    studyParticipations?: StudyParticipationOrderByRelationAggregateInput
+    alarmSettings?: AlarmSettingsOrderByWithRelationInput
     categoryProgress?: CategoryProgressOrderByRelationAggregateInput
+    censusAnswers?: CensusAnswerOrderByRelationAggregateInput
+    consents?: ConsentOrderByRelationAggregateInput
+    dreamEntries?: DreamEntryOrderByRelationAggregateInput
+    events?: EventOrderByRelationAggregateInput
+    nightCheckIns?: NightCheckInOrderByRelationAggregateInput
+    promptResponses?: PromptResponseOrderByRelationAggregateInput
+    sessions?: SessionOrderByRelationAggregateInput
+    studyParticipations?: StudyParticipationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -35038,14 +37600,16 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFilter<"User"> | number
     keyRecoveryMethod?: StringNullableFilter<"User"> | string | null
     keySalt?: BytesNullableFilter<"User"> | Bytes | null
-    sessions?: SessionListRelationFilter
-    dreamEntries?: DreamEntryListRelationFilter
-    censusAnswers?: CensusAnswerListRelationFilter
-    promptResponses?: PromptResponseListRelationFilter
-    consents?: ConsentListRelationFilter
-    events?: EventListRelationFilter
-    studyParticipations?: StudyParticipationListRelationFilter
+    alarmSettings?: XOR<AlarmSettingsNullableScalarRelationFilter, AlarmSettingsWhereInput> | null
     categoryProgress?: CategoryProgressListRelationFilter
+    censusAnswers?: CensusAnswerListRelationFilter
+    consents?: ConsentListRelationFilter
+    dreamEntries?: DreamEntryListRelationFilter
+    events?: EventListRelationFilter
+    nightCheckIns?: NightCheckInListRelationFilter
+    promptResponses?: PromptResponseListRelationFilter
+    sessions?: SessionListRelationFilter
+    studyParticipations?: StudyParticipationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -35296,8 +37860,8 @@ export namespace Prisma {
     capturedAt?: DateTimeFilter<"DreamEntry"> | Date | string
     updatedAt?: DateTimeFilter<"DreamEntry"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    facts?: JournalFactListRelationFilter
     tags?: DreamTagListRelationFilter
+    facts?: JournalFactListRelationFilter
   }
 
   export type DreamEntryOrderByWithRelationInput = {
@@ -35319,8 +37883,8 @@ export namespace Prisma {
     capturedAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
-    facts?: JournalFactOrderByRelationAggregateInput
     tags?: DreamTagOrderByRelationAggregateInput
+    facts?: JournalFactOrderByRelationAggregateInput
   }
 
   export type DreamEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -35345,8 +37909,8 @@ export namespace Prisma {
     capturedAt?: DateTimeFilter<"DreamEntry"> | Date | string
     updatedAt?: DateTimeFilter<"DreamEntry"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    facts?: JournalFactListRelationFilter
     tags?: DreamTagListRelationFilter
+    facts?: JournalFactListRelationFilter
   }, "id">
 
   export type DreamEntryOrderByWithAggregationInput = {
@@ -35704,8 +38268,8 @@ export namespace Prisma {
     icon?: StringNullableFilter<"CensusSection"> | string | null
     sortOrder?: IntFilter<"CensusSection"> | number
     estimatedTime?: IntFilter<"CensusSection"> | number
-    instrument?: XOR<CensusInstrumentScalarRelationFilter, CensusInstrumentWhereInput>
     questions?: CensusQuestionListRelationFilter
+    instrument?: XOR<CensusInstrumentScalarRelationFilter, CensusInstrumentWhereInput>
   }
 
   export type CensusSectionOrderByWithRelationInput = {
@@ -35717,8 +38281,8 @@ export namespace Prisma {
     icon?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
     estimatedTime?: SortOrder
-    instrument?: CensusInstrumentOrderByWithRelationInput
     questions?: CensusQuestionOrderByRelationAggregateInput
+    instrument?: CensusInstrumentOrderByWithRelationInput
   }
 
   export type CensusSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -35734,8 +38298,8 @@ export namespace Prisma {
     icon?: StringNullableFilter<"CensusSection"> | string | null
     sortOrder?: IntFilter<"CensusSection"> | number
     estimatedTime?: IntFilter<"CensusSection"> | number
-    instrument?: XOR<CensusInstrumentScalarRelationFilter, CensusInstrumentWhereInput>
     questions?: CensusQuestionListRelationFilter
+    instrument?: XOR<CensusInstrumentScalarRelationFilter, CensusInstrumentWhereInput>
   }, "id" | "instrumentId_slug">
 
   export type CensusSectionOrderByWithAggregationInput = {
@@ -35783,11 +38347,11 @@ export namespace Prisma {
     validation?: JsonNullableFilter<"CensusQuestion">
     sortOrder?: IntFilter<"CensusQuestion"> | number
     irtParams?: JsonNullableFilter<"CensusQuestion">
-    showWhen?: JsonNullableFilter<"CensusQuestion">
     groupId?: StringNullableFilter<"CensusQuestion"> | string | null
     groupLabel?: StringNullableFilter<"CensusQuestion"> | string | null
-    section?: XOR<CensusSectionScalarRelationFilter, CensusSectionWhereInput>
+    showWhen?: JsonNullableFilter<"CensusQuestion">
     answers?: CensusAnswerListRelationFilter
+    section?: XOR<CensusSectionScalarRelationFilter, CensusSectionWhereInput>
   }
 
   export type CensusQuestionOrderByWithRelationInput = {
@@ -35802,11 +38366,11 @@ export namespace Prisma {
     validation?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
     irtParams?: SortOrderInput | SortOrder
-    showWhen?: SortOrderInput | SortOrder
     groupId?: SortOrderInput | SortOrder
     groupLabel?: SortOrderInput | SortOrder
-    section?: CensusSectionOrderByWithRelationInput
+    showWhen?: SortOrderInput | SortOrder
     answers?: CensusAnswerOrderByRelationAggregateInput
+    section?: CensusSectionOrderByWithRelationInput
   }
 
   export type CensusQuestionWhereUniqueInput = Prisma.AtLeast<{
@@ -35825,11 +38389,11 @@ export namespace Prisma {
     validation?: JsonNullableFilter<"CensusQuestion">
     sortOrder?: IntFilter<"CensusQuestion"> | number
     irtParams?: JsonNullableFilter<"CensusQuestion">
-    showWhen?: JsonNullableFilter<"CensusQuestion">
     groupId?: StringNullableFilter<"CensusQuestion"> | string | null
     groupLabel?: StringNullableFilter<"CensusQuestion"> | string | null
-    section?: XOR<CensusSectionScalarRelationFilter, CensusSectionWhereInput>
+    showWhen?: JsonNullableFilter<"CensusQuestion">
     answers?: CensusAnswerListRelationFilter
+    section?: XOR<CensusSectionScalarRelationFilter, CensusSectionWhereInput>
   }, "id" | "sectionId_slug">
 
   export type CensusQuestionOrderByWithAggregationInput = {
@@ -35844,9 +38408,9 @@ export namespace Prisma {
     validation?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
     irtParams?: SortOrderInput | SortOrder
-    showWhen?: SortOrderInput | SortOrder
     groupId?: SortOrderInput | SortOrder
     groupLabel?: SortOrderInput | SortOrder
+    showWhen?: SortOrderInput | SortOrder
     _count?: CensusQuestionCountOrderByAggregateInput
     _avg?: CensusQuestionAvgOrderByAggregateInput
     _max?: CensusQuestionMaxOrderByAggregateInput
@@ -35869,9 +38433,9 @@ export namespace Prisma {
     validation?: JsonNullableWithAggregatesFilter<"CensusQuestion">
     sortOrder?: IntWithAggregatesFilter<"CensusQuestion"> | number
     irtParams?: JsonNullableWithAggregatesFilter<"CensusQuestion">
-    showWhen?: JsonNullableWithAggregatesFilter<"CensusQuestion">
     groupId?: StringNullableWithAggregatesFilter<"CensusQuestion"> | string | null
     groupLabel?: StringNullableWithAggregatesFilter<"CensusQuestion"> | string | null
+    showWhen?: JsonNullableWithAggregatesFilter<"CensusQuestion">
   }
 
   export type CensusAnswerWhereInput = {
@@ -35885,8 +38449,8 @@ export namespace Prisma {
     instrumentVersion?: IntFilter<"CensusAnswer"> | number
     createdAt?: DateTimeFilter<"CensusAnswer"> | Date | string
     updatedAt?: DateTimeFilter<"CensusAnswer"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     question?: XOR<CensusQuestionScalarRelationFilter, CensusQuestionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type CensusAnswerOrderByWithRelationInput = {
@@ -35897,8 +38461,8 @@ export namespace Prisma {
     instrumentVersion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     question?: CensusQuestionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type CensusAnswerWhereUniqueInput = Prisma.AtLeast<{
@@ -35913,8 +38477,8 @@ export namespace Prisma {
     instrumentVersion?: IntFilter<"CensusAnswer"> | number
     createdAt?: DateTimeFilter<"CensusAnswer"> | Date | string
     updatedAt?: DateTimeFilter<"CensusAnswer"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     question?: XOR<CensusQuestionScalarRelationFilter, CensusQuestionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_questionId">
 
   export type CensusAnswerOrderByWithAggregationInput = {
@@ -36336,8 +38900,8 @@ export namespace Prisma {
     shownAt?: DateTimeFilter<"PromptResponse"> | Date | string
     respondedAt?: DateTimeFilter<"PromptResponse"> | Date | string
     skipped?: BoolFilter<"PromptResponse"> | boolean
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     prompt?: XOR<PromptScalarRelationFilter, PromptWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type PromptResponseOrderByWithRelationInput = {
@@ -36348,8 +38912,8 @@ export namespace Prisma {
     shownAt?: SortOrder
     respondedAt?: SortOrder
     skipped?: SortOrder
-    user?: UserOrderByWithRelationInput
     prompt?: PromptOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type PromptResponseWhereUniqueInput = Prisma.AtLeast<{
@@ -36364,8 +38928,8 @@ export namespace Prisma {
     shownAt?: DateTimeFilter<"PromptResponse"> | Date | string
     respondedAt?: DateTimeFilter<"PromptResponse"> | Date | string
     skipped?: BoolFilter<"PromptResponse"> | boolean
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     prompt?: XOR<PromptScalarRelationFilter, PromptWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_promptId_shownAt">
 
   export type PromptResponseOrderByWithAggregationInput = {
@@ -36637,8 +39201,8 @@ export namespace Prisma {
     maxParticipants?: IntNullableFilter<"Study"> | number | null
     createdAt?: DateTimeFilter<"Study"> | Date | string
     updatedAt?: DateTimeFilter<"Study"> | Date | string
-    participations?: StudyParticipationListRelationFilter
     prompts?: PromptListRelationFilter
+    participations?: StudyParticipationListRelationFilter
   }
 
   export type StudyOrderByWithRelationInput = {
@@ -36657,8 +39221,8 @@ export namespace Prisma {
     maxParticipants?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    participations?: StudyParticipationOrderByRelationAggregateInput
     prompts?: PromptOrderByRelationAggregateInput
+    participations?: StudyParticipationOrderByRelationAggregateInput
   }
 
   export type StudyWhereUniqueInput = Prisma.AtLeast<{
@@ -36680,8 +39244,8 @@ export namespace Prisma {
     maxParticipants?: IntNullableFilter<"Study"> | number | null
     createdAt?: DateTimeFilter<"Study"> | Date | string
     updatedAt?: DateTimeFilter<"Study"> | Date | string
-    participations?: StudyParticipationListRelationFilter
     prompts?: PromptListRelationFilter
+    participations?: StudyParticipationListRelationFilter
   }, "id" | "slug">
 
   export type StudyOrderByWithAggregationInput = {
@@ -36741,8 +39305,8 @@ export namespace Prisma {
     withdrawnAt?: DateTimeNullableFilter<"StudyParticipation"> | Date | string | null
     withdrawalReason?: StringNullableFilter<"StudyParticipation"> | string | null
     completedAt?: DateTimeNullableFilter<"StudyParticipation"> | Date | string | null
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     study?: XOR<StudyScalarRelationFilter, StudyWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type StudyParticipationOrderByWithRelationInput = {
@@ -36755,8 +39319,8 @@ export namespace Prisma {
     withdrawnAt?: SortOrderInput | SortOrder
     withdrawalReason?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
-    user?: UserOrderByWithRelationInput
     study?: StudyOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type StudyParticipationWhereUniqueInput = Prisma.AtLeast<{
@@ -36773,8 +39337,8 @@ export namespace Prisma {
     withdrawnAt?: DateTimeNullableFilter<"StudyParticipation"> | Date | string | null
     withdrawalReason?: StringNullableFilter<"StudyParticipation"> | string | null
     completedAt?: DateTimeNullableFilter<"StudyParticipation"> | Date | string | null
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     study?: XOR<StudyScalarRelationFilter, StudyWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_studyId">
 
   export type StudyParticipationOrderByWithAggregationInput = {
@@ -37017,6 +39581,82 @@ export namespace Prisma {
     version?: IntWithAggregatesFilter<"Theme"> | number
   }
 
+  export type NightCheckInWhereInput = {
+    AND?: NightCheckInWhereInput | NightCheckInWhereInput[]
+    OR?: NightCheckInWhereInput[]
+    NOT?: NightCheckInWhereInput | NightCheckInWhereInput[]
+    id?: StringFilter<"NightCheckIn"> | string
+    userId?: StringFilter<"NightCheckIn"> | string
+    date?: StringFilter<"NightCheckIn"> | string
+    mood?: StringNullableFilter<"NightCheckIn"> | string | null
+    dayNotes?: StringNullableFilter<"NightCheckIn"> | string | null
+    intention?: StringNullableFilter<"NightCheckIn"> | string | null
+    plannedWakeTime?: StringNullableFilter<"NightCheckIn"> | string | null
+    reminderEnabled?: BoolFilter<"NightCheckIn"> | boolean
+    createdAt?: DateTimeFilter<"NightCheckIn"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type NightCheckInOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    mood?: SortOrderInput | SortOrder
+    dayNotes?: SortOrderInput | SortOrder
+    intention?: SortOrderInput | SortOrder
+    plannedWakeTime?: SortOrderInput | SortOrder
+    reminderEnabled?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type NightCheckInWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_date?: NightCheckInUserIdDateCompoundUniqueInput
+    AND?: NightCheckInWhereInput | NightCheckInWhereInput[]
+    OR?: NightCheckInWhereInput[]
+    NOT?: NightCheckInWhereInput | NightCheckInWhereInput[]
+    userId?: StringFilter<"NightCheckIn"> | string
+    date?: StringFilter<"NightCheckIn"> | string
+    mood?: StringNullableFilter<"NightCheckIn"> | string | null
+    dayNotes?: StringNullableFilter<"NightCheckIn"> | string | null
+    intention?: StringNullableFilter<"NightCheckIn"> | string | null
+    plannedWakeTime?: StringNullableFilter<"NightCheckIn"> | string | null
+    reminderEnabled?: BoolFilter<"NightCheckIn"> | boolean
+    createdAt?: DateTimeFilter<"NightCheckIn"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_date">
+
+  export type NightCheckInOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    mood?: SortOrderInput | SortOrder
+    dayNotes?: SortOrderInput | SortOrder
+    intention?: SortOrderInput | SortOrder
+    plannedWakeTime?: SortOrderInput | SortOrder
+    reminderEnabled?: SortOrder
+    createdAt?: SortOrder
+    _count?: NightCheckInCountOrderByAggregateInput
+    _max?: NightCheckInMaxOrderByAggregateInput
+    _min?: NightCheckInMinOrderByAggregateInput
+  }
+
+  export type NightCheckInScalarWhereWithAggregatesInput = {
+    AND?: NightCheckInScalarWhereWithAggregatesInput | NightCheckInScalarWhereWithAggregatesInput[]
+    OR?: NightCheckInScalarWhereWithAggregatesInput[]
+    NOT?: NightCheckInScalarWhereWithAggregatesInput | NightCheckInScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"NightCheckIn"> | string
+    userId?: StringWithAggregatesFilter<"NightCheckIn"> | string
+    date?: StringWithAggregatesFilter<"NightCheckIn"> | string
+    mood?: StringNullableWithAggregatesFilter<"NightCheckIn"> | string | null
+    dayNotes?: StringNullableWithAggregatesFilter<"NightCheckIn"> | string | null
+    intention?: StringNullableWithAggregatesFilter<"NightCheckIn"> | string | null
+    plannedWakeTime?: StringNullableWithAggregatesFilter<"NightCheckIn"> | string | null
+    reminderEnabled?: BoolWithAggregatesFilter<"NightCheckIn"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"NightCheckIn"> | Date | string
+  }
+
   export type SyncQueueItemWhereInput = {
     AND?: SyncQueueItemWhereInput | SyncQueueItemWhereInput[]
     OR?: SyncQueueItemWhereInput[]
@@ -37096,6 +39736,93 @@ export namespace Prisma {
     processedAt?: DateTimeNullableWithAggregatesFilter<"SyncQueueItem"> | Date | string | null
   }
 
+  export type AlarmSettingsWhereInput = {
+    AND?: AlarmSettingsWhereInput | AlarmSettingsWhereInput[]
+    OR?: AlarmSettingsWhereInput[]
+    NOT?: AlarmSettingsWhereInput | AlarmSettingsWhereInput[]
+    id?: StringFilter<"AlarmSettings"> | string
+    userId?: StringFilter<"AlarmSettings"> | string
+    isArmed?: BoolFilter<"AlarmSettings"> | boolean
+    schedule?: JsonFilter<"AlarmSettings">
+    soundId?: StringFilter<"AlarmSettings"> | string
+    volume?: IntFilter<"AlarmSettings"> | number
+    snoozeMinutes?: IntFilter<"AlarmSettings"> | number
+    maxSnoozes?: IntFilter<"AlarmSettings"> | number
+    lastSetTime?: StringNullableFilter<"AlarmSettings"> | string | null
+    createdAt?: DateTimeFilter<"AlarmSettings"> | Date | string
+    updatedAt?: DateTimeFilter<"AlarmSettings"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AlarmSettingsOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    isArmed?: SortOrder
+    schedule?: SortOrder
+    soundId?: SortOrder
+    volume?: SortOrder
+    snoozeMinutes?: SortOrder
+    maxSnoozes?: SortOrder
+    lastSetTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AlarmSettingsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: AlarmSettingsWhereInput | AlarmSettingsWhereInput[]
+    OR?: AlarmSettingsWhereInput[]
+    NOT?: AlarmSettingsWhereInput | AlarmSettingsWhereInput[]
+    isArmed?: BoolFilter<"AlarmSettings"> | boolean
+    schedule?: JsonFilter<"AlarmSettings">
+    soundId?: StringFilter<"AlarmSettings"> | string
+    volume?: IntFilter<"AlarmSettings"> | number
+    snoozeMinutes?: IntFilter<"AlarmSettings"> | number
+    maxSnoozes?: IntFilter<"AlarmSettings"> | number
+    lastSetTime?: StringNullableFilter<"AlarmSettings"> | string | null
+    createdAt?: DateTimeFilter<"AlarmSettings"> | Date | string
+    updatedAt?: DateTimeFilter<"AlarmSettings"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type AlarmSettingsOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    isArmed?: SortOrder
+    schedule?: SortOrder
+    soundId?: SortOrder
+    volume?: SortOrder
+    snoozeMinutes?: SortOrder
+    maxSnoozes?: SortOrder
+    lastSetTime?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AlarmSettingsCountOrderByAggregateInput
+    _avg?: AlarmSettingsAvgOrderByAggregateInput
+    _max?: AlarmSettingsMaxOrderByAggregateInput
+    _min?: AlarmSettingsMinOrderByAggregateInput
+    _sum?: AlarmSettingsSumOrderByAggregateInput
+  }
+
+  export type AlarmSettingsScalarWhereWithAggregatesInput = {
+    AND?: AlarmSettingsScalarWhereWithAggregatesInput | AlarmSettingsScalarWhereWithAggregatesInput[]
+    OR?: AlarmSettingsScalarWhereWithAggregatesInput[]
+    NOT?: AlarmSettingsScalarWhereWithAggregatesInput | AlarmSettingsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AlarmSettings"> | string
+    userId?: StringWithAggregatesFilter<"AlarmSettings"> | string
+    isArmed?: BoolWithAggregatesFilter<"AlarmSettings"> | boolean
+    schedule?: JsonWithAggregatesFilter<"AlarmSettings">
+    soundId?: StringWithAggregatesFilter<"AlarmSettings"> | string
+    volume?: IntWithAggregatesFilter<"AlarmSettings"> | number
+    snoozeMinutes?: IntWithAggregatesFilter<"AlarmSettings"> | number
+    maxSnoozes?: IntWithAggregatesFilter<"AlarmSettings"> | number
+    lastSetTime?: StringNullableWithAggregatesFilter<"AlarmSettings"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AlarmSettings"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AlarmSettings"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     createdAt?: Date | string
@@ -37108,14 +39835,16 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
-    consents?: ConsentCreateNestedManyWithoutUserInput
-    events?: EventCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -37130,14 +39859,16 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
-    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
-    events?: EventUncheckedCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -37152,14 +39883,16 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
-    consents?: ConsentUpdateManyWithoutUserNestedInput
-    events?: EventUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -37174,14 +39907,16 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
-    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
-    events?: EventUncheckedUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -37445,8 +40180,8 @@ export namespace Prisma {
     capturedAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutDreamEntriesInput
-    facts?: JournalFactCreateNestedManyWithoutDreamEntryInput
     tags?: DreamTagCreateNestedManyWithoutDreamEntryInput
+    facts?: JournalFactCreateNestedManyWithoutDreamEntryInput
   }
 
   export type DreamEntryUncheckedCreateInput = {
@@ -37467,8 +40202,8 @@ export namespace Prisma {
     wakingLifeLink?: string | null
     capturedAt?: Date | string
     updatedAt?: Date | string
-    facts?: JournalFactUncheckedCreateNestedManyWithoutDreamEntryInput
     tags?: DreamTagUncheckedCreateNestedManyWithoutDreamEntryInput
+    facts?: JournalFactUncheckedCreateNestedManyWithoutDreamEntryInput
   }
 
   export type DreamEntryUpdateInput = {
@@ -37489,8 +40224,8 @@ export namespace Prisma {
     capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutDreamEntriesNestedInput
-    facts?: JournalFactUpdateManyWithoutDreamEntryNestedInput
     tags?: DreamTagUpdateManyWithoutDreamEntryNestedInput
+    facts?: JournalFactUpdateManyWithoutDreamEntryNestedInput
   }
 
   export type DreamEntryUncheckedUpdateInput = {
@@ -37511,8 +40246,8 @@ export namespace Prisma {
     wakingLifeLink?: NullableStringFieldUpdateOperationsInput | string | null
     capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    facts?: JournalFactUncheckedUpdateManyWithoutDreamEntryNestedInput
     tags?: DreamTagUncheckedUpdateManyWithoutDreamEntryNestedInput
+    facts?: JournalFactUncheckedUpdateManyWithoutDreamEntryNestedInput
   }
 
   export type DreamEntryCreateManyInput = {
@@ -37902,8 +40637,8 @@ export namespace Prisma {
     icon?: string | null
     sortOrder?: number
     estimatedTime?: number
-    instrument: CensusInstrumentCreateNestedOneWithoutSectionsInput
     questions?: CensusQuestionCreateNestedManyWithoutSectionInput
+    instrument: CensusInstrumentCreateNestedOneWithoutSectionsInput
   }
 
   export type CensusSectionUncheckedCreateInput = {
@@ -37926,8 +40661,8 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     estimatedTime?: IntFieldUpdateOperationsInput | number
-    instrument?: CensusInstrumentUpdateOneRequiredWithoutSectionsNestedInput
     questions?: CensusQuestionUpdateManyWithoutSectionNestedInput
+    instrument?: CensusInstrumentUpdateOneRequiredWithoutSectionsNestedInput
   }
 
   export type CensusSectionUncheckedUpdateInput = {
@@ -37985,11 +40720,11 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: string | null
     groupLabel?: string | null
-    section: CensusSectionCreateNestedOneWithoutQuestionsInput
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
     answers?: CensusAnswerCreateNestedManyWithoutQuestionInput
+    section: CensusSectionCreateNestedOneWithoutQuestionsInput
   }
 
   export type CensusQuestionUncheckedCreateInput = {
@@ -38004,9 +40739,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: string | null
     groupLabel?: string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
     answers?: CensusAnswerUncheckedCreateNestedManyWithoutQuestionInput
   }
 
@@ -38021,11 +40756,11 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: IntFieldUpdateOperationsInput | number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
     groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
-    section?: CensusSectionUpdateOneRequiredWithoutQuestionsNestedInput
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
     answers?: CensusAnswerUpdateManyWithoutQuestionNestedInput
+    section?: CensusSectionUpdateOneRequiredWithoutQuestionsNestedInput
   }
 
   export type CensusQuestionUncheckedUpdateInput = {
@@ -38040,9 +40775,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: IntFieldUpdateOperationsInput | number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
     groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
     answers?: CensusAnswerUncheckedUpdateManyWithoutQuestionNestedInput
   }
 
@@ -38058,9 +40793,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: string | null
     groupLabel?: string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CensusQuestionUpdateManyMutationInput = {
@@ -38074,9 +40809,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: IntFieldUpdateOperationsInput | number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
     groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CensusQuestionUncheckedUpdateManyInput = {
@@ -38091,9 +40826,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: IntFieldUpdateOperationsInput | number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
     groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CensusAnswerCreateInput = {
@@ -38102,8 +40837,8 @@ export namespace Prisma {
     instrumentVersion?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutCensusAnswersInput
     question: CensusQuestionCreateNestedOneWithoutAnswersInput
+    user: UserCreateNestedOneWithoutCensusAnswersInput
   }
 
   export type CensusAnswerUncheckedCreateInput = {
@@ -38122,8 +40857,8 @@ export namespace Prisma {
     instrumentVersion?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCensusAnswersNestedInput
     question?: CensusQuestionUpdateOneRequiredWithoutAnswersNestedInput
+    user?: UserUpdateOneRequiredWithoutCensusAnswersNestedInput
   }
 
   export type CensusAnswerUncheckedUpdateInput = {
@@ -38588,8 +41323,8 @@ export namespace Prisma {
     shownAt: Date | string
     respondedAt?: Date | string
     skipped?: boolean
-    user: UserCreateNestedOneWithoutPromptResponsesInput
     prompt: PromptCreateNestedOneWithoutResponsesInput
+    user: UserCreateNestedOneWithoutPromptResponsesInput
   }
 
   export type PromptResponseUncheckedCreateInput = {
@@ -38608,8 +41343,8 @@ export namespace Prisma {
     shownAt?: DateTimeFieldUpdateOperationsInput | Date | string
     respondedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     skipped?: BoolFieldUpdateOperationsInput | boolean
-    user?: UserUpdateOneRequiredWithoutPromptResponsesNestedInput
     prompt?: PromptUpdateOneRequiredWithoutResponsesNestedInput
+    user?: UserUpdateOneRequiredWithoutPromptResponsesNestedInput
   }
 
   export type PromptResponseUncheckedUpdateInput = {
@@ -38917,8 +41652,8 @@ export namespace Prisma {
     maxParticipants?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    participations?: StudyParticipationCreateNestedManyWithoutStudyInput
     prompts?: PromptCreateNestedManyWithoutStudyInput
+    participations?: StudyParticipationCreateNestedManyWithoutStudyInput
   }
 
   export type StudyUncheckedCreateInput = {
@@ -38937,8 +41672,8 @@ export namespace Prisma {
     maxParticipants?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    participations?: StudyParticipationUncheckedCreateNestedManyWithoutStudyInput
     prompts?: PromptUncheckedCreateNestedManyWithoutStudyInput
+    participations?: StudyParticipationUncheckedCreateNestedManyWithoutStudyInput
   }
 
   export type StudyUpdateInput = {
@@ -38957,8 +41692,8 @@ export namespace Prisma {
     maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    participations?: StudyParticipationUpdateManyWithoutStudyNestedInput
     prompts?: PromptUpdateManyWithoutStudyNestedInput
+    participations?: StudyParticipationUpdateManyWithoutStudyNestedInput
   }
 
   export type StudyUncheckedUpdateInput = {
@@ -38977,8 +41712,8 @@ export namespace Prisma {
     maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    participations?: StudyParticipationUncheckedUpdateManyWithoutStudyNestedInput
     prompts?: PromptUncheckedUpdateManyWithoutStudyNestedInput
+    participations?: StudyParticipationUncheckedUpdateManyWithoutStudyNestedInput
   }
 
   export type StudyCreateManyInput = {
@@ -39043,8 +41778,8 @@ export namespace Prisma {
     withdrawnAt?: Date | string | null
     withdrawalReason?: string | null
     completedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutStudyParticipationsInput
     study: StudyCreateNestedOneWithoutParticipationsInput
+    user: UserCreateNestedOneWithoutStudyParticipationsInput
   }
 
   export type StudyParticipationUncheckedCreateInput = {
@@ -39067,8 +41802,8 @@ export namespace Prisma {
     withdrawnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     withdrawalReason?: NullableStringFieldUpdateOperationsInput | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutStudyParticipationsNestedInput
     study?: StudyUpdateOneRequiredWithoutParticipationsNestedInput
+    user?: UserUpdateOneRequiredWithoutStudyParticipationsNestedInput
   }
 
   export type StudyParticipationUncheckedUpdateInput = {
@@ -39344,6 +42079,89 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
   }
 
+  export type NightCheckInCreateInput = {
+    id?: string
+    date: string
+    mood?: string | null
+    dayNotes?: string | null
+    intention?: string | null
+    plannedWakeTime?: string | null
+    reminderEnabled?: boolean
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutNightCheckInsInput
+  }
+
+  export type NightCheckInUncheckedCreateInput = {
+    id?: string
+    userId: string
+    date: string
+    mood?: string | null
+    dayNotes?: string | null
+    intention?: string | null
+    plannedWakeTime?: string | null
+    reminderEnabled?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NightCheckInUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    mood?: NullableStringFieldUpdateOperationsInput | string | null
+    dayNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    intention?: NullableStringFieldUpdateOperationsInput | string | null
+    plannedWakeTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNightCheckInsNestedInput
+  }
+
+  export type NightCheckInUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    mood?: NullableStringFieldUpdateOperationsInput | string | null
+    dayNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    intention?: NullableStringFieldUpdateOperationsInput | string | null
+    plannedWakeTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NightCheckInCreateManyInput = {
+    id?: string
+    userId: string
+    date: string
+    mood?: string | null
+    dayNotes?: string | null
+    intention?: string | null
+    plannedWakeTime?: string | null
+    reminderEnabled?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NightCheckInUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    mood?: NullableStringFieldUpdateOperationsInput | string | null
+    dayNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    intention?: NullableStringFieldUpdateOperationsInput | string | null
+    plannedWakeTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NightCheckInUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    mood?: NullableStringFieldUpdateOperationsInput | string | null
+    dayNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    intention?: NullableStringFieldUpdateOperationsInput | string | null
+    plannedWakeTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SyncQueueItemCreateInput = {
     id?: string
     userId: string
@@ -39435,6 +42253,103 @@ export namespace Prisma {
     processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type AlarmSettingsCreateInput = {
+    id?: string
+    isArmed?: boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: string
+    volume?: number
+    snoozeMinutes?: number
+    maxSnoozes?: number
+    lastSetTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAlarmSettingsInput
+  }
+
+  export type AlarmSettingsUncheckedCreateInput = {
+    id?: string
+    userId: string
+    isArmed?: boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: string
+    volume?: number
+    snoozeMinutes?: number
+    maxSnoozes?: number
+    lastSetTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AlarmSettingsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isArmed?: BoolFieldUpdateOperationsInput | boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: StringFieldUpdateOperationsInput | string
+    volume?: IntFieldUpdateOperationsInput | number
+    snoozeMinutes?: IntFieldUpdateOperationsInput | number
+    maxSnoozes?: IntFieldUpdateOperationsInput | number
+    lastSetTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAlarmSettingsNestedInput
+  }
+
+  export type AlarmSettingsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isArmed?: BoolFieldUpdateOperationsInput | boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: StringFieldUpdateOperationsInput | string
+    volume?: IntFieldUpdateOperationsInput | number
+    snoozeMinutes?: IntFieldUpdateOperationsInput | number
+    maxSnoozes?: IntFieldUpdateOperationsInput | number
+    lastSetTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlarmSettingsCreateManyInput = {
+    id?: string
+    userId: string
+    isArmed?: boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: string
+    volume?: number
+    snoozeMinutes?: number
+    maxSnoozes?: number
+    lastSetTime?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AlarmSettingsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isArmed?: BoolFieldUpdateOperationsInput | boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: StringFieldUpdateOperationsInput | string
+    volume?: IntFieldUpdateOperationsInput | number
+    snoozeMinutes?: IntFieldUpdateOperationsInput | number
+    maxSnoozes?: IntFieldUpdateOperationsInput | number
+    lastSetTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlarmSettingsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isArmed?: BoolFieldUpdateOperationsInput | boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: StringFieldUpdateOperationsInput | string
+    volume?: IntFieldUpdateOperationsInput | number
+    snoozeMinutes?: IntFieldUpdateOperationsInput | number
+    maxSnoozes?: IntFieldUpdateOperationsInput | number
+    lastSetTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -39505,46 +42420,9 @@ export namespace Prisma {
     not?: NestedBytesNullableFilter<$PrismaModel> | Bytes | null
   }
 
-  export type SessionListRelationFilter = {
-    every?: SessionWhereInput
-    some?: SessionWhereInput
-    none?: SessionWhereInput
-  }
-
-  export type DreamEntryListRelationFilter = {
-    every?: DreamEntryWhereInput
-    some?: DreamEntryWhereInput
-    none?: DreamEntryWhereInput
-  }
-
-  export type CensusAnswerListRelationFilter = {
-    every?: CensusAnswerWhereInput
-    some?: CensusAnswerWhereInput
-    none?: CensusAnswerWhereInput
-  }
-
-  export type PromptResponseListRelationFilter = {
-    every?: PromptResponseWhereInput
-    some?: PromptResponseWhereInput
-    none?: PromptResponseWhereInput
-  }
-
-  export type ConsentListRelationFilter = {
-    every?: ConsentWhereInput
-    some?: ConsentWhereInput
-    none?: ConsentWhereInput
-  }
-
-  export type EventListRelationFilter = {
-    every?: EventWhereInput
-    some?: EventWhereInput
-    none?: EventWhereInput
-  }
-
-  export type StudyParticipationListRelationFilter = {
-    every?: StudyParticipationWhereInput
-    some?: StudyParticipationWhereInput
-    none?: StudyParticipationWhereInput
+  export type AlarmSettingsNullableScalarRelationFilter = {
+    is?: AlarmSettingsWhereInput | null
+    isNot?: AlarmSettingsWhereInput | null
   }
 
   export type CategoryProgressListRelationFilter = {
@@ -39553,16 +42431,60 @@ export namespace Prisma {
     none?: CategoryProgressWhereInput
   }
 
+  export type CensusAnswerListRelationFilter = {
+    every?: CensusAnswerWhereInput
+    some?: CensusAnswerWhereInput
+    none?: CensusAnswerWhereInput
+  }
+
+  export type ConsentListRelationFilter = {
+    every?: ConsentWhereInput
+    some?: ConsentWhereInput
+    none?: ConsentWhereInput
+  }
+
+  export type DreamEntryListRelationFilter = {
+    every?: DreamEntryWhereInput
+    some?: DreamEntryWhereInput
+    none?: DreamEntryWhereInput
+  }
+
+  export type EventListRelationFilter = {
+    every?: EventWhereInput
+    some?: EventWhereInput
+    none?: EventWhereInput
+  }
+
+  export type NightCheckInListRelationFilter = {
+    every?: NightCheckInWhereInput
+    some?: NightCheckInWhereInput
+    none?: NightCheckInWhereInput
+  }
+
+  export type PromptResponseListRelationFilter = {
+    every?: PromptResponseWhereInput
+    some?: PromptResponseWhereInput
+    none?: PromptResponseWhereInput
+  }
+
+  export type SessionListRelationFilter = {
+    every?: SessionWhereInput
+    some?: SessionWhereInput
+    none?: SessionWhereInput
+  }
+
+  export type StudyParticipationListRelationFilter = {
+    every?: StudyParticipationWhereInput
+    some?: StudyParticipationWhereInput
+    none?: StudyParticipationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
-  export type SessionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type DreamEntryOrderByRelationAggregateInput = {
+  export type CategoryProgressOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -39570,11 +42492,11 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type PromptResponseOrderByRelationAggregateInput = {
+  export type ConsentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ConsentOrderByRelationAggregateInput = {
+  export type DreamEntryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -39582,11 +42504,19 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type StudyParticipationOrderByRelationAggregateInput = {
+  export type NightCheckInOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type CategoryProgressOrderByRelationAggregateInput = {
+  export type PromptResponseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudyParticipationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -39939,23 +42869,23 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type JournalFactListRelationFilter = {
-    every?: JournalFactWhereInput
-    some?: JournalFactWhereInput
-    none?: JournalFactWhereInput
-  }
-
   export type DreamTagListRelationFilter = {
     every?: DreamTagWhereInput
     some?: DreamTagWhereInput
     none?: DreamTagWhereInput
   }
 
-  export type JournalFactOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type JournalFactListRelationFilter = {
+    every?: JournalFactWhereInput
+    some?: JournalFactWhereInput
+    none?: JournalFactWhereInput
   }
 
   export type DreamTagOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JournalFactOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -40295,15 +43225,15 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type CensusInstrumentScalarRelationFilter = {
-    is?: CensusInstrumentWhereInput
-    isNot?: CensusInstrumentWhereInput
-  }
-
   export type CensusQuestionListRelationFilter = {
     every?: CensusQuestionWhereInput
     some?: CensusQuestionWhereInput
     none?: CensusQuestionWhereInput
+  }
+
+  export type CensusInstrumentScalarRelationFilter = {
+    is?: CensusInstrumentWhereInput
+    isNot?: CensusInstrumentWhereInput
   }
 
   export type CensusQuestionOrderByRelationAggregateInput = {
@@ -40403,9 +43333,9 @@ export namespace Prisma {
     validation?: SortOrder
     sortOrder?: SortOrder
     irtParams?: SortOrder
-    showWhen?: SortOrder
     groupId?: SortOrder
     groupLabel?: SortOrder
+    showWhen?: SortOrder
   }
 
   export type CensusQuestionAvgOrderByAggregateInput = {
@@ -41174,6 +44104,47 @@ export namespace Prisma {
     version?: SortOrder
   }
 
+  export type NightCheckInUserIdDateCompoundUniqueInput = {
+    userId: string
+    date: string
+  }
+
+  export type NightCheckInCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    mood?: SortOrder
+    dayNotes?: SortOrder
+    intention?: SortOrder
+    plannedWakeTime?: SortOrder
+    reminderEnabled?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NightCheckInMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    mood?: SortOrder
+    dayNotes?: SortOrder
+    intention?: SortOrder
+    plannedWakeTime?: SortOrder
+    reminderEnabled?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NightCheckInMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    date?: SortOrder
+    mood?: SortOrder
+    dayNotes?: SortOrder
+    intention?: SortOrder
+    plannedWakeTime?: SortOrder
+    reminderEnabled?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type SyncQueueItemCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -41219,53 +44190,62 @@ export namespace Prisma {
     attempts?: SortOrder
   }
 
-  export type SessionCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  export type AlarmSettingsCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    isArmed?: SortOrder
+    schedule?: SortOrder
+    soundId?: SortOrder
+    volume?: SortOrder
+    snoozeMinutes?: SortOrder
+    maxSnoozes?: SortOrder
+    lastSetTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type DreamEntryCreateNestedManyWithoutUserInput = {
-    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
-    createMany?: DreamEntryCreateManyUserInputEnvelope
-    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+  export type AlarmSettingsAvgOrderByAggregateInput = {
+    volume?: SortOrder
+    snoozeMinutes?: SortOrder
+    maxSnoozes?: SortOrder
   }
 
-  export type CensusAnswerCreateNestedManyWithoutUserInput = {
-    create?: XOR<CensusAnswerCreateWithoutUserInput, CensusAnswerUncheckedCreateWithoutUserInput> | CensusAnswerCreateWithoutUserInput[] | CensusAnswerUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CensusAnswerCreateOrConnectWithoutUserInput | CensusAnswerCreateOrConnectWithoutUserInput[]
-    createMany?: CensusAnswerCreateManyUserInputEnvelope
-    connect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
+  export type AlarmSettingsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    isArmed?: SortOrder
+    soundId?: SortOrder
+    volume?: SortOrder
+    snoozeMinutes?: SortOrder
+    maxSnoozes?: SortOrder
+    lastSetTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type PromptResponseCreateNestedManyWithoutUserInput = {
-    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
-    createMany?: PromptResponseCreateManyUserInputEnvelope
-    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+  export type AlarmSettingsMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    isArmed?: SortOrder
+    soundId?: SortOrder
+    volume?: SortOrder
+    snoozeMinutes?: SortOrder
+    maxSnoozes?: SortOrder
+    lastSetTime?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type ConsentCreateNestedManyWithoutUserInput = {
-    create?: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput> | ConsentCreateWithoutUserInput[] | ConsentUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ConsentCreateOrConnectWithoutUserInput | ConsentCreateOrConnectWithoutUserInput[]
-    createMany?: ConsentCreateManyUserInputEnvelope
-    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+  export type AlarmSettingsSumOrderByAggregateInput = {
+    volume?: SortOrder
+    snoozeMinutes?: SortOrder
+    maxSnoozes?: SortOrder
   }
 
-  export type EventCreateNestedManyWithoutUserInput = {
-    create?: XOR<EventCreateWithoutUserInput, EventUncheckedCreateWithoutUserInput> | EventCreateWithoutUserInput[] | EventUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: EventCreateOrConnectWithoutUserInput | EventCreateOrConnectWithoutUserInput[]
-    createMany?: EventCreateManyUserInputEnvelope
-    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-  }
-
-  export type StudyParticipationCreateNestedManyWithoutUserInput = {
-    create?: XOR<StudyParticipationCreateWithoutUserInput, StudyParticipationUncheckedCreateWithoutUserInput> | StudyParticipationCreateWithoutUserInput[] | StudyParticipationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: StudyParticipationCreateOrConnectWithoutUserInput | StudyParticipationCreateOrConnectWithoutUserInput[]
-    createMany?: StudyParticipationCreateManyUserInputEnvelope
-    connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+  export type AlarmSettingsCreateNestedOneWithoutUserInput = {
+    create?: XOR<AlarmSettingsCreateWithoutUserInput, AlarmSettingsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AlarmSettingsCreateOrConnectWithoutUserInput
+    connect?: AlarmSettingsWhereUniqueInput
   }
 
   export type CategoryProgressCreateNestedManyWithoutUserInput = {
@@ -41275,18 +44255,73 @@ export namespace Prisma {
     connect?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
   }
 
-  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+  export type CensusAnswerCreateNestedManyWithoutUserInput = {
+    create?: XOR<CensusAnswerCreateWithoutUserInput, CensusAnswerUncheckedCreateWithoutUserInput> | CensusAnswerCreateWithoutUserInput[] | CensusAnswerUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CensusAnswerCreateOrConnectWithoutUserInput | CensusAnswerCreateOrConnectWithoutUserInput[]
+    createMany?: CensusAnswerCreateManyUserInputEnvelope
+    connect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
+  }
+
+  export type ConsentCreateNestedManyWithoutUserInput = {
+    create?: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput> | ConsentCreateWithoutUserInput[] | ConsentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutUserInput | ConsentCreateOrConnectWithoutUserInput[]
+    createMany?: ConsentCreateManyUserInputEnvelope
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+  }
+
+  export type DreamEntryCreateNestedManyWithoutUserInput = {
+    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
+    createMany?: DreamEntryCreateManyUserInputEnvelope
+    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+  }
+
+  export type EventCreateNestedManyWithoutUserInput = {
+    create?: XOR<EventCreateWithoutUserInput, EventUncheckedCreateWithoutUserInput> | EventCreateWithoutUserInput[] | EventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutUserInput | EventCreateOrConnectWithoutUserInput[]
+    createMany?: EventCreateManyUserInputEnvelope
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+  }
+
+  export type NightCheckInCreateNestedManyWithoutUserInput = {
+    create?: XOR<NightCheckInCreateWithoutUserInput, NightCheckInUncheckedCreateWithoutUserInput> | NightCheckInCreateWithoutUserInput[] | NightCheckInUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NightCheckInCreateOrConnectWithoutUserInput | NightCheckInCreateOrConnectWithoutUserInput[]
+    createMany?: NightCheckInCreateManyUserInputEnvelope
+    connect?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+  }
+
+  export type PromptResponseCreateNestedManyWithoutUserInput = {
+    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
+    createMany?: PromptResponseCreateManyUserInputEnvelope
+    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+  }
+
+  export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type DreamEntryUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
-    createMany?: DreamEntryCreateManyUserInputEnvelope
-    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+  export type StudyParticipationCreateNestedManyWithoutUserInput = {
+    create?: XOR<StudyParticipationCreateWithoutUserInput, StudyParticipationUncheckedCreateWithoutUserInput> | StudyParticipationCreateWithoutUserInput[] | StudyParticipationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudyParticipationCreateOrConnectWithoutUserInput | StudyParticipationCreateOrConnectWithoutUserInput[]
+    createMany?: StudyParticipationCreateManyUserInputEnvelope
+    connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+  }
+
+  export type AlarmSettingsUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<AlarmSettingsCreateWithoutUserInput, AlarmSettingsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AlarmSettingsCreateOrConnectWithoutUserInput
+    connect?: AlarmSettingsWhereUniqueInput
+  }
+
+  export type CategoryProgressUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CategoryProgressCreateWithoutUserInput, CategoryProgressUncheckedCreateWithoutUserInput> | CategoryProgressCreateWithoutUserInput[] | CategoryProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CategoryProgressCreateOrConnectWithoutUserInput | CategoryProgressCreateOrConnectWithoutUserInput[]
+    createMany?: CategoryProgressCreateManyUserInputEnvelope
+    connect?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
   }
 
   export type CensusAnswerUncheckedCreateNestedManyWithoutUserInput = {
@@ -41296,18 +44331,18 @@ export namespace Prisma {
     connect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
   }
 
-  export type PromptResponseUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
-    createMany?: PromptResponseCreateManyUserInputEnvelope
-    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-  }
-
   export type ConsentUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput> | ConsentCreateWithoutUserInput[] | ConsentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ConsentCreateOrConnectWithoutUserInput | ConsentCreateOrConnectWithoutUserInput[]
     createMany?: ConsentCreateManyUserInputEnvelope
     connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+  }
+
+  export type DreamEntryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
+    createMany?: DreamEntryCreateManyUserInputEnvelope
+    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
   }
 
   export type EventUncheckedCreateNestedManyWithoutUserInput = {
@@ -41317,18 +44352,32 @@ export namespace Prisma {
     connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
   }
 
+  export type NightCheckInUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NightCheckInCreateWithoutUserInput, NightCheckInUncheckedCreateWithoutUserInput> | NightCheckInCreateWithoutUserInput[] | NightCheckInUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NightCheckInCreateOrConnectWithoutUserInput | NightCheckInCreateOrConnectWithoutUserInput[]
+    createMany?: NightCheckInCreateManyUserInputEnvelope
+    connect?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+  }
+
+  export type PromptResponseUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
+    createMany?: PromptResponseCreateManyUserInputEnvelope
+    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+  }
+
+  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
   export type StudyParticipationUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<StudyParticipationCreateWithoutUserInput, StudyParticipationUncheckedCreateWithoutUserInput> | StudyParticipationCreateWithoutUserInput[] | StudyParticipationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StudyParticipationCreateOrConnectWithoutUserInput | StudyParticipationCreateOrConnectWithoutUserInput[]
     createMany?: StudyParticipationCreateManyUserInputEnvelope
     connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-  }
-
-  export type CategoryProgressUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CategoryProgressCreateWithoutUserInput, CategoryProgressUncheckedCreateWithoutUserInput> | CategoryProgressCreateWithoutUserInput[] | CategoryProgressUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CategoryProgressCreateOrConnectWithoutUserInput | CategoryProgressCreateOrConnectWithoutUserInput[]
-    createMany?: CategoryProgressCreateManyUserInputEnvelope
-    connect?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -41359,102 +44408,14 @@ export namespace Prisma {
     set?: Bytes | null
   }
 
-  export type SessionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
-  export type DreamEntryUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
-    upsert?: DreamEntryUpsertWithWhereUniqueWithoutUserInput | DreamEntryUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DreamEntryCreateManyUserInputEnvelope
-    set?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    disconnect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    delete?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    update?: DreamEntryUpdateWithWhereUniqueWithoutUserInput | DreamEntryUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DreamEntryUpdateManyWithWhereWithoutUserInput | DreamEntryUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DreamEntryScalarWhereInput | DreamEntryScalarWhereInput[]
-  }
-
-  export type CensusAnswerUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CensusAnswerCreateWithoutUserInput, CensusAnswerUncheckedCreateWithoutUserInput> | CensusAnswerCreateWithoutUserInput[] | CensusAnswerUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CensusAnswerCreateOrConnectWithoutUserInput | CensusAnswerCreateOrConnectWithoutUserInput[]
-    upsert?: CensusAnswerUpsertWithWhereUniqueWithoutUserInput | CensusAnswerUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CensusAnswerCreateManyUserInputEnvelope
-    set?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
-    disconnect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
-    delete?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
-    connect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
-    update?: CensusAnswerUpdateWithWhereUniqueWithoutUserInput | CensusAnswerUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CensusAnswerUpdateManyWithWhereWithoutUserInput | CensusAnswerUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
-  }
-
-  export type PromptResponseUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
-    upsert?: PromptResponseUpsertWithWhereUniqueWithoutUserInput | PromptResponseUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PromptResponseCreateManyUserInputEnvelope
-    set?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    disconnect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    delete?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    update?: PromptResponseUpdateWithWhereUniqueWithoutUserInput | PromptResponseUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PromptResponseUpdateManyWithWhereWithoutUserInput | PromptResponseUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PromptResponseScalarWhereInput | PromptResponseScalarWhereInput[]
-  }
-
-  export type ConsentUpdateManyWithoutUserNestedInput = {
-    create?: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput> | ConsentCreateWithoutUserInput[] | ConsentUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ConsentCreateOrConnectWithoutUserInput | ConsentCreateOrConnectWithoutUserInput[]
-    upsert?: ConsentUpsertWithWhereUniqueWithoutUserInput | ConsentUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: ConsentCreateManyUserInputEnvelope
-    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
-    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
-    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
-    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
-    update?: ConsentUpdateWithWhereUniqueWithoutUserInput | ConsentUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: ConsentUpdateManyWithWhereWithoutUserInput | ConsentUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
-  }
-
-  export type EventUpdateManyWithoutUserNestedInput = {
-    create?: XOR<EventCreateWithoutUserInput, EventUncheckedCreateWithoutUserInput> | EventCreateWithoutUserInput[] | EventUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: EventCreateOrConnectWithoutUserInput | EventCreateOrConnectWithoutUserInput[]
-    upsert?: EventUpsertWithWhereUniqueWithoutUserInput | EventUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: EventCreateManyUserInputEnvelope
-    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
-    update?: EventUpdateWithWhereUniqueWithoutUserInput | EventUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: EventUpdateManyWithWhereWithoutUserInput | EventUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
-  }
-
-  export type StudyParticipationUpdateManyWithoutUserNestedInput = {
-    create?: XOR<StudyParticipationCreateWithoutUserInput, StudyParticipationUncheckedCreateWithoutUserInput> | StudyParticipationCreateWithoutUserInput[] | StudyParticipationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: StudyParticipationCreateOrConnectWithoutUserInput | StudyParticipationCreateOrConnectWithoutUserInput[]
-    upsert?: StudyParticipationUpsertWithWhereUniqueWithoutUserInput | StudyParticipationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: StudyParticipationCreateManyUserInputEnvelope
-    set?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-    disconnect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-    delete?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-    connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-    update?: StudyParticipationUpdateWithWhereUniqueWithoutUserInput | StudyParticipationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: StudyParticipationUpdateManyWithWhereWithoutUserInput | StudyParticipationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: StudyParticipationScalarWhereInput | StudyParticipationScalarWhereInput[]
+  export type AlarmSettingsUpdateOneWithoutUserNestedInput = {
+    create?: XOR<AlarmSettingsCreateWithoutUserInput, AlarmSettingsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AlarmSettingsCreateOrConnectWithoutUserInput
+    upsert?: AlarmSettingsUpsertWithoutUserInput
+    disconnect?: AlarmSettingsWhereInput | boolean
+    delete?: AlarmSettingsWhereInput | boolean
+    connect?: AlarmSettingsWhereUniqueInput
+    update?: XOR<XOR<AlarmSettingsUpdateToOneWithWhereWithoutUserInput, AlarmSettingsUpdateWithoutUserInput>, AlarmSettingsUncheckedUpdateWithoutUserInput>
   }
 
   export type CategoryProgressUpdateManyWithoutUserNestedInput = {
@@ -41471,7 +44432,91 @@ export namespace Prisma {
     deleteMany?: CategoryProgressScalarWhereInput | CategoryProgressScalarWhereInput[]
   }
 
-  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+  export type CensusAnswerUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CensusAnswerCreateWithoutUserInput, CensusAnswerUncheckedCreateWithoutUserInput> | CensusAnswerCreateWithoutUserInput[] | CensusAnswerUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CensusAnswerCreateOrConnectWithoutUserInput | CensusAnswerCreateOrConnectWithoutUserInput[]
+    upsert?: CensusAnswerUpsertWithWhereUniqueWithoutUserInput | CensusAnswerUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CensusAnswerCreateManyUserInputEnvelope
+    set?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
+    disconnect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
+    delete?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
+    connect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
+    update?: CensusAnswerUpdateWithWhereUniqueWithoutUserInput | CensusAnswerUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CensusAnswerUpdateManyWithWhereWithoutUserInput | CensusAnswerUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
+  }
+
+  export type ConsentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput> | ConsentCreateWithoutUserInput[] | ConsentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ConsentCreateOrConnectWithoutUserInput | ConsentCreateOrConnectWithoutUserInput[]
+    upsert?: ConsentUpsertWithWhereUniqueWithoutUserInput | ConsentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ConsentCreateManyUserInputEnvelope
+    set?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    disconnect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    delete?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    connect?: ConsentWhereUniqueInput | ConsentWhereUniqueInput[]
+    update?: ConsentUpdateWithWhereUniqueWithoutUserInput | ConsentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ConsentUpdateManyWithWhereWithoutUserInput | ConsentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+  }
+
+  export type DreamEntryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
+    upsert?: DreamEntryUpsertWithWhereUniqueWithoutUserInput | DreamEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DreamEntryCreateManyUserInputEnvelope
+    set?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    disconnect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    delete?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    update?: DreamEntryUpdateWithWhereUniqueWithoutUserInput | DreamEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DreamEntryUpdateManyWithWhereWithoutUserInput | DreamEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DreamEntryScalarWhereInput | DreamEntryScalarWhereInput[]
+  }
+
+  export type EventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EventCreateWithoutUserInput, EventUncheckedCreateWithoutUserInput> | EventCreateWithoutUserInput[] | EventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EventCreateOrConnectWithoutUserInput | EventCreateOrConnectWithoutUserInput[]
+    upsert?: EventUpsertWithWhereUniqueWithoutUserInput | EventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EventCreateManyUserInputEnvelope
+    set?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    disconnect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    delete?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    connect?: EventWhereUniqueInput | EventWhereUniqueInput[]
+    update?: EventUpdateWithWhereUniqueWithoutUserInput | EventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EventUpdateManyWithWhereWithoutUserInput | EventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
+  }
+
+  export type NightCheckInUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NightCheckInCreateWithoutUserInput, NightCheckInUncheckedCreateWithoutUserInput> | NightCheckInCreateWithoutUserInput[] | NightCheckInUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NightCheckInCreateOrConnectWithoutUserInput | NightCheckInCreateOrConnectWithoutUserInput[]
+    upsert?: NightCheckInUpsertWithWhereUniqueWithoutUserInput | NightCheckInUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NightCheckInCreateManyUserInputEnvelope
+    set?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    disconnect?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    delete?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    connect?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    update?: NightCheckInUpdateWithWhereUniqueWithoutUserInput | NightCheckInUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NightCheckInUpdateManyWithWhereWithoutUserInput | NightCheckInUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NightCheckInScalarWhereInput | NightCheckInScalarWhereInput[]
+  }
+
+  export type PromptResponseUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
+    upsert?: PromptResponseUpsertWithWhereUniqueWithoutUserInput | PromptResponseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PromptResponseCreateManyUserInputEnvelope
+    set?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    disconnect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    delete?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    update?: PromptResponseUpdateWithWhereUniqueWithoutUserInput | PromptResponseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PromptResponseUpdateManyWithWhereWithoutUserInput | PromptResponseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PromptResponseScalarWhereInput | PromptResponseScalarWhereInput[]
+  }
+
+  export type SessionUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
@@ -41485,18 +44530,42 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
-  export type DreamEntryUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
-    upsert?: DreamEntryUpsertWithWhereUniqueWithoutUserInput | DreamEntryUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DreamEntryCreateManyUserInputEnvelope
-    set?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    disconnect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    delete?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
-    update?: DreamEntryUpdateWithWhereUniqueWithoutUserInput | DreamEntryUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DreamEntryUpdateManyWithWhereWithoutUserInput | DreamEntryUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DreamEntryScalarWhereInput | DreamEntryScalarWhereInput[]
+  export type StudyParticipationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StudyParticipationCreateWithoutUserInput, StudyParticipationUncheckedCreateWithoutUserInput> | StudyParticipationCreateWithoutUserInput[] | StudyParticipationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudyParticipationCreateOrConnectWithoutUserInput | StudyParticipationCreateOrConnectWithoutUserInput[]
+    upsert?: StudyParticipationUpsertWithWhereUniqueWithoutUserInput | StudyParticipationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StudyParticipationCreateManyUserInputEnvelope
+    set?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    disconnect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    delete?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    update?: StudyParticipationUpdateWithWhereUniqueWithoutUserInput | StudyParticipationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StudyParticipationUpdateManyWithWhereWithoutUserInput | StudyParticipationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StudyParticipationScalarWhereInput | StudyParticipationScalarWhereInput[]
+  }
+
+  export type AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<AlarmSettingsCreateWithoutUserInput, AlarmSettingsUncheckedCreateWithoutUserInput>
+    connectOrCreate?: AlarmSettingsCreateOrConnectWithoutUserInput
+    upsert?: AlarmSettingsUpsertWithoutUserInput
+    disconnect?: AlarmSettingsWhereInput | boolean
+    delete?: AlarmSettingsWhereInput | boolean
+    connect?: AlarmSettingsWhereUniqueInput
+    update?: XOR<XOR<AlarmSettingsUpdateToOneWithWhereWithoutUserInput, AlarmSettingsUpdateWithoutUserInput>, AlarmSettingsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CategoryProgressUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CategoryProgressCreateWithoutUserInput, CategoryProgressUncheckedCreateWithoutUserInput> | CategoryProgressCreateWithoutUserInput[] | CategoryProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CategoryProgressCreateOrConnectWithoutUserInput | CategoryProgressCreateOrConnectWithoutUserInput[]
+    upsert?: CategoryProgressUpsertWithWhereUniqueWithoutUserInput | CategoryProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CategoryProgressCreateManyUserInputEnvelope
+    set?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
+    disconnect?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
+    delete?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
+    connect?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
+    update?: CategoryProgressUpdateWithWhereUniqueWithoutUserInput | CategoryProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CategoryProgressUpdateManyWithWhereWithoutUserInput | CategoryProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CategoryProgressScalarWhereInput | CategoryProgressScalarWhereInput[]
   }
 
   export type CensusAnswerUncheckedUpdateManyWithoutUserNestedInput = {
@@ -41513,20 +44582,6 @@ export namespace Prisma {
     deleteMany?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
   }
 
-  export type PromptResponseUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
-    upsert?: PromptResponseUpsertWithWhereUniqueWithoutUserInput | PromptResponseUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PromptResponseCreateManyUserInputEnvelope
-    set?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    disconnect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    delete?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
-    update?: PromptResponseUpdateWithWhereUniqueWithoutUserInput | PromptResponseUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PromptResponseUpdateManyWithWhereWithoutUserInput | PromptResponseUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PromptResponseScalarWhereInput | PromptResponseScalarWhereInput[]
-  }
-
   export type ConsentUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput> | ConsentCreateWithoutUserInput[] | ConsentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ConsentCreateOrConnectWithoutUserInput | ConsentCreateOrConnectWithoutUserInput[]
@@ -41539,6 +44594,20 @@ export namespace Prisma {
     update?: ConsentUpdateWithWhereUniqueWithoutUserInput | ConsentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ConsentUpdateManyWithWhereWithoutUserInput | ConsentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+  }
+
+  export type DreamEntryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput> | DreamEntryCreateWithoutUserInput[] | DreamEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
+    upsert?: DreamEntryUpsertWithWhereUniqueWithoutUserInput | DreamEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DreamEntryCreateManyUserInputEnvelope
+    set?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    disconnect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    delete?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+    update?: DreamEntryUpdateWithWhereUniqueWithoutUserInput | DreamEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DreamEntryUpdateManyWithWhereWithoutUserInput | DreamEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DreamEntryScalarWhereInput | DreamEntryScalarWhereInput[]
   }
 
   export type EventUncheckedUpdateManyWithoutUserNestedInput = {
@@ -41555,6 +44624,48 @@ export namespace Prisma {
     deleteMany?: EventScalarWhereInput | EventScalarWhereInput[]
   }
 
+  export type NightCheckInUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NightCheckInCreateWithoutUserInput, NightCheckInUncheckedCreateWithoutUserInput> | NightCheckInCreateWithoutUserInput[] | NightCheckInUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NightCheckInCreateOrConnectWithoutUserInput | NightCheckInCreateOrConnectWithoutUserInput[]
+    upsert?: NightCheckInUpsertWithWhereUniqueWithoutUserInput | NightCheckInUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NightCheckInCreateManyUserInputEnvelope
+    set?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    disconnect?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    delete?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    connect?: NightCheckInWhereUniqueInput | NightCheckInWhereUniqueInput[]
+    update?: NightCheckInUpdateWithWhereUniqueWithoutUserInput | NightCheckInUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NightCheckInUpdateManyWithWhereWithoutUserInput | NightCheckInUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NightCheckInScalarWhereInput | NightCheckInScalarWhereInput[]
+  }
+
+  export type PromptResponseUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput> | PromptResponseCreateWithoutUserInput[] | PromptResponseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PromptResponseCreateOrConnectWithoutUserInput | PromptResponseCreateOrConnectWithoutUserInput[]
+    upsert?: PromptResponseUpsertWithWhereUniqueWithoutUserInput | PromptResponseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PromptResponseCreateManyUserInputEnvelope
+    set?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    disconnect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    delete?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    connect?: PromptResponseWhereUniqueInput | PromptResponseWhereUniqueInput[]
+    update?: PromptResponseUpdateWithWhereUniqueWithoutUserInput | PromptResponseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PromptResponseUpdateManyWithWhereWithoutUserInput | PromptResponseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PromptResponseScalarWhereInput | PromptResponseScalarWhereInput[]
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
   export type StudyParticipationUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<StudyParticipationCreateWithoutUserInput, StudyParticipationUncheckedCreateWithoutUserInput> | StudyParticipationCreateWithoutUserInput[] | StudyParticipationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: StudyParticipationCreateOrConnectWithoutUserInput | StudyParticipationCreateOrConnectWithoutUserInput[]
@@ -41567,20 +44678,6 @@ export namespace Prisma {
     update?: StudyParticipationUpdateWithWhereUniqueWithoutUserInput | StudyParticipationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: StudyParticipationUpdateManyWithWhereWithoutUserInput | StudyParticipationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: StudyParticipationScalarWhereInput | StudyParticipationScalarWhereInput[]
-  }
-
-  export type CategoryProgressUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CategoryProgressCreateWithoutUserInput, CategoryProgressUncheckedCreateWithoutUserInput> | CategoryProgressCreateWithoutUserInput[] | CategoryProgressUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CategoryProgressCreateOrConnectWithoutUserInput | CategoryProgressCreateOrConnectWithoutUserInput[]
-    upsert?: CategoryProgressUpsertWithWhereUniqueWithoutUserInput | CategoryProgressUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CategoryProgressCreateManyUserInputEnvelope
-    set?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
-    disconnect?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
-    delete?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
-    connect?: CategoryProgressWhereUniqueInput | CategoryProgressWhereUniqueInput[]
-    update?: CategoryProgressUpdateWithWhereUniqueWithoutUserInput | CategoryProgressUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CategoryProgressUpdateManyWithWhereWithoutUserInput | CategoryProgressUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CategoryProgressScalarWhereInput | CategoryProgressScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -41633,13 +44730,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type JournalFactCreateNestedManyWithoutDreamEntryInput = {
-    create?: XOR<JournalFactCreateWithoutDreamEntryInput, JournalFactUncheckedCreateWithoutDreamEntryInput> | JournalFactCreateWithoutDreamEntryInput[] | JournalFactUncheckedCreateWithoutDreamEntryInput[]
-    connectOrCreate?: JournalFactCreateOrConnectWithoutDreamEntryInput | JournalFactCreateOrConnectWithoutDreamEntryInput[]
-    createMany?: JournalFactCreateManyDreamEntryInputEnvelope
-    connect?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
-  }
-
   export type DreamTagCreateNestedManyWithoutDreamEntryInput = {
     create?: XOR<DreamTagCreateWithoutDreamEntryInput, DreamTagUncheckedCreateWithoutDreamEntryInput> | DreamTagCreateWithoutDreamEntryInput[] | DreamTagUncheckedCreateWithoutDreamEntryInput[]
     connectOrCreate?: DreamTagCreateOrConnectWithoutDreamEntryInput | DreamTagCreateOrConnectWithoutDreamEntryInput[]
@@ -41647,7 +44737,7 @@ export namespace Prisma {
     connect?: DreamTagWhereUniqueInput | DreamTagWhereUniqueInput[]
   }
 
-  export type JournalFactUncheckedCreateNestedManyWithoutDreamEntryInput = {
+  export type JournalFactCreateNestedManyWithoutDreamEntryInput = {
     create?: XOR<JournalFactCreateWithoutDreamEntryInput, JournalFactUncheckedCreateWithoutDreamEntryInput> | JournalFactCreateWithoutDreamEntryInput[] | JournalFactUncheckedCreateWithoutDreamEntryInput[]
     connectOrCreate?: JournalFactCreateOrConnectWithoutDreamEntryInput | JournalFactCreateOrConnectWithoutDreamEntryInput[]
     createMany?: JournalFactCreateManyDreamEntryInputEnvelope
@@ -41659,6 +44749,13 @@ export namespace Prisma {
     connectOrCreate?: DreamTagCreateOrConnectWithoutDreamEntryInput | DreamTagCreateOrConnectWithoutDreamEntryInput[]
     createMany?: DreamTagCreateManyDreamEntryInputEnvelope
     connect?: DreamTagWhereUniqueInput | DreamTagWhereUniqueInput[]
+  }
+
+  export type JournalFactUncheckedCreateNestedManyWithoutDreamEntryInput = {
+    create?: XOR<JournalFactCreateWithoutDreamEntryInput, JournalFactUncheckedCreateWithoutDreamEntryInput> | JournalFactCreateWithoutDreamEntryInput[] | JournalFactUncheckedCreateWithoutDreamEntryInput[]
+    connectOrCreate?: JournalFactCreateOrConnectWithoutDreamEntryInput | JournalFactCreateOrConnectWithoutDreamEntryInput[]
+    createMany?: JournalFactCreateManyDreamEntryInputEnvelope
+    connect?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
   }
 
   export type DreamEntryUpdateemotionsInput = {
@@ -41695,20 +44792,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDreamEntriesInput, UserUpdateWithoutDreamEntriesInput>, UserUncheckedUpdateWithoutDreamEntriesInput>
   }
 
-  export type JournalFactUpdateManyWithoutDreamEntryNestedInput = {
-    create?: XOR<JournalFactCreateWithoutDreamEntryInput, JournalFactUncheckedCreateWithoutDreamEntryInput> | JournalFactCreateWithoutDreamEntryInput[] | JournalFactUncheckedCreateWithoutDreamEntryInput[]
-    connectOrCreate?: JournalFactCreateOrConnectWithoutDreamEntryInput | JournalFactCreateOrConnectWithoutDreamEntryInput[]
-    upsert?: JournalFactUpsertWithWhereUniqueWithoutDreamEntryInput | JournalFactUpsertWithWhereUniqueWithoutDreamEntryInput[]
-    createMany?: JournalFactCreateManyDreamEntryInputEnvelope
-    set?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
-    disconnect?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
-    delete?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
-    connect?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
-    update?: JournalFactUpdateWithWhereUniqueWithoutDreamEntryInput | JournalFactUpdateWithWhereUniqueWithoutDreamEntryInput[]
-    updateMany?: JournalFactUpdateManyWithWhereWithoutDreamEntryInput | JournalFactUpdateManyWithWhereWithoutDreamEntryInput[]
-    deleteMany?: JournalFactScalarWhereInput | JournalFactScalarWhereInput[]
-  }
-
   export type DreamTagUpdateManyWithoutDreamEntryNestedInput = {
     create?: XOR<DreamTagCreateWithoutDreamEntryInput, DreamTagUncheckedCreateWithoutDreamEntryInput> | DreamTagCreateWithoutDreamEntryInput[] | DreamTagUncheckedCreateWithoutDreamEntryInput[]
     connectOrCreate?: DreamTagCreateOrConnectWithoutDreamEntryInput | DreamTagCreateOrConnectWithoutDreamEntryInput[]
@@ -41723,7 +44806,7 @@ export namespace Prisma {
     deleteMany?: DreamTagScalarWhereInput | DreamTagScalarWhereInput[]
   }
 
-  export type JournalFactUncheckedUpdateManyWithoutDreamEntryNestedInput = {
+  export type JournalFactUpdateManyWithoutDreamEntryNestedInput = {
     create?: XOR<JournalFactCreateWithoutDreamEntryInput, JournalFactUncheckedCreateWithoutDreamEntryInput> | JournalFactCreateWithoutDreamEntryInput[] | JournalFactUncheckedCreateWithoutDreamEntryInput[]
     connectOrCreate?: JournalFactCreateOrConnectWithoutDreamEntryInput | JournalFactCreateOrConnectWithoutDreamEntryInput[]
     upsert?: JournalFactUpsertWithWhereUniqueWithoutDreamEntryInput | JournalFactUpsertWithWhereUniqueWithoutDreamEntryInput[]
@@ -41749,6 +44832,20 @@ export namespace Prisma {
     update?: DreamTagUpdateWithWhereUniqueWithoutDreamEntryInput | DreamTagUpdateWithWhereUniqueWithoutDreamEntryInput[]
     updateMany?: DreamTagUpdateManyWithWhereWithoutDreamEntryInput | DreamTagUpdateManyWithWhereWithoutDreamEntryInput[]
     deleteMany?: DreamTagScalarWhereInput | DreamTagScalarWhereInput[]
+  }
+
+  export type JournalFactUncheckedUpdateManyWithoutDreamEntryNestedInput = {
+    create?: XOR<JournalFactCreateWithoutDreamEntryInput, JournalFactUncheckedCreateWithoutDreamEntryInput> | JournalFactCreateWithoutDreamEntryInput[] | JournalFactUncheckedCreateWithoutDreamEntryInput[]
+    connectOrCreate?: JournalFactCreateOrConnectWithoutDreamEntryInput | JournalFactCreateOrConnectWithoutDreamEntryInput[]
+    upsert?: JournalFactUpsertWithWhereUniqueWithoutDreamEntryInput | JournalFactUpsertWithWhereUniqueWithoutDreamEntryInput[]
+    createMany?: JournalFactCreateManyDreamEntryInputEnvelope
+    set?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
+    disconnect?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
+    delete?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
+    connect?: JournalFactWhereUniqueInput | JournalFactWhereUniqueInput[]
+    update?: JournalFactUpdateWithWhereUniqueWithoutDreamEntryInput | JournalFactUpdateWithWhereUniqueWithoutDreamEntryInput[]
+    updateMany?: JournalFactUpdateManyWithWhereWithoutDreamEntryInput | JournalFactUpdateManyWithWhereWithoutDreamEntryInput[]
+    deleteMany?: JournalFactScalarWhereInput | JournalFactScalarWhereInput[]
   }
 
   export type DreamEntryCreateNestedOneWithoutFactsInput = {
@@ -41889,12 +44986,6 @@ export namespace Prisma {
     deleteMany?: CensusSectionScalarWhereInput | CensusSectionScalarWhereInput[]
   }
 
-  export type CensusInstrumentCreateNestedOneWithoutSectionsInput = {
-    create?: XOR<CensusInstrumentCreateWithoutSectionsInput, CensusInstrumentUncheckedCreateWithoutSectionsInput>
-    connectOrCreate?: CensusInstrumentCreateOrConnectWithoutSectionsInput
-    connect?: CensusInstrumentWhereUniqueInput
-  }
-
   export type CensusQuestionCreateNestedManyWithoutSectionInput = {
     create?: XOR<CensusQuestionCreateWithoutSectionInput, CensusQuestionUncheckedCreateWithoutSectionInput> | CensusQuestionCreateWithoutSectionInput[] | CensusQuestionUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: CensusQuestionCreateOrConnectWithoutSectionInput | CensusQuestionCreateOrConnectWithoutSectionInput[]
@@ -41902,19 +44993,17 @@ export namespace Prisma {
     connect?: CensusQuestionWhereUniqueInput | CensusQuestionWhereUniqueInput[]
   }
 
+  export type CensusInstrumentCreateNestedOneWithoutSectionsInput = {
+    create?: XOR<CensusInstrumentCreateWithoutSectionsInput, CensusInstrumentUncheckedCreateWithoutSectionsInput>
+    connectOrCreate?: CensusInstrumentCreateOrConnectWithoutSectionsInput
+    connect?: CensusInstrumentWhereUniqueInput
+  }
+
   export type CensusQuestionUncheckedCreateNestedManyWithoutSectionInput = {
     create?: XOR<CensusQuestionCreateWithoutSectionInput, CensusQuestionUncheckedCreateWithoutSectionInput> | CensusQuestionCreateWithoutSectionInput[] | CensusQuestionUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: CensusQuestionCreateOrConnectWithoutSectionInput | CensusQuestionCreateOrConnectWithoutSectionInput[]
     createMany?: CensusQuestionCreateManySectionInputEnvelope
     connect?: CensusQuestionWhereUniqueInput | CensusQuestionWhereUniqueInput[]
-  }
-
-  export type CensusInstrumentUpdateOneRequiredWithoutSectionsNestedInput = {
-    create?: XOR<CensusInstrumentCreateWithoutSectionsInput, CensusInstrumentUncheckedCreateWithoutSectionsInput>
-    connectOrCreate?: CensusInstrumentCreateOrConnectWithoutSectionsInput
-    upsert?: CensusInstrumentUpsertWithoutSectionsInput
-    connect?: CensusInstrumentWhereUniqueInput
-    update?: XOR<XOR<CensusInstrumentUpdateToOneWithWhereWithoutSectionsInput, CensusInstrumentUpdateWithoutSectionsInput>, CensusInstrumentUncheckedUpdateWithoutSectionsInput>
   }
 
   export type CensusQuestionUpdateManyWithoutSectionNestedInput = {
@@ -41931,6 +45020,14 @@ export namespace Prisma {
     deleteMany?: CensusQuestionScalarWhereInput | CensusQuestionScalarWhereInput[]
   }
 
+  export type CensusInstrumentUpdateOneRequiredWithoutSectionsNestedInput = {
+    create?: XOR<CensusInstrumentCreateWithoutSectionsInput, CensusInstrumentUncheckedCreateWithoutSectionsInput>
+    connectOrCreate?: CensusInstrumentCreateOrConnectWithoutSectionsInput
+    upsert?: CensusInstrumentUpsertWithoutSectionsInput
+    connect?: CensusInstrumentWhereUniqueInput
+    update?: XOR<XOR<CensusInstrumentUpdateToOneWithWhereWithoutSectionsInput, CensusInstrumentUpdateWithoutSectionsInput>, CensusInstrumentUncheckedUpdateWithoutSectionsInput>
+  }
+
   export type CensusQuestionUncheckedUpdateManyWithoutSectionNestedInput = {
     create?: XOR<CensusQuestionCreateWithoutSectionInput, CensusQuestionUncheckedCreateWithoutSectionInput> | CensusQuestionCreateWithoutSectionInput[] | CensusQuestionUncheckedCreateWithoutSectionInput[]
     connectOrCreate?: CensusQuestionCreateOrConnectWithoutSectionInput | CensusQuestionCreateOrConnectWithoutSectionInput[]
@@ -41945,12 +45042,6 @@ export namespace Prisma {
     deleteMany?: CensusQuestionScalarWhereInput | CensusQuestionScalarWhereInput[]
   }
 
-  export type CensusSectionCreateNestedOneWithoutQuestionsInput = {
-    create?: XOR<CensusSectionCreateWithoutQuestionsInput, CensusSectionUncheckedCreateWithoutQuestionsInput>
-    connectOrCreate?: CensusSectionCreateOrConnectWithoutQuestionsInput
-    connect?: CensusSectionWhereUniqueInput
-  }
-
   export type CensusAnswerCreateNestedManyWithoutQuestionInput = {
     create?: XOR<CensusAnswerCreateWithoutQuestionInput, CensusAnswerUncheckedCreateWithoutQuestionInput> | CensusAnswerCreateWithoutQuestionInput[] | CensusAnswerUncheckedCreateWithoutQuestionInput[]
     connectOrCreate?: CensusAnswerCreateOrConnectWithoutQuestionInput | CensusAnswerCreateOrConnectWithoutQuestionInput[]
@@ -41958,19 +45049,17 @@ export namespace Prisma {
     connect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
   }
 
+  export type CensusSectionCreateNestedOneWithoutQuestionsInput = {
+    create?: XOR<CensusSectionCreateWithoutQuestionsInput, CensusSectionUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: CensusSectionCreateOrConnectWithoutQuestionsInput
+    connect?: CensusSectionWhereUniqueInput
+  }
+
   export type CensusAnswerUncheckedCreateNestedManyWithoutQuestionInput = {
     create?: XOR<CensusAnswerCreateWithoutQuestionInput, CensusAnswerUncheckedCreateWithoutQuestionInput> | CensusAnswerCreateWithoutQuestionInput[] | CensusAnswerUncheckedCreateWithoutQuestionInput[]
     connectOrCreate?: CensusAnswerCreateOrConnectWithoutQuestionInput | CensusAnswerCreateOrConnectWithoutQuestionInput[]
     createMany?: CensusAnswerCreateManyQuestionInputEnvelope
     connect?: CensusAnswerWhereUniqueInput | CensusAnswerWhereUniqueInput[]
-  }
-
-  export type CensusSectionUpdateOneRequiredWithoutQuestionsNestedInput = {
-    create?: XOR<CensusSectionCreateWithoutQuestionsInput, CensusSectionUncheckedCreateWithoutQuestionsInput>
-    connectOrCreate?: CensusSectionCreateOrConnectWithoutQuestionsInput
-    upsert?: CensusSectionUpsertWithoutQuestionsInput
-    connect?: CensusSectionWhereUniqueInput
-    update?: XOR<XOR<CensusSectionUpdateToOneWithWhereWithoutQuestionsInput, CensusSectionUpdateWithoutQuestionsInput>, CensusSectionUncheckedUpdateWithoutQuestionsInput>
   }
 
   export type CensusAnswerUpdateManyWithoutQuestionNestedInput = {
@@ -41987,6 +45076,14 @@ export namespace Prisma {
     deleteMany?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
   }
 
+  export type CensusSectionUpdateOneRequiredWithoutQuestionsNestedInput = {
+    create?: XOR<CensusSectionCreateWithoutQuestionsInput, CensusSectionUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: CensusSectionCreateOrConnectWithoutQuestionsInput
+    upsert?: CensusSectionUpsertWithoutQuestionsInput
+    connect?: CensusSectionWhereUniqueInput
+    update?: XOR<XOR<CensusSectionUpdateToOneWithWhereWithoutQuestionsInput, CensusSectionUpdateWithoutQuestionsInput>, CensusSectionUncheckedUpdateWithoutQuestionsInput>
+  }
+
   export type CensusAnswerUncheckedUpdateManyWithoutQuestionNestedInput = {
     create?: XOR<CensusAnswerCreateWithoutQuestionInput, CensusAnswerUncheckedCreateWithoutQuestionInput> | CensusAnswerCreateWithoutQuestionInput[] | CensusAnswerUncheckedCreateWithoutQuestionInput[]
     connectOrCreate?: CensusAnswerCreateOrConnectWithoutQuestionInput | CensusAnswerCreateOrConnectWithoutQuestionInput[]
@@ -42001,24 +45098,16 @@ export namespace Prisma {
     deleteMany?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutCensusAnswersInput = {
-    create?: XOR<UserCreateWithoutCensusAnswersInput, UserUncheckedCreateWithoutCensusAnswersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCensusAnswersInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type CensusQuestionCreateNestedOneWithoutAnswersInput = {
     create?: XOR<CensusQuestionCreateWithoutAnswersInput, CensusQuestionUncheckedCreateWithoutAnswersInput>
     connectOrCreate?: CensusQuestionCreateOrConnectWithoutAnswersInput
     connect?: CensusQuestionWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutCensusAnswersNestedInput = {
+  export type UserCreateNestedOneWithoutCensusAnswersInput = {
     create?: XOR<UserCreateWithoutCensusAnswersInput, UserUncheckedCreateWithoutCensusAnswersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCensusAnswersInput
-    upsert?: UserUpsertWithoutCensusAnswersInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCensusAnswersInput, UserUpdateWithoutCensusAnswersInput>, UserUncheckedUpdateWithoutCensusAnswersInput>
   }
 
   export type CensusQuestionUpdateOneRequiredWithoutAnswersNestedInput = {
@@ -42027,6 +45116,14 @@ export namespace Prisma {
     upsert?: CensusQuestionUpsertWithoutAnswersInput
     connect?: CensusQuestionWhereUniqueInput
     update?: XOR<XOR<CensusQuestionUpdateToOneWithWhereWithoutAnswersInput, CensusQuestionUpdateWithoutAnswersInput>, CensusQuestionUncheckedUpdateWithoutAnswersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCensusAnswersNestedInput = {
+    create?: XOR<UserCreateWithoutCensusAnswersInput, UserUncheckedCreateWithoutCensusAnswersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCensusAnswersInput
+    upsert?: UserUpsertWithoutCensusAnswersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCensusAnswersInput, UserUpdateWithoutCensusAnswersInput>, UserUncheckedUpdateWithoutCensusAnswersInput>
   }
 
   export type CensusFormCreateNestedManyWithoutCategoryInput = {
@@ -42175,24 +45272,16 @@ export namespace Prisma {
     deleteMany?: PromptResponseScalarWhereInput | PromptResponseScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutPromptResponsesInput = {
-    create?: XOR<UserCreateWithoutPromptResponsesInput, UserUncheckedCreateWithoutPromptResponsesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPromptResponsesInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type PromptCreateNestedOneWithoutResponsesInput = {
     create?: XOR<PromptCreateWithoutResponsesInput, PromptUncheckedCreateWithoutResponsesInput>
     connectOrCreate?: PromptCreateOrConnectWithoutResponsesInput
     connect?: PromptWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutPromptResponsesNestedInput = {
+  export type UserCreateNestedOneWithoutPromptResponsesInput = {
     create?: XOR<UserCreateWithoutPromptResponsesInput, UserUncheckedCreateWithoutPromptResponsesInput>
     connectOrCreate?: UserCreateOrConnectWithoutPromptResponsesInput
-    upsert?: UserUpsertWithoutPromptResponsesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPromptResponsesInput, UserUpdateWithoutPromptResponsesInput>, UserUncheckedUpdateWithoutPromptResponsesInput>
   }
 
   export type PromptUpdateOneRequiredWithoutResponsesNestedInput = {
@@ -42201,6 +45290,14 @@ export namespace Prisma {
     upsert?: PromptUpsertWithoutResponsesInput
     connect?: PromptWhereUniqueInput
     update?: XOR<XOR<PromptUpdateToOneWithWhereWithoutResponsesInput, PromptUpdateWithoutResponsesInput>, PromptUncheckedUpdateWithoutResponsesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPromptResponsesNestedInput = {
+    create?: XOR<UserCreateWithoutPromptResponsesInput, UserUncheckedCreateWithoutPromptResponsesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPromptResponsesInput
+    upsert?: UserUpsertWithoutPromptResponsesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPromptResponsesInput, UserUpdateWithoutPromptResponsesInput>, UserUncheckedUpdateWithoutPromptResponsesInput>
   }
 
   export type UserCreateNestedOneWithoutConsentsInput = {
@@ -42217,13 +45314,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConsentsInput, UserUpdateWithoutConsentsInput>, UserUncheckedUpdateWithoutConsentsInput>
   }
 
-  export type StudyParticipationCreateNestedManyWithoutStudyInput = {
-    create?: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput> | StudyParticipationCreateWithoutStudyInput[] | StudyParticipationUncheckedCreateWithoutStudyInput[]
-    connectOrCreate?: StudyParticipationCreateOrConnectWithoutStudyInput | StudyParticipationCreateOrConnectWithoutStudyInput[]
-    createMany?: StudyParticipationCreateManyStudyInputEnvelope
-    connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-  }
-
   export type PromptCreateNestedManyWithoutStudyInput = {
     create?: XOR<PromptCreateWithoutStudyInput, PromptUncheckedCreateWithoutStudyInput> | PromptCreateWithoutStudyInput[] | PromptUncheckedCreateWithoutStudyInput[]
     connectOrCreate?: PromptCreateOrConnectWithoutStudyInput | PromptCreateOrConnectWithoutStudyInput[]
@@ -42231,7 +45321,7 @@ export namespace Prisma {
     connect?: PromptWhereUniqueInput | PromptWhereUniqueInput[]
   }
 
-  export type StudyParticipationUncheckedCreateNestedManyWithoutStudyInput = {
+  export type StudyParticipationCreateNestedManyWithoutStudyInput = {
     create?: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput> | StudyParticipationCreateWithoutStudyInput[] | StudyParticipationUncheckedCreateWithoutStudyInput[]
     connectOrCreate?: StudyParticipationCreateOrConnectWithoutStudyInput | StudyParticipationCreateOrConnectWithoutStudyInput[]
     createMany?: StudyParticipationCreateManyStudyInputEnvelope
@@ -42245,18 +45335,11 @@ export namespace Prisma {
     connect?: PromptWhereUniqueInput | PromptWhereUniqueInput[]
   }
 
-  export type StudyParticipationUpdateManyWithoutStudyNestedInput = {
+  export type StudyParticipationUncheckedCreateNestedManyWithoutStudyInput = {
     create?: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput> | StudyParticipationCreateWithoutStudyInput[] | StudyParticipationUncheckedCreateWithoutStudyInput[]
     connectOrCreate?: StudyParticipationCreateOrConnectWithoutStudyInput | StudyParticipationCreateOrConnectWithoutStudyInput[]
-    upsert?: StudyParticipationUpsertWithWhereUniqueWithoutStudyInput | StudyParticipationUpsertWithWhereUniqueWithoutStudyInput[]
     createMany?: StudyParticipationCreateManyStudyInputEnvelope
-    set?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-    disconnect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-    delete?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
     connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
-    update?: StudyParticipationUpdateWithWhereUniqueWithoutStudyInput | StudyParticipationUpdateWithWhereUniqueWithoutStudyInput[]
-    updateMany?: StudyParticipationUpdateManyWithWhereWithoutStudyInput | StudyParticipationUpdateManyWithWhereWithoutStudyInput[]
-    deleteMany?: StudyParticipationScalarWhereInput | StudyParticipationScalarWhereInput[]
   }
 
   export type PromptUpdateManyWithoutStudyNestedInput = {
@@ -42273,7 +45356,7 @@ export namespace Prisma {
     deleteMany?: PromptScalarWhereInput | PromptScalarWhereInput[]
   }
 
-  export type StudyParticipationUncheckedUpdateManyWithoutStudyNestedInput = {
+  export type StudyParticipationUpdateManyWithoutStudyNestedInput = {
     create?: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput> | StudyParticipationCreateWithoutStudyInput[] | StudyParticipationUncheckedCreateWithoutStudyInput[]
     connectOrCreate?: StudyParticipationCreateOrConnectWithoutStudyInput | StudyParticipationCreateOrConnectWithoutStudyInput[]
     upsert?: StudyParticipationUpsertWithWhereUniqueWithoutStudyInput | StudyParticipationUpsertWithWhereUniqueWithoutStudyInput[]
@@ -42301,10 +45384,18 @@ export namespace Prisma {
     deleteMany?: PromptScalarWhereInput | PromptScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutStudyParticipationsInput = {
-    create?: XOR<UserCreateWithoutStudyParticipationsInput, UserUncheckedCreateWithoutStudyParticipationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutStudyParticipationsInput
-    connect?: UserWhereUniqueInput
+  export type StudyParticipationUncheckedUpdateManyWithoutStudyNestedInput = {
+    create?: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput> | StudyParticipationCreateWithoutStudyInput[] | StudyParticipationUncheckedCreateWithoutStudyInput[]
+    connectOrCreate?: StudyParticipationCreateOrConnectWithoutStudyInput | StudyParticipationCreateOrConnectWithoutStudyInput[]
+    upsert?: StudyParticipationUpsertWithWhereUniqueWithoutStudyInput | StudyParticipationUpsertWithWhereUniqueWithoutStudyInput[]
+    createMany?: StudyParticipationCreateManyStudyInputEnvelope
+    set?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    disconnect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    delete?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    connect?: StudyParticipationWhereUniqueInput | StudyParticipationWhereUniqueInput[]
+    update?: StudyParticipationUpdateWithWhereUniqueWithoutStudyInput | StudyParticipationUpdateWithWhereUniqueWithoutStudyInput[]
+    updateMany?: StudyParticipationUpdateManyWithWhereWithoutStudyInput | StudyParticipationUpdateManyWithWhereWithoutStudyInput[]
+    deleteMany?: StudyParticipationScalarWhereInput | StudyParticipationScalarWhereInput[]
   }
 
   export type StudyCreateNestedOneWithoutParticipationsInput = {
@@ -42313,12 +45404,10 @@ export namespace Prisma {
     connect?: StudyWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutStudyParticipationsNestedInput = {
+  export type UserCreateNestedOneWithoutStudyParticipationsInput = {
     create?: XOR<UserCreateWithoutStudyParticipationsInput, UserUncheckedCreateWithoutStudyParticipationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutStudyParticipationsInput
-    upsert?: UserUpsertWithoutStudyParticipationsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudyParticipationsInput, UserUpdateWithoutStudyParticipationsInput>, UserUncheckedUpdateWithoutStudyParticipationsInput>
   }
 
   export type StudyUpdateOneRequiredWithoutParticipationsNestedInput = {
@@ -42327,6 +45416,14 @@ export namespace Prisma {
     upsert?: StudyUpsertWithoutParticipationsInput
     connect?: StudyWhereUniqueInput
     update?: XOR<XOR<StudyUpdateToOneWithWhereWithoutParticipationsInput, StudyUpdateWithoutParticipationsInput>, StudyUncheckedUpdateWithoutParticipationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutStudyParticipationsNestedInput = {
+    create?: XOR<UserCreateWithoutStudyParticipationsInput, UserUncheckedCreateWithoutStudyParticipationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudyParticipationsInput
+    upsert?: UserUpsertWithoutStudyParticipationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudyParticipationsInput, UserUpdateWithoutStudyParticipationsInput>, UserUncheckedUpdateWithoutStudyParticipationsInput>
   }
 
   export type EmotionCreateNestedOneWithoutChildrenInput = {
@@ -42394,6 +45491,34 @@ export namespace Prisma {
   export type ThemeUpdaterelatedSlugsInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type UserCreateNestedOneWithoutNightCheckInsInput = {
+    create?: XOR<UserCreateWithoutNightCheckInsInput, UserUncheckedCreateWithoutNightCheckInsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNightCheckInsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutNightCheckInsNestedInput = {
+    create?: XOR<UserCreateWithoutNightCheckInsInput, UserUncheckedCreateWithoutNightCheckInsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNightCheckInsInput
+    upsert?: UserUpsertWithoutNightCheckInsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNightCheckInsInput, UserUpdateWithoutNightCheckInsInput>, UserUncheckedUpdateWithoutNightCheckInsInput>
+  }
+
+  export type UserCreateNestedOneWithoutAlarmSettingsInput = {
+    create?: XOR<UserCreateWithoutAlarmSettingsInput, UserUncheckedCreateWithoutAlarmSettingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAlarmSettingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAlarmSettingsNestedInput = {
+    create?: XOR<UserCreateWithoutAlarmSettingsInput, UserUncheckedCreateWithoutAlarmSettingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAlarmSettingsInput
+    upsert?: UserUpsertWithoutAlarmSettingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAlarmSettingsInput, UserUpdateWithoutAlarmSettingsInput>, UserUncheckedUpdateWithoutAlarmSettingsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -42719,85 +45844,62 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type SessionCreateWithoutUserInput = {
+  export type AlarmSettingsCreateWithoutUserInput = {
     id?: string
-    tokenHash: string
-    expiresAt: Date | string
-    deviceId?: string | null
-    deviceName?: string | null
-    lastActiveAt?: Date | string
+    isArmed?: boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: string
+    volume?: number
+    snoozeMinutes?: number
+    maxSnoozes?: number
+    lastSetTime?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type SessionUncheckedCreateWithoutUserInput = {
+  export type AlarmSettingsUncheckedCreateWithoutUserInput = {
     id?: string
-    tokenHash: string
-    expiresAt: Date | string
-    deviceId?: string | null
-    deviceName?: string | null
-    lastActiveAt?: Date | string
+    isArmed?: boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: string
+    volume?: number
+    snoozeMinutes?: number
+    maxSnoozes?: number
+    lastSetTime?: string | null
     createdAt?: Date | string
-  }
-
-  export type SessionCreateOrConnectWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionCreateManyUserInputEnvelope = {
-    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type DreamEntryCreateWithoutUserInput = {
-    id?: string
-    ciphertext?: Bytes | null
-    iv?: Bytes | null
-    keyVersion?: number
-    audioUrl?: string | null
-    title?: string | null
-    emotions?: DreamEntryCreateemotionsInput | string[]
-    vividness?: number | null
-    lucidity?: string | null
-    dreamTypes?: DreamEntryCreatedreamTypesInput | string[]
-    sleepQuality?: number | null
-    hoursSlept?: number | null
-    wakeTime?: Date | string | null
-    wakingLifeLink?: string | null
-    capturedAt?: Date | string
     updatedAt?: Date | string
-    facts?: JournalFactCreateNestedManyWithoutDreamEntryInput
-    tags?: DreamTagCreateNestedManyWithoutDreamEntryInput
   }
 
-  export type DreamEntryUncheckedCreateWithoutUserInput = {
+  export type AlarmSettingsCreateOrConnectWithoutUserInput = {
+    where: AlarmSettingsWhereUniqueInput
+    create: XOR<AlarmSettingsCreateWithoutUserInput, AlarmSettingsUncheckedCreateWithoutUserInput>
+  }
+
+  export type CategoryProgressCreateWithoutUserInput = {
     id?: string
-    ciphertext?: Bytes | null
-    iv?: Bytes | null
-    keyVersion?: number
-    audioUrl?: string | null
-    title?: string | null
-    emotions?: DreamEntryCreateemotionsInput | string[]
-    vividness?: number | null
-    lucidity?: string | null
-    dreamTypes?: DreamEntryCreatedreamTypesInput | string[]
-    sleepQuality?: number | null
-    hoursSlept?: number | null
-    wakeTime?: Date | string | null
-    wakingLifeLink?: string | null
-    capturedAt?: Date | string
-    updatedAt?: Date | string
-    facts?: JournalFactUncheckedCreateNestedManyWithoutDreamEntryInput
-    tags?: DreamTagUncheckedCreateNestedManyWithoutDreamEntryInput
+    categoryId: string
+    promptAnswers?: number
+    formsStarted?: CategoryProgressCreateformsStartedInput | string[]
+    formsComplete?: CategoryProgressCreateformsCompleteInput | string[]
+    lastActivityAt?: Date | string
   }
 
-  export type DreamEntryCreateOrConnectWithoutUserInput = {
-    where: DreamEntryWhereUniqueInput
-    create: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput>
+  export type CategoryProgressUncheckedCreateWithoutUserInput = {
+    id?: string
+    categoryId: string
+    promptAnswers?: number
+    formsStarted?: CategoryProgressCreateformsStartedInput | string[]
+    formsComplete?: CategoryProgressCreateformsCompleteInput | string[]
+    lastActivityAt?: Date | string
   }
 
-  export type DreamEntryCreateManyUserInputEnvelope = {
-    data: DreamEntryCreateManyUserInput | DreamEntryCreateManyUserInput[]
+  export type CategoryProgressCreateOrConnectWithoutUserInput = {
+    where: CategoryProgressWhereUniqueInput
+    create: XOR<CategoryProgressCreateWithoutUserInput, CategoryProgressUncheckedCreateWithoutUserInput>
+  }
+
+  export type CategoryProgressCreateManyUserInputEnvelope = {
+    data: CategoryProgressCreateManyUserInput | CategoryProgressCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -42826,34 +45928,6 @@ export namespace Prisma {
 
   export type CensusAnswerCreateManyUserInputEnvelope = {
     data: CensusAnswerCreateManyUserInput | CensusAnswerCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PromptResponseCreateWithoutUserInput = {
-    id?: string
-    value: JsonNullValueInput | InputJsonValue
-    shownAt: Date | string
-    respondedAt?: Date | string
-    skipped?: boolean
-    prompt: PromptCreateNestedOneWithoutResponsesInput
-  }
-
-  export type PromptResponseUncheckedCreateWithoutUserInput = {
-    id?: string
-    promptId: string
-    value: JsonNullValueInput | InputJsonValue
-    shownAt: Date | string
-    respondedAt?: Date | string
-    skipped?: boolean
-  }
-
-  export type PromptResponseCreateOrConnectWithoutUserInput = {
-    where: PromptResponseWhereUniqueInput
-    create: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput>
-  }
-
-  export type PromptResponseCreateManyUserInputEnvelope = {
-    data: PromptResponseCreateManyUserInput | PromptResponseCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -42891,6 +45965,58 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DreamEntryCreateWithoutUserInput = {
+    id?: string
+    ciphertext?: Bytes | null
+    iv?: Bytes | null
+    keyVersion?: number
+    audioUrl?: string | null
+    title?: string | null
+    emotions?: DreamEntryCreateemotionsInput | string[]
+    vividness?: number | null
+    lucidity?: string | null
+    dreamTypes?: DreamEntryCreatedreamTypesInput | string[]
+    sleepQuality?: number | null
+    hoursSlept?: number | null
+    wakeTime?: Date | string | null
+    wakingLifeLink?: string | null
+    capturedAt?: Date | string
+    updatedAt?: Date | string
+    tags?: DreamTagCreateNestedManyWithoutDreamEntryInput
+    facts?: JournalFactCreateNestedManyWithoutDreamEntryInput
+  }
+
+  export type DreamEntryUncheckedCreateWithoutUserInput = {
+    id?: string
+    ciphertext?: Bytes | null
+    iv?: Bytes | null
+    keyVersion?: number
+    audioUrl?: string | null
+    title?: string | null
+    emotions?: DreamEntryCreateemotionsInput | string[]
+    vividness?: number | null
+    lucidity?: string | null
+    dreamTypes?: DreamEntryCreatedreamTypesInput | string[]
+    sleepQuality?: number | null
+    hoursSlept?: number | null
+    wakeTime?: Date | string | null
+    wakingLifeLink?: string | null
+    capturedAt?: Date | string
+    updatedAt?: Date | string
+    tags?: DreamTagUncheckedCreateNestedManyWithoutDreamEntryInput
+    facts?: JournalFactUncheckedCreateNestedManyWithoutDreamEntryInput
+  }
+
+  export type DreamEntryCreateOrConnectWithoutUserInput = {
+    where: DreamEntryWhereUniqueInput
+    create: XOR<DreamEntryCreateWithoutUserInput, DreamEntryUncheckedCreateWithoutUserInput>
+  }
+
+  export type DreamEntryCreateManyUserInputEnvelope = {
+    data: DreamEntryCreateManyUserInput | DreamEntryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type EventCreateWithoutUserInput = {
     id?: string
     type: string
@@ -42918,6 +46044,96 @@ export namespace Prisma {
 
   export type EventCreateManyUserInputEnvelope = {
     data: EventCreateManyUserInput | EventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NightCheckInCreateWithoutUserInput = {
+    id?: string
+    date: string
+    mood?: string | null
+    dayNotes?: string | null
+    intention?: string | null
+    plannedWakeTime?: string | null
+    reminderEnabled?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NightCheckInUncheckedCreateWithoutUserInput = {
+    id?: string
+    date: string
+    mood?: string | null
+    dayNotes?: string | null
+    intention?: string | null
+    plannedWakeTime?: string | null
+    reminderEnabled?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NightCheckInCreateOrConnectWithoutUserInput = {
+    where: NightCheckInWhereUniqueInput
+    create: XOR<NightCheckInCreateWithoutUserInput, NightCheckInUncheckedCreateWithoutUserInput>
+  }
+
+  export type NightCheckInCreateManyUserInputEnvelope = {
+    data: NightCheckInCreateManyUserInput | NightCheckInCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PromptResponseCreateWithoutUserInput = {
+    id?: string
+    value: JsonNullValueInput | InputJsonValue
+    shownAt: Date | string
+    respondedAt?: Date | string
+    skipped?: boolean
+    prompt: PromptCreateNestedOneWithoutResponsesInput
+  }
+
+  export type PromptResponseUncheckedCreateWithoutUserInput = {
+    id?: string
+    promptId: string
+    value: JsonNullValueInput | InputJsonValue
+    shownAt: Date | string
+    respondedAt?: Date | string
+    skipped?: boolean
+  }
+
+  export type PromptResponseCreateOrConnectWithoutUserInput = {
+    where: PromptResponseWhereUniqueInput
+    create: XOR<PromptResponseCreateWithoutUserInput, PromptResponseUncheckedCreateWithoutUserInput>
+  }
+
+  export type PromptResponseCreateManyUserInputEnvelope = {
+    data: PromptResponseCreateManyUserInput | PromptResponseCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SessionCreateWithoutUserInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    deviceId?: string | null
+    deviceName?: string | null
+    lastActiveAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type SessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    tokenHash: string
+    expiresAt: Date | string
+    deviceId?: string | null
+    deviceName?: string | null
+    lastActiveAt?: Date | string
+    createdAt?: Date | string
+  }
+
+  export type SessionCreateOrConnectWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionCreateManyUserInputEnvelope = {
+    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -42953,62 +46169,131 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CategoryProgressCreateWithoutUserInput = {
-    id?: string
-    categoryId: string
-    promptAnswers?: number
-    formsStarted?: CategoryProgressCreateformsStartedInput | string[]
-    formsComplete?: CategoryProgressCreateformsCompleteInput | string[]
-    lastActivityAt?: Date | string
+  export type AlarmSettingsUpsertWithoutUserInput = {
+    update: XOR<AlarmSettingsUpdateWithoutUserInput, AlarmSettingsUncheckedUpdateWithoutUserInput>
+    create: XOR<AlarmSettingsCreateWithoutUserInput, AlarmSettingsUncheckedCreateWithoutUserInput>
+    where?: AlarmSettingsWhereInput
   }
 
-  export type CategoryProgressUncheckedCreateWithoutUserInput = {
-    id?: string
-    categoryId: string
-    promptAnswers?: number
-    formsStarted?: CategoryProgressCreateformsStartedInput | string[]
-    formsComplete?: CategoryProgressCreateformsCompleteInput | string[]
-    lastActivityAt?: Date | string
+  export type AlarmSettingsUpdateToOneWithWhereWithoutUserInput = {
+    where?: AlarmSettingsWhereInput
+    data: XOR<AlarmSettingsUpdateWithoutUserInput, AlarmSettingsUncheckedUpdateWithoutUserInput>
   }
 
-  export type CategoryProgressCreateOrConnectWithoutUserInput = {
+  export type AlarmSettingsUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isArmed?: BoolFieldUpdateOperationsInput | boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: StringFieldUpdateOperationsInput | string
+    volume?: IntFieldUpdateOperationsInput | number
+    snoozeMinutes?: IntFieldUpdateOperationsInput | number
+    maxSnoozes?: IntFieldUpdateOperationsInput | number
+    lastSetTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlarmSettingsUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isArmed?: BoolFieldUpdateOperationsInput | boolean
+    schedule?: JsonNullValueInput | InputJsonValue
+    soundId?: StringFieldUpdateOperationsInput | string
+    volume?: IntFieldUpdateOperationsInput | number
+    snoozeMinutes?: IntFieldUpdateOperationsInput | number
+    maxSnoozes?: IntFieldUpdateOperationsInput | number
+    lastSetTime?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CategoryProgressUpsertWithWhereUniqueWithoutUserInput = {
     where: CategoryProgressWhereUniqueInput
+    update: XOR<CategoryProgressUpdateWithoutUserInput, CategoryProgressUncheckedUpdateWithoutUserInput>
     create: XOR<CategoryProgressCreateWithoutUserInput, CategoryProgressUncheckedCreateWithoutUserInput>
   }
 
-  export type CategoryProgressCreateManyUserInputEnvelope = {
-    data: CategoryProgressCreateManyUserInput | CategoryProgressCreateManyUserInput[]
-    skipDuplicates?: boolean
+  export type CategoryProgressUpdateWithWhereUniqueWithoutUserInput = {
+    where: CategoryProgressWhereUniqueInput
+    data: XOR<CategoryProgressUpdateWithoutUserInput, CategoryProgressUncheckedUpdateWithoutUserInput>
   }
 
-  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  export type CategoryProgressUpdateManyWithWhereWithoutUserInput = {
+    where: CategoryProgressScalarWhereInput
+    data: XOR<CategoryProgressUpdateManyMutationInput, CategoryProgressUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+  export type CategoryProgressScalarWhereInput = {
+    AND?: CategoryProgressScalarWhereInput | CategoryProgressScalarWhereInput[]
+    OR?: CategoryProgressScalarWhereInput[]
+    NOT?: CategoryProgressScalarWhereInput | CategoryProgressScalarWhereInput[]
+    id?: StringFilter<"CategoryProgress"> | string
+    userId?: StringFilter<"CategoryProgress"> | string
+    categoryId?: StringFilter<"CategoryProgress"> | string
+    promptAnswers?: IntFilter<"CategoryProgress"> | number
+    formsStarted?: StringNullableListFilter<"CategoryProgress">
+    formsComplete?: StringNullableListFilter<"CategoryProgress">
+    lastActivityAt?: DateTimeFilter<"CategoryProgress"> | Date | string
   }
 
-  export type SessionUpdateManyWithWhereWithoutUserInput = {
-    where: SessionScalarWhereInput
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
+  export type CensusAnswerUpsertWithWhereUniqueWithoutUserInput = {
+    where: CensusAnswerWhereUniqueInput
+    update: XOR<CensusAnswerUpdateWithoutUserInput, CensusAnswerUncheckedUpdateWithoutUserInput>
+    create: XOR<CensusAnswerCreateWithoutUserInput, CensusAnswerUncheckedCreateWithoutUserInput>
   }
 
-  export type SessionScalarWhereInput = {
-    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    OR?: SessionScalarWhereInput[]
-    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    id?: StringFilter<"Session"> | string
-    userId?: StringFilter<"Session"> | string
-    tokenHash?: StringFilter<"Session"> | string
-    expiresAt?: DateTimeFilter<"Session"> | Date | string
-    deviceId?: StringNullableFilter<"Session"> | string | null
-    deviceName?: StringNullableFilter<"Session"> | string | null
-    lastActiveAt?: DateTimeFilter<"Session"> | Date | string
-    createdAt?: DateTimeFilter<"Session"> | Date | string
+  export type CensusAnswerUpdateWithWhereUniqueWithoutUserInput = {
+    where: CensusAnswerWhereUniqueInput
+    data: XOR<CensusAnswerUpdateWithoutUserInput, CensusAnswerUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CensusAnswerUpdateManyWithWhereWithoutUserInput = {
+    where: CensusAnswerScalarWhereInput
+    data: XOR<CensusAnswerUpdateManyMutationInput, CensusAnswerUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CensusAnswerScalarWhereInput = {
+    AND?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
+    OR?: CensusAnswerScalarWhereInput[]
+    NOT?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
+    id?: StringFilter<"CensusAnswer"> | string
+    userId?: StringFilter<"CensusAnswer"> | string
+    questionId?: StringFilter<"CensusAnswer"> | string
+    value?: JsonFilter<"CensusAnswer">
+    instrumentVersion?: IntFilter<"CensusAnswer"> | number
+    createdAt?: DateTimeFilter<"CensusAnswer"> | Date | string
+    updatedAt?: DateTimeFilter<"CensusAnswer"> | Date | string
+  }
+
+  export type ConsentUpsertWithWhereUniqueWithoutUserInput = {
+    where: ConsentWhereUniqueInput
+    update: XOR<ConsentUpdateWithoutUserInput, ConsentUncheckedUpdateWithoutUserInput>
+    create: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput>
+  }
+
+  export type ConsentUpdateWithWhereUniqueWithoutUserInput = {
+    where: ConsentWhereUniqueInput
+    data: XOR<ConsentUpdateWithoutUserInput, ConsentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ConsentUpdateManyWithWhereWithoutUserInput = {
+    where: ConsentScalarWhereInput
+    data: XOR<ConsentUpdateManyMutationInput, ConsentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ConsentScalarWhereInput = {
+    AND?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+    OR?: ConsentScalarWhereInput[]
+    NOT?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
+    id?: StringFilter<"Consent"> | string
+    userId?: StringFilter<"Consent"> | string
+    scope?: StringFilter<"Consent"> | string
+    version?: IntFilter<"Consent"> | number
+    granted?: BoolFilter<"Consent"> | boolean
+    timestamp?: DateTimeFilter<"Consent"> | Date | string
+    receiptHash?: StringFilter<"Consent"> | string
+    policyHash?: StringFilter<"Consent"> | string
+    jurisdiction?: StringNullableFilter<"Consent"> | string | null
+    ipHash?: StringNullableFilter<"Consent"> | string | null
   }
 
   export type DreamEntryUpsertWithWhereUniqueWithoutUserInput = {
@@ -43050,33 +46335,65 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"DreamEntry"> | Date | string
   }
 
-  export type CensusAnswerUpsertWithWhereUniqueWithoutUserInput = {
-    where: CensusAnswerWhereUniqueInput
-    update: XOR<CensusAnswerUpdateWithoutUserInput, CensusAnswerUncheckedUpdateWithoutUserInput>
-    create: XOR<CensusAnswerCreateWithoutUserInput, CensusAnswerUncheckedCreateWithoutUserInput>
+  export type EventUpsertWithWhereUniqueWithoutUserInput = {
+    where: EventWhereUniqueInput
+    update: XOR<EventUpdateWithoutUserInput, EventUncheckedUpdateWithoutUserInput>
+    create: XOR<EventCreateWithoutUserInput, EventUncheckedCreateWithoutUserInput>
   }
 
-  export type CensusAnswerUpdateWithWhereUniqueWithoutUserInput = {
-    where: CensusAnswerWhereUniqueInput
-    data: XOR<CensusAnswerUpdateWithoutUserInput, CensusAnswerUncheckedUpdateWithoutUserInput>
+  export type EventUpdateWithWhereUniqueWithoutUserInput = {
+    where: EventWhereUniqueInput
+    data: XOR<EventUpdateWithoutUserInput, EventUncheckedUpdateWithoutUserInput>
   }
 
-  export type CensusAnswerUpdateManyWithWhereWithoutUserInput = {
-    where: CensusAnswerScalarWhereInput
-    data: XOR<CensusAnswerUpdateManyMutationInput, CensusAnswerUncheckedUpdateManyWithoutUserInput>
+  export type EventUpdateManyWithWhereWithoutUserInput = {
+    where: EventScalarWhereInput
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type CensusAnswerScalarWhereInput = {
-    AND?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
-    OR?: CensusAnswerScalarWhereInput[]
-    NOT?: CensusAnswerScalarWhereInput | CensusAnswerScalarWhereInput[]
-    id?: StringFilter<"CensusAnswer"> | string
-    userId?: StringFilter<"CensusAnswer"> | string
-    questionId?: StringFilter<"CensusAnswer"> | string
-    value?: JsonFilter<"CensusAnswer">
-    instrumentVersion?: IntFilter<"CensusAnswer"> | number
-    createdAt?: DateTimeFilter<"CensusAnswer"> | Date | string
-    updatedAt?: DateTimeFilter<"CensusAnswer"> | Date | string
+  export type EventScalarWhereInput = {
+    AND?: EventScalarWhereInput | EventScalarWhereInput[]
+    OR?: EventScalarWhereInput[]
+    NOT?: EventScalarWhereInput | EventScalarWhereInput[]
+    id?: StringFilter<"Event"> | string
+    userId?: StringFilter<"Event"> | string
+    type?: StringFilter<"Event"> | string
+    payload?: JsonFilter<"Event">
+    timestamp?: DateTimeFilter<"Event"> | Date | string
+    sequence?: BigIntFilter<"Event"> | bigint | number
+    aggregateId?: StringNullableFilter<"Event"> | string | null
+    aggregateType?: StringNullableFilter<"Event"> | string | null
+  }
+
+  export type NightCheckInUpsertWithWhereUniqueWithoutUserInput = {
+    where: NightCheckInWhereUniqueInput
+    update: XOR<NightCheckInUpdateWithoutUserInput, NightCheckInUncheckedUpdateWithoutUserInput>
+    create: XOR<NightCheckInCreateWithoutUserInput, NightCheckInUncheckedCreateWithoutUserInput>
+  }
+
+  export type NightCheckInUpdateWithWhereUniqueWithoutUserInput = {
+    where: NightCheckInWhereUniqueInput
+    data: XOR<NightCheckInUpdateWithoutUserInput, NightCheckInUncheckedUpdateWithoutUserInput>
+  }
+
+  export type NightCheckInUpdateManyWithWhereWithoutUserInput = {
+    where: NightCheckInScalarWhereInput
+    data: XOR<NightCheckInUpdateManyMutationInput, NightCheckInUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type NightCheckInScalarWhereInput = {
+    AND?: NightCheckInScalarWhereInput | NightCheckInScalarWhereInput[]
+    OR?: NightCheckInScalarWhereInput[]
+    NOT?: NightCheckInScalarWhereInput | NightCheckInScalarWhereInput[]
+    id?: StringFilter<"NightCheckIn"> | string
+    userId?: StringFilter<"NightCheckIn"> | string
+    date?: StringFilter<"NightCheckIn"> | string
+    mood?: StringNullableFilter<"NightCheckIn"> | string | null
+    dayNotes?: StringNullableFilter<"NightCheckIn"> | string | null
+    intention?: StringNullableFilter<"NightCheckIn"> | string | null
+    plannedWakeTime?: StringNullableFilter<"NightCheckIn"> | string | null
+    reminderEnabled?: BoolFilter<"NightCheckIn"> | boolean
+    createdAt?: DateTimeFilter<"NightCheckIn"> | Date | string
   }
 
   export type PromptResponseUpsertWithWhereUniqueWithoutUserInput = {
@@ -43108,66 +46425,34 @@ export namespace Prisma {
     skipped?: BoolFilter<"PromptResponse"> | boolean
   }
 
-  export type ConsentUpsertWithWhereUniqueWithoutUserInput = {
-    where: ConsentWhereUniqueInput
-    update: XOR<ConsentUpdateWithoutUserInput, ConsentUncheckedUpdateWithoutUserInput>
-    create: XOR<ConsentCreateWithoutUserInput, ConsentUncheckedCreateWithoutUserInput>
+  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
   }
 
-  export type ConsentUpdateWithWhereUniqueWithoutUserInput = {
-    where: ConsentWhereUniqueInput
-    data: XOR<ConsentUpdateWithoutUserInput, ConsentUncheckedUpdateWithoutUserInput>
+  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
   }
 
-  export type ConsentUpdateManyWithWhereWithoutUserInput = {
-    where: ConsentScalarWhereInput
-    data: XOR<ConsentUpdateManyMutationInput, ConsentUncheckedUpdateManyWithoutUserInput>
+  export type SessionUpdateManyWithWhereWithoutUserInput = {
+    where: SessionScalarWhereInput
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type ConsentScalarWhereInput = {
-    AND?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
-    OR?: ConsentScalarWhereInput[]
-    NOT?: ConsentScalarWhereInput | ConsentScalarWhereInput[]
-    id?: StringFilter<"Consent"> | string
-    userId?: StringFilter<"Consent"> | string
-    scope?: StringFilter<"Consent"> | string
-    version?: IntFilter<"Consent"> | number
-    granted?: BoolFilter<"Consent"> | boolean
-    timestamp?: DateTimeFilter<"Consent"> | Date | string
-    receiptHash?: StringFilter<"Consent"> | string
-    policyHash?: StringFilter<"Consent"> | string
-    jurisdiction?: StringNullableFilter<"Consent"> | string | null
-    ipHash?: StringNullableFilter<"Consent"> | string | null
-  }
-
-  export type EventUpsertWithWhereUniqueWithoutUserInput = {
-    where: EventWhereUniqueInput
-    update: XOR<EventUpdateWithoutUserInput, EventUncheckedUpdateWithoutUserInput>
-    create: XOR<EventCreateWithoutUserInput, EventUncheckedCreateWithoutUserInput>
-  }
-
-  export type EventUpdateWithWhereUniqueWithoutUserInput = {
-    where: EventWhereUniqueInput
-    data: XOR<EventUpdateWithoutUserInput, EventUncheckedUpdateWithoutUserInput>
-  }
-
-  export type EventUpdateManyWithWhereWithoutUserInput = {
-    where: EventScalarWhereInput
-    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type EventScalarWhereInput = {
-    AND?: EventScalarWhereInput | EventScalarWhereInput[]
-    OR?: EventScalarWhereInput[]
-    NOT?: EventScalarWhereInput | EventScalarWhereInput[]
-    id?: StringFilter<"Event"> | string
-    userId?: StringFilter<"Event"> | string
-    type?: StringFilter<"Event"> | string
-    payload?: JsonFilter<"Event">
-    timestamp?: DateTimeFilter<"Event"> | Date | string
-    sequence?: BigIntFilter<"Event"> | bigint | number
-    aggregateId?: StringNullableFilter<"Event"> | string | null
-    aggregateType?: StringNullableFilter<"Event"> | string | null
+  export type SessionScalarWhereInput = {
+    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    OR?: SessionScalarWhereInput[]
+    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    id?: StringFilter<"Session"> | string
+    userId?: StringFilter<"Session"> | string
+    tokenHash?: StringFilter<"Session"> | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    deviceId?: StringNullableFilter<"Session"> | string | null
+    deviceName?: StringNullableFilter<"Session"> | string | null
+    lastActiveAt?: DateTimeFilter<"Session"> | Date | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
   }
 
   export type StudyParticipationUpsertWithWhereUniqueWithoutUserInput = {
@@ -43201,35 +46486,6 @@ export namespace Prisma {
     completedAt?: DateTimeNullableFilter<"StudyParticipation"> | Date | string | null
   }
 
-  export type CategoryProgressUpsertWithWhereUniqueWithoutUserInput = {
-    where: CategoryProgressWhereUniqueInput
-    update: XOR<CategoryProgressUpdateWithoutUserInput, CategoryProgressUncheckedUpdateWithoutUserInput>
-    create: XOR<CategoryProgressCreateWithoutUserInput, CategoryProgressUncheckedCreateWithoutUserInput>
-  }
-
-  export type CategoryProgressUpdateWithWhereUniqueWithoutUserInput = {
-    where: CategoryProgressWhereUniqueInput
-    data: XOR<CategoryProgressUpdateWithoutUserInput, CategoryProgressUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CategoryProgressUpdateManyWithWhereWithoutUserInput = {
-    where: CategoryProgressScalarWhereInput
-    data: XOR<CategoryProgressUpdateManyMutationInput, CategoryProgressUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type CategoryProgressScalarWhereInput = {
-    AND?: CategoryProgressScalarWhereInput | CategoryProgressScalarWhereInput[]
-    OR?: CategoryProgressScalarWhereInput[]
-    NOT?: CategoryProgressScalarWhereInput | CategoryProgressScalarWhereInput[]
-    id?: StringFilter<"CategoryProgress"> | string
-    userId?: StringFilter<"CategoryProgress"> | string
-    categoryId?: StringFilter<"CategoryProgress"> | string
-    promptAnswers?: IntFilter<"CategoryProgress"> | number
-    formsStarted?: StringNullableListFilter<"CategoryProgress">
-    formsComplete?: StringNullableListFilter<"CategoryProgress">
-    lastActivityAt?: DateTimeFilter<"CategoryProgress"> | Date | string
-  }
-
   export type UserCreateWithoutSessionsInput = {
     id?: string
     createdAt?: Date | string
@@ -43242,13 +46498,15 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
-    consents?: ConsentCreateNestedManyWithoutUserInput
-    events?: EventCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -43263,13 +46521,15 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
-    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
-    events?: EventUncheckedCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -43300,13 +46560,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
-    consents?: ConsentUpdateManyWithoutUserNestedInput
-    events?: EventUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -43321,13 +46583,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
-    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
-    events?: EventUncheckedUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutEventsInput = {
@@ -43342,13 +46606,15 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
-    consents?: ConsentCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEventsInput = {
@@ -43363,13 +46629,15 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
-    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEventsInput = {
@@ -43400,13 +46668,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
-    consents?: ConsentUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEventsInput = {
@@ -43421,13 +46691,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
-    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDreamEntriesInput = {
@@ -43442,13 +46714,15 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
     studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDreamEntriesInput = {
@@ -43463,18 +46737,44 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDreamEntriesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutDreamEntriesInput, UserUncheckedCreateWithoutDreamEntriesInput>
+  }
+
+  export type DreamTagCreateWithoutDreamEntryInput = {
+    id?: string
+    source?: string
+    createdAt?: Date | string
+    tag: TagCreateNestedOneWithoutDreamTagsInput
+  }
+
+  export type DreamTagUncheckedCreateWithoutDreamEntryInput = {
+    id?: string
+    tagId: string
+    source?: string
+    createdAt?: Date | string
+  }
+
+  export type DreamTagCreateOrConnectWithoutDreamEntryInput = {
+    where: DreamTagWhereUniqueInput
+    create: XOR<DreamTagCreateWithoutDreamEntryInput, DreamTagUncheckedCreateWithoutDreamEntryInput>
+  }
+
+  export type DreamTagCreateManyDreamEntryInputEnvelope = {
+    data: DreamTagCreateManyDreamEntryInput | DreamTagCreateManyDreamEntryInput[]
+    skipDuplicates?: boolean
   }
 
   export type JournalFactCreateWithoutDreamEntryInput = {
@@ -43513,30 +46813,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type DreamTagCreateWithoutDreamEntryInput = {
-    id?: string
-    source?: string
-    createdAt?: Date | string
-    tag: TagCreateNestedOneWithoutDreamTagsInput
-  }
-
-  export type DreamTagUncheckedCreateWithoutDreamEntryInput = {
-    id?: string
-    tagId: string
-    source?: string
-    createdAt?: Date | string
-  }
-
-  export type DreamTagCreateOrConnectWithoutDreamEntryInput = {
-    where: DreamTagWhereUniqueInput
-    create: XOR<DreamTagCreateWithoutDreamEntryInput, DreamTagUncheckedCreateWithoutDreamEntryInput>
-  }
-
-  export type DreamTagCreateManyDreamEntryInputEnvelope = {
-    data: DreamTagCreateManyDreamEntryInput | DreamTagCreateManyDreamEntryInput[]
-    skipDuplicates?: boolean
-  }
-
   export type UserUpsertWithoutDreamEntriesInput = {
     update: XOR<UserUpdateWithoutDreamEntriesInput, UserUncheckedUpdateWithoutDreamEntriesInput>
     create: XOR<UserCreateWithoutDreamEntriesInput, UserUncheckedCreateWithoutDreamEntriesInput>
@@ -43560,13 +46836,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
     studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
-    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDreamEntriesInput = {
@@ -43581,13 +46859,42 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
-    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type DreamTagUpsertWithWhereUniqueWithoutDreamEntryInput = {
+    where: DreamTagWhereUniqueInput
+    update: XOR<DreamTagUpdateWithoutDreamEntryInput, DreamTagUncheckedUpdateWithoutDreamEntryInput>
+    create: XOR<DreamTagCreateWithoutDreamEntryInput, DreamTagUncheckedCreateWithoutDreamEntryInput>
+  }
+
+  export type DreamTagUpdateWithWhereUniqueWithoutDreamEntryInput = {
+    where: DreamTagWhereUniqueInput
+    data: XOR<DreamTagUpdateWithoutDreamEntryInput, DreamTagUncheckedUpdateWithoutDreamEntryInput>
+  }
+
+  export type DreamTagUpdateManyWithWhereWithoutDreamEntryInput = {
+    where: DreamTagScalarWhereInput
+    data: XOR<DreamTagUpdateManyMutationInput, DreamTagUncheckedUpdateManyWithoutDreamEntryInput>
+  }
+
+  export type DreamTagScalarWhereInput = {
+    AND?: DreamTagScalarWhereInput | DreamTagScalarWhereInput[]
+    OR?: DreamTagScalarWhereInput[]
+    NOT?: DreamTagScalarWhereInput | DreamTagScalarWhereInput[]
+    id?: StringFilter<"DreamTag"> | string
+    dreamEntryId?: StringFilter<"DreamTag"> | string
+    tagId?: StringFilter<"DreamTag"> | string
+    source?: StringFilter<"DreamTag"> | string
+    createdAt?: DateTimeFilter<"DreamTag"> | Date | string
   }
 
   export type JournalFactUpsertWithWhereUniqueWithoutDreamEntryInput = {
@@ -43621,33 +46928,6 @@ export namespace Prisma {
     startIndex?: IntNullableFilter<"JournalFact"> | number | null
     endIndex?: IntNullableFilter<"JournalFact"> | number | null
     extractedAt?: DateTimeFilter<"JournalFact"> | Date | string
-  }
-
-  export type DreamTagUpsertWithWhereUniqueWithoutDreamEntryInput = {
-    where: DreamTagWhereUniqueInput
-    update: XOR<DreamTagUpdateWithoutDreamEntryInput, DreamTagUncheckedUpdateWithoutDreamEntryInput>
-    create: XOR<DreamTagCreateWithoutDreamEntryInput, DreamTagUncheckedCreateWithoutDreamEntryInput>
-  }
-
-  export type DreamTagUpdateWithWhereUniqueWithoutDreamEntryInput = {
-    where: DreamTagWhereUniqueInput
-    data: XOR<DreamTagUpdateWithoutDreamEntryInput, DreamTagUncheckedUpdateWithoutDreamEntryInput>
-  }
-
-  export type DreamTagUpdateManyWithWhereWithoutDreamEntryInput = {
-    where: DreamTagScalarWhereInput
-    data: XOR<DreamTagUpdateManyMutationInput, DreamTagUncheckedUpdateManyWithoutDreamEntryInput>
-  }
-
-  export type DreamTagScalarWhereInput = {
-    AND?: DreamTagScalarWhereInput | DreamTagScalarWhereInput[]
-    OR?: DreamTagScalarWhereInput[]
-    NOT?: DreamTagScalarWhereInput | DreamTagScalarWhereInput[]
-    id?: StringFilter<"DreamTag"> | string
-    dreamEntryId?: StringFilter<"DreamTag"> | string
-    tagId?: StringFilter<"DreamTag"> | string
-    source?: StringFilter<"DreamTag"> | string
-    createdAt?: DateTimeFilter<"DreamTag"> | Date | string
   }
 
   export type DreamEntryCreateWithoutFactsInput = {
@@ -44008,6 +47288,50 @@ export namespace Prisma {
     estimatedTime?: IntFilter<"CensusSection"> | number
   }
 
+  export type CensusQuestionCreateWithoutSectionInput = {
+    id?: string
+    slug: string
+    text: string
+    helpText?: string | null
+    type: string
+    props: JsonNullValueInput | InputJsonValue
+    isRequired?: boolean
+    validation?: NullableJsonNullValueInput | InputJsonValue
+    sortOrder?: number
+    irtParams?: NullableJsonNullValueInput | InputJsonValue
+    groupId?: string | null
+    groupLabel?: string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
+    answers?: CensusAnswerCreateNestedManyWithoutQuestionInput
+  }
+
+  export type CensusQuestionUncheckedCreateWithoutSectionInput = {
+    id?: string
+    slug: string
+    text: string
+    helpText?: string | null
+    type: string
+    props: JsonNullValueInput | InputJsonValue
+    isRequired?: boolean
+    validation?: NullableJsonNullValueInput | InputJsonValue
+    sortOrder?: number
+    irtParams?: NullableJsonNullValueInput | InputJsonValue
+    groupId?: string | null
+    groupLabel?: string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
+    answers?: CensusAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  }
+
+  export type CensusQuestionCreateOrConnectWithoutSectionInput = {
+    where: CensusQuestionWhereUniqueInput
+    create: XOR<CensusQuestionCreateWithoutSectionInput, CensusQuestionUncheckedCreateWithoutSectionInput>
+  }
+
+  export type CensusQuestionCreateManySectionInputEnvelope = {
+    data: CensusQuestionCreateManySectionInput | CensusQuestionCreateManySectionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CensusInstrumentCreateWithoutSectionsInput = {
     id?: string
     slug: string
@@ -44039,48 +47363,40 @@ export namespace Prisma {
     create: XOR<CensusInstrumentCreateWithoutSectionsInput, CensusInstrumentUncheckedCreateWithoutSectionsInput>
   }
 
-  export type CensusQuestionCreateWithoutSectionInput = {
-    id?: string
-    slug: string
-    text: string
-    helpText?: string | null
-    type: string
-    props: JsonNullValueInput | InputJsonValue
-    isRequired?: boolean
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    sortOrder?: number
-    irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
-    groupId?: string | null
-    groupLabel?: string | null
-    answers?: CensusAnswerCreateNestedManyWithoutQuestionInput
-  }
-
-  export type CensusQuestionUncheckedCreateWithoutSectionInput = {
-    id?: string
-    slug: string
-    text: string
-    helpText?: string | null
-    type: string
-    props: JsonNullValueInput | InputJsonValue
-    isRequired?: boolean
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    sortOrder?: number
-    irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
-    groupId?: string | null
-    groupLabel?: string | null
-    answers?: CensusAnswerUncheckedCreateNestedManyWithoutQuestionInput
-  }
-
-  export type CensusQuestionCreateOrConnectWithoutSectionInput = {
+  export type CensusQuestionUpsertWithWhereUniqueWithoutSectionInput = {
     where: CensusQuestionWhereUniqueInput
+    update: XOR<CensusQuestionUpdateWithoutSectionInput, CensusQuestionUncheckedUpdateWithoutSectionInput>
     create: XOR<CensusQuestionCreateWithoutSectionInput, CensusQuestionUncheckedCreateWithoutSectionInput>
   }
 
-  export type CensusQuestionCreateManySectionInputEnvelope = {
-    data: CensusQuestionCreateManySectionInput | CensusQuestionCreateManySectionInput[]
-    skipDuplicates?: boolean
+  export type CensusQuestionUpdateWithWhereUniqueWithoutSectionInput = {
+    where: CensusQuestionWhereUniqueInput
+    data: XOR<CensusQuestionUpdateWithoutSectionInput, CensusQuestionUncheckedUpdateWithoutSectionInput>
+  }
+
+  export type CensusQuestionUpdateManyWithWhereWithoutSectionInput = {
+    where: CensusQuestionScalarWhereInput
+    data: XOR<CensusQuestionUpdateManyMutationInput, CensusQuestionUncheckedUpdateManyWithoutSectionInput>
+  }
+
+  export type CensusQuestionScalarWhereInput = {
+    AND?: CensusQuestionScalarWhereInput | CensusQuestionScalarWhereInput[]
+    OR?: CensusQuestionScalarWhereInput[]
+    NOT?: CensusQuestionScalarWhereInput | CensusQuestionScalarWhereInput[]
+    id?: StringFilter<"CensusQuestion"> | string
+    sectionId?: StringFilter<"CensusQuestion"> | string
+    slug?: StringFilter<"CensusQuestion"> | string
+    text?: StringFilter<"CensusQuestion"> | string
+    helpText?: StringNullableFilter<"CensusQuestion"> | string | null
+    type?: StringFilter<"CensusQuestion"> | string
+    props?: JsonFilter<"CensusQuestion">
+    isRequired?: BoolFilter<"CensusQuestion"> | boolean
+    validation?: JsonNullableFilter<"CensusQuestion">
+    sortOrder?: IntFilter<"CensusQuestion"> | number
+    irtParams?: JsonNullableFilter<"CensusQuestion">
+    groupId?: StringNullableFilter<"CensusQuestion"> | string | null
+    groupLabel?: StringNullableFilter<"CensusQuestion"> | string | null
+    showWhen?: JsonNullableFilter<"CensusQuestion">
   }
 
   export type CensusInstrumentUpsertWithoutSectionsInput = {
@@ -44120,40 +47436,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CensusQuestionUpsertWithWhereUniqueWithoutSectionInput = {
-    where: CensusQuestionWhereUniqueInput
-    update: XOR<CensusQuestionUpdateWithoutSectionInput, CensusQuestionUncheckedUpdateWithoutSectionInput>
-    create: XOR<CensusQuestionCreateWithoutSectionInput, CensusQuestionUncheckedCreateWithoutSectionInput>
+  export type CensusAnswerCreateWithoutQuestionInput = {
+    id?: string
+    value: JsonNullValueInput | InputJsonValue
+    instrumentVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCensusAnswersInput
   }
 
-  export type CensusQuestionUpdateWithWhereUniqueWithoutSectionInput = {
-    where: CensusQuestionWhereUniqueInput
-    data: XOR<CensusQuestionUpdateWithoutSectionInput, CensusQuestionUncheckedUpdateWithoutSectionInput>
+  export type CensusAnswerUncheckedCreateWithoutQuestionInput = {
+    id?: string
+    userId: string
+    value: JsonNullValueInput | InputJsonValue
+    instrumentVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type CensusQuestionUpdateManyWithWhereWithoutSectionInput = {
-    where: CensusQuestionScalarWhereInput
-    data: XOR<CensusQuestionUpdateManyMutationInput, CensusQuestionUncheckedUpdateManyWithoutSectionInput>
+  export type CensusAnswerCreateOrConnectWithoutQuestionInput = {
+    where: CensusAnswerWhereUniqueInput
+    create: XOR<CensusAnswerCreateWithoutQuestionInput, CensusAnswerUncheckedCreateWithoutQuestionInput>
   }
 
-  export type CensusQuestionScalarWhereInput = {
-    AND?: CensusQuestionScalarWhereInput | CensusQuestionScalarWhereInput[]
-    OR?: CensusQuestionScalarWhereInput[]
-    NOT?: CensusQuestionScalarWhereInput | CensusQuestionScalarWhereInput[]
-    id?: StringFilter<"CensusQuestion"> | string
-    sectionId?: StringFilter<"CensusQuestion"> | string
-    slug?: StringFilter<"CensusQuestion"> | string
-    text?: StringFilter<"CensusQuestion"> | string
-    helpText?: StringNullableFilter<"CensusQuestion"> | string | null
-    type?: StringFilter<"CensusQuestion"> | string
-    props?: JsonFilter<"CensusQuestion">
-    isRequired?: BoolFilter<"CensusQuestion"> | boolean
-    validation?: JsonNullableFilter<"CensusQuestion">
-    sortOrder?: IntFilter<"CensusQuestion"> | number
-    irtParams?: JsonNullableFilter<"CensusQuestion">
-    showWhen?: JsonNullableFilter<"CensusQuestion">
-    groupId?: StringNullableFilter<"CensusQuestion"> | string | null
-    groupLabel?: StringNullableFilter<"CensusQuestion"> | string | null
+  export type CensusAnswerCreateManyQuestionInputEnvelope = {
+    data: CensusAnswerCreateManyQuestionInput | CensusAnswerCreateManyQuestionInput[]
+    skipDuplicates?: boolean
   }
 
   export type CensusSectionCreateWithoutQuestionsInput = {
@@ -44183,32 +47491,20 @@ export namespace Prisma {
     create: XOR<CensusSectionCreateWithoutQuestionsInput, CensusSectionUncheckedCreateWithoutQuestionsInput>
   }
 
-  export type CensusAnswerCreateWithoutQuestionInput = {
-    id?: string
-    value: JsonNullValueInput | InputJsonValue
-    instrumentVersion?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutCensusAnswersInput
-  }
-
-  export type CensusAnswerUncheckedCreateWithoutQuestionInput = {
-    id?: string
-    userId: string
-    value: JsonNullValueInput | InputJsonValue
-    instrumentVersion?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type CensusAnswerCreateOrConnectWithoutQuestionInput = {
+  export type CensusAnswerUpsertWithWhereUniqueWithoutQuestionInput = {
     where: CensusAnswerWhereUniqueInput
+    update: XOR<CensusAnswerUpdateWithoutQuestionInput, CensusAnswerUncheckedUpdateWithoutQuestionInput>
     create: XOR<CensusAnswerCreateWithoutQuestionInput, CensusAnswerUncheckedCreateWithoutQuestionInput>
   }
 
-  export type CensusAnswerCreateManyQuestionInputEnvelope = {
-    data: CensusAnswerCreateManyQuestionInput | CensusAnswerCreateManyQuestionInput[]
-    skipDuplicates?: boolean
+  export type CensusAnswerUpdateWithWhereUniqueWithoutQuestionInput = {
+    where: CensusAnswerWhereUniqueInput
+    data: XOR<CensusAnswerUpdateWithoutQuestionInput, CensusAnswerUncheckedUpdateWithoutQuestionInput>
+  }
+
+  export type CensusAnswerUpdateManyWithWhereWithoutQuestionInput = {
+    where: CensusAnswerScalarWhereInput
+    data: XOR<CensusAnswerUpdateManyMutationInput, CensusAnswerUncheckedUpdateManyWithoutQuestionInput>
   }
 
   export type CensusSectionUpsertWithoutQuestionsInput = {
@@ -44244,69 +47540,6 @@ export namespace Prisma {
     estimatedTime?: IntFieldUpdateOperationsInput | number
   }
 
-  export type CensusAnswerUpsertWithWhereUniqueWithoutQuestionInput = {
-    where: CensusAnswerWhereUniqueInput
-    update: XOR<CensusAnswerUpdateWithoutQuestionInput, CensusAnswerUncheckedUpdateWithoutQuestionInput>
-    create: XOR<CensusAnswerCreateWithoutQuestionInput, CensusAnswerUncheckedCreateWithoutQuestionInput>
-  }
-
-  export type CensusAnswerUpdateWithWhereUniqueWithoutQuestionInput = {
-    where: CensusAnswerWhereUniqueInput
-    data: XOR<CensusAnswerUpdateWithoutQuestionInput, CensusAnswerUncheckedUpdateWithoutQuestionInput>
-  }
-
-  export type CensusAnswerUpdateManyWithWhereWithoutQuestionInput = {
-    where: CensusAnswerScalarWhereInput
-    data: XOR<CensusAnswerUpdateManyMutationInput, CensusAnswerUncheckedUpdateManyWithoutQuestionInput>
-  }
-
-  export type UserCreateWithoutCensusAnswersInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    displayName?: string | null
-    email?: string | null
-    emailVerifiedAt?: Date | string | null
-    timezone?: string
-    locale?: string
-    encryptionKeyVersion?: number
-    keyRecoveryMethod?: string | null
-    keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
-    consents?: ConsentCreateNestedManyWithoutUserInput
-    events?: EventCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutCensusAnswersInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    displayName?: string | null
-    email?: string | null
-    emailVerifiedAt?: Date | string | null
-    timezone?: string
-    locale?: string
-    encryptionKeyVersion?: number
-    keyRecoveryMethod?: string | null
-    keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
-    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
-    events?: EventUncheckedCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutCensusAnswersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutCensusAnswersInput, UserUncheckedCreateWithoutCensusAnswersInput>
-  }
-
   export type CensusQuestionCreateWithoutAnswersInput = {
     id?: string
     slug: string
@@ -44318,9 +47551,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: string | null
     groupLabel?: string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
     section: CensusSectionCreateNestedOneWithoutQuestionsInput
   }
 
@@ -44336,14 +47569,110 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: string | null
     groupLabel?: string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CensusQuestionCreateOrConnectWithoutAnswersInput = {
     where: CensusQuestionWhereUniqueInput
     create: XOR<CensusQuestionCreateWithoutAnswersInput, CensusQuestionUncheckedCreateWithoutAnswersInput>
+  }
+
+  export type UserCreateWithoutCensusAnswersInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCensusAnswersInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCensusAnswersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCensusAnswersInput, UserUncheckedCreateWithoutCensusAnswersInput>
+  }
+
+  export type CensusQuestionUpsertWithoutAnswersInput = {
+    update: XOR<CensusQuestionUpdateWithoutAnswersInput, CensusQuestionUncheckedUpdateWithoutAnswersInput>
+    create: XOR<CensusQuestionCreateWithoutAnswersInput, CensusQuestionUncheckedCreateWithoutAnswersInput>
+    where?: CensusQuestionWhereInput
+  }
+
+  export type CensusQuestionUpdateToOneWithWhereWithoutAnswersInput = {
+    where?: CensusQuestionWhereInput
+    data: XOR<CensusQuestionUpdateWithoutAnswersInput, CensusQuestionUncheckedUpdateWithoutAnswersInput>
+  }
+
+  export type CensusQuestionUpdateWithoutAnswersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    helpText?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    props?: JsonNullValueInput | InputJsonValue
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    validation?: NullableJsonNullValueInput | InputJsonValue
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    irtParams?: NullableJsonNullValueInput | InputJsonValue
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
+    section?: CensusSectionUpdateOneRequiredWithoutQuestionsNestedInput
+  }
+
+  export type CensusQuestionUncheckedUpdateWithoutAnswersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    text?: StringFieldUpdateOperationsInput | string
+    helpText?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    props?: JsonNullValueInput | InputJsonValue
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    validation?: NullableJsonNullValueInput | InputJsonValue
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    irtParams?: NullableJsonNullValueInput | InputJsonValue
+    groupId?: NullableStringFieldUpdateOperationsInput | string | null
+    groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserUpsertWithoutCensusAnswersInput = {
@@ -44369,13 +47698,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
-    consents?: ConsentUpdateManyWithoutUserNestedInput
-    events?: EventUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCensusAnswersInput = {
@@ -44390,58 +47721,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
-    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
-    events?: EventUncheckedUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type CensusQuestionUpsertWithoutAnswersInput = {
-    update: XOR<CensusQuestionUpdateWithoutAnswersInput, CensusQuestionUncheckedUpdateWithoutAnswersInput>
-    create: XOR<CensusQuestionCreateWithoutAnswersInput, CensusQuestionUncheckedCreateWithoutAnswersInput>
-    where?: CensusQuestionWhereInput
-  }
-
-  export type CensusQuestionUpdateToOneWithWhereWithoutAnswersInput = {
-    where?: CensusQuestionWhereInput
-    data: XOR<CensusQuestionUpdateWithoutAnswersInput, CensusQuestionUncheckedUpdateWithoutAnswersInput>
-  }
-
-  export type CensusQuestionUpdateWithoutAnswersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    props?: JsonNullValueInput | InputJsonValue
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
-    groupId?: NullableStringFieldUpdateOperationsInput | string | null
-    groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
-    section?: CensusSectionUpdateOneRequiredWithoutQuestionsNestedInput
-  }
-
-  export type CensusQuestionUncheckedUpdateWithoutAnswersInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sectionId?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    text?: StringFieldUpdateOperationsInput | string
-    helpText?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    props?: JsonNullValueInput | InputJsonValue
-    isRequired?: BoolFieldUpdateOperationsInput | boolean
-    validation?: NullableJsonNullValueInput | InputJsonValue
-    sortOrder?: IntFieldUpdateOperationsInput | number
-    irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
-    groupId?: NullableStringFieldUpdateOperationsInput | string | null
-    groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CensusFormCreateWithoutCategoryInput = {
@@ -44582,12 +47870,14 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
     studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
   }
 
@@ -44603,12 +47893,14 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -44640,12 +47932,14 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
     studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
   }
 
@@ -44661,12 +47955,14 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -44806,53 +48102,6 @@ export namespace Prisma {
     data: XOR<PromptResponseUpdateManyMutationInput, PromptResponseUncheckedUpdateManyWithoutPromptInput>
   }
 
-  export type UserCreateWithoutPromptResponsesInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    displayName?: string | null
-    email?: string | null
-    emailVerifiedAt?: Date | string | null
-    timezone?: string
-    locale?: string
-    encryptionKeyVersion?: number
-    keyRecoveryMethod?: string | null
-    keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    consents?: ConsentCreateNestedManyWithoutUserInput
-    events?: EventCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutPromptResponsesInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    displayName?: string | null
-    email?: string | null
-    emailVerifiedAt?: Date | string | null
-    timezone?: string
-    locale?: string
-    encryptionKeyVersion?: number
-    keyRecoveryMethod?: string | null
-    keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
-    events?: EventUncheckedCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutPromptResponsesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPromptResponsesInput, UserUncheckedCreateWithoutPromptResponsesInput>
-  }
-
   export type PromptCreateWithoutResponsesInput = {
     id?: string
     text: string
@@ -44886,57 +48135,55 @@ export namespace Prisma {
     create: XOR<PromptCreateWithoutResponsesInput, PromptUncheckedCreateWithoutResponsesInput>
   }
 
-  export type UserUpsertWithoutPromptResponsesInput = {
-    update: XOR<UserUpdateWithoutPromptResponsesInput, UserUncheckedUpdateWithoutPromptResponsesInput>
+  export type UserCreateWithoutPromptResponsesInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPromptResponsesInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPromptResponsesInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutPromptResponsesInput, UserUncheckedCreateWithoutPromptResponsesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutPromptResponsesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutPromptResponsesInput, UserUncheckedUpdateWithoutPromptResponsesInput>
-  }
-
-  export type UserUpdateWithoutPromptResponsesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    timezone?: StringFieldUpdateOperationsInput | string
-    locale?: StringFieldUpdateOperationsInput | string
-    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
-    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
-    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    consents?: ConsentUpdateManyWithoutUserNestedInput
-    events?: EventUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
-    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutPromptResponsesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    timezone?: StringFieldUpdateOperationsInput | string
-    locale?: StringFieldUpdateOperationsInput | string
-    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
-    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
-    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
-    events?: EventUncheckedUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
-    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PromptUpsertWithoutResponsesInput = {
@@ -44978,6 +48225,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserUpsertWithoutPromptResponsesInput = {
+    update: XOR<UserUpdateWithoutPromptResponsesInput, UserUncheckedUpdateWithoutPromptResponsesInput>
+    create: XOR<UserCreateWithoutPromptResponsesInput, UserUncheckedCreateWithoutPromptResponsesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPromptResponsesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPromptResponsesInput, UserUncheckedUpdateWithoutPromptResponsesInput>
+  }
+
+  export type UserUpdateWithoutPromptResponsesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPromptResponsesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutConsentsInput = {
     id?: string
     createdAt?: Date | string
@@ -44990,13 +48294,15 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
-    events?: EventCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConsentsInput = {
@@ -45011,13 +48317,15 @@ export namespace Prisma {
     encryptionKeyVersion?: number
     keyRecoveryMethod?: string | null
     keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
-    events?: EventUncheckedCreateNestedManyWithoutUserInput
-    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConsentsInput = {
@@ -45048,13 +48356,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
-    events?: EventUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConsentsInput = {
@@ -45069,45 +48379,15 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
-    events?: EventUncheckedUpdateManyWithoutUserNestedInput
-    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type StudyParticipationCreateWithoutStudyInput = {
-    id?: string
-    consentedAt?: Date | string
-    consentVersion: number
-    status?: string
-    withdrawnAt?: Date | string | null
-    withdrawalReason?: string | null
-    completedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutStudyParticipationsInput
-  }
-
-  export type StudyParticipationUncheckedCreateWithoutStudyInput = {
-    id?: string
-    userId: string
-    consentedAt?: Date | string
-    consentVersion: number
-    status?: string
-    withdrawnAt?: Date | string | null
-    withdrawalReason?: string | null
-    completedAt?: Date | string | null
-  }
-
-  export type StudyParticipationCreateOrConnectWithoutStudyInput = {
-    where: StudyParticipationWhereUniqueInput
-    create: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput>
-  }
-
-  export type StudyParticipationCreateManyStudyInputEnvelope = {
-    data: StudyParticipationCreateManyStudyInput | StudyParticipationCreateManyStudyInput[]
-    skipDuplicates?: boolean
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PromptCreateWithoutStudyInput = {
@@ -45148,20 +48428,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type StudyParticipationUpsertWithWhereUniqueWithoutStudyInput = {
+  export type StudyParticipationCreateWithoutStudyInput = {
+    id?: string
+    consentedAt?: Date | string
+    consentVersion: number
+    status?: string
+    withdrawnAt?: Date | string | null
+    withdrawalReason?: string | null
+    completedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutStudyParticipationsInput
+  }
+
+  export type StudyParticipationUncheckedCreateWithoutStudyInput = {
+    id?: string
+    userId: string
+    consentedAt?: Date | string
+    consentVersion: number
+    status?: string
+    withdrawnAt?: Date | string | null
+    withdrawalReason?: string | null
+    completedAt?: Date | string | null
+  }
+
+  export type StudyParticipationCreateOrConnectWithoutStudyInput = {
     where: StudyParticipationWhereUniqueInput
-    update: XOR<StudyParticipationUpdateWithoutStudyInput, StudyParticipationUncheckedUpdateWithoutStudyInput>
     create: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput>
   }
 
-  export type StudyParticipationUpdateWithWhereUniqueWithoutStudyInput = {
-    where: StudyParticipationWhereUniqueInput
-    data: XOR<StudyParticipationUpdateWithoutStudyInput, StudyParticipationUncheckedUpdateWithoutStudyInput>
-  }
-
-  export type StudyParticipationUpdateManyWithWhereWithoutStudyInput = {
-    where: StudyParticipationScalarWhereInput
-    data: XOR<StudyParticipationUpdateManyMutationInput, StudyParticipationUncheckedUpdateManyWithoutStudyInput>
+  export type StudyParticipationCreateManyStudyInputEnvelope = {
+    data: StudyParticipationCreateManyStudyInput | StudyParticipationCreateManyStudyInput[]
+    skipDuplicates?: boolean
   }
 
   export type PromptUpsertWithWhereUniqueWithoutStudyInput = {
@@ -45197,51 +48493,20 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Prompt"> | Date | string
   }
 
-  export type UserCreateWithoutStudyParticipationsInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    displayName?: string | null
-    email?: string | null
-    emailVerifiedAt?: Date | string | null
-    timezone?: string
-    locale?: string
-    encryptionKeyVersion?: number
-    keyRecoveryMethod?: string | null
-    keySalt?: Bytes | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
-    consents?: ConsentCreateNestedManyWithoutUserInput
-    events?: EventCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+  export type StudyParticipationUpsertWithWhereUniqueWithoutStudyInput = {
+    where: StudyParticipationWhereUniqueInput
+    update: XOR<StudyParticipationUpdateWithoutStudyInput, StudyParticipationUncheckedUpdateWithoutStudyInput>
+    create: XOR<StudyParticipationCreateWithoutStudyInput, StudyParticipationUncheckedCreateWithoutStudyInput>
   }
 
-  export type UserUncheckedCreateWithoutStudyParticipationsInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    displayName?: string | null
-    email?: string | null
-    emailVerifiedAt?: Date | string | null
-    timezone?: string
-    locale?: string
-    encryptionKeyVersion?: number
-    keyRecoveryMethod?: string | null
-    keySalt?: Bytes | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
-    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
-    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
-    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
-    events?: EventUncheckedCreateNestedManyWithoutUserInput
-    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+  export type StudyParticipationUpdateWithWhereUniqueWithoutStudyInput = {
+    where: StudyParticipationWhereUniqueInput
+    data: XOR<StudyParticipationUpdateWithoutStudyInput, StudyParticipationUncheckedUpdateWithoutStudyInput>
   }
 
-  export type UserCreateOrConnectWithoutStudyParticipationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutStudyParticipationsInput, UserUncheckedCreateWithoutStudyParticipationsInput>
+  export type StudyParticipationUpdateManyWithWhereWithoutStudyInput = {
+    where: StudyParticipationScalarWhereInput
+    data: XOR<StudyParticipationUpdateManyMutationInput, StudyParticipationUncheckedUpdateManyWithoutStudyInput>
   }
 
   export type StudyCreateWithoutParticipationsInput = {
@@ -45287,57 +48552,55 @@ export namespace Prisma {
     create: XOR<StudyCreateWithoutParticipationsInput, StudyUncheckedCreateWithoutParticipationsInput>
   }
 
-  export type UserUpsertWithoutStudyParticipationsInput = {
-    update: XOR<UserUpdateWithoutStudyParticipationsInput, UserUncheckedUpdateWithoutStudyParticipationsInput>
+  export type UserCreateWithoutStudyParticipationsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutStudyParticipationsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutStudyParticipationsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutStudyParticipationsInput, UserUncheckedCreateWithoutStudyParticipationsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutStudyParticipationsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutStudyParticipationsInput, UserUncheckedUpdateWithoutStudyParticipationsInput>
-  }
-
-  export type UserUpdateWithoutStudyParticipationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    timezone?: StringFieldUpdateOperationsInput | string
-    locale?: StringFieldUpdateOperationsInput | string
-    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
-    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
-    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
-    consents?: ConsentUpdateManyWithoutUserNestedInput
-    events?: EventUpdateManyWithoutUserNestedInput
-    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutStudyParticipationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    displayName?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    timezone?: StringFieldUpdateOperationsInput | string
-    locale?: StringFieldUpdateOperationsInput | string
-    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
-    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
-    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
-    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
-    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
-    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
-    events?: EventUncheckedUpdateManyWithoutUserNestedInput
-    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type StudyUpsertWithoutParticipationsInput = {
@@ -45387,6 +48650,63 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     prompts?: PromptUncheckedUpdateManyWithoutStudyNestedInput
+  }
+
+  export type UserUpsertWithoutStudyParticipationsInput = {
+    update: XOR<UserUpdateWithoutStudyParticipationsInput, UserUncheckedUpdateWithoutStudyParticipationsInput>
+    create: XOR<UserCreateWithoutStudyParticipationsInput, UserUncheckedCreateWithoutStudyParticipationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStudyParticipationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStudyParticipationsInput, UserUncheckedUpdateWithoutStudyParticipationsInput>
+  }
+
+  export type UserUpdateWithoutStudyParticipationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStudyParticipationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmotionCreateWithoutChildrenInput = {
@@ -45511,14 +48831,250 @@ export namespace Prisma {
     version?: IntFilter<"Emotion"> | number
   }
 
-  export type SessionCreateManyUserInput = {
+  export type UserCreateWithoutNightCheckInsInput = {
     id?: string
-    tokenHash: string
-    expiresAt: Date | string
-    deviceId?: string | null
-    deviceName?: string | null
-    lastActiveAt?: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutNightCheckInsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
+    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutNightCheckInsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNightCheckInsInput, UserUncheckedCreateWithoutNightCheckInsInput>
+  }
+
+  export type UserUpsertWithoutNightCheckInsInput = {
+    update: XOR<UserUpdateWithoutNightCheckInsInput, UserUncheckedUpdateWithoutNightCheckInsInput>
+    create: XOR<UserCreateWithoutNightCheckInsInput, UserUncheckedCreateWithoutNightCheckInsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNightCheckInsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNightCheckInsInput, UserUncheckedUpdateWithoutNightCheckInsInput>
+  }
+
+  export type UserUpdateWithoutNightCheckInsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNightCheckInsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
+    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutAlarmSettingsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    categoryProgress?: CategoryProgressCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAlarmSettingsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    categoryProgress?: CategoryProgressUncheckedCreateNestedManyWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAlarmSettingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAlarmSettingsInput, UserUncheckedCreateWithoutAlarmSettingsInput>
+  }
+
+  export type UserUpsertWithoutAlarmSettingsInput = {
+    update: XOR<UserUpdateWithoutAlarmSettingsInput, UserUncheckedUpdateWithoutAlarmSettingsInput>
+    create: XOR<UserCreateWithoutAlarmSettingsInput, UserUncheckedCreateWithoutAlarmSettingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAlarmSettingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAlarmSettingsInput, UserUncheckedUpdateWithoutAlarmSettingsInput>
+  }
+
+  export type UserUpdateWithoutAlarmSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    categoryProgress?: CategoryProgressUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAlarmSettingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    categoryProgress?: CategoryProgressUncheckedUpdateManyWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CategoryProgressCreateManyUserInput = {
+    id?: string
+    categoryId: string
+    promptAnswers?: number
+    formsStarted?: CategoryProgressCreateformsStartedInput | string[]
+    formsComplete?: CategoryProgressCreateformsCompleteInput | string[]
+    lastActivityAt?: Date | string
+  }
+
+  export type CensusAnswerCreateManyUserInput = {
+    id?: string
+    questionId: string
+    value: JsonNullValueInput | InputJsonValue
+    instrumentVersion?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ConsentCreateManyUserInput = {
+    id?: string
+    scope: string
+    version: number
+    granted: boolean
+    timestamp?: Date | string
+    receiptHash: string
+    policyHash: string
+    jurisdiction?: string | null
+    ipHash?: string | null
   }
 
   export type DreamEntryCreateManyUserInput = {
@@ -45540,13 +49096,25 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type CensusAnswerCreateManyUserInput = {
+  export type EventCreateManyUserInput = {
     id?: string
-    questionId: string
-    value: JsonNullValueInput | InputJsonValue
-    instrumentVersion?: number
+    type: string
+    payload: JsonNullValueInput | InputJsonValue
+    timestamp?: Date | string
+    sequence?: bigint | number
+    aggregateId?: string | null
+    aggregateType?: string | null
+  }
+
+  export type NightCheckInCreateManyUserInput = {
+    id?: string
+    date: string
+    mood?: string | null
+    dayNotes?: string | null
+    intention?: string | null
+    plannedWakeTime?: string | null
+    reminderEnabled?: boolean
     createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type PromptResponseCreateManyUserInput = {
@@ -45558,26 +49126,14 @@ export namespace Prisma {
     skipped?: boolean
   }
 
-  export type ConsentCreateManyUserInput = {
+  export type SessionCreateManyUserInput = {
     id?: string
-    scope: string
-    version: number
-    granted: boolean
-    timestamp?: Date | string
-    receiptHash: string
-    policyHash: string
-    jurisdiction?: string | null
-    ipHash?: string | null
-  }
-
-  export type EventCreateManyUserInput = {
-    id?: string
-    type: string
-    payload: JsonNullValueInput | InputJsonValue
-    timestamp?: Date | string
-    sequence?: bigint | number
-    aggregateId?: string | null
-    aggregateType?: string | null
+    tokenHash: string
+    expiresAt: Date | string
+    deviceId?: string | null
+    deviceName?: string | null
+    lastActiveAt?: Date | string
+    createdAt?: Date | string
   }
 
   export type StudyParticipationCreateManyUserInput = {
@@ -45591,104 +49147,31 @@ export namespace Prisma {
     completedAt?: Date | string | null
   }
 
-  export type CategoryProgressCreateManyUserInput = {
-    id?: string
-    categoryId: string
-    promptAnswers?: number
-    formsStarted?: CategoryProgressCreateformsStartedInput | string[]
-    formsComplete?: CategoryProgressCreateformsCompleteInput | string[]
-    lastActivityAt?: Date | string
+  export type CategoryProgressUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    promptAnswers?: IntFieldUpdateOperationsInput | number
+    formsStarted?: CategoryProgressUpdateformsStartedInput | string[]
+    formsComplete?: CategoryProgressUpdateformsCompleteInput | string[]
+    lastActivityAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SessionUpdateWithoutUserInput = {
+  export type CategoryProgressUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    tokenHash?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deviceId?: NullableStringFieldUpdateOperationsInput | string | null
-    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    promptAnswers?: IntFieldUpdateOperationsInput | number
+    formsStarted?: CategoryProgressUpdateformsStartedInput | string[]
+    formsComplete?: CategoryProgressUpdateformsCompleteInput | string[]
+    lastActivityAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SessionUncheckedUpdateWithoutUserInput = {
+  export type CategoryProgressUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    tokenHash?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deviceId?: NullableStringFieldUpdateOperationsInput | string | null
-    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SessionUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tokenHash?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deviceId?: NullableStringFieldUpdateOperationsInput | string | null
-    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DreamEntryUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ciphertext?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    iv?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    keyVersion?: IntFieldUpdateOperationsInput | number
-    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    emotions?: DreamEntryUpdateemotionsInput | string[]
-    vividness?: NullableIntFieldUpdateOperationsInput | number | null
-    lucidity?: NullableStringFieldUpdateOperationsInput | string | null
-    dreamTypes?: DreamEntryUpdatedreamTypesInput | string[]
-    sleepQuality?: NullableIntFieldUpdateOperationsInput | number | null
-    hoursSlept?: NullableFloatFieldUpdateOperationsInput | number | null
-    wakeTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    wakingLifeLink?: NullableStringFieldUpdateOperationsInput | string | null
-    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    facts?: JournalFactUpdateManyWithoutDreamEntryNestedInput
-    tags?: DreamTagUpdateManyWithoutDreamEntryNestedInput
-  }
-
-  export type DreamEntryUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ciphertext?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    iv?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    keyVersion?: IntFieldUpdateOperationsInput | number
-    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    emotions?: DreamEntryUpdateemotionsInput | string[]
-    vividness?: NullableIntFieldUpdateOperationsInput | number | null
-    lucidity?: NullableStringFieldUpdateOperationsInput | string | null
-    dreamTypes?: DreamEntryUpdatedreamTypesInput | string[]
-    sleepQuality?: NullableIntFieldUpdateOperationsInput | number | null
-    hoursSlept?: NullableFloatFieldUpdateOperationsInput | number | null
-    wakeTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    wakingLifeLink?: NullableStringFieldUpdateOperationsInput | string | null
-    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    facts?: JournalFactUncheckedUpdateManyWithoutDreamEntryNestedInput
-    tags?: DreamTagUncheckedUpdateManyWithoutDreamEntryNestedInput
-  }
-
-  export type DreamEntryUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ciphertext?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    iv?: NullableBytesFieldUpdateOperationsInput | Bytes | null
-    keyVersion?: IntFieldUpdateOperationsInput | number
-    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    emotions?: DreamEntryUpdateemotionsInput | string[]
-    vividness?: NullableIntFieldUpdateOperationsInput | number | null
-    lucidity?: NullableStringFieldUpdateOperationsInput | string | null
-    dreamTypes?: DreamEntryUpdatedreamTypesInput | string[]
-    sleepQuality?: NullableIntFieldUpdateOperationsInput | number | null
-    hoursSlept?: NullableFloatFieldUpdateOperationsInput | number | null
-    wakeTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    wakingLifeLink?: NullableStringFieldUpdateOperationsInput | string | null
-    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    promptAnswers?: IntFieldUpdateOperationsInput | number
+    formsStarted?: CategoryProgressUpdateformsStartedInput | string[]
+    formsComplete?: CategoryProgressUpdateformsCompleteInput | string[]
+    lastActivityAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CensusAnswerUpdateWithoutUserInput = {
@@ -45716,33 +49199,6 @@ export namespace Prisma {
     instrumentVersion?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PromptResponseUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    shownAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    respondedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    skipped?: BoolFieldUpdateOperationsInput | boolean
-    prompt?: PromptUpdateOneRequiredWithoutResponsesNestedInput
-  }
-
-  export type PromptResponseUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    promptId?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    shownAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    respondedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    skipped?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type PromptResponseUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    promptId?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    shownAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    respondedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    skipped?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ConsentUpdateWithoutUserInput = {
@@ -45781,6 +49237,67 @@ export namespace Prisma {
     ipHash?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type DreamEntryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ciphertext?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    iv?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    keyVersion?: IntFieldUpdateOperationsInput | number
+    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    emotions?: DreamEntryUpdateemotionsInput | string[]
+    vividness?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidity?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamTypes?: DreamEntryUpdatedreamTypesInput | string[]
+    sleepQuality?: NullableIntFieldUpdateOperationsInput | number | null
+    hoursSlept?: NullableFloatFieldUpdateOperationsInput | number | null
+    wakeTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    wakingLifeLink?: NullableStringFieldUpdateOperationsInput | string | null
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: DreamTagUpdateManyWithoutDreamEntryNestedInput
+    facts?: JournalFactUpdateManyWithoutDreamEntryNestedInput
+  }
+
+  export type DreamEntryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ciphertext?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    iv?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    keyVersion?: IntFieldUpdateOperationsInput | number
+    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    emotions?: DreamEntryUpdateemotionsInput | string[]
+    vividness?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidity?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamTypes?: DreamEntryUpdatedreamTypesInput | string[]
+    sleepQuality?: NullableIntFieldUpdateOperationsInput | number | null
+    hoursSlept?: NullableFloatFieldUpdateOperationsInput | number | null
+    wakeTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    wakingLifeLink?: NullableStringFieldUpdateOperationsInput | string | null
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tags?: DreamTagUncheckedUpdateManyWithoutDreamEntryNestedInput
+    facts?: JournalFactUncheckedUpdateManyWithoutDreamEntryNestedInput
+  }
+
+  export type DreamEntryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ciphertext?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    iv?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    keyVersion?: IntFieldUpdateOperationsInput | number
+    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    emotions?: DreamEntryUpdateemotionsInput | string[]
+    vividness?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidity?: NullableStringFieldUpdateOperationsInput | string | null
+    dreamTypes?: DreamEntryUpdatedreamTypesInput | string[]
+    sleepQuality?: NullableIntFieldUpdateOperationsInput | number | null
+    hoursSlept?: NullableFloatFieldUpdateOperationsInput | number | null
+    wakeTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    wakingLifeLink?: NullableStringFieldUpdateOperationsInput | string | null
+    capturedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type EventUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -45809,6 +49326,96 @@ export namespace Prisma {
     sequence?: BigIntFieldUpdateOperationsInput | bigint | number
     aggregateId?: NullableStringFieldUpdateOperationsInput | string | null
     aggregateType?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NightCheckInUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    mood?: NullableStringFieldUpdateOperationsInput | string | null
+    dayNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    intention?: NullableStringFieldUpdateOperationsInput | string | null
+    plannedWakeTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NightCheckInUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    mood?: NullableStringFieldUpdateOperationsInput | string | null
+    dayNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    intention?: NullableStringFieldUpdateOperationsInput | string | null
+    plannedWakeTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NightCheckInUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    mood?: NullableStringFieldUpdateOperationsInput | string | null
+    dayNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    intention?: NullableStringFieldUpdateOperationsInput | string | null
+    plannedWakeTime?: NullableStringFieldUpdateOperationsInput | string | null
+    reminderEnabled?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PromptResponseUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    shownAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    respondedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skipped?: BoolFieldUpdateOperationsInput | boolean
+    prompt?: PromptUpdateOneRequiredWithoutResponsesNestedInput
+  }
+
+  export type PromptResponseUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    promptId?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    shownAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    respondedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skipped?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type PromptResponseUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    promptId?: StringFieldUpdateOperationsInput | string
+    value?: JsonNullValueInput | InputJsonValue
+    shownAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    respondedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skipped?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deviceId?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudyParticipationUpdateWithoutUserInput = {
@@ -45844,31 +49451,11 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type CategoryProgressUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    promptAnswers?: IntFieldUpdateOperationsInput | number
-    formsStarted?: CategoryProgressUpdateformsStartedInput | string[]
-    formsComplete?: CategoryProgressUpdateformsCompleteInput | string[]
-    lastActivityAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CategoryProgressUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    promptAnswers?: IntFieldUpdateOperationsInput | number
-    formsStarted?: CategoryProgressUpdateformsStartedInput | string[]
-    formsComplete?: CategoryProgressUpdateformsCompleteInput | string[]
-    lastActivityAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CategoryProgressUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    promptAnswers?: IntFieldUpdateOperationsInput | number
-    formsStarted?: CategoryProgressUpdateformsStartedInput | string[]
-    formsComplete?: CategoryProgressUpdateformsCompleteInput | string[]
-    lastActivityAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type DreamTagCreateManyDreamEntryInput = {
+    id?: string
+    tagId: string
+    source?: string
+    createdAt?: Date | string
   }
 
   export type JournalFactCreateManyDreamEntryInput = {
@@ -45884,11 +49471,25 @@ export namespace Prisma {
     extractedAt?: Date | string
   }
 
-  export type DreamTagCreateManyDreamEntryInput = {
-    id?: string
-    tagId: string
-    source?: string
-    createdAt?: Date | string
+  export type DreamTagUpdateWithoutDreamEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tag?: TagUpdateOneRequiredWithoutDreamTagsNestedInput
+  }
+
+  export type DreamTagUncheckedUpdateWithoutDreamEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DreamTagUncheckedUpdateManyWithoutDreamEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tagId?: StringFieldUpdateOperationsInput | string
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type JournalFactUpdateWithoutDreamEntryInput = {
@@ -45928,27 +49529,6 @@ export namespace Prisma {
     startIndex?: NullableIntFieldUpdateOperationsInput | number | null
     endIndex?: NullableIntFieldUpdateOperationsInput | number | null
     extractedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DreamTagUpdateWithoutDreamEntryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    source?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tag?: TagUpdateOneRequiredWithoutDreamTagsNestedInput
-  }
-
-  export type DreamTagUncheckedUpdateWithoutDreamEntryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tagId?: StringFieldUpdateOperationsInput | string
-    source?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DreamTagUncheckedUpdateManyWithoutDreamEntryInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tagId?: StringFieldUpdateOperationsInput | string
-    source?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DreamTagCreateManyTagInput = {
@@ -46032,9 +49612,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: string | null
     groupLabel?: string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CensusQuestionUpdateWithoutSectionInput = {
@@ -46048,9 +49628,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: IntFieldUpdateOperationsInput | number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
     groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
     answers?: CensusAnswerUpdateManyWithoutQuestionNestedInput
   }
 
@@ -46065,9 +49645,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: IntFieldUpdateOperationsInput | number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
     groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
     answers?: CensusAnswerUncheckedUpdateManyWithoutQuestionNestedInput
   }
 
@@ -46082,9 +49662,9 @@ export namespace Prisma {
     validation?: NullableJsonNullValueInput | InputJsonValue
     sortOrder?: IntFieldUpdateOperationsInput | number
     irtParams?: NullableJsonNullValueInput | InputJsonValue
-    showWhen?: NullableJsonNullValueInput | InputJsonValue
     groupId?: NullableStringFieldUpdateOperationsInput | string | null
     groupLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    showWhen?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CensusAnswerCreateManyQuestionInput = {
@@ -46207,17 +49787,6 @@ export namespace Prisma {
     skipped?: BoolFieldUpdateOperationsInput | boolean
   }
 
-  export type StudyParticipationCreateManyStudyInput = {
-    id?: string
-    userId: string
-    consentedAt?: Date | string
-    consentVersion: number
-    status?: string
-    withdrawnAt?: Date | string | null
-    withdrawalReason?: string | null
-    completedAt?: Date | string | null
-  }
-
   export type PromptCreateManyStudyInput = {
     id?: string
     text: string
@@ -46231,37 +49800,15 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type StudyParticipationUpdateWithoutStudyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    consentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    consentVersion?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    withdrawnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    withdrawalReason?: NullableStringFieldUpdateOperationsInput | string | null
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutStudyParticipationsNestedInput
-  }
-
-  export type StudyParticipationUncheckedUpdateWithoutStudyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    consentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    consentVersion?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    withdrawnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    withdrawalReason?: NullableStringFieldUpdateOperationsInput | string | null
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type StudyParticipationUncheckedUpdateManyWithoutStudyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    consentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    consentVersion?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    withdrawnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    withdrawalReason?: NullableStringFieldUpdateOperationsInput | string | null
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type StudyParticipationCreateManyStudyInput = {
+    id?: string
+    userId: string
+    consentedAt?: Date | string
+    consentVersion: number
+    status?: string
+    withdrawnAt?: Date | string | null
+    withdrawalReason?: string | null
+    completedAt?: Date | string | null
   }
 
   export type PromptUpdateWithoutStudyInput = {
@@ -46303,6 +49850,39 @@ export namespace Prisma {
     targetingRules?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudyParticipationUpdateWithoutStudyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    consentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consentVersion?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    withdrawnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    withdrawalReason?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutStudyParticipationsNestedInput
+  }
+
+  export type StudyParticipationUncheckedUpdateWithoutStudyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    consentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consentVersion?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    withdrawnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    withdrawalReason?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type StudyParticipationUncheckedUpdateManyWithoutStudyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    consentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consentVersion?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    withdrawnAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    withdrawalReason?: NullableStringFieldUpdateOperationsInput | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EmotionCreateManyParentInput = {

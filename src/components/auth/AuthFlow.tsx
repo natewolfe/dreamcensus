@@ -88,7 +88,7 @@ export function AuthFlow({ mode }: AuthFlowProps) {
         {/* Header */}
         <div className="mb-6 text-center">
           <div className="mb-4 flex justify-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent text-white">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent text-foreground">
               <span className="text-2xl font-bold">DC</span>
             </div>
           </div>

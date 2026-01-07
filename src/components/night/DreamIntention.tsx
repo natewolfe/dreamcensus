@@ -16,8 +16,6 @@ const DEFAULT_SUGGESTIONS = [
 ]
 
 export function DreamIntention({
-  globalStep,
-  totalSteps,
   direction,
   suggestions = DEFAULT_SUGGESTIONS,
   previousIntentions = [],
@@ -35,13 +33,13 @@ export function DreamIntention({
     const trimmed = intention.trim()
     if (trimmed) {
       onComplete(trimmed)
+    } else {
+      onSkip()
     }
   }
 
   return (
     <FlowCard
-      currentStep={globalStep}
-      totalSteps={totalSteps}
       direction={direction || 'forward'}
       title="Set an intention for tonight"
       subtitle="What would you like to dream about?"
@@ -60,7 +58,7 @@ export function DreamIntention({
         <textarea
           value={intention}
           onChange={(e) => setIntention(e.target.value)}
-          placeholder="I want to visit..."
+          placeholder="I want to experience..."
           rows={3}
           autoFocus
           className={cn(

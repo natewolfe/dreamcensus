@@ -12,7 +12,7 @@ function getTimeGreeting(): string {
   return 'Rest well'
 }
 
-export function NightWelcome({ globalStep, totalSteps, onBegin, onNotTonight }: NightWelcomeProps) {
+export function NightWelcome({ onBegin, onNotTonight }: NightWelcomeProps) {
   const greeting = getTimeGreeting()
 
   return (
@@ -21,16 +21,7 @@ export function NightWelcome({ globalStep, totalSteps, onBegin, onNotTonight }: 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
-      className="space-y-8"
-    >
-      {/* Step counter */}
-      <div className="text-center">
-        <span className="text-sm text-muted">
-          {globalStep + 1} of {totalSteps}
-        </span>
-      </div>
-
-      <div className="flex min-h-[50vh] flex-col items-center justify-center px-4"
+      className="flex min-h-[50vh] flex-col items-center justify-center px-4"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
@@ -65,7 +56,6 @@ export function NightWelcome({ globalStep, totalSteps, onBegin, onNotTonight }: 
           Not tonight →
         </button>
       </motion.div>
-      </div>
     </motion.div>
   )
 }

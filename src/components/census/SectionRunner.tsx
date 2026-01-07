@@ -67,6 +67,7 @@ export function SectionRunner({
             question={nav.currentQuestion}
             value={nav.currentAnswer ?? getDefaultValue(nav.currentQuestion.type)}
             onChange={nav.setAnswer}
+            onCommit={nav.triggerAutoAdvance}
           />
         </motion.div>
       </AnimatePresence>

@@ -13,12 +13,11 @@ const DEFAULT_PATTERN: BreathingPattern = {
 type Phase = 'inhale' | 'hold' | 'exhale'
 
 export function BreathingGuide({
-  globalStep,
-  totalSteps,
   duration = 60,
   pattern = DEFAULT_PATTERN,
   onComplete,
   onSkip,
+  onBack,
 }: BreathingGuideProps) {
   const [currentBreath, setCurrentBreath] = useState(0)
   const [phase, setPhase] = useState<Phase>('inhale')
@@ -86,23 +85,34 @@ export function BreathingGuide({
     return 1.3
   }
 
+  const getOpacity = () => {
+    // Opacity increases as circle grows (0.3 → 1.0)
+    if (phase === 'inhale') {
+      return 0.2 + phaseProgress * 0.6
+    } else if (phase === 'exhale') {
+      return 1.0 - phaseProgress * 0.6
+    }
+    return 1.0 // Hold at full opacity
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
-      className="space-y-8"
+      className="flex min-h-[50vh] flex-col items-center justify-center px-4"
     >
-      {/* Step counter */}
-      <div className="text-center">
-        <span className="text-sm text-muted">
-          {globalStep + 1} of {totalSteps}
-        </span>
-      </div>
-
-      <div className="flex min-h-[50vh] flex-col items-center justify-center px-4">
-      <div className="text-right w-full max-w-md mb-6">
+      <div className="flex items-center justify-between w-full mb-6">
+        <button
+          onClick={onBack}
+          className="p-2 text-muted hover:text-foreground transition-colors"
+          aria-label="Previous step"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
         <button
           onClick={onSkip}
           className="text-muted hover:text-foreground transition-colors text-sm"
@@ -111,19 +121,19 @@ export function BreathingGuide({
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center space-y-8">
+      <div className="flex-1 flex flex-col items-center justify-between mb-4">
         <h2 className="text-xl font-light text-foreground">
-          Take a moment
+          Let's slow things down...
         </h2>
 
         {/* Breathing circle */}
         <motion.div
           animate={{
             scale: getScale(),
-            opacity: phase === 'exhale' ? 0.7 : 1,
+            opacity: getOpacity(),
           }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="relative w-48 h-48 rounded-full flex items-center justify-center bg-accent/20"
+          className="relative w-48 h-48 rounded-full flex items-center justify-center bg-subtle/30"
         >
           <AnimatePresence mode="wait">
             <motion.span
@@ -131,7 +141,7 @@ export function BreathingGuide({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-foreground text-lg font-light"
+              className="text-muted text-lg font-medium"
             >
               {getPhaseLabel()}
             </motion.span>
@@ -145,16 +155,15 @@ export function BreathingGuide({
               <div
                 key={i}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  i < currentBreath ? 'bg-accent' : 'bg-subtle'
+                  i < currentBreath ? 'bg-accent' : 'bg-subtle/30'
                 }`}
               />
             ))}
           </div>
-          <p className="text-sm text-muted">
+          <span className="text-sm text-muted">
             {currentBreath} of {totalBreaths} breaths
-          </p>
+          </span>
         </div>
-      </div>
       </div>
     </motion.div>
   )

@@ -1,45 +1,118 @@
 import { db } from '../db'
-import type { CollectiveWeatherData, EmotionDistribution, SymbolFrequency } from './types'
+import type { CollectiveWeatherData, EmotionDistribution, SymbolFrequency, TimeRange } from './types'
 
 /**
- * Compute collective weather from aggregated data
- * Only returns data if sample size >= 50 (differential privacy)
+ * Compute collective weather from dream data
+ * Only returns data if sample size >= 3 (lowered threshold for development)
  */
 export async function computeCollectiveWeather(
-  timeRange: '7d' | '30d' | '90d' = '30d'
+  timeRange: TimeRange = '7d'
 ): Promise<CollectiveWeatherData | null> {
   const now = new Date()
   const startDate = getStartDate(now, timeRange)
+  const today = new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
 
-  // Get aggregate data
-  const aggregate = await db.weatherAggregate.findFirst({
+  // Get all dreams with Commons consent
+  const dreams = await db.dreamEntry.findMany({
     where: {
-      period: timeRange,
-      computedAt: { gte: startDate },
+      capturedAt: { gte: startDate },
+      user: {
+        consents: {
+          some: {
+            scope: 'commons',
+            granted: true,
+          },
+        },
+      },
     },
-    orderBy: { computedAt: 'desc' },
+    select: {
+      userId: true,
+      emotions: true,
+      vividness: true,
+      lucidity: true,
+      dreamTypes: true,
+      capturedAt: true,
+    },
   })
 
-  if (!aggregate) {
-    // No aggregate computed yet
+  // Enforce minimum sample size (lowered to 3 for development)
+  if (dreams.length < 3) {
     return null
   }
 
-  const data = aggregate.value as any
+  // Count unique dreamers
+  const uniqueUserIds = new Set(dreams.map(d => d.userId))
+  const dreamerCount = uniqueUserIds.size
 
-  // Enforce minimum sample size for privacy
-  if (data.sampleSize < 50) {
-    return null
-  }
+  // Count dreams captured today
+  const dreamsToday = dreams.filter(d => d.capturedAt >= today).length
+
+  // Compute emotion distribution
+  const emotionCounts = new Map<string, number>()
+  let totalEmotions = 0
+
+  dreams.forEach((dream) => {
+    const emotions = dream.emotions as string[]
+    emotions.forEach((emotion) => {
+      emotionCounts.set(emotion, (emotionCounts.get(emotion) ?? 0) + 1)
+      totalEmotions++
+    })
+  })
+
+  const emotions: EmotionDistribution[] = Array.from(emotionCounts.entries())
+    .map(([emotion, count]) => ({
+      emotion,
+      count,
+      percentage: totalEmotions > 0 ? (count / totalEmotions) * 100 : 0,
+    }))
+    .sort((a, b) => b.count - a.count)
+
+  // Get trending emotion (most common)
+  const trendingEmotion = emotions[0]?.emotion ?? 'calm'
+
+  // Compute symbol frequency (placeholder for now)
+  const topSymbols: SymbolFrequency[] = []
+  // TODO: Query DreamTag relation for actual symbols
+
+  // Compute average vividness
+  const vividnessDreams = dreams.filter((d) => d.vividness !== null)
+  const avgVividness =
+    vividnessDreams.length > 0
+      ? vividnessDreams.reduce((sum, d) => sum + (d.vividness ?? 0), 0) / vividnessDreams.length
+      : 50
+
+  // Compute lucid percentage
+  const lucidDreams = dreams.filter((d) => d.lucidity === 'yes')
+  const lucidPercentage = dreams.length > 0 ? (lucidDreams.length / dreams.length) * 100 : 0
+
+  // Compute nightmare rate
+  const nightmareDreams = dreams.filter((d) => {
+    const types = d.dreamTypes as string[]
+    return types.includes('nightmare')
+  })
+  const nightmareRate = dreams.length > 0 ? (nightmareDreams.length / dreams.length) * 100 : 0
+
+  // Compute recurring rate
+  const recurringDreams = dreams.filter((d) => {
+    const types = d.dreamTypes as string[]
+    return types.includes('recurring')
+  })
+  const recurringRate = dreams.length > 0 ? (recurringDreams.length / dreams.length) * 100 : 0
 
   return {
     timeRange,
-    sampleSize: data.sampleSize,
-    emotions: data.emotions ?? [],
-    topSymbols: data.topSymbols ?? [],
-    avgVividness: data.avgVividness ?? 50,
-    lucidPercentage: data.lucidPercentage ?? 0,
-    updatedAt: aggregate.computedAt,
+    sampleSize: dreamerCount,
+    dreamCount: dreams.length,
+    emotions: emotions.slice(0, 12),
+    topSymbols,
+    avgVividness,
+    lucidPercentage,
+    nightmareRate,
+    recurringRate,
+    updatedAt: now,
+    dreamerCount,
+    dreamsToday,
+    trendingEmotion,
   }
 }
 
@@ -48,7 +121,7 @@ export async function computeCollectiveWeather(
  * This would be called by a cron job or queue worker
  */
 export async function computeCollectiveAggregate(
-  timeRange: '7d' | '30d' | '90d'
+  timeRange: TimeRange
 ): Promise<void> {
   const now = new Date()
   const startDate = getStartDate(now, timeRange)
@@ -148,10 +221,16 @@ export async function computeCollectiveAggregate(
   })
 }
 
-function getStartDate(now: Date, timeRange: '7d' | '30d' | '90d'): Date {
+function getStartDate(now: Date, timeRange: TimeRange): Date {
   const start = new Date(now)
   
   switch (timeRange) {
+    case '1d':
+      start.setDate(start.getDate() - 1)
+      break
+    case '3d':
+      start.setDate(start.getDate() - 3)
+      break
     case '7d':
       start.setDate(start.getDate() - 7)
       break

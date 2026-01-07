@@ -13,6 +13,8 @@ export interface FrequencyScaleProps {
   allowNA?: boolean
   disabled?: boolean
   className?: string
+  /** Called after selection for auto-advance */
+  onCommit?: () => void
 }
 
 /** Anchor labels: [low, middle, high] */
@@ -39,6 +41,7 @@ export function FrequencyScale({
   allowNA = false,
   disabled = false,
   className,
+  onCommit,
 }: FrequencyScaleProps) {
   const [lowLabel, midLabel, highLabel] = ANCHOR_LABELS[anchorSet][steps]
 
@@ -48,6 +51,7 @@ export function FrequencyScale({
   const handleSelect = (optionValue: number) => {
     if (disabled) return
     onChange(optionValue)
+    onCommit?.()
   }
 
   return (
@@ -75,7 +79,7 @@ export function FrequencyScale({
               className={cn(
                 'flex-1 rounded-lg py-3 text-sm font-semibold transition-all',
                 'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent',
-                isSelected && 'bg-accent border-accent text-white shadow-md',
+                isSelected && 'bg-accent border-accent text-foreground shadow-md',
                 !isSelected && 'border-border bg-card-bg text-muted hover:text-foreground hover:border-accent/50',
                 disabled && 'opacity-50 cursor-not-allowed'
               )}

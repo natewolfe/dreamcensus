@@ -2,6 +2,7 @@
 // State machine and data types for dream capture flow
 
 export type MorningStep =
+  | 'date-select' // When dream occurred (journal mode only)
   | 'start'      // Method selection
   | 'quick-facts' // Quick metadata (recall level, flags)
   | 'voice'      // Voice recording
@@ -35,7 +36,6 @@ export interface QuickFactsData {
 }
 
 export interface MicroStructureData {
-  emotions: string[]
   vividness: number      // 0-100
   lucidity: 'no' | 'maybe' | 'yes' | null
 }
@@ -68,6 +68,13 @@ export interface MorningDraft {
   title?: string
   wakingLifeLink?: string
   
+  // Date selection (for journal mode)
+  dreamDate?: Date
+  approximateDate?: {
+    type: DateSelectType
+    value?: string
+  }
+  
   // Timestamps
   startedAt: Date
   lastUpdatedAt: Date
@@ -75,8 +82,19 @@ export interface MorningDraft {
 
 export interface MorningModeProps {
   initialStep?: MorningStep
+  mode?: 'morning' | 'journal'
   onComplete: (dreamId: string) => void
   onCancel: () => void
+  onCaptureAnother?: () => void
+  onHasDataChange?: (hasData: boolean) => void
+  onCompletionVisible?: (visible: boolean) => void
+  /** When triggered by alarm, includes metadata for tracking */
+  alarmContext?: {
+    alarmId: string
+    scheduledTime: string
+    actualStopTime: string
+    snoozeCount: number
+  }
 }
 
 export interface MorningStartProps {
@@ -164,6 +182,8 @@ export interface DreamCompleteProps {
     capturedAt: Date
     emotions: string[]
     vividness?: number
+    /** Chronological position (1-indexed, oldest = 1) for generating fallback titles */
+    dreamNumber?: number
   }
   insight?: {
     text: string
@@ -171,21 +191,31 @@ export interface DreamCompleteProps {
   }
   onContinue: () => void
   onViewInsights: () => void
+  onCaptureAnother?: () => void
 }
 
-// Emotion constants
-export const CORE_EMOTIONS = [
-  'anxious', 'awe', 'tender', 'shame', 'joy', 
-  'fear', 'calm', 'confused'
-] as const
+// Date selection types
+export type DateSelectType = 'last-night' | 'specific' | 'childhood' | 'not-sure'
 
-export const EXPANDED_EMOTIONS = [
-  'anger', 'sadness', 'surprise', 'disgust', 'love',
-  'longing', 'curiosity', 'peace', 'dread', 'wonder',
-  'grief', 'relief'
-] as const
+export interface DateSelectProps {
+  globalStep: number
+  totalSteps: number
+  initialData?: {
+    type: DateSelectType
+    date?: string
+    approximateValue?: string
+  }
+  onComplete: (data: {
+    type: DateSelectType
+    date?: Date
+    approximateValue?: string
+  }) => void
+}
+
+// Re-export emotion constants from central location
+export { CORE_EMOTIONS, EXPANDED_EMOTIONS, ALL_EMOTIONS, type Emotion } from '@/lib/constants'
+import { CORE_EMOTIONS, EXPANDED_EMOTIONS } from '@/lib/constants'
 
 export type CoreEmotion = typeof CORE_EMOTIONS[number]
 export type ExpandedEmotion = typeof EXPANDED_EMOTIONS[number]
-export type Emotion = CoreEmotion | ExpandedEmotion
 

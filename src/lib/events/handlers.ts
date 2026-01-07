@@ -1,9 +1,19 @@
 import type { Event } from '@/generated/prisma'
 import { EVENT_TYPES } from '../constants'
 import { db } from '../db'
+import type {
+  JournalEntryCreatedPayload,
+  JournalEntryUpdatedPayload,
+  CensusAnswerSubmittedPayload,
+  ConsentGrantedPayload,
+  ConsentRevokedPayload,
+  PromptRespondedPayload,
+  PromptSkippedPayload,
+  NightCheckedInPayload,
+} from './types'
 
 /**
- * Event handler function type
+ * Event handler function type (untyped for registry)
  */
 type EventHandler = (event: Event) => Promise<void>
 
@@ -15,7 +25,7 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
   // Journal entry created - build projection
   [EVENT_TYPES.JOURNAL_ENTRY_CREATED]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as JournalEntryCreatedPayload
 
       // Map boolean flags to dreamTypes array
       const dreamTypes: string[] = []
@@ -76,7 +86,7 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
   // Journal entry updated - update projection
   [EVENT_TYPES.JOURNAL_ENTRY_UPDATED]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as JournalEntryUpdatedPayload
 
       await db.dreamEntry.update({
         where: { id: event.aggregateId! },
@@ -105,7 +115,7 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
   // Census answer submitted - upsert projection
   [EVENT_TYPES.CENSUS_ANSWER_SUBMITTED]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as CensusAnswerSubmittedPayload
 
       await db.censusAnswer.upsert({
         where: {
@@ -130,7 +140,7 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
   // Consent granted/revoked - upsert projection
   [EVENT_TYPES.CONSENT_GRANTED]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as ConsentGrantedPayload
 
       await db.consent.create({
         data: {
@@ -149,7 +159,7 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
 
   [EVENT_TYPES.CONSENT_REVOKED]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as ConsentRevokedPayload
 
       await db.consent.create({
         data: {
@@ -169,7 +179,7 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
   // Prompt responses
   [EVENT_TYPES.PROMPT_RESPONDED]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as PromptRespondedPayload
 
       await db.promptResponse.create({
         data: {
@@ -185,7 +195,7 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
 
   [EVENT_TYPES.PROMPT_SKIPPED]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as PromptSkippedPayload
 
       await db.promptResponse.create({
         data: {
@@ -202,12 +212,32 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
   // Night check-in
   [EVENT_TYPES.NIGHT_CHECKED_IN]: [
     async (event) => {
-      const payload = event.payload as any
+      const payload = event.payload as unknown as NightCheckedInPayload
 
-      // Night check-ins are stored in a separate model
-      // For now, we just log the event
-      // TODO: Create NightCheckIn model and store
-      console.log('Night check-in:', event.userId, payload)
+      await db.nightCheckIn.upsert({
+        where: {
+          userId_date: {
+            userId: event.userId,
+            date: payload.date ?? new Date().toISOString().split('T')[0] ?? '',
+          },
+        },
+        create: {
+          userId: event.userId,
+          date: payload.date ?? new Date().toISOString().split('T')[0] ?? '',
+          mood: payload.mood,
+          dayNotes: payload.dayNotes,
+          intention: payload.intention,
+          plannedWakeTime: payload.plannedWakeTime,
+          reminderEnabled: payload.reminderEnabled ?? false,
+        },
+        update: {
+          mood: payload.mood,
+          dayNotes: payload.dayNotes,
+          intention: payload.intention,
+          plannedWakeTime: payload.plannedWakeTime,
+          reminderEnabled: payload.reminderEnabled ?? false,
+        },
+      })
     },
   ],
 }
