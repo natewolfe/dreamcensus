@@ -14,7 +14,7 @@ export function StreakCard({ streakCount }: StreakCardProps) {
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.98 }}
         style={{ backfaceVisibility: 'hidden', willChange: 'transform' }}
-        className="w-26 p-3 rounded-lg bg-transparent border border-border/50 flex flex-col items-center cursor-pointer transition-all duration-300 hover:shadow-xl"
+        className="w-22 md:w-26 p-3 rounded-lg bg-transparent border border-border/50 flex flex-col items-center cursor-pointer transition-all duration-300 hover:shadow-xl"
       >
         <span className="text-[11px] font-semibold tracking-[0.1em] uppercase text-muted">
           Streak

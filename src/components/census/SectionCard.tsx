@@ -26,7 +26,8 @@ export function SectionCard({
   return (
     <motion.div
       whileHover={!isLocked ? { scale: 1.01 } : undefined}
-      whileTap={!isLocked ? { scale: 0.99 } : undefined}
+      whileTap={!isLocked ? { scale: 0.98 } : undefined}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <Card
         variant={isLocked ? 'dashed' : 'interactive'}

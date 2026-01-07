@@ -13,11 +13,11 @@ export interface CardProps {
 const variantStyles = {
   elevated: 'bg-card-bg border border-border',
   outlined: 'bg-transparent border border-border/50',
-  dashed: 'bg-transparent border border-border border-dashed',
+  dashed: 'bg-transparent border border-border/50 border-dashed',
   ghost: 'bg-card-bg/50 border-0',
   plain: 'bg-transparent border-0',
   interactive:
-    'bg-card-bg border border-border hover:shadow-lg transition-shadow cursor-pointer',
+    'bg-card-bg border border-border hover:shadow-lg transition-all duration-300 cursor-pointer',
 }
 
 const paddingStyles = {

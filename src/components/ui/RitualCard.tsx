@@ -81,7 +81,7 @@ export function RitualCard({
         {/* Action */}
         <div className="relative z-10 mt-4 text-center">
           <span className={cn(
-            'inline-flex items-center gap-1 text-sm font-medium',
+            'inline-flex items-center gap-1 text-sm md:text-md font-medium',
             styles.accent,
             'group-hover:gap-2 transition-all'
           )}>

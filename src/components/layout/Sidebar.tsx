@@ -14,7 +14,7 @@ export function Sidebar() {
   return (
     <div className={cn(
       'flex h-full flex-col border-r border-border/30 bg-background transition-all duration-300',
-      isOpen ? 'w-58' : 'w-16'
+      isOpen ? 'w-50' : 'w-16'
     )}>
       {/* Logo & Toggle */}
       {isOpen ? (
@@ -26,7 +26,7 @@ export function Sidebar() {
             >
               <span className="text-lg font-bold">🌙</span>
               <span className="whitespace-nowrap text-md font-semibold">
-                Dream Census
+                T I D E S
               </span>
             </Link>
           </div>
