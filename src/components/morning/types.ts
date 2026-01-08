@@ -1,6 +1,8 @@
 // Morning Mode Types
 // State machine and data types for dream capture flow
 
+import type { FlowDirection } from '@/lib/flow/types'
+
 export type MorningStep =
   | 'date-select' // When dream occurred (journal mode only)
   | 'start'      // Method selection
@@ -109,7 +111,7 @@ export interface MorningStartProps {
 export interface QuickFactsProps {
   globalStep: number
   totalSteps: number
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
   initialData?: Partial<QuickFactsData>
   onComplete: (data: QuickFactsData) => void
   onSkip: () => void
@@ -146,7 +148,7 @@ export interface TextCaptureProps {
 export interface MicroStructureProps {
   globalStep: number
   totalSteps: number
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
   initialData?: Partial<MicroStructureData>
   onComplete: (data: MicroStructureData) => void
   onSaveAndExit: (data: MicroStructureData) => void
@@ -156,7 +158,7 @@ export interface MicroStructureProps {
 export interface FastTagsProps {
   globalStep: number
   totalSteps: number
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
   suggestions: string[]      // AI-suggested from narrative
   userLexicon: string[]     // User's custom tags
   selectedTags: string[]
@@ -168,7 +170,7 @@ export interface FastTagsProps {
 export interface CloseRitualProps {
   globalStep: number
   totalSteps: number
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
   suggestedTitle?: string    // AI-generated suggestion
   onComplete: (data: { title?: string; wakingLife?: string }) => void
   onSkip: () => void

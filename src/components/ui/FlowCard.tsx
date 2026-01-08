@@ -4,10 +4,12 @@ import { type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Button } from './Button'
 import { getButtonState, type SkipBehavior } from '@/lib/flow-navigation'
+import { slideVariants, slideTransition } from '@/lib/motion'
+import type { FlowDirection } from '@/lib/flow/types'
 
 export interface FlowCardProps {
   /** Direction of navigation for animation */
-  direction: 'forward' | 'back'
+  direction: FlowDirection
   /** Main question/prompt heading */
   title?: string
   /** Optional subtitle/description */
@@ -96,10 +98,11 @@ export function FlowCard({
         <motion.div
           key={stepKey}
           custom={direction}
-          initial={{ opacity: 0, x: direction === 'forward' ? 50 : -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: direction === 'forward' ? -50 : 50 }}
-          transition={{ duration: 0.3 }}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={slideTransition}
           className="space-y-6"
         >
           {/* Title and subtitle */}

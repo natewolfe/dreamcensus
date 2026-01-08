@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { Button } from '@/components/ui'
+import { Button, ProgressBar } from '@/components/ui'
 import { QuestionRenderer } from './QuestionRenderer'
 import { getDefaultValue } from './defaults'
 import { getSkipBehavior } from './types'
 import { hasValidAnswer } from '@/lib/census'
+import { slideVariants, slideTransition } from '@/lib/motion'
+import type { FlowDirection } from '@/lib/flow/types'
 import type { CensusQuestion } from './types'
 
 export interface FormRunnerProps {
@@ -55,7 +57,7 @@ export function FormRunner({
   void onExit // Exit handled at page level
 
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState<'forward' | 'backward'>('forward')
+  const [direction, setDirection] = useState<FlowDirection>('forward')
   const [answers, setAnswers] = useState<Map<string, unknown>>(initialAnswers)
 
   // Ref for onComplete to prevent stale closures
@@ -113,7 +115,7 @@ export function FormRunner({
 
   const goBack = useCallback(() => {
     if (!isFirstQuestion) {
-      setDirection('backward')
+      setDirection('back')
       setCurrentIndex((i) => i - 1)
     }
   }, [isFirstQuestion])
@@ -176,23 +178,22 @@ export function FormRunner({
       </div>
 
       {/* Progress bar */}
-      <div className="h-1 rounded-full bg-subtle/30 overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${((safeIndex + 1) / questions.length) * 100}%` }}
-          className="h-full bg-accent"
-        />
-      </div>
+      <ProgressBar
+        value={((safeIndex + 1) / questions.length) * 100}
+        size="sm"
+        variant="default"
+      />
 
       {/* Question with animation */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={currentQuestion.id}
           custom={direction}
-          initial={{ opacity: 0, x: direction === 'forward' ? 50 : -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: direction === 'forward' ? -50 : 50 }}
-          transition={{ duration: 0.3 }}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={slideTransition}
         >
           <QuestionRenderer
             question={currentQuestion}

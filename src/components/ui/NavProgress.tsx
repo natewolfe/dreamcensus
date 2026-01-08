@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'motion/react'
+import { ProgressBar } from './ProgressBar'
 
 export interface NavProgressProps {
   /** Current step index (0-based) */
@@ -67,14 +67,11 @@ export function NavProgress({
       </div>
       
       {/* Progress bar */}
-      <div className="h-1 rounded-full bg-subtle/30 overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="h-full bg-accent"
-        />
-      </div>
+      <ProgressBar
+        value={((currentStep + 1) / totalSteps) * 100}
+        size="sm"
+        variant="default"
+      />
     </div>
   )
 }

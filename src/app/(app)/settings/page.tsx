@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PageHeader } from '@/components/layout'
 import { Card } from '@/components/ui'
-import { ThemeSelector } from '@/components/settings'
+import { ThemeSelector, SettingsSection } from '@/components/settings'
 
 export default function SettingsPage() {
   return (
@@ -13,12 +13,7 @@ export default function SettingsPage() {
 
       <div className="space-y-6">
         {/* Appearance */}
-        <div>
-          <div className='mb-3'>
-            <h2 className="text-lg font-semibold text-foreground">
-              Appearance
-            </h2>
-          </div>
+        <SettingsSection title="Appearance">
           <Card padding="lg">
             <div className="space-y-4">
               <div>
@@ -32,15 +27,10 @@ export default function SettingsPage() {
               <ThemeSelector />
             </div>
           </Card>
-        </div>
+        </SettingsSection>
 
         {/* Privacy & Data */}
-        <div>
-          <div className='mb-3'>
-            <h2 className="text-lg font-semibold text-foreground">
-              Privacy & Data
-            </h2>
-          </div>
+        <SettingsSection title="Privacy & Data">
           <div className="space-y-2">
             <Link href="/settings/privacy" className="block">
               <Card variant="interactive" padding="md">
@@ -66,15 +56,10 @@ export default function SettingsPage() {
               </Card>
             </Link>
           </div>
-        </div>
+        </SettingsSection>
 
         {/* Daily Rhythm */}
-        <div>
-          <div className='mb-3'>
-            <h2 className="text-lg font-semibold text-foreground">
-              Daily Rhythm
-            </h2>
-          </div>
+        <SettingsSection title="Daily Rhythm">
           <Link href="/settings/alarm">
             <Card variant="interactive" padding="md">
               <div className="flex items-center justify-between">
@@ -86,15 +71,10 @@ export default function SettingsPage() {
               </div>
             </Card>
           </Link>
-        </div>
+        </SettingsSection>
 
         {/* Security */}
-        <div>
-          <div className='mb-3'>
-            <h2 className="text-lg font-semibold text-foreground">
-              Security
-            </h2>
-          </div>
+        <SettingsSection title="Security">
           <Card variant="interactive" padding="md">
             <div className="flex items-center justify-between">
               <div>
@@ -104,15 +84,10 @@ export default function SettingsPage() {
               <span className="text-muted">→</span>
             </div>
           </Card>
-        </div>
+        </SettingsSection>
 
         {/* Account */}
-        <div>
-          <div className='mb-3'>
-            <h2 className="text-lg font-semibold text-foreground">
-              Account
-            </h2>
-          </div>
+        <SettingsSection title="Account">
           <div className="space-y-2">
             <Card variant="interactive" padding="md">
               <div className="flex items-center justify-between">
@@ -136,24 +111,19 @@ export default function SettingsPage() {
               </Card>
             </Link>
           </div>
-        </div>
+        </SettingsSection>
 
         {/* About */}
-        <div>
-          <div className='mb-3'>
-            <h2 className="text-lg font-semibold text-foreground">
-              About
-            </h2>
-          </div>
+        <SettingsSection title="About">
           <div className="space-y-2">
-            <Card padding="md">
+            <Card padding="md" variant="outlined">
               <div className="text-sm text-muted">
                 <p className="mb-1">Dream Census v3.0</p>
                 <p>A ritual-first dream reflection app</p>
               </div>
             </Card>
           </div>
-        </div>
+        </SettingsSection>
       </div>
     </div>
   )

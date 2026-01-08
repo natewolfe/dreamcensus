@@ -1,4 +1,22 @@
 /**
+ * Flow navigation direction
+ */
+export type FlowDirection = 'forward' | 'back'
+
+/**
+ * Base props for flow step components
+ * Provides consistent navigation and progress tracking
+ */
+export interface FlowStepBaseProps {
+  /** Current step direction for animations */
+  direction?: FlowDirection
+  /** Current global step number (0-based) */
+  globalStep?: number
+  /** Total number of steps in the flow */
+  totalSteps?: number
+}
+
+/**
  * Generic flow step props interface
  * Provides consistent props for all flow step components
  */
@@ -8,7 +26,7 @@ export interface FlowStepProps<TData, TEvent extends string = string> {
   onNavigate: (event: TEvent) => void
   step: number
   totalSteps: number
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
 }
 
 /**
@@ -31,7 +49,7 @@ export interface FlowNavigationState<TStep extends string, TData> {
   data: TData
   isLoading: boolean
   error: string | null
-  direction: 'forward' | 'back'
+  direction: FlowDirection
 }
 
 /**

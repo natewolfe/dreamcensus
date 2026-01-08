@@ -1,5 +1,8 @@
 import type { NextConfig } from 'next'
 
+// Determine if we're in development mode
+const isDev = process.env.NODE_ENV === 'development'
+
 const config: NextConfig = {
   /* Core */
   reactStrictMode: true,
@@ -23,6 +26,16 @@ const config: NextConfig = {
 
   /* Security Headers */
   async headers() {
+    // CSP configuration based on environment
+    // Development: Allow unsafe-eval for hot reload and dev tools
+    // Production: Strict CSP without unsafe directives
+    const scriptSrc = isDev
+      ? "script-src 'self' 'unsafe-eval' 'unsafe-inline'"
+      : "script-src 'self' 'unsafe-inline'" // TODO: Migrate to nonce-based inline scripts
+    
+    // Note: 'unsafe-inline' for styles is required by Tailwind CSS
+    // Consider migrating to nonce-based approach if this becomes a concern
+    
     return [
       {
         source: '/:path*',
@@ -31,7 +44,7 @@ const config: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              scriptSrc,
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https:",
               "font-src 'self' data:",

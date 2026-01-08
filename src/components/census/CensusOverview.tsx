@@ -3,8 +3,9 @@
 import { useRouter } from 'next/navigation'
 import { motion } from 'motion/react'
 import { Button } from '@/components/ui/Button'
-import { Card } from '@/components/ui'
+import { Card, ProgressBar } from '@/components/ui'
 import { SectionCard } from './SectionCard'
+import { fadeInUp, fadeInUpLarge } from '@/lib/motion'
 import type { CensusSection, CensusProgress } from './types'
 
 // Define larger groupings (kinds) for categories
@@ -115,8 +116,9 @@ export function CensusOverview({
     <div className="space-y-8">
       {/* Overall progress */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={fadeInUp}
+        initial="initial"
+        animate="animate"
       >
         <Card variant="outlined" padding="md">
           <div className="flex items-start justify-between mb-3">
@@ -135,14 +137,11 @@ export function CensusOverview({
             </div>
           </div>
           
-          <div className="h-2 rounded-full bg-subtle/30 overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${overallProgress}%` }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="h-full bg-accent"
-            />
-          </div>
+          <ProgressBar
+            value={overallProgress}
+            size="md"
+            variant="default"
+          />
 
           {nextSection && (
             <div className="flex items-end justify-end gap-2 mt-3">
@@ -163,8 +162,9 @@ export function CensusOverview({
         {groupedByKind.map((kind, kindIndex) => (
           <motion.div
             key={kind.slug}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={fadeInUpLarge}
+            initial="initial"
+            animate="animate"
             transition={{ delay: kindIndex * 0.1 }}
           >
             {/* Kind header divider */}
@@ -178,14 +178,13 @@ export function CensusOverview({
             </div>
 
             {/* Kind progress bar */}
-            <div className="h-1 rounded-full bg-subtle/20 overflow-hidden mb-4">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${kind.progress}%` }}
-                transition={{ duration: 0.6, ease: 'easeOut', delay: kindIndex * 0.1 + 0.2 }}
-                className="h-full bg-accent/60"
-              />
-            </div>
+            <ProgressBar
+              value={kind.progress}
+              size="sm"
+              variant="subtle"
+              animationDelay={kindIndex * 0.1 + 0.2}
+              className="mb-4"
+            />
 
             {/* Sections within this kind */}
             <div className="space-y-3">

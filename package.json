@@ -30,6 +30,9 @@
     "tailwind-merge": "^2.5.5",
     "zod": "^4.0.0-beta.1"
   },
+  "comments": {
+    "zod": "Using v4 beta for improved TypeScript 5.7 compatibility and performance. Stable in practice. Monitor https://github.com/colinhacks/zod/releases for v4 stable release. Fallback: Revert to v3.23.x if issues arise."
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "@testing-library/jest-dom": "^6.6.3",

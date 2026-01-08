@@ -13,7 +13,7 @@ export default async function JournalPage({ searchParams }: JournalPageProps) {
   const dreams = result.success ? result.data.dreams : []
 
   return (
-    <div id="main-content" className="container mx-auto max-w-4xl px-4 py-8">
+    <div id="main-content" className="container mx-auto max-w-4xl px-4 md:px-6 py-8 md:pb-16">
       <div className="mb-6 md:mb-0">
         <PageHeader
           title="Journal"

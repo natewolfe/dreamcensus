@@ -64,7 +64,7 @@ export default function LearnPage() {
 
       <div className="space-y-8">
         {/* Introduction */}
-        <Card padding="lg" className="bg-gradient-to-br from-accent/5 to-transparent">
+        <Card padding="lg" variant="dashed" className="bg-gradient-to-br from-accent/5 to-transparent">
           <span className="text-muted leading-relaxed">
             Explore research-based knowledge about dreaming, sleep science, consciousness, 
             lucid dreaming techniques, and practical tips to improve your dream recall and 

@@ -311,7 +311,7 @@ export async function updateDreamMetadata(
       return { success: false, error: 'Dream not found' }
     }
 
-    // Update (tags are handled via relations, not directly)
+    // Update dream entry
     await db.dreamEntry.update({
       where: { id: dreamId },
       data: {
@@ -321,7 +321,39 @@ export async function updateDreamMetadata(
       },
     })
     
-    // TODO: Handle tag updates via DreamTag relation
+    // Handle tag updates via DreamTag relation
+    if (updates.tags !== undefined) {
+      // Delete existing tag associations
+      await db.dreamTag.deleteMany({
+        where: { dreamEntryId: dreamId },
+      })
+      
+      // Create new associations
+      for (const tagName of updates.tags) {
+        // Upsert tag (create if doesn't exist, increment usage if it does)
+        const tag = await db.tag.upsert({
+          where: { slug: tagName.toLowerCase().replace(/\s+/g, '-') },
+          create: {
+            name: tagName,
+            slug: tagName.toLowerCase().replace(/\s+/g, '-'),
+            category: 'custom',
+            usageCount: 1,
+          },
+          update: {
+            usageCount: { increment: 1 },
+          },
+        })
+        
+        // Create dream-tag association
+        await db.dreamTag.create({
+          data: {
+            dreamEntryId: dreamId,
+            tagId: tag.id,
+            source: 'user',
+          },
+        })
+      }
+    }
 
     revalidatePath('/journal')
     revalidatePath(`/journal/${dreamId}`)

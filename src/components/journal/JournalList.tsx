@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Input } from '@/components/ui'
 import { DreamCard } from './DreamCard'
+import { fadeInUp } from '@/lib/motion'
 import type { JournalListProps, Dream } from './types'
 
 export function JournalList({ dreams, initialSearch, onSearch }: JournalListProps) {

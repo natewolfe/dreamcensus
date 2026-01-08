@@ -1,5 +1,7 @@
 // Night Mode Types
 
+import type { FlowDirection } from '@/lib/flow/types'
+
 export type NightStep =
   | 'welcome'
   | 'day_reflect'
@@ -54,7 +56,7 @@ export interface NightWelcomeProps {
 }
 
 export interface DayReflectionProps {
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
   onComplete: (data: DayReflectionData) => void
   onSkip: () => void
   onBack: () => void
@@ -69,7 +71,7 @@ export interface BreathingGuideProps {
 }
 
 export interface DreamIntentionProps {
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
   suggestions?: string[]
   previousIntentions?: string[]
   onComplete: (intention: string) => void
@@ -78,7 +80,7 @@ export interface DreamIntentionProps {
 }
 
 export interface TomorrowSetupProps {
-  direction?: 'forward' | 'back'
+  direction?: FlowDirection
   defaultWakeTime?: string
   onComplete: (data: { wakeTime: string; enableReminder: boolean; armAlarm: boolean }) => void
   onSkip: () => void
