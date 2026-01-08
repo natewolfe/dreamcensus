@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { BinaryButtons, TextArea, type BinaryValue } from '@/components/ui'
+import { BinaryButtons, TextArea } from '@/components/ui'
 import { cn } from '@/lib/utils'
+import type { BinaryValue } from '@/lib/flow/types'
 import type { PromptQuestion } from './usePromptState'
 
 interface PromptDetailProps {

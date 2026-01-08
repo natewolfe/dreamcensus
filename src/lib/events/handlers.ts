@@ -1,6 +1,7 @@
 import type { Event } from '@/generated/prisma'
 import { EVENT_TYPES } from '../constants'
 import { db } from '../db'
+import { slugify } from '../utils'
 import type {
   JournalEntryCreatedPayload,
   JournalEntryUpdatedPayload,
@@ -62,10 +63,10 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
       if (payload.tags?.length) {
         for (const tagName of payload.tags) {
           const tag = await db.tag.upsert({
-            where: { slug: tagName.toLowerCase().replace(/\s+/g, '-') },
+            where: { slug: slugify(tagName) },
             create: {
               name: tagName,
-              slug: tagName.toLowerCase().replace(/\s+/g, '-'),
+              slug: slugify(tagName),
               category: 'custom',
             },
             update: { usageCount: { increment: 1 } },

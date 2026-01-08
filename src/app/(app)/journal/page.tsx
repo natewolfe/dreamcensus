@@ -1,5 +1,5 @@
 import { PageHeader } from '@/components/layout'
-import { Button, Card } from '@/components/ui'
+import { Button, Card, EmptyState } from '@/components/ui'
 import { JournalList } from '@/components/journal'
 import { getDreams } from './actions'
 
@@ -28,16 +28,16 @@ export default async function JournalPage({ searchParams }: JournalPageProps) {
 
       {dreams.length === 0 ? (
         <Card padding="lg">
-          <div className="text-center py-12 text-muted">
-            <div className="mb-4 text-6xl">📖</div>
-            <h3 className="text-xl font-semibold mb-2">No dreams yet</h3>
-            <p className="text-sm mb-6">
-              Start your journey by capturing your first dream
-            </p>
-            <Button variant="primary" href="/journal/new">
-              Capture Your First Dream
-            </Button>
-          </div>
+          <EmptyState
+            icon="📖"
+            title="No dreams yet"
+            description="Start your journey by capturing your first dream"
+            action={
+              <Button variant="primary" href="/journal/new">
+                Capture Your First Dream
+              </Button>
+            }
+          />
         </Card>
       ) : (
         <JournalList dreams={dreams} initialSearch={params.tag} />

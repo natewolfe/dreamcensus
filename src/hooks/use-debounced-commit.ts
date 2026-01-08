@@ -13,6 +13,12 @@ export interface UseDebouncedCommitOptions {
 /**
  * Debounced commit handler with cancellation.
  * Respects prefers-reduced-motion accessibility setting.
+ * 
+ * Note: This is intentionally separate from useDebouncedCallback because it:
+ * - Respects prefers-reduced-motion for auto-advance UX
+ * - Has a disabled flag for conditional auto-advance
+ * - Uses AUTO_ADVANCE_DELAY constant for consistency
+ * - Is specifically designed for flow navigation
  */
 export function useDebouncedCommit({
   onCommit,

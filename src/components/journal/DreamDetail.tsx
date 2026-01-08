@@ -4,11 +4,13 @@ import { useState } from 'react'
 import { Button, Card, Modal } from '@/components/ui'
 import { TagPill } from './TagPill'
 import { getDreamDisplayTitle } from '@/lib/utils'
+import { useToast } from '@/hooks/use-toast'
 import type { DreamDetailProps } from './types'
 
 export function DreamDetail({ dream, onEdit, onDelete }: DreamDetailProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const { toast } = useToast()
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
@@ -50,7 +52,7 @@ export function DreamDetail({ dream, onEdit, onDelete }: DreamDetailProps) {
       setShowDeleteModal(false)
     } catch (error) {
       console.error('Failed to delete dream:', error)
-      // TODO: Show error toast
+      toast.error('Failed to delete dream')
     } finally {
       setIsDeleting(false)
     }

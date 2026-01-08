@@ -1,14 +1,17 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Button, Card } from '@/components/ui'
 import { MicroInsight } from './MicroInsight'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 import {
   formatDreamDateWithYear,
   formatTime,
   getVividnessLabel,
   getDreamDisplayTitle,
 } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import type { DreamCompleteProps } from './types'
 
 export function DreamComplete({
@@ -18,6 +21,20 @@ export function DreamComplete({
   onViewInsights,
   onCaptureAnother,
 }: DreamCompleteProps) {
+  const showEffects = useEnhancedAnimations()
+  const [showShimmer, setShowShimmer] = useState(false)
+
+  useEffect(() => {
+    if (showEffects) {
+      // Trigger shimmer after the card animates in
+      const timer = setTimeout(() => {
+        setShowShimmer(true)
+        setTimeout(() => setShowShimmer(false), 500)
+      }, 600)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [showEffects])
 
   return (
     <motion.div
@@ -68,7 +85,14 @@ export function DreamComplete({
         transition={{ delay: 0.4, duration: 0.4 }}
         className="w-full max-w-sm mt-6 mb-6"
       >
-        <Card variant="elevated" padding="md">
+        <Card 
+          variant="elevated" 
+          padding="md"
+          className={cn(
+            showEffects && 'save-shimmer',
+            showShimmer && 'shimmer-active'
+          )}
+        >
           <div className="divide-y divide-border">
             {/* Title */}
             <div className="pb-3 text-center">
@@ -145,7 +169,7 @@ export function DreamComplete({
         className="flex flex-col items-center gap-3 w-full max-w-sm"
       >
         <div className="flex gap-3 w-full">
-          <Button variant="primary" onClick={onContinue} className="flex-1">
+          <Button variant="special" onClick={onContinue} className="flex-1">
             Done
           </Button>
           

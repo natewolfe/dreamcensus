@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import { ChevronLeft } from '@/components/ui'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 import type { BreathingGuideProps, BreathingPattern } from './types'
 
 const DEFAULT_PATTERN: BreathingPattern = {
@@ -19,6 +21,7 @@ export function BreathingGuide({
   onSkip,
   onBack,
 }: BreathingGuideProps) {
+  const showEffects = useEnhancedAnimations()
   const [currentBreath, setCurrentBreath] = useState(0)
   const [phase, setPhase] = useState<Phase>('inhale')
   const [phaseProgress, setPhaseProgress] = useState(0)
@@ -109,9 +112,7 @@ export function BreathingGuide({
           className="p-2 text-muted hover:text-foreground transition-colors"
           aria-label="Previous step"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft />
         </button>
         <button
           onClick={onSkip}
@@ -131,6 +132,9 @@ export function BreathingGuide({
           animate={{
             scale: getScale(),
             opacity: getOpacity(),
+            boxShadow: showEffects 
+              ? `0 0 ${phase === 'hold' ? 40 : 20}px color-mix(in srgb, var(--breathe-${phase}) 30%, transparent)`
+              : 'none'
           }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
           className="relative w-48 h-48 rounded-full flex items-center justify-center bg-subtle/30"

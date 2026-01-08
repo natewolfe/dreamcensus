@@ -158,3 +158,10 @@ export function getDreamDisplayTitle(title?: string, dreamNumber?: number): stri
   if (dreamNumber !== undefined) return `Dream #${dreamNumber}`
   return 'Untitled Dream'
 }
+
+/**
+ * Convert text to URL-safe slug
+ */
+export function slugify(text: string): string {
+  return text.toLowerCase().replace(/\s+/g, '-')
+}

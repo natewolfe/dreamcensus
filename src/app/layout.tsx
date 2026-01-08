@@ -3,6 +3,7 @@ import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { ToastProvider } from '@/providers/toast-provider'
 import { AlarmProvider } from '@/providers/alarm-provider'
+import { VisualPreferencesProvider } from '@/providers/visual-preferences-provider'
 
 export const metadata: Metadata = {
   title: 'Dream Census',
@@ -27,14 +28,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <ToastProvider>
-            <AlarmProvider>
-              <a href="#main-content" className="skip-link">
-                Skip to content
-              </a>
-              {children}
-            </AlarmProvider>
-          </ToastProvider>
+          <VisualPreferencesProvider>
+            <ToastProvider>
+              <AlarmProvider>
+                <a href="#main-content" className="skip-link">
+                  Skip to content
+                </a>
+                {children}
+              </AlarmProvider>
+            </ToastProvider>
+          </VisualPreferencesProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -3,6 +3,7 @@
 import { motion } from 'motion/react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { ChevronRight } from './Icons'
 import type { ReactNode } from 'react'
 
 export interface RitualCardProps {
@@ -86,9 +87,7 @@ export function RitualCard({
             'group-hover:gap-2 transition-all'
           )}>
             {actionLabel}
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
+            <ChevronRight className="w-4 h-4" />
           </span>
         </div>
       </motion.div>

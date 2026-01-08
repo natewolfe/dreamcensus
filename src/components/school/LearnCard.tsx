@@ -3,6 +3,7 @@
 import { motion, type HTMLMotionProps } from 'motion/react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { ChevronRight } from '@/components/ui'
 import type { DreamSchoolTopic } from './types'
 
 // ============================================================================
@@ -141,14 +142,6 @@ function extractHoverBorderColor(gradientClass: string): string {
 // Icon Components (DRY)
 // ============================================================================
 
-function ChevronRightIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
-  )
-}
-
 function CloseIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -218,7 +211,7 @@ function LearnCardContent({
   const actionCTA = actionLabel && (
     <span className="inline-flex items-center gap-1 text-xs font-medium text-accent group-hover:gap-2 transition-all">
       {actionLabel}
-      <ChevronRightIcon className="w-3 h-3" />
+      <ChevronRight className="w-3 h-3" />
     </span>
   )
 

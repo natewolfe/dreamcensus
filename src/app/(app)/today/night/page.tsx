@@ -16,7 +16,8 @@ export default function NightCheckInPage() {
   }
 
   const handleExit = () => {
-    // TODO: Save draft and exit
+    // Night mode doesn't persist drafts - it's a quick check-in
+    // Data is only saved on completion via saveNightCheckIn action
     router.push('/today')
   }
 

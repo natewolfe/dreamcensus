@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Link from 'next/link'
+import { ChevronLeft, ChevronRight } from '@/components/ui'
 
 export interface InsightItem {
   label: string
@@ -90,9 +91,7 @@ export function InsightsCarousel({ insights }: InsightsCarouselProps) {
           className="p-2 text-muted hover:text-foreground transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
           aria-label="Previous insight"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft className="w-4 h-4" />
         </button>
 
         {/* Dotted pagination */}
@@ -119,9 +118,7 @@ export function InsightsCarousel({ insights }: InsightsCarouselProps) {
           className="p-2 text-muted hover:text-foreground transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
           aria-label="Next insight"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          <ChevronRight className="w-4 h-4" />
         </button>
       </div>
     </div>

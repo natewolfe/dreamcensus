@@ -1,4 +1,5 @@
 import { PageHeader } from '@/components/layout'
+import { EmptyState } from '@/components/ui'
 import { PromptStreamClient } from './PromptStreamClient'
 import { getStreamQuestionsFormatted } from './actions'
 
@@ -12,9 +13,10 @@ export default async function PromptsPage() {
           title="Prompts"
           subtitle="Explore questions about dreams"
         />
-        <div className="text-center py-12 text-muted">
-          <p>Failed to load questions</p>
-        </div>
+        <EmptyState
+          icon="❌"
+          title="Failed to load questions"
+        />
       </div>
     )
   }

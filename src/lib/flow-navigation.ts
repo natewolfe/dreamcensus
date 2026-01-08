@@ -7,7 +7,7 @@ export type SkipBehavior = 'required' | 'optional' | 'skippable'
 
 export interface ButtonState {
   text: string
-  variant: 'primary' | 'secondary'
+  variant: 'primary' | 'secondary' | 'special'
   disabled: boolean
 }
 
@@ -23,11 +23,11 @@ export function getButtonState(
   skipBehavior: SkipBehavior = 'optional',
   isLast: boolean = false
 ): ButtonState {
-  // Last step shows "Complete"
+  // Last step shows "Complete" with special styling
   if (isLast) {
     return { 
       text: 'Complete', 
-      variant: 'primary', 
+      variant: 'special', 
       disabled: !isValid && skipBehavior === 'required' 
     }
   }

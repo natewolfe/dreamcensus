@@ -1,5 +1,6 @@
 import { PageHeader } from '@/components/layout'
 import { CensusOverview } from '@/components/census'
+import { EmptyState } from '@/components/ui'
 import { getCensusSections, getCensusProgress } from './actions'
 
 export default async function CensusPage() {
@@ -27,20 +28,18 @@ export default async function CensusPage() {
 
   if (sections.length === 0) {
     return (
-      <div id="main-content" className="container mx-auto max-w-4xl px-4 py-8">
+      <div id="main-content" className="container mx-auto max-w-4xl px-4 md:px-6 py-8 md:pb-16">
         <div className="mb-6 md:mb-0">
           <PageHeader
             title="Census"
             subtitle="Help us understand dreaming"
           />
         </div>
-        <div className="text-center py-12 text-muted">
-          <div className="mb-4 text-6xl">📋</div>
-          <h3 className="text-xl font-semibold mb-2">Census coming soon</h3>
-          <p className="text-sm">
-            Questions will be available after initial setup
-          </p>
-        </div>
+        <EmptyState
+          icon="📋"
+          title="Census coming soon"
+          description="Questions will be available after initial setup"
+        />
       </div>
     )
   }

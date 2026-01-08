@@ -1,7 +1,8 @@
 'use client'
 
-import { type InputHTMLAttributes, useState } from 'react'
+import { type InputHTMLAttributes, useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 
 export interface SliderProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
@@ -30,7 +31,10 @@ export function Slider({
   id,
   ...props
 }: SliderProps) {
+  const showEffects = useEnhancedAnimations()
   const [isDragging, setIsDragging] = useState(false)
+  const [showPopAnimation, setShowPopAnimation] = useState(false)
+  const previousValue = useRef(value)
   const percentage = ((value - min) / (max - min)) * 100
 
   const handleChange = (newValue: number) => {
@@ -41,6 +45,24 @@ export function Slider({
       }
     }
 
+    // Trigger pop animation on landmark values
+    const landmarkValues = [0, 25, 50, 75, 100]
+    const normalizedValue = ((newValue - min) / (max - min)) * 100
+    const previousNormalizedValue = ((previousValue.current - min) / (max - min)) * 100
+    
+    if (showEffects && showValue) {
+      const crossedLandmark = landmarkValues.some(landmark => {
+        return (previousNormalizedValue < landmark && normalizedValue >= landmark) ||
+               (previousNormalizedValue > landmark && normalizedValue <= landmark)
+      })
+      
+      if (crossedLandmark) {
+        setShowPopAnimation(true)
+        setTimeout(() => setShowPopAnimation(false), 150)
+      }
+    }
+    
+    previousValue.current = newValue
     onChange(newValue)
   }
 
@@ -132,7 +154,12 @@ export function Slider({
 
       {/* Value display */}
       {showValue && (
-        <div className="mt-2 text-center text-lg font-medium">{value}</div>
+        <div className={cn(
+          'mt-2 text-center text-lg font-medium',
+          showPopAnimation && 'slider-value-pop'
+        )}>
+          {value}
+        </div>
       )}
     </div>
   )

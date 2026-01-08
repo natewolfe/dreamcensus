@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import { PageHeader } from '@/components/layout'
 import { Button, Card } from '@/components/ui'
+import { useToast } from '@/hooks/use-toast'
 
 export default function ExportDataPage() {
   const [isExporting, setIsExporting] = useState(false)
   const [exportComplete, setExportComplete] = useState(false)
+  const { toast } = useToast()
 
   const handleExport = async () => {
     setIsExporting(true)
@@ -18,7 +20,7 @@ export default function ExportDataPage() {
       setExportComplete(true)
     } catch (error) {
       console.error('Export failed:', error)
-      // TODO: Show error
+      toast.error('Failed to export data')
     } finally {
       setIsExporting(false)
     }

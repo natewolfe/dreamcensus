@@ -5,6 +5,7 @@ import { BottomNav } from './BottomNav'
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
 import { SidebarProvider, useSidebar } from '@/providers/sidebar-provider'
+import { AmbientBackground } from '@/components/backgrounds'
 
 export interface AppShellProps {
   children: ReactNode
@@ -24,13 +25,16 @@ function AppShellInner({
 
   return (
     <div className="flex h-screen flex-col bg-background text-foreground md:flex-row">
+      {/* Ambient Background */}
+      <AmbientBackground />
+
       {/* Desktop Sidebar */}
-      <aside className="hidden md:block">
+      <aside className="hidden md:block relative z-10">
         <Sidebar />
       </aside>
 
       {/* Main Content */}
-      <main className="flex flex-1 flex-col overflow-hidden">
+      <main className="flex flex-1 flex-col overflow-hidden relative z-10">
         {/* Top Bar (optional) */}
         {showTopBar && (
           <TopBar title={topBarTitle} actions={topBarActions} />

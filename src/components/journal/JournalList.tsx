@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { Input } from '@/components/ui'
+import { Input, EmptyState } from '@/components/ui'
 import { DreamCard } from './DreamCard'
 import { fadeInUp } from '@/lib/motion'
 import type { JournalListProps, Dream } from './types'
@@ -89,19 +89,12 @@ export function JournalList({ dreams, initialSearch, onSearch }: JournalListProp
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="text-center py-12 text-muted"
           >
-            {searchQuery ? (
-              <>
-                <div className="mb-2 text-4xl">🔍</div>
-                <p>No dreams match your search</p>
-              </>
-            ) : (
-              <>
-                <div className="mb-2 text-4xl">📖</div>
-                <p>No dreams yet</p>
-              </>
-            )}
+            <EmptyState
+              icon={searchQuery ? "🔍" : "📖"}
+              title={searchQuery ? "No dreams match your search" : "No dreams yet"}
+              className="py-8"
+            />
           </motion.div>
         ) : (
           groupedDreams.map(([date, dateDreams]) => (

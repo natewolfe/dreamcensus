@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button, Input } from '@/components/ui'
 import { TagInput } from './TagInput'
 import { cn } from '@/lib/utils'
+import { useToast } from '@/hooks/use-toast'
 import type { DreamEditorProps } from './types'
 
 export function DreamEditor({ dream, onSave, onCancel }: DreamEditorProps) {
@@ -11,6 +12,7 @@ export function DreamEditor({ dream, onSave, onCancel }: DreamEditorProps) {
   const [wakingLifeLink, setWakingLifeLink] = useState(dream.wakingLifeLink ?? '')
   const [tags, setTags] = useState(dream.tags)
   const [isSaving, setIsSaving] = useState(false)
+  const { toast } = useToast()
 
   const handleSave = async () => {
     setIsSaving(true)
@@ -22,7 +24,7 @@ export function DreamEditor({ dream, onSave, onCancel }: DreamEditorProps) {
       })
     } catch (error) {
       console.error('Failed to save:', error)
-      // TODO: Show error toast
+      toast.error('Failed to save changes')
     } finally {
       setIsSaving(false)
     }

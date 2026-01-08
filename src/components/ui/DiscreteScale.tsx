@@ -71,7 +71,7 @@ export function DiscreteScale({
               className={cn(
                 'w-12 h-12 rounded-lg',
                 'flex items-center justify-center',
-                'text-base font-medium transition-all',
+                'text-md font-medium transition-all',
                 'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
                 isSelected && 'bg-accent border-accent text-foreground shadow-lg shadow-accent/30',
                 !isSelected && isHovered && 'border-accent/50 bg-accent/10 text-accent',

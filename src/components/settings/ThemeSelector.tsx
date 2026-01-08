@@ -71,7 +71,7 @@ export function ThemeSelector() {
   const { preference, resolved, setPreference } = useTheme()
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {THEME_OPTIONS.map((option) => {
         const isSelected = preference === option.value
         const isActive = resolved === option.value || (preference === 'auto' && option.value === 'auto')

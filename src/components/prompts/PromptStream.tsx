@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { PromptCard } from './PromptCard'
 import { usePromptState, type PromptQuestion } from './usePromptState'
 import { useRouter } from 'next/navigation'
-import type { BinaryValue } from '@/components/ui'
+import { UndoIcon, ListIcon, type BinaryValue } from '@/components/ui'
 
 interface PromptStreamProps {
   initialQuestions: PromptQuestion[]
@@ -55,9 +55,9 @@ export function PromptStream({
   }
 
   return (
-    <div className="relative px-4 pb-12 md:pb-8 md:px-6 flex-1 flex items-center justify-center overflow-hidden">
+    <div className="relative px-4 pb-12 md:px-6 md:pb-6 flex-1 flex items-center justify-center overflow-hidden">
       {/* Controls */}
-      <div className="absolute top-2 left-4 right-4 md:left-6 md:right-6 max-w-5xl mx-auto flex items-center justify-between p-2 z-10">
+      <div className="absolute top-2 md:top-3 left-6 right-6 md:left-6 md:right-6 max-w-4xl mx-auto flex items-center justify-between p-2 z-10">
         {/* Undo button */}
         <button
           onClick={state.previousCard}
@@ -65,10 +65,7 @@ export function PromptStream({
           className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all text-sm text-muted hover:text-foreground hover:bg-card-bg disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Undo last answer"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 7v6h6" />
-            <path d="M3 13a9 9 0 1 0 2.64-6.36L3 9" />
-          </svg>
+          <UndoIcon className="w-[18px] h-[18px]" />
           <span className="hidden sm:inline">Undo</span>
         </button>
 
@@ -84,19 +81,12 @@ export function PromptStream({
           aria-label="View all questions"
         >
           <span className="hidden sm:inline">List</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="8" y1="6" x2="21" y2="6" />
-            <line x1="8" y1="12" x2="21" y2="12" />
-            <line x1="8" y1="18" x2="21" y2="18" />
-            <circle cx="4" cy="6" r="1" fill="currentColor" />
-            <circle cx="4" cy="12" r="1" fill="currentColor" />
-            <circle cx="4" cy="18" r="1" fill="currentColor" />
-          </svg>
+          <ListIcon className="w-[18px] h-[18px]" />
         </button>
       </div>
 
       {/* Card Stack */}
-      <div className="relative w-full max-w-2xl h-[500px] md:h-[520px]">
+      <div className="relative w-full max-w-2xl h-[500px] md:h-[520px] max-h-[70vh]">
         <AnimatePresence>
           {visibleCards.map((question, index) => {
             const isTop = index === 0

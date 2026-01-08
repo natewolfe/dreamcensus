@@ -2,9 +2,9 @@
 
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
+import type { BinaryVariant, BinaryValue } from '@/lib/flow/types'
 
-export type BinaryVariant = 'yes_no' | 'agree_disagree' | 'true_false'
-export type BinaryValue = 'yes' | 'no' | 'agree' | 'disagree' | 'true' | 'false'
+export type { BinaryVariant, BinaryValue }
 
 export interface BinaryButtonsProps {
   variant: BinaryVariant

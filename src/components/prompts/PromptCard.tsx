@@ -2,8 +2,8 @@
 
 import { motion, useMotionValue, useTransform, animate } from 'motion/react'
 import { useRef } from 'react'
-import { type BinaryValue } from '@/components/ui'
 import { cn } from '@/lib/utils'
+import type { BinaryValue } from '@/lib/flow/types'
 import type { PromptQuestion } from './usePromptState'
 
 interface PromptCardProps {

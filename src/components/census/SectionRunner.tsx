@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Button, NavProgress } from '@/components/ui'
 import { QuestionRenderer } from './QuestionRenderer'
@@ -19,6 +19,7 @@ export function SectionRunner({
     initialAnswers,
     onComplete ?? (() => {})
   )
+  const contentRef = useRef<HTMLDivElement>(null)
   
   void onExit // Exit handled at page level
   
@@ -31,6 +32,23 @@ export function SectionRunner({
       )
     }
   }, [nav.currentQuestion, nav.currentAnswer])
+  
+  // Auto-focus first focusable element after question transition
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (contentRef.current) {
+        const firstFocusable = contentRef.current.querySelector<HTMLElement>(
+          'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled]), [tabindex="0"]:not([disabled])'
+        )
+        // Only focus if it's an input/textarea (not buttons, to avoid visual jarring)
+        if (firstFocusable && (firstFocusable.tagName === 'INPUT' || firstFocusable.tagName === 'TEXTAREA')) {
+          firstFocusable.focus()
+        }
+      }
+    }, 350) // After animation completes
+    
+    return () => clearTimeout(timer)
+  }, [nav.currentQuestion?.id])
   
   if (!nav.currentQuestion) {
     return (
@@ -56,6 +74,7 @@ export function SectionRunner({
       {/* Question with animation */}
       <AnimatePresence mode="wait" custom={nav.direction}>
         <motion.div
+          ref={contentRef}
           key={nav.currentQuestion.id}
           custom={nav.direction}
           initial={{ opacity: 0, x: nav.direction === 'forward' ? 50 : -50 }}

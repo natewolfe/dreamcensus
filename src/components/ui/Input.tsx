@@ -1,5 +1,6 @@
 import { type InputHTMLAttributes, type ReactNode, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -13,6 +14,8 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   clearable?: boolean
   /** Callback when clear button is clicked */
   onClear?: () => void
+  /** Called when Enter is pressed - advances to next form element or triggers this callback */
+  onEnterAdvance?: () => void
 }
 
 const SearchIcon = () => (
@@ -51,11 +54,39 @@ const ClearButton = ({ onClick }: { onClick: () => void }) => (
 )
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helpText, startAddon, endAddon, clearable, onClear, className, id, value, ...props }, ref) => {
+  ({ label, error, helpText, startAddon, endAddon, clearable, onClear, onEnterAdvance, className, id, value, onKeyDown, ...props }, ref) => {
+    const showEffects = useEnhancedAnimations()
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-')
     const hasValue = value !== undefined && value !== ''
     const showClearButton = clearable && hasValue
     const hasAddon = startAddon || endAddon || clearable
+
+    // Handle Enter key for advancing
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+        if (onEnterAdvance) {
+          e.preventDefault()
+          // Try to find and focus next focusable element in form
+          const form = e.currentTarget.form
+          if (form) {
+            const focusables = Array.from(
+              form.querySelectorAll<HTMLElement>(
+                'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled]), button:not([disabled])'
+              )
+            )
+            const currentIndex = focusables.indexOf(e.currentTarget)
+            const nextElement = focusables[currentIndex + 1]
+            if (nextElement && nextElement.tagName !== 'BUTTON') {
+              nextElement.focus()
+              return
+            }
+          }
+          // No next focusable element found, call onEnterAdvance
+          onEnterAdvance()
+        }
+      }
+      onKeyDown?.(e)
+    }
 
     // Determine what to show at the end
     const endContent = showClearButton ? (
@@ -94,11 +125,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               ref={ref}
               id={inputId}
               value={value}
+              onKeyDown={handleKeyDown}
               className={cn(
                 'flex-1 min-w-0 bg-transparent outline-none',
                 'focus-visible:outline-none',
                 'placeholder:text-muted/50',
-                'disabled:opacity-50 disabled:cursor-not-allowed'
+                'disabled:opacity-50 disabled:cursor-not-allowed',
+                showEffects && 'input-pulse-focus'
               )}
               aria-invalid={error ? 'true' : 'false'}
               aria-describedby={
@@ -114,6 +147,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             value={value}
+            onKeyDown={handleKeyDown}
             className={cn(
               'w-full rounded-lg border px-4 py-2.5',
               'bg-background text-foreground',
@@ -122,6 +156,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'transition-colors duration-150',
               'focus:outline-none focus-visible:outline-none',
               'disabled:opacity-50 disabled:cursor-not-allowed',
+              showEffects && 'input-pulse-focus',
               error && 'border-red-500 focus:border-red-500',
               className
             )}

@@ -11,6 +11,10 @@ export interface UseSubStepFlowReturn<TStep extends string> {
   subStep: TStep
   direction: 'forward' | 'back'
   currentSubIndex: number
+  /** Alias for currentSubIndex (for consistency with flow components) */
+  localStep: number
+  /** Alias for currentSubIndex (for FlowCard compatibility) */
+  currentStep: number
   isLastSubStep: boolean
   goNext: () => void
   goBack: () => void
@@ -61,6 +65,8 @@ export function useSubStepFlow<TStep extends string>({
     subStep,
     direction,
     currentSubIndex,
+    localStep: currentSubIndex, // Alias for consistency
+    currentStep: currentSubIndex, // Alias for FlowCard compatibility
     isLastSubStep,
     goNext,
     goBack,

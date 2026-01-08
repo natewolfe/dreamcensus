@@ -31,12 +31,13 @@ export function MicroStructure({
     onBack,
   })
   
-  // Track if user is returning to a previously answered sub-step
-  const isLucidityAnswered = initialData?.lucidity !== null && initialData?.lucidity !== undefined
+  // Track if user is returning and hasn't changed their selection
+  // Only disable auto-advance when returning with unchanged answer
+  const isLucidityUnchanged = initialData?.lucidity !== null && initialData?.lucidity !== undefined && lucidity === initialData.lucidity
   
   const { scheduleCommit: commitLucidity } = useDebouncedCommit({
     onCommit: goNext,
-    disabled: isLucidityAnswered || subStep !== 'lucidity',
+    disabled: isLucidityUnchanged || subStep !== 'lucidity',
   })
 
   // Render step content

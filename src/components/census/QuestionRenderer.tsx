@@ -17,8 +17,8 @@ import {
   VASSlider,
   RankingQuestion,
   TagPool,
-  type BinaryValue 
 } from '@/components/ui'
+import type { BinaryValue } from '@/lib/flow/types'
 import type { QuestionRendererProps } from './types'
 
 export function QuestionRenderer({

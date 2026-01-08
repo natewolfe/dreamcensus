@@ -1,10 +1,9 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { getSession } from '@/lib/auth'
 import { emitEvent } from '@/lib/events'
 import { db } from '@/lib/db'
-import type { ActionResult } from '@/lib/actions'
+import { withAuth, requireAuth, type ActionResult, getTodayRange } from '@/lib/actions'
 
 /**
  * Get stream of questions for prompts page
@@ -14,13 +13,9 @@ export async function getStreamQuestions(limit: number = 10): Promise<ActionResu
   text: string
   type: string
 }>>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
-    }
-
-    const prompts = await db.prompt.findMany({
+  return withAuth(async (session) => {
+    try {
+      const prompts = await db.prompt.findMany({
       where: {
         isActive: true,
       },
@@ -32,17 +27,18 @@ export async function getStreamQuestions(limit: number = 10): Promise<ActionResu
       orderBy: {
         createdAt: 'desc',
       },
-      take: limit,
-    })
+        take: limit,
+      })
 
-    return {
-      success: true,
-      data: prompts,
+      return {
+        success: true,
+        data: prompts,
+      }
+    } catch (error) {
+      console.error('getStreamQuestions error:', error)
+      return { success: false, error: 'Failed to load questions' }
     }
-  } catch (error) {
-    console.error('getStreamQuestions error:', error)
-    return { success: false, error: 'Failed to load questions' }
-  }
+  })
 }
 
 /**
@@ -55,17 +51,10 @@ export async function getTodayPrompt(): Promise<ActionResult<{
   responseType: string
   options?: string[]
 } | null>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
-    }
-
-    // Check if user already responded today
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
+  return withAuth(async (session) => {
+    try {
+      // Check if user already responded today
+      const { start: today, end: tomorrow } = getTodayRange()
 
     const existingResponse = await db.promptResponse.findFirst({
       where: {
@@ -77,62 +66,63 @@ export async function getTodayPrompt(): Promise<ActionResult<{
       },
     })
 
-    if (existingResponse) {
-      return { success: true, data: null }
-    }
+      if (existingResponse) {
+        return { success: true, data: null }
+      }
 
-    // Get a prompt the user hasn't seen recently
-    const recentResponses = await db.promptResponse.findMany({
-      where: {
+      // Get a prompt the user hasn't seen recently
+      const recentResponses = await db.promptResponse.findMany({
+        where: {
+          userId: session.userId,
+          respondedAt: {
+            gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+          },
+        },
+        select: { promptId: true },
+      })
+
+      const recentPromptIds = recentResponses.map((r) => r.promptId)
+
+      const prompt = await db.prompt.findFirst({
+        where: {
+          isActive: true,
+          id: {
+            notIn: recentPromptIds,
+          },
+        },
+        orderBy: {
+          createdAt: 'asc', // Rotate through prompts
+        },
+      })
+
+      if (!prompt) {
+        return { success: true, data: null }
+      }
+
+      // Emit prompt shown event
+      await emitEvent({
+        type: 'prompt.shown',
         userId: session.userId,
-        respondedAt: {
-          gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+        payload: {
+          promptId: prompt.id,
+          shownAt: new Date().toISOString(),
         },
-      },
-      select: { promptId: true },
-    })
+      })
 
-    const recentPromptIds = recentResponses.map((r) => r.promptId)
-
-    const prompt = await db.prompt.findFirst({
-      where: {
-        isActive: true,
-        id: {
-          notIn: recentPromptIds,
+      return {
+        success: true,
+        data: {
+          id: prompt.id,
+          text: prompt.text,
+          type: prompt.type,
+          responseType: prompt.responseType,
         },
-      },
-      orderBy: {
-        createdAt: 'asc', // Rotate through prompts
-      },
-    })
-
-    if (!prompt) {
-      return { success: true, data: null }
+      }
+    } catch (error) {
+      console.error('getTodayPrompt error:', error)
+      return { success: false, error: 'Failed to load prompt' }
     }
-
-    // Emit prompt shown event
-    await emitEvent({
-      type: 'prompt.shown',
-      userId: session.userId,
-      payload: {
-        promptId: prompt.id,
-        shownAt: new Date().toISOString(),
-      },
-    })
-
-    return {
-      success: true,
-      data: {
-        id: prompt.id,
-        text: prompt.text,
-        type: prompt.type,
-        responseType: prompt.responseType,
-      },
-    }
-  } catch (error) {
-    console.error('getTodayPrompt error:', error)
-    return { success: false, error: 'Failed to load prompt' }
-  }
+  })
 }
 
 /**
@@ -142,59 +132,53 @@ export async function respondToPrompt(
   promptId: string,
   value: Record<string, unknown>
 ): Promise<ActionResult<void>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
+  return withAuth(async (session) => {
+    try {
+      await emitEvent({
+        type: 'prompt.responded',
+        userId: session.userId,
+        payload: {
+          promptId,
+          value,
+          shownAt: new Date().toISOString(),
+        },
+      })
+
+      revalidatePath('/prompts')
+      revalidatePath('/today')
+
+      return { success: true, data: undefined }
+    } catch (error) {
+      console.error('respondToPrompt error:', error)
+      return { success: false, error: 'Failed to submit response' }
     }
-
-    await emitEvent({
-      type: 'prompt.responded',
-      userId: session.userId,
-      payload: {
-        promptId,
-        value,
-        shownAt: new Date().toISOString(),
-      },
-    })
-
-    revalidatePath('/prompts')
-    revalidatePath('/today')
-
-    return { success: true, data: undefined }
-  } catch (error) {
-    console.error('respondToPrompt error:', error)
-    return { success: false, error: 'Failed to submit response' }
-  }
+  })
 }
 
 /**
  * Skip a prompt
  */
 export async function skipPrompt(promptId: string): Promise<ActionResult<void>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
+  return withAuth(async (session) => {
+    try {
+      await emitEvent({
+        type: 'prompt.skipped',
+        userId: session.userId,
+        payload: {
+          promptId,
+          shownAt: new Date().toISOString(),
+        },
+      })
+
+      revalidatePath('/prompts')
+      revalidatePath('/today')
+
+      return { success: true, data: undefined }
+    } catch (error) {
+      console.error('skipPrompt error:', error)
+      return { success: false, error: 'Failed to skip prompt' }
     }
-
-    await emitEvent({
-      type: 'prompt.skipped',
-      userId: session.userId,
-      payload: {
-        promptId,
-        shownAt: new Date().toISOString(),
-      },
-    })
-
-    revalidatePath('/prompts')
-    revalidatePath('/today')
-
-    return { success: true, data: undefined }
-  } catch (error) {
-    console.error('skipPrompt error:', error)
-    return { success: false, error: 'Failed to skip prompt' }
-  }
+  })
 }
 
 /**
@@ -206,33 +190,30 @@ export async function saveStreamResponse(input: {
   response: string
   expandedText?: string
 }): Promise<ActionResult<void>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
-    }
-
-    await emitEvent({
-      type: 'prompt.responded',
-      userId: session.userId,
-      payload: {
-        promptId: input.questionId,
-        value: {
-          response: input.response,
-          expandedText: input.expandedText,
+  return withAuth(async (session) => {
+    try {
+      await emitEvent({
+        type: 'prompt.responded',
+        userId: session.userId,
+        payload: {
+          promptId: input.questionId,
+          value: {
+            response: input.response,
+            expandedText: input.expandedText,
+          },
+          shownAt: new Date().toISOString(),
         },
-        shownAt: new Date().toISOString(),
-      },
-    })
+      })
 
-    revalidatePath('/prompts')
-    revalidatePath('/today')
+      revalidatePath('/prompts')
+      revalidatePath('/today')
 
-    return { success: true, data: undefined }
-  } catch (error) {
-    console.error('saveStreamResponse error:', error)
-    return { success: false, error: 'Failed to save response' }
-  }
+      return { success: true, data: undefined }
+    } catch (error) {
+      console.error('saveStreamResponse error:', error)
+      return { success: false, error: 'Failed to save response' }
+    }
+  })
 }
 
 /**
@@ -245,13 +226,9 @@ export async function getStreamQuestionsFormatted(limit: number = 10): Promise<A
   category: string
   variant: 'yes_no' | 'agree_disagree' | 'true_false'
 }>>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
-    }
-
-    const prompts = await db.prompt.findMany({
+  return withAuth(async (session) => {
+    try {
+      const prompts = await db.prompt.findMany({
       where: {
         isActive: true,
       },
@@ -267,22 +244,23 @@ export async function getStreamQuestionsFormatted(limit: number = 10): Promise<A
       take: limit,
     })
 
-    // Transform to frontend format
-    const formatted = prompts.map(p => ({
-      id: p.id,
-      text: p.text,
-      category: formatCategory(p.type),
-      variant: deriveVariant(p.responseType),
-    }))
+      // Transform to frontend format
+      const formatted = prompts.map(p => ({
+        id: p.id,
+        text: p.text,
+        category: formatCategory(p.type),
+        variant: deriveVariant(p.responseType),
+      }))
 
-    return {
-      success: true,
-      data: formatted,
+      return {
+        success: true,
+        data: formatted,
+      }
+    } catch (error) {
+      console.error('getStreamQuestionsFormatted error:', error)
+      return { success: false, error: 'Failed to load questions' }
     }
-  } catch (error) {
-    console.error('getStreamQuestionsFormatted error:', error)
-    return { success: false, error: 'Failed to load questions' }
-  }
+  })
 }
 
 // Helper: Format category for display

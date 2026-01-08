@@ -45,6 +45,7 @@ export function MorningMode({
   onCaptureAnother,
   onHasDataChange,
   onCompletionVisible,
+  userId,
   alarmContext,
 }: MorningModeProps) {
   // Determine actual initial step based on mode
@@ -113,11 +114,11 @@ export function MorningMode({
         lastUpdatedAt: new Date(),
       }
       
-      // Save to IndexedDB (debounced)
-      if (updated.narrative || updated.emotions.length > 0) {
+      // Save to IndexedDB (debounced) - only if userId available
+      if ((updated.narrative || updated.emotions.length > 0) && userId) {
         saveDraft({
           ...updated,
-          userId: '', // Will be set by the caller if needed, or can use session
+          userId,
           startedAt: updated.startedAt.toISOString(),
           lastUpdatedAt: updated.lastUpdatedAt.toISOString(),
         }).catch(err => {
@@ -136,7 +137,10 @@ export function MorningMode({
     // Try to load from IndexedDB first
     const loadDraft = async () => {
       try {
-        const todayDraft = await getTodaysDraft('') // TODO: Use actual userId from session
+        // Only attempt to load draft if userId is provided
+        if (!userId) return
+        
+        const todayDraft = await getTodaysDraft(userId)
         if (mounted && todayDraft && todayDraft.narrative) {
           setDraft({
             ...todayDraft,
@@ -148,37 +152,39 @@ export function MorningMode({
             setStep('structure')
           }
         } else {
-          // Fallback: Try localStorage migration
-          const savedDraft = localStorage.getItem('morning-draft')
-          if (savedDraft) {
-            try {
-              const parsed = JSON.parse(savedDraft)
-              const savedDate = new Date(parsed.startedAt).toDateString()
-              const today = new Date().toDateString()
-              if (savedDate === today && parsed.narrative) {
-                const migratedDraft = {
-                  ...parsed,
-                  startedAt: new Date(parsed.startedAt),
-                  lastUpdatedAt: new Date(parsed.lastUpdatedAt),
-                }
-                if (mounted) {
-                  setDraft(migratedDraft)
-                  // Save to IndexedDB
-                  await saveDraft({
-                    ...migratedDraft,
-                    userId: '',
-                    startedAt: migratedDraft.startedAt.toISOString(),
-                    lastUpdatedAt: migratedDraft.lastUpdatedAt.toISOString(),
-                  })
-                  // Clear localStorage
-                  localStorage.removeItem('morning-draft')
-                  if (parsed.narrative) {
-                    setStep('structure')
+                  // Fallback: Try localStorage migration (only if userId available)
+          if (userId) {
+            const savedDraft = localStorage.getItem('morning-draft')
+            if (savedDraft) {
+              try {
+                const parsed = JSON.parse(savedDraft)
+                const savedDate = new Date(parsed.startedAt).toDateString()
+                const today = new Date().toDateString()
+                if (savedDate === today && parsed.narrative) {
+                  const migratedDraft = {
+                    ...parsed,
+                    startedAt: new Date(parsed.startedAt),
+                    lastUpdatedAt: new Date(parsed.lastUpdatedAt),
+                  }
+                  if (mounted) {
+                    setDraft(migratedDraft)
+                    // Save to IndexedDB
+                    await saveDraft({
+                      ...migratedDraft,
+                      userId,
+                      startedAt: migratedDraft.startedAt.toISOString(),
+                      lastUpdatedAt: migratedDraft.lastUpdatedAt.toISOString(),
+                    })
+                    // Clear localStorage
+                    localStorage.removeItem('morning-draft')
+                    if (parsed.narrative) {
+                      setStep('structure')
+                    }
                   }
                 }
+              } catch (err) {
+                console.error('Failed to migrate draft:', err)
               }
-            } catch (err) {
-              console.error('Failed to migrate draft:', err)
             }
           }
         }
@@ -192,7 +198,7 @@ export function MorningMode({
     return () => {
       mounted = false
     }
-  }, [])
+  }, [userId])
 
   // Handle date selection (journal mode)
   const handleDateSelectComplete = (data: {

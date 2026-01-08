@@ -1,8 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import type { AlarmWidgetProps } from './types'
+
+const MotionLink = motion.create(Link)
 
 export function AlarmWidget({
   isArmed,
@@ -14,7 +17,13 @@ export function AlarmWidget({
   const displayText = hasValidAlarm && nextAlarmTime ? nextAlarmTime : 'Off'
 
   return (
-    <div className="flex items-center gap-3 px-2 md:px-3 py-2 md:py-3 rounded-lg bg-transparent border border-border/50">
+    <MotionLink
+      href="/settings/alarm"
+      className="flex items-center gap-3 px-2 md:px-3 py-2 md:py-3 rounded-lg border border-border/50 hover:shadow-md"
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+    >
       {/* Alarm Emoji + Time/Label Display */}
       <span
         className={cn(
@@ -25,9 +34,13 @@ export function AlarmWidget({
         🔔 {displayText}
       </span>
 
-      {/* Toggle Switch */}
+      {/* Toggle Switch - stops propagation to prevent navigation */}
       <motion.button
-        onClick={onToggle}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          onToggle()
+        }}
         whileHover={{ scale: 1.07 }}
         whileTap={{ scale: 0.98 }}
         className={cn(
@@ -51,6 +64,6 @@ export function AlarmWidget({
           }}
         />
       </motion.button>
-    </div>
+    </MotionLink>
   )
 }

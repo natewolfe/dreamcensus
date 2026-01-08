@@ -48,12 +48,13 @@ export function QuickFacts({
     onBack,
   })
   
-  // Track if user is returning to a previously answered sub-step
-  const isRecallAnswered = initialData?.recallLevel !== undefined
+  // Track if user is returning and hasn't changed their selection
+  // Only disable auto-advance when returning with unchanged answer
+  const isRecallUnchanged = initialData?.recallLevel !== undefined && recallLevel === initialData.recallLevel
   
   const { scheduleCommit: commitRecall } = useDebouncedCommit({
     onCommit: goNext,
-    disabled: isRecallAnswered || subStep !== 'recall',
+    disabled: isRecallUnchanged || subStep !== 'recall',
   })
 
   // Render step content

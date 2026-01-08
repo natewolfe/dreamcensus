@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 import type { TagPillProps } from './types'
 
 export function TagPill({
@@ -14,6 +15,8 @@ export function TagPill({
   onEdit,
   readonly = false,
 }: TagPillProps) {
+  const showEffects = useEnhancedAnimations()
+  const [isAnimating, setIsAnimating] = useState(false)
   const [showUndo, setShowUndo] = useState(false)
   const [isDismissed, setIsDismissed] = useState(false)
   const undoTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
@@ -50,6 +53,14 @@ export function TagPill({
   }
 
   const handleAccept = () => {
+    // Trigger animation if effects are enabled
+    if (showEffects) {
+      setIsAnimating(true)
+      setTimeout(() => {
+        setIsAnimating(false)
+      }, 180)
+    }
+    
     if (onAccept) {
       onAccept()
     }
@@ -142,8 +153,9 @@ export function TagPill({
       className={cn(
         'flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium',
         'transition-all select-none',
-        isAISuggested && 'border-2 border-dashed border-accent/50 bg-accent/10 text-accent',
-        isAISuggested && !readonly && 'cursor-pointer hover:border-accent hover:bg-accent/20',
+        isAnimating && 'chip-fill-animate',
+        isAISuggested && !isAnimating && 'border-2 border-dashed border-accent/50 bg-accent/10 text-accent',
+        isAISuggested && !readonly && !isAnimating && 'cursor-pointer hover:border-accent hover:bg-accent/20',
         isUserAdded && 'border border-border bg-card-bg text-foreground',
         readonly && 'cursor-default'
       )}

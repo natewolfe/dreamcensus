@@ -1,6 +1,7 @@
 'use client'
 
 import { ProgressBar } from './ProgressBar'
+import { ChevronLeft, ChevronRight } from './Icons'
 
 export interface NavProgressProps {
   /** Current step index (0-based) */
@@ -46,9 +47,7 @@ export function NavProgress({
           className="p-2 text-muted hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           aria-label={backLabel}
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeft />
         </button>
         
         {/* Step counter removed - totalSteps calculation is complex with dynamic paths */}
@@ -60,9 +59,7 @@ export function NavProgress({
           className="p-2 text-muted hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           aria-label={forwardLabel}
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          <ChevronRight />
         </button>
       </div>
       

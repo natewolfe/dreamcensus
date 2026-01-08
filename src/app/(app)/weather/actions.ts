@@ -1,9 +1,8 @@
 'use server'
 
-import { getSession } from '@/lib/auth'
 import { computePersonalWeather, computeCollectiveWeather, computeWeatherChartData } from '@/lib/weather'
 import type { PersonalWeatherData, CollectiveWeatherData, DreamWeatherChartData, TimeRange } from '@/lib/weather/types'
-import type { ActionResult } from '@/lib/actions'
+import { withAuth, type ActionResult } from '@/lib/actions'
 
 /**
  * Get personal weather for current user
@@ -11,19 +10,16 @@ import type { ActionResult } from '@/lib/actions'
 export async function getPersonalWeather(
   timeRange: TimeRange | 'all' = '30d'
 ): Promise<ActionResult<PersonalWeatherData>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
+  return withAuth(async (session) => {
+    try {
+      const weather = await computePersonalWeather(session.userId, timeRange)
+
+      return { success: true, data: weather }
+    } catch (error) {
+      console.error('getPersonalWeather error:', error)
+      return { success: false, error: 'Failed to compute personal weather' }
     }
-
-    const weather = await computePersonalWeather(session.userId, timeRange)
-
-    return { success: true, data: weather }
-  } catch (error) {
-    console.error('getPersonalWeather error:', error)
-    return { success: false, error: 'Failed to compute personal weather' }
-  }
+  })
 }
 
 /**

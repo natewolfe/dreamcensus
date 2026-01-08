@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { cleanup } from '@testing-library/react'
-import { afterEach } from 'vitest'
+import { afterEach, vi } from 'vitest'
 
 // Cleanup after each test
 afterEach(() => {
@@ -8,23 +8,36 @@ afterEach(() => {
 })
 
 // Mock Web Crypto API
-global.crypto = {
-  ...global.crypto,
-  subtle: {
-    ...global.crypto.subtle,
-  } as SubtleCrypto,
-  getRandomValues: (buffer: Uint8Array) => {
-    for (let i = 0; i < buffer.length; i++) {
-      buffer[i] = Math.floor(Math.random() * 256)
-    }
-    return buffer
-  },
-  randomUUID: () => {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = (Math.random() * 16) | 0
-      const v = c === 'x' ? r : (r & 0x3) | 0x8
-      return v.toString(16)
-    })
-  },
-} as Crypto
+// Note: Modern Node.js includes crypto global, but we need to ensure methods exist
+if (!global.crypto.randomUUID) {
+  Object.defineProperty(global.crypto, 'randomUUID', {
+    value: () => {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16) | 0
+        const v = c === 'x' ? r : (r & 0x3) | 0x8
+        return v.toString(16)
+      })
+    },
+    writable: true,
+    configurable: true,
+  })
+}
+
+// Mock window.matchMedia for tests that use prefers-reduced-motion
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+})
+
+// Crypto.subtle should already exist in Node.js 20+
+// If tests fail, ensure you're using Node.js 20+ which includes Web Crypto API
 

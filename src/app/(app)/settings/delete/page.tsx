@@ -4,11 +4,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { PageHeader } from '@/components/layout'
 import { Button, Card, Input } from '@/components/ui'
+import { useToast } from '@/hooks/use-toast'
 
 export default function DeleteAccountPage() {
   const router = useRouter()
   const [confirmation, setConfirmation] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
+  const { toast } = useToast()
 
   const canDelete = confirmation.toLowerCase() === 'delete my account'
 
@@ -25,7 +27,7 @@ export default function DeleteAccountPage() {
       router.push('/goodbye')
     } catch (error) {
       console.error('Deletion failed:', error)
-      // TODO: Show error
+      toast.error('Failed to delete account')
     } finally {
       setIsDeleting(false)
     }

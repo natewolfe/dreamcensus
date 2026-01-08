@@ -1,6 +1,8 @@
 'use client'
 
+import { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 
 export interface ToggleProps<T extends string> {
   options: readonly T[] | T[]
@@ -25,10 +27,27 @@ export function Toggle<T extends string>({
   size = 'md',
   className,
 }: ToggleProps<T>) {
+  const showEffects = useEnhancedAnimations()
+  const [animatingOption, setAnimatingOption] = useState<T | null>(null)
+  const previousValue = useRef<T | null>(value)
+
+  const handleChange = (option: T) => {
+    // Only animate when switching to a new value
+    if (showEffects && previousValue.current !== option) {
+      setAnimatingOption(option)
+      setTimeout(() => {
+        setAnimatingOption(null)
+      }, 180)
+    }
+    
+    previousValue.current = option
+    onChange(option)
+  }
+
   return (
     <div
       className={cn(
-        'inline-flex rounded-lg bg-subtle p-1',
+        'inline-flex rounded-lg bg-subtle/30 p-1',
         'focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2',
         className
       )}
@@ -36,19 +55,21 @@ export function Toggle<T extends string>({
     >
       {options.map((option) => {
         const isSelected = value === option
+        const isAnimating = animatingOption === option
         const label = labels?.[option] || option
 
         return (
           <button
             key={option}
             type="button"
-            onClick={() => onChange(option)}
+            onClick={() => handleChange(option)}
             className={cn(
               'relative px-4 rounded-md font-medium',
               'transition-all duration-150',
               'focus-visible:outline-none',
               sizeStyles[size],
-              isSelected
+              isAnimating && 'chip-fill-animate',
+              isSelected && !isAnimating
                 ? 'bg-accent text-foreground shadow-sm'
                 : 'text-muted hover:text-foreground'
             )}

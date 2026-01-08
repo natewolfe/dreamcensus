@@ -3,7 +3,8 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
-import { createSession } from '@/lib/auth'
+import { createSession, hashToken } from '@/lib/auth'
+import type { ActionResult } from '@/lib/actions'
 
 /**
  * Mock verification codes storage (in-memory for dev)
@@ -20,7 +21,7 @@ const MOCK_CODE = '123456'
 export async function sendAuthCode(
   email: string,
   isNewUser: boolean
-): Promise<{ success: boolean; error?: string }> {
+): Promise<ActionResult<void>> {
   try {
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -76,7 +77,7 @@ export async function sendAuthCode(
 export async function verifyAuthCode(
   email: string,
   code: string
-): Promise<{ success: boolean; error?: string; redirectTo?: string }> {
+): Promise<ActionResult<{ redirectTo: string }>> {
   try {
     const pending = pendingCodes.get(email.toLowerCase())
 
@@ -121,7 +122,7 @@ export async function verifyAuthCode(
     // Determine redirect destination
     const redirectTo = pending.isNewUser ? '/onboarding/setup' : '/today'
 
-    return { success: true, redirectTo }
+    return { success: true, data: { redirectTo } }
   } catch {
     return { success: false, error: 'Verification failed. Please try again.' }
   }
@@ -130,7 +131,7 @@ export async function verifyAuthCode(
 /**
  * Reset database for fresh "Get Started" experience (dev only)
  */
-export async function resetUserDatabase(): Promise<{ success: boolean; error?: string }> {
+export async function resetUserDatabase(): Promise<ActionResult<void>> {
   if (process.env.NODE_ENV === 'production') {
     return { success: false, error: 'Not allowed in production' }
   }
@@ -143,7 +144,7 @@ export async function resetUserDatabase(): Promise<{ success: boolean; error?: s
     const cookieStore = await cookies()
     cookieStore.delete('session')
 
-    return { success: true }
+    return { success: true, data: undefined }
   } catch {
     return { success: false, error: 'Failed to reset database' }
   }
@@ -158,11 +159,7 @@ export async function signOut(): Promise<void> {
 
   if (sessionToken) {
     // Hash the token for DB lookup
-    const encoder = new TextEncoder()
-    const data = encoder.encode(sessionToken)
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    const tokenHash = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
+    const tokenHash = await hashToken(sessionToken)
 
     // Delete session from database
     await db.session.deleteMany({ where: { tokenHash } })

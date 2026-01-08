@@ -5,54 +5,10 @@ import { motion } from 'motion/react'
 import { Button } from '@/components/ui/Button'
 import { Card, ProgressBar } from '@/components/ui'
 import { SectionCard } from './SectionCard'
+import { CensusConstellation } from './CensusConstellation'
 import { fadeInUp, fadeInUpLarge } from '@/lib/motion'
+import { SECTION_KINDS } from './constants'
 import type { CensusSection, CensusProgress } from './types'
-
-// Define larger groupings (kinds) for categories
-const SECTION_KINDS = [
-  {
-    slug: 'self',
-    name: 'Self',
-    description: 'About you as a person',
-    icon: '🪞',
-    categorySlugs: ['personality', 'interiority'],
-  },
-  {
-    slug: 'sleep',
-    name: 'Sleep',
-    description: 'Your sleep patterns and habits',
-    icon: '😴',
-    categorySlugs: ['sleep'],
-  },
-  {
-    slug: 'dreams',
-    name: 'Dreams',
-    description: 'The dreaming experience',
-    icon: '🌙',
-    categorySlugs: ['recall', 'content', 'lucidity'],
-  },
-  {
-    slug: 'cognition',
-    name: 'Cognition',
-    description: 'Mental faculties in dreams',
-    icon: '🧠',
-    categorySlugs: ['imagination', 'memory', 'spacetime'],
-  },
-  {
-    slug: 'feelings',
-    name: 'Feelings',
-    description: 'Your emotional landscape',
-    icon: '💜',
-    categorySlugs: ['emotion', 'hope', 'fear'],
-  },
-  {
-    slug: 'experience',
-    name: 'Experience',
-    description: 'What happens in dreams',
-    icon: '✨',
-    categorySlugs: ['embodiment', 'relationships', 'symbolism'],
-  },
-] as const
 
 interface CensusOverviewProps {
   sections: CensusSection[]
@@ -114,6 +70,18 @@ export function CensusOverview({
 
   return (
     <div className="space-y-8">
+      {/* Census Constellation */}
+      <CensusConstellation
+        sections={sections}
+        progress={progress}
+        onSectionClick={(sectionId) => {
+          const section = sections.find((s) => s.id === sectionId)
+          if (section) {
+            handleSectionClick(section)
+          }
+        }}
+      />
+
       {/* Overall progress */}
       <motion.div
         variants={fadeInUp}
@@ -146,11 +114,11 @@ export function CensusOverview({
           {nextSection && (
             <div className="flex items-end justify-end gap-2 mt-3">
               <Button
-                variant="secondary"
+                variant="special"
                 size="md"
                 onClick={() => handleSectionClick(nextSection)}
               >
-                {overallProgress === 0 ? 'Begin' : `Next: ${nextSection.name}`} →
+                {overallProgress === 0 ? '📝 Begin' : `Next: ${nextSection.name}`} →
               </Button>
             </div>
           )}
@@ -162,10 +130,12 @@ export function CensusOverview({
         {groupedByKind.map((kind, kindIndex) => (
           <motion.div
             key={kind.slug}
+            id={`kind-${kind.slug}`}
             variants={fadeInUpLarge}
             initial="initial"
             animate="animate"
             transition={{ delay: kindIndex * 0.1 }}
+            className="scroll-mt-20"
           >
             {/* Kind header divider */}
             <div className="flex items-center justify-between w-full bg-subtle/40 px-4 py-2">

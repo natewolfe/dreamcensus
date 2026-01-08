@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
+import { Button } from '@/components/ui'
 import { useAlarm } from '@/hooks/use-alarm'
 import { formatAlarmTimeSplit } from '@/lib/alarm'
 import type { NightCompleteProps } from './types'
@@ -143,12 +144,24 @@ export function NightComplete({
         )}
       </div>
 
+      {/* Completion button */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.4 }}
+        className="absolute bottom-16 left-0 right-0 flex justify-center px-6"
+      >
+        <Button variant="special" onClick={onClose} size="lg" className="w-full max-w-xs">
+          Sweet dreams ✨
+        </Button>
+      </motion.div>
+
       {/* Bottom hint - very subtle */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.7 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-8 text-xs text-muted"
+        transition={{ delay: 1.4, duration: 0.5 }}
+        className="absolute bottom-6 text-xs text-muted"
       >
         Leave open for alarm
       </motion.p>

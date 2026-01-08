@@ -79,7 +79,7 @@ export default async function TodayPage() {
   })
 
   return (
-    <div id="main-content" className="container mx-auto mb-16 max-w-4xl px-4 md:px-6 py-4 md:py-6">
+    <div id="main-content" className="container mx-auto mb-16 max-w-4xl px-4 md:px-6 md:pl-3 py-4 md:py-6">
       {/* Week Summary — constellation-style tracker */}
       <section className="mb-10" aria-label="Weekly dream tracking">
         <div className="flex items-center gap-3 sm:gap-5">

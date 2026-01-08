@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 
 export type ToastVariant = 'success' | 'error' | 'warning' | 'info'
 
@@ -34,6 +35,8 @@ export function Toast({
   duration = 5000,
   onDismiss,
 }: ToastProps) {
+  const showEffects = useEnhancedAnimations()
+  
   // Auto-dismiss after duration
   if (duration > 0) {
     setTimeout(() => onDismiss(id), duration)
@@ -48,7 +51,8 @@ export function Toast({
       className={cn(
         'flex items-center justify-center gap-3 rounded-lg border px-4 py-3 shadow-lg backdrop-blur-sm',
         'min-w-[320px] max-w-md',
-        variantStyles[variant]
+        variantStyles[variant],
+        showEffects && `toast-${variant}`
       )}
     >
       <span className="text-lg flex-shrink-0" aria-hidden="true">

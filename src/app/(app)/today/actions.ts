@@ -2,10 +2,10 @@
 
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
-import { getSession } from '@/lib/auth'
 import { emitEvent } from '@/lib/events'
 import { db } from '@/lib/db'
-import type { ActionResult } from '@/lib/actions'
+import { withAuth, requireAuth, type ActionResult, getTodayRange } from '@/lib/actions'
+import { computeStreak } from '@/lib/streak'
 
 // =============================================================================
 // SCHEMAS
@@ -70,61 +70,57 @@ const SaveNightCheckInSchema = z.object({
 export async function createDreamEntry(
   input: z.infer<typeof CreateDreamEntrySchema>
 ): Promise<ActionResult<{ id: string; dreamNumber: number }>> {
-  try {
-    // Auth check
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
+  return withAuth(async (session) => {
+    try {
+      // Validate input
+      const data = CreateDreamEntrySchema.parse(input)
+
+      // Generate ID for the dream entry
+      const dreamId = crypto.randomUUID()
+
+      // Emit event (event handlers will create the actual record)
+      await emitEvent({
+        type: 'journal.entry.created',
+        userId: session.userId,
+        aggregateId: dreamId,
+        aggregateType: 'DreamEntry',
+        payload: {
+          ciphertext: data.ciphertext ?? '',
+          iv: data.iv ?? '',
+          keyVersion: data.keyVersion ?? 1,
+          emotions: data.emotions,
+          vividness: data.vividness,
+          lucidity: data.lucidity,
+          isLucid: data.isLucid,
+          isNightmare: data.isNightmare,
+          isRecurring: data.isRecurring,
+          wakingLifeLink: data.wakingLifeLink,
+          capturedAt: data.capturedAt ?? new Date().toISOString(),
+          tags: data.tags,
+          title: data.title,
+        },
+      })
+
+      // Calculate dream number: total dreams for this user (including the new one)
+      const dreamNumber = await db.dreamEntry.count({
+        where: { userId: session.userId },
+      })
+
+      // Revalidate journal and today pages
+      revalidatePath('/journal')
+      revalidatePath('/today')
+
+      return { success: true, data: { id: dreamId, dreamNumber } }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.error('Validation error:', error)
+        return { success: false, error: 'Invalid input data' }
+      }
+      
+      console.error('createDreamEntry error:', error)
+      return { success: false, error: 'Failed to save dream' }
     }
-
-    // Validate input
-    const data = CreateDreamEntrySchema.parse(input)
-
-    // Generate ID for the dream entry
-    const dreamId = crypto.randomUUID()
-
-    // Emit event (event handlers will create the actual record)
-    await emitEvent({
-      type: 'journal.entry.created',
-      userId: session.userId,
-      aggregateId: dreamId,
-      aggregateType: 'DreamEntry',
-      payload: {
-        ciphertext: data.ciphertext ?? '',
-        iv: data.iv ?? '',
-        keyVersion: data.keyVersion ?? 1,
-        emotions: data.emotions,
-        vividness: data.vividness,
-        lucidity: data.lucidity,
-        isLucid: data.isLucid,
-        isNightmare: data.isNightmare,
-        isRecurring: data.isRecurring,
-        wakingLifeLink: data.wakingLifeLink,
-        capturedAt: data.capturedAt ?? new Date().toISOString(),
-        tags: data.tags,
-        title: data.title,
-      },
-    })
-
-    // Calculate dream number: total dreams for this user (including the new one)
-    const dreamNumber = await db.dreamEntry.count({
-      where: { userId: session.userId },
-    })
-
-    // Revalidate journal and today pages
-    revalidatePath('/journal')
-    revalidatePath('/today')
-
-    return { success: true, data: { id: dreamId, dreamNumber } }
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error('Validation error:', error)
-      return { success: false, error: 'Invalid input data' }
-    }
-    
-    console.error('createDreamEntry error:', error)
-    return { success: false, error: 'Failed to save dream' }
-  }
+  })
 }
 
 /**
@@ -134,29 +130,26 @@ export async function updateDreamEntry(
   dreamId: string,
   input: Partial<z.infer<typeof CreateDreamEntrySchema>>
 ): Promise<ActionResult<void>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
+  return withAuth(async (session) => {
+    try {
+      // Emit update event
+      await emitEvent({
+        type: 'journal.entry.updated',
+        userId: session.userId,
+        aggregateId: dreamId,
+        aggregateType: 'DreamEntry',
+        payload: input,
+      })
+
+      revalidatePath('/journal')
+      revalidatePath(`/journal/${dreamId}`)
+
+      return { success: true, data: undefined }
+    } catch (error) {
+      console.error('updateDreamEntry error:', error)
+      return { success: false, error: 'Failed to update dream' }
     }
-
-    // Emit update event
-    await emitEvent({
-      type: 'journal.entry.updated',
-      userId: session.userId,
-      aggregateId: dreamId,
-      aggregateType: 'DreamEntry',
-      payload: input,
-    })
-
-    revalidatePath('/journal')
-    revalidatePath(`/journal/${dreamId}`)
-
-    return { success: true, data: undefined }
-  } catch (error) {
-    console.error('updateDreamEntry error:', error)
-    return { success: false, error: 'Failed to update dream' }
-  }
+  })
 }
 
 /**
@@ -165,28 +158,25 @@ export async function updateDreamEntry(
 export async function deleteDreamEntry(
   dreamId: string
 ): Promise<ActionResult<void>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
+  return withAuth(async (session) => {
+    try {
+      // Emit delete event
+      await emitEvent({
+        type: 'journal.entry.deleted',
+        userId: session.userId,
+        aggregateId: dreamId,
+        aggregateType: 'DreamEntry',
+        payload: { dreamId },
+      })
+
+      revalidatePath('/journal')
+
+      return { success: true, data: undefined }
+    } catch (error) {
+      console.error('deleteDreamEntry error:', error)
+      return { success: false, error: 'Failed to delete dream' }
     }
-
-    // Emit delete event
-    await emitEvent({
-      type: 'journal.entry.deleted',
-      userId: session.userId,
-      aggregateId: dreamId,
-      aggregateType: 'DreamEntry',
-      payload: { dreamId },
-    })
-
-    revalidatePath('/journal')
-
-    return { success: true, data: undefined }
-  } catch (error) {
-    console.error('deleteDreamEntry error:', error)
-    return { success: false, error: 'Failed to delete dream' }
-  }
+  })
 }
 
 /**
@@ -195,41 +185,38 @@ export async function deleteDreamEntry(
 export async function saveNightCheckIn(
   input: z.infer<typeof SaveNightCheckInSchema>
 ): Promise<ActionResult<void>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
+  return withAuth(async (session) => {
+    try {
+      const data = SaveNightCheckInSchema.parse(input)
+      const today = new Date().toISOString().split('T')[0] ?? ''
+
+      // Emit event
+      await emitEvent({
+        type: 'night.checked_in',
+        userId: session.userId,
+        payload: {
+          ...data,
+          date: today,
+          checkedInAt: new Date().toISOString(),
+        },
+      })
+
+      // Note: Morning reminder scheduling would be handled by a job system
+      // For now, the reminder time is stored in the event payload
+      // A future job scheduler can query for users with reminders and send notifications
+
+      revalidatePath('/today')
+
+      return { success: true, data: undefined }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return { success: false, error: 'Invalid input data' }
+      }
+      
+      console.error('saveNightCheckIn error:', error)
+      return { success: false, error: 'Failed to save check-in' }
     }
-
-    const data = SaveNightCheckInSchema.parse(input)
-    const today = new Date().toISOString().split('T')[0] ?? ''
-
-    // Emit event
-    await emitEvent({
-      type: 'night.checked_in',
-      userId: session.userId,
-      payload: {
-        ...data,
-        date: today,
-        checkedInAt: new Date().toISOString(),
-      },
-    })
-
-    // Note: Morning reminder scheduling would be handled by a job system
-    // For now, the reminder time is stored in the event payload
-    // A future job scheduler can query for users with reminders and send notifications
-
-    revalidatePath('/today')
-
-    return { success: true, data: undefined }
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { success: false, error: 'Invalid input data' }
-    }
-    
-    console.error('saveNightCheckIn error:', error)
-    return { success: false, error: 'Failed to save check-in' }
-  }
+  })
 }
 
 /**
@@ -240,16 +227,9 @@ export async function getTodayData(): Promise<ActionResult<{
   nightCheckIn: { intention?: string } | null
   promptResponse: boolean
 }>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
-    }
-
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
+  return withAuth(async (session) => {
+    try {
+      const { start: today, end: tomorrow } = getTodayRange()
 
     // Fetch today's dreams
     const dreams = await db.dreamEntry.findMany({
@@ -295,22 +275,23 @@ export async function getTodayData(): Promise<ActionResult<{
       },
     })
 
-    return {
-      success: true,
-      data: {
-        dreams: dreams.map((d) => ({
-          id: d.id,
-          title: d.title ?? undefined,
-          emotions: d.emotions,
-        })),
-        nightCheckIn,
-        promptResponse: !!promptResponse,
-      },
+      return {
+        success: true,
+        data: {
+          dreams: dreams.map((d) => ({
+            id: d.id,
+            title: d.title ?? undefined,
+            emotions: d.emotions,
+          })),
+          nightCheckIn,
+          promptResponse: !!promptResponse,
+        },
+      }
+    } catch (error) {
+      console.error('getTodayData error:', error)
+      return { success: false, error: 'Failed to load today data' }
     }
-  } catch (error) {
-    console.error('getTodayData error:', error)
-    return { success: false, error: 'Failed to load today data' }
-  }
+  })
 }
 
 /**
@@ -319,60 +300,10 @@ export async function getTodayData(): Promise<ActionResult<{
  */
 export async function getStreak(): Promise<number> {
   try {
-    const session = await getSession()
-    if (!session) return 0
-
-    // Get all dream entries for this user, ordered by date descending
-    const entries = await db.dreamEntry.findMany({
-      where: { userId: session.userId },
-      select: { capturedAt: true },
-      orderBy: { capturedAt: 'desc' },
-    })
-
-    if (entries.length === 0) return 0
-
-    // Get unique dates (in user's local date, using UTC for simplicity)
-    const uniqueDates = new Set<string>()
-    entries.forEach((entry) => {
-      const date = entry.capturedAt.toISOString().split('T')[0] ?? ''
-      if (date) uniqueDates.add(date)
-    })
-
-    const sortedDates = Array.from(uniqueDates).sort().reverse()
-    
-    // Check if today or yesterday has an entry (streak must be current)
-    const today = new Date()
-    const todayStr = today.toISOString().split('T')[0] ?? ''
-    const yesterday = new Date(today)
-    yesterday.setDate(yesterday.getDate() - 1)
-    const yesterdayStr = yesterday.toISOString().split('T')[0] ?? ''
-
-    // If neither today nor yesterday has an entry, streak is 0
-    const firstDate = sortedDates[0]
-    if (firstDate !== todayStr && firstDate !== yesterdayStr) {
-      return 0
-    }
-
-    // Count consecutive days
-    let streak = 0
-    const firstDateStr = sortedDates[0]
-    if (!firstDateStr) return 0
-    
-    const checkDate = new Date(firstDateStr)
-    
-    for (const dateStr of sortedDates) {
-      const expectedStr = checkDate.toISOString().split('T')[0] ?? ''
-      
-      if (dateStr === expectedStr) {
-        streak++
-        checkDate.setDate(checkDate.getDate() - 1)
-      } else {
-        break
-      }
-    }
-
-    return streak
+    const session = await requireAuth()
+    return await computeStreak(session.userId)
   } catch (error) {
+    // User not authenticated or other error - return 0
     console.error('getStreak error:', error)
     return 0
   }
@@ -385,12 +316,10 @@ export async function getStreak(): Promise<number> {
  */
 export async function getWeekDreams(): Promise<number[]> {
   try {
-    const session = await getSession()
-    if (!session) return Array(7).fill(0)
+    const session = await requireAuth()
 
     // Get start of 7-day window (6 days ago at midnight)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const { start: today } = getTodayRange()
     
     const weekStart = new Date(today)
     weekStart.setDate(today.getDate() - 6)
@@ -426,6 +355,7 @@ export async function getWeekDreams(): Promise<number[]> {
 
     return weekDays
   } catch (error) {
+    // User not authenticated or other error - return empty week
     console.error('getWeekDreams error:', error)
     return Array(7).fill(0)
   }
@@ -442,13 +372,9 @@ export async function getWeekDreams(): Promise<number[]> {
 export async function getTagSuggestions(
   narrative: string
 ): Promise<ActionResult<{ suggestions: string[]; lexicon: string[] }>> {
-  try {
-    const session = await getSession()
-    if (!session) {
-      return { success: false, error: 'Not authenticated' }
-    }
-
-    // Get user's most-used tags
+  return withAuth(async (session) => {
+    try {
+      // Get user's most-used tags
     const userTags = await db.dreamTag.findMany({
       where: { 
         dreamEntry: { userId: session.userId }
@@ -471,20 +397,21 @@ export async function getTagSuggestions(
       .slice(0, 10)
       .map(([name]) => name)
 
-    // Basic keyword extraction from narrative (placeholder for AI)
-    const suggestions = extractKeywords(narrative).slice(0, 5)
+      // Basic keyword extraction from narrative (placeholder for AI)
+      const suggestions = extractKeywords(narrative).slice(0, 5)
 
-    return { 
-      success: true, 
-      data: { suggestions, lexicon } 
+      return { 
+        success: true, 
+        data: { suggestions, lexicon } 
+      }
+    } catch (error) {
+      console.error('getTagSuggestions error:', error)
+      return { 
+        success: false, 
+        error: 'Failed to get tag suggestions' 
+      }
     }
-  } catch (error) {
-    console.error('getTagSuggestions error:', error)
-    return { 
-      success: false, 
-      error: 'Failed to get tag suggestions' 
-    }
-  }
+  })
 }
 
 /**

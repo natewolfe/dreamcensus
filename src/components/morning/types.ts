@@ -90,6 +90,8 @@ export interface MorningModeProps {
   onCaptureAnother?: () => void
   onHasDataChange?: (hasData: boolean) => void
   onCompletionVisible?: (visible: boolean) => void
+  /** User ID for draft loading (optional, gracefully degrades if not provided) */
+  userId?: string
   /** When triggered by alarm, includes metadata for tracking */
   alarmContext?: {
     alarmId: string

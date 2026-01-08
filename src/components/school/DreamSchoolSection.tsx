@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { motion } from 'motion/react'
 import { LearnCard } from './LearnCard'
+import { ChevronRight } from '@/components/ui'
 import type { DreamSchoolTopic } from './types'
 import { cn } from '@/lib/utils'
 
@@ -138,11 +139,9 @@ function ExploreAllCard({ span = 1 }: { span?: 1 | 2 }) {
             }}
           />
 
-          <h3 className="text-sm font-semibold text-foreground/80 group-hover:text-foreground transition-colors">
+          <h3 className="text-sm font-semibold text-foreground/80 group-hover:text-foreground transition-colors flex items-center gap-2">
             Explore all
-            <svg className="inline ml-2 w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
+            <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
           </h3>
         </div>
       </Link>

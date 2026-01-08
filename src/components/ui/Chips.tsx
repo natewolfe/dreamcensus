@@ -1,7 +1,8 @@
 'use client'
 
-import { type ReactNode } from 'react'
+import { type ReactNode, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useEnhancedAnimations } from '@/hooks/use-enhanced-animations'
 
 export interface ChipsProps<T extends string> {
   options: readonly T[] | T[]
@@ -24,7 +25,12 @@ export function Chips<T extends string>({
   expandThreshold = 8,
   className,
 }: ChipsProps<T>) {
+  const showEffects = useEnhancedAnimations()
+  const [animatingChips, setAnimatingChips] = useState<Set<string>>(new Set())
+
   const handleToggle = (option: T) => {
+    const willSelect = !selected.includes(option)
+    
     if (selected.includes(option)) {
       onChange(selected.filter((s) => s !== option))
     } else {
@@ -32,6 +38,19 @@ export function Chips<T extends string>({
         // Don't add if at max
         return
       }
+      
+      // Trigger animation if selecting and effects are enabled
+      if (willSelect && showEffects) {
+        setAnimatingChips(prev => new Set(prev).add(option))
+        setTimeout(() => {
+          setAnimatingChips(prev => {
+            const next = new Set(prev)
+            next.delete(option)
+            return next
+          })
+        }, 180)
+      }
+      
       onChange([...selected, option])
     }
   }
@@ -45,6 +64,8 @@ export function Chips<T extends string>({
       {visibleOptions.map((option) => {
         const isSelected = selected.includes(option)
 
+        const isAnimating = animatingChips.has(option)
+
         return (
           <button
             key={option}
@@ -57,7 +78,8 @@ export function Chips<T extends string>({
               'border transition-all duration-150',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
               'active:scale-95',
-              isSelected
+              isAnimating && 'chip-fill-animate',
+              isSelected && !isAnimating
                 ? 'bg-accent text-foreground border-accent'
                 : 'bg-transparent text-foreground border-border hover:border-accent'
             )}

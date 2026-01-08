@@ -85,9 +85,9 @@ export async function decrypt(
   key: CryptoKey
 ): Promise<string> {
   const decryptedBuffer = await crypto.subtle.decrypt(
-    { name: 'AES-GCM', iv: iv.buffer as ArrayBuffer },
+    { name: 'AES-GCM', iv },
     key,
-    ciphertext.buffer as ArrayBuffer
+    ciphertext
   )
 
   const decoder = new TextDecoder()

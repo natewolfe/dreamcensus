@@ -5,7 +5,10 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { NAV_ITEMS } from '@/lib/constants'
 import { navIconMap } from './NavIcons'
+import { ChevronLeft, ChevronRight } from '@/components/ui'
 import { useSidebar } from '@/providers/sidebar-provider'
+import { ProfileMenu } from './ProfileMenu'
+import { ThemeCycleButton } from './ThemeCycleButton'
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -26,7 +29,7 @@ export function Sidebar() {
             >
               <span className="text-lg font-bold">🌙</span>
               <span className="whitespace-nowrap text-md font-semibold">
-                T I D E S
+                Dreamer
               </span>
             </Link>
           </div>
@@ -36,9 +39,7 @@ export function Sidebar() {
             className="flex items-center justify-center rounded-md px-3 py-3 text-muted opacity-50 hover:opacity-100 hover:bg-subtle/30 transition-all duration-150"
             aria-label="Collapse sidebar"
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            <ChevronLeft className="h-5 w-5" />
           </button>
         </div>
       ) : (
@@ -51,14 +52,7 @@ export function Sidebar() {
           >
             <span className="relative flex items-center justify-center">
               <span className="text-lg transition-opacity group-hover/expand:opacity-0">🌙</span>
-              <svg 
-                className="absolute h-5 w-5 opacity-0 transition-opacity group-hover/expand:opacity-100"
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <ChevronRight className="absolute h-5 w-5 opacity-0 transition-opacity group-hover/expand:opacity-100" />
             </span>
           </button>
         </div>
@@ -91,26 +85,14 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* User Menu */}
+      {/* Theme Toggle - aligned at bottom of nav area */}
+      <div className={cn('px-2 pb-2', isOpen ? 'pl-3' : 'flex justify-center')}>
+        <ThemeCycleButton />
+      </div>
+
+      {/* Account Section */}
       <div className="border-t border-border/30 p-2">
-        <Link
-          href="/settings"
-          className={cn(
-            'nav-link flex w-full items-center rounded-md px-1 py-2 text-sm font-medium transition-colors',
-            isOpen ? 'gap-3' : 'justify-center',
-            pathname?.startsWith('/settings')
-              ? 'text-foreground'
-              : 'text-muted hover:bg-subtle/30'
-          )}
-          title={!isOpen ? 'Settings' : undefined}
-        >
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-subtle/30">
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-          </div>
-          {isOpen && <span>Settings</span>}
-        </Link>
+        <ProfileMenu isExpanded={isOpen} />
       </div>
     </div>
   )

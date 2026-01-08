@@ -164,7 +164,7 @@ export function TagPool({
                   onKeyDown={handleKeyDown}
                   onBlur={handleAddCustom}
                   placeholder={customPlaceholder}
-                  className="h-9 w-40 text-sm"
+                  className="h-11 w-40 text-md text-center rounded-full"
                   autoFocus
                 />
               </motion.div>

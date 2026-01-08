@@ -105,7 +105,7 @@ export function SectionCard({
             
             {!isLocked && (
               <span className="text-sm font-medium text-accent">
-                {isComplete ? 'Review' : progress.answeredQuestions > 0 ? 'Continue' : 'Start'} →
+                {isComplete ? 'Review' : progress.answeredQuestions > 0 ? 'Continue' : 'Begin'} →
               </span>
             )}
           </div>

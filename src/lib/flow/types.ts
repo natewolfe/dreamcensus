@@ -4,6 +4,16 @@
 export type FlowDirection = 'forward' | 'back'
 
 /**
+ * Binary value types for yes/no, agree/disagree, true/false questions
+ */
+export type BinaryValue = 'yes' | 'no' | 'agree' | 'disagree' | 'true' | 'false'
+
+/**
+ * Binary question variants
+ */
+export type BinaryVariant = 'yes_no' | 'agree_disagree' | 'true_false'
+
+/**
  * Base props for flow step components
  * Provides consistent navigation and progress tracking
  */

@@ -11,6 +11,8 @@ export interface TextAreaProps {
   rows?: number
   disabled?: boolean
   className?: string
+  /** Called when Ctrl/Cmd+Enter is pressed to advance to next step */
+  onEnterAdvance?: () => void
 }
 
 export function TextArea({
@@ -22,15 +24,27 @@ export function TextArea({
   rows = 4,
   disabled = false,
   className,
+  onEnterAdvance,
 }: TextAreaProps) {
   const remaining = maxLength - value.length
   const isValid = value.length >= minLength
+
+  // Handle Ctrl/Cmd+Enter for advancing
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey) && !e.nativeEvent.isComposing) {
+      if (onEnterAdvance) {
+        e.preventDefault()
+        onEnterAdvance()
+      }
+    }
+  }
 
   return (
     <div className={cn('space-y-2', className)}>
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
         maxLength={maxLength}
         rows={rows}

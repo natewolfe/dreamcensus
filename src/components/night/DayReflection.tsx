@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { FlowCard, EmojiCardGroup } from '@/components/ui'
 import { useSubStepFlow } from '@/hooks/use-sub-step-flow'
 import { useDebouncedCommit } from '@/hooks/use-debounced-commit'
@@ -25,6 +25,8 @@ export function DayReflection({
 }: DayReflectionProps) {
   const [mood, setMood] = useState<MoodType | null>(null)
   const [notes, setNotes] = useState('')
+  // Track the mood value when we last auto-advanced, to allow re-advance on change
+  const lastAutoAdvancedMood = useRef<MoodType | null>(null)
 
   const { subStep, direction, goNext, goBack } = useSubStepFlow({
     steps: SUB_STEPS,
@@ -40,12 +42,15 @@ export function DayReflection({
     onBack,
   })
   
-  // Track if mood was already set (user went back)
-  const isMoodAnswered = mood !== null
+  // Only disable auto-advance if mood hasn't changed since last auto-advance
+  const shouldDisableAutoAdvance = mood !== null && mood === lastAutoAdvancedMood.current
   
   const { scheduleCommit: commitMood } = useDebouncedCommit({
-    onCommit: goNext,
-    disabled: isMoodAnswered || subStep !== 'mood',
+    onCommit: () => {
+      lastAutoAdvancedMood.current = mood
+      goNext()
+    },
+    disabled: shouldDisableAutoAdvance || subStep !== 'mood',
   })
 
   // Render step content

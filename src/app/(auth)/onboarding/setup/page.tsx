@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Card, Button } from '@/components/ui'
+import { Card, Button, Switch } from '@/components/ui'
 
 type OnboardingStep = 'privacy' | 'rhythm' | 'first_moment' | 'complete'
 
@@ -149,17 +149,11 @@ function PrivacyScreen({
                 </p>
               </div>
             </div>
-            <div
-              className={`w-12 h-6 rounded-full p-1 transition-colors ${
-                selections.insights ? 'bg-accent' : 'bg-muted/30'
-              }`}
-            >
-              <div
-                className={`w-4 h-4 rounded-full bg-white transition-transform ${
-                  selections.insights ? 'translate-x-6' : 'translate-x-0'
-                }`}
-              />
-            </div>
+            <Switch
+              checked={selections.insights}
+              onChange={(checked) => onChange({ ...selections, insights: checked })}
+              aria-label="Enable personal insights"
+            />
           </div>
         </button>
 
@@ -193,17 +187,12 @@ function PrivacyScreen({
                 )}
               </div>
             </div>
-            <div
-              className={`w-12 h-6 rounded-full p-1 transition-colors ${
-                selections.commons ? 'bg-accent' : 'bg-muted/30'
-              }`}
-            >
-              <div
-                className={`w-4 h-4 rounded-full bg-white transition-transform ${
-                  selections.commons ? 'translate-x-6' : 'translate-x-0'
-                }`}
-              />
-            </div>
+            <Switch
+              checked={selections.commons}
+              onChange={(checked) => selections.insights && onChange({ ...selections, commons: checked })}
+              disabled={!selections.insights}
+              aria-label="Enable dream weather"
+            />
           </div>
         </button>
 
@@ -237,17 +226,12 @@ function PrivacyScreen({
                 )}
               </div>
             </div>
-            <div
-              className={`w-12 h-6 rounded-full p-1 transition-colors ${
-                selections.studies ? 'bg-accent' : 'bg-muted/30'
-              }`}
-            >
-              <div
-                className={`w-4 h-4 rounded-full bg-white transition-transform ${
-                  selections.studies ? 'translate-x-6' : 'translate-x-0'
-                }`}
-              />
-            </div>
+            <Switch
+              checked={selections.studies}
+              onChange={(checked) => selections.commons && onChange({ ...selections, studies: checked })}
+              disabled={!selections.commons}
+              aria-label="Enable research studies"
+            />
           </div>
         </button>
       </div>

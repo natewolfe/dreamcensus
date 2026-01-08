@@ -32,6 +32,8 @@
   --animate-scale-in: scale-in 0.2s ease-out;
   --animate-spin: spin 1s linear infinite;
   --animate-breathe: breathe 4s ease-in-out infinite;
+  --animate-special-gradient: special-gradient 10s ease-in-out infinite;
+  --animate-special-shimmer: special-shimmer 6s ease-in-out infinite;
 }
 
 /* =============================================================================
@@ -125,6 +127,12 @@
   --weather-calm: var(--accent);
   --weather-pleasant: #c4a2ff;
   --weather-radiant: #69f0ae;
+  
+  /* Special button gradient colors */
+  --special-start: #9575cd;       /* Deep lavender */
+  --special-mid: #7986cb;         /* Periwinkle blue */
+  --special-end: #5c6bc0;         /* Indigo blue */
+  --special-glow: #b39ddb;        /* Light lavender glow */
 }
 
 /* =============================================================================
@@ -162,6 +170,12 @@
   
   /* Weather chart colors */
   --weather-calm: var(--accent);
+  
+  /* Special button - warm dawn tones */
+  --special-start: #e8b4a0;
+  --special-mid: #efd6bb;
+  --special-end: #e4c791;
+  --special-glow: #f2dfd3;
 }
 
 /* Day (8am-6pm) - Bright with off-white, gold and blue accents */
@@ -195,13 +209,19 @@
   
   /* Weather chart colors */
   --weather-calm: var(--accent);
+  
+  /* Special button - golden daylight */
+  --special-start: #90886a;
+  --special-mid: #5e88a6;
+  --special-end: #3d5a85;
+  --special-glow: #c4ab57;
 }
 
 /* Dusk (6-9pm) - Warm transition with gold, pale red and mauve */
 .theme-dusk {
   --background: #2a2030;
   --foreground: #f0e8e0;
-  --accent: #d4a054;
+  --accent: #cea05e;
   --muted: #c08080;
   --subtle: #705860;
   --border: #453a50;
@@ -212,11 +232,11 @@
   --ring-fill: var(--accent);
   --ring-glow: rgba(212, 160, 84, 0.3);
   
-  --constellation-node: #d4a054;
+  --constellation-node: #cea05e;
   --constellation-edge: rgba(212, 160, 84, 0.3);
   --constellation-pulse: rgba(212, 160, 84, 0.5);
   
-  --breathe-inhale: #d4a054;
+  --breathe-inhale: #cea05e;
   --breathe-hold: #c08080;
   --breathe-exhale: #a86868;
   
@@ -228,6 +248,12 @@
   
   /* Weather chart colors */
   --weather-calm: var(--accent);
+  
+  /* Special button - warm dusk tones */
+  --special-start: #705860;
+  --special-mid: #a86868;
+  --special-end: #8a6f49;
+  --special-glow: #cea05e;
 }
 
 /* Night (9pm-5am) - Deep rest with dark blue-purple, dark gray, and silver-cyan */
@@ -261,6 +287,12 @@
   
   /* Weather chart colors */
   --weather-calm: var(--accent);
+  
+  /* Special button - cool night tones */
+  --special-start: #7a7e96;
+  --special-mid: #50839e;
+  --special-end: #3f4774;
+  --special-glow: #66afd4;
 }
 
 /* =============================================================================
@@ -488,6 +520,236 @@ a:not(.btn-link):not(.nav-link):hover {
   }
   50% {
     opacity: 0.6;
+  }
+}
+
+/* Special button gradient animation */
+@keyframes special-gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Special button shimmer animation */
+@keyframes special-shimmer {
+  0% {
+    background-position: -200% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Census constellation animations */
+@keyframes constellation-node-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 var(--constellation-pulse));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 8px var(--constellation-pulse));
+  }
+}
+
+@keyframes constellation-edge-draw {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Chip selection radial fill */
+@keyframes chip-radial-fill {
+  0% {
+    background-size: 0% 0%;
+  }
+  100% {
+    background-size: 250% 250%;
+  }
+}
+
+.chip-fill-animate {
+  background-image: radial-gradient(
+    circle at center,
+    var(--accent) 0%,
+    var(--accent) 40%,
+    transparent 40%
+  );
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: chip-radial-fill 180ms ease-out forwards;
+}
+
+/* Button ripple on press */
+@keyframes button-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), 
+    rgba(255,255,255,0.3) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.btn-ripple:active::after {
+  animation: button-ripple 400ms ease-out forwards;
+}
+
+/* Input focus pulse */
+@keyframes input-focus-pulse {
+  0% { box-shadow: 0 0 0 0 var(--accent); }
+  50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.input-pulse-focus:focus-visible {
+  animation: input-focus-pulse 300ms ease-out;
+}
+
+/* Slider value pop */
+@keyframes value-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.slider-value-pop {
+  animation: value-pop 150ms ease-out;
+}
+
+/* Save success shimmer */
+@keyframes shimmer-sweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.save-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.save-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.save-shimmer.shimmer-active::after {
+  opacity: 1;
+  animation: shimmer-sweep 500ms ease-out forwards;
+}
+
+/* Dream mist ambient background */
+.dream-mist-layer {
+  background: 
+    radial-gradient(ellipse at 25% 35%, 
+      color-mix(in srgb, var(--accent) calc(8% * var(--mist-intensity, 1)), transparent), 
+      transparent 50%),
+    radial-gradient(ellipse at 75% 65%, 
+      color-mix(in srgb, var(--muted) calc(6% * var(--mist-intensity, 1)), transparent), 
+      transparent 45%);
+  animation: mist-drift 50s ease-in-out infinite alternate;
+}
+
+@keyframes mist-drift {
+  0% { background-position: 0% 0%, 100% 100%; }
+  100% { background-position: 100% 100%, 0% 0%; }
+}
+
+/* Dawn gradient rise */
+@keyframes dawn-rise {
+  from { 
+    opacity: 0;
+    transform: translateY(15%);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.theme-dawn .dawn-rise-effect {
+  animation: dawn-rise 1.2s ease-out forwards;
+}
+
+/* Toast glow effects */
+.toast-success {
+  box-shadow: 0 0 20px color-mix(in srgb, #22c55e 20%, transparent);
+}
+
+.toast-error {
+  box-shadow: 0 0 20px color-mix(in srgb, #ef4444 20%, transparent);
+}
+
+.toast-warning {
+  box-shadow: 0 0 20px color-mix(in srgb, #eab308 20%, transparent);
+}
+
+.toast-info {
+  box-shadow: 0 0 20px color-mix(in srgb, #3b82f6 20%, transparent);
+}
+
+/* Reduced motion: instant transitions */
+@media (prefers-reduced-motion: reduce) {
+  .chip-fill-animate {
+    animation: none;
+    background-size: 250% 250%;
+  }
+  
+  .btn-ripple:active::after {
+    animation: none;
+  }
+  
+  .input-pulse-focus:focus-visible {
+    animation: none;
+  }
+  
+  .slider-value-pop {
+    animation: none;
+  }
+  
+  .save-shimmer.shimmer-active::after {
+    animation: none;
+  }
+  
+  .dream-mist-layer {
+    animation: none;
+  }
+  
+  .theme-dawn .dawn-rise-effect {
+    animation: none;
+  }
+  
+  .toast-success,
+  .toast-error,
+  .toast-warning,
+  .toast-info {
+    box-shadow: none;
   }
 }
 

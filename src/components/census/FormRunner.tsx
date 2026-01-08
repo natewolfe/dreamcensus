@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { Button, ProgressBar } from '@/components/ui'
+import { Button, ProgressBar, FlowNavHeader, EmptyState } from '@/components/ui'
 import { QuestionRenderer } from './QuestionRenderer'
 import { getDefaultValue } from './defaults'
 import { getSkipBehavior } from './types'
@@ -140,42 +140,25 @@ export function FormRunner({
 
   if (!currentQuestion) {
     return (
-      <div className="text-center py-12 text-muted">
-        <p>No questions available</p>
-      </div>
+      <EmptyState
+        icon="📋"
+        title="No questions available"
+      />
     )
   }
 
   return (
     <div className="space-y-8">
       {/* Navigation header: [<-] [X of Y] [->] */}
-      <div className="flex items-center justify-between">
-        <button
-          onClick={goBack}
-          disabled={isFirstQuestion}
-          className="p-2 text-muted hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-          aria-label="Previous question"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-
-        <span className="text-sm text-muted">
-          {safeIndex + 1} of {questions.length}
-        </span>
-
-        <button
-          onClick={goForward}
-          disabled={!canGoForward}
-          className="p-2 text-muted hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-          aria-label="Next question"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
+      <FlowNavHeader
+        onBack={goBack}
+        onForward={goForward}
+        canGoBack={!isFirstQuestion}
+        canGoForward={canGoForward}
+        progress={{ current: safeIndex + 1, total: questions.length }}
+        backLabel="Previous question"
+        forwardLabel="Next question"
+      />
 
       {/* Progress bar */}
       <ProgressBar

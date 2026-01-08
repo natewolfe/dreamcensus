@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Card, Modal } from '@/components/ui'
 import { TierToggle } from './TierToggle'
 import { cn } from '@/lib/utils'
+import { useToast } from '@/hooks/use-toast'
 import type { ConsentSettingsProps, ConsentTier } from './types'
 
 const TIER_MODALS: Record<ConsentTier, {
@@ -57,13 +58,14 @@ export function ConsentSettings({
   onUpdate,
 }: ConsentSettingsProps) {
   const [showModal, setShowModal] = useState<ConsentTier | null>(null)
+  const { toast } = useToast()
 
   const handleToggle = async (tier: ConsentTier, granted: boolean) => {
     try {
       await onUpdate(tier, granted)
     } catch (error) {
       console.error('Failed to update consent:', error)
-      // TODO: Show error toast
+      toast.error('Failed to update consent settings')
     }
   }
 

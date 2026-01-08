@@ -11,8 +11,27 @@ export { ProgressRing } from './ProgressRing'
 export { ProgressBar, type ProgressBarProps } from './ProgressBar'
 export { FAB } from './FAB'
 export { EmotionWheel } from './EmotionWheel'
-export { Skeleton, DreamCardSkeleton, WeatherChartSkeleton } from './Skeleton'
+export { 
+  Skeleton, 
+  DreamCardSkeleton, 
+  WeatherChartSkeleton,
+  PageHeaderSkeleton,
+  CardSkeleton,
+  StatCardSkeleton,
+  SectionSkeleton,
+  RitualCardSkeleton,
+  SettingsLinkSkeleton,
+} from './Skeleton'
 export { RitualCard, type RitualCardProps } from './RitualCard'
+
+// Icons
+export { ChevronLeft, ChevronRight, UndoIcon, ListIcon } from './Icons'
+
+// Flow navigation
+export { FlowNavHeader, type FlowNavHeaderProps } from './FlowNavHeader'
+
+// Empty state
+export { EmptyState, type EmptyStateProps } from './EmptyState'
 
 // New unified primitives
 export { BinaryButtons, type BinaryButtonsProps, type BinaryVariant, type BinaryValue } from './BinaryButtons'
@@ -46,3 +65,5 @@ export { Toaster, type ToasterProps } from './Toaster'
 // Loading overlay
 export { LoadingOverlay, type LoadingOverlayProps } from './LoadingOverlay'
 
+// Auth components
+export { PinInput, type PinInputProps, type PinInputRef } from './PinInput'

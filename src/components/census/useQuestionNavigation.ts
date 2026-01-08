@@ -75,10 +75,12 @@ export function useQuestionNavigation(
   const shouldDisableAutoAdvance = useMemo(() => {
     if (!currentQuestion) return true
     if (isLastQuestion) return true // Never auto-advance on last question
-    if (isReturning) return true // User went back to review/change answer
+    // Only disable auto-advance when returning to review an unchanged answer
+    // If user changes their answer, allow auto-advance again
+    if (isReturning && !isModified) return true
     if (!shouldAutoAdvance(currentQuestion.type, currentQuestion.config)) return true
     return false
-  }, [currentQuestion, isLastQuestion, isReturning])
+  }, [currentQuestion, isLastQuestion, isReturning, isModified])
   
   // Button state computation using shared utility
   const buttonState: ButtonState = useMemo(() => {

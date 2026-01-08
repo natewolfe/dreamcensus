@@ -1,19 +1,15 @@
 import { PageHeader } from '@/components/layout'
 import { Card } from '@/components/ui'
-import { ConstellationView } from '@/components/insights/ConstellationView'
-import { getInsightsStats, getDreamEntities } from './actions'
+import { getInsightsStats } from './actions'
 
 export default async function InsightsPage() {
   const statsResult = await getInsightsStats()
-  const entitiesResult = await getDreamEntities()
 
   const stats = statsResult.success ? statsResult.data : {
     dreamCount: 0,
     streak: 0,
     censusProgress: 0,
   }
-
-  const entities = entitiesResult.success ? entitiesResult.data : []
 
   return (
     <div id="main-content" className="container mx-auto max-w-6xl px-4 py-8">
@@ -40,16 +36,6 @@ export default async function InsightsPage() {
             </div>
           </div>
         </Card>
-
-        {entities.length > 0 && (
-          <Card padding="lg">
-            <h2 className="text-lg font-semibold mb-4">Dream Constellation</h2>
-            <p className="text-sm text-muted mb-4">
-              Recurring emotions and themes in your dreams
-            </p>
-            <ConstellationView entities={entities} />
-          </Card>
-        )}
 
         <Card padding="lg">
           <h2 className="text-lg font-semibold mb-2">Settings</h2>

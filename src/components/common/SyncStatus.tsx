@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { getPendingCount } from '@/lib/offline/sync'
 
 export interface SyncStatusProps {
   className?: string
@@ -11,16 +12,15 @@ type SyncState = 'idle' | 'syncing' | 'success' | 'error'
 
 export function SyncStatus({ className }: SyncStatusProps) {
   const [state] = useState<SyncState>('idle')
-  const [pendingCount] = useState(0)
+  const [pendingCount, setPendingCount] = useState(0)
 
   useEffect(() => {
     // In a real implementation, this would check IndexedDB for pending sync items
     // For now, this is a placeholder that demonstrates the UI states
     
     const checkSyncStatus = async () => {
-      // TODO: Implement actual sync queue checking
-      // const queue = await getSyncQueue()
-      // setPendingCount(queue.filter(item => item.status === 'pending').length)
+      const count = await getPendingCount()
+      setPendingCount(count)
     }
 
     checkSyncStatus()

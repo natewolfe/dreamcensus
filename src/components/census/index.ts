@@ -6,10 +6,11 @@ export { SectionCard } from './SectionCard'
 export { SectionRunner } from './SectionRunner'
 export { FormRunner } from './FormRunner'
 export { CensusOverview } from './CensusOverview'
-export { CategoryOverview } from './CategoryOverview'
-export { CategoryCard } from './CategoryCard'
+export { CensusConstellation } from './CensusConstellation'
 
 // Utilities
 export * from './types'
 export * from './defaults'
+export * from './constants'
+export * from './constellation-types'
 export { useQuestionNavigation } from './useQuestionNavigation'

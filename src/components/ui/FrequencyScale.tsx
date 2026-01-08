@@ -77,7 +77,7 @@ export function FrequencyScale({
               whileHover={!disabled ? { scale: 1.08 } : undefined}
               whileTap={!disabled ? { scale: 0.95 } : undefined}
               className={cn(
-                'flex-1 rounded-lg py-3 text-sm font-semibold transition-all',
+                'flex-1 rounded-lg py-4 text-md font-semibold transition-all',
                 'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent',
                 isSelected && 'bg-accent border-accent text-foreground shadow-md',
                 !isSelected && 'border-border bg-card-bg text-muted hover:text-foreground hover:border-accent/50',

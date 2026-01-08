@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { Card, Button, Input } from '@/components/ui'
+import { Card, Button, Input, PinInput } from '@/components/ui'
 import { sendAuthCode, verifyAuthCode, resetUserDatabase } from '@/app/(auth)/actions'
 
 type AuthStep = 'email' | 'code' | 'loading'
@@ -51,11 +51,15 @@ export function AuthFlow({ mode }: AuthFlowProps) {
 
   const handleCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    verifyCode(code)
+  }
+
+  const verifyCode = (codeToVerify: string) => {
     setError(null)
 
     startTransition(async () => {
       setStep('loading')
-      const result = await verifyAuthCode(email, code)
+      const result = await verifyAuthCode(email, codeToVerify)
       if (result.success && result.redirectTo) {
         router.push(result.redirectTo)
       } else {
@@ -63,6 +67,10 @@ export function AuthFlow({ mode }: AuthFlowProps) {
         setError(result.error ?? 'Verification failed')
       }
     })
+  }
+
+  const handlePinComplete = (completedCode: string) => {
+    verifyCode(completedCode)
   }
 
   const handleResendCode = () => {
@@ -142,35 +150,31 @@ export function AuthFlow({ mode }: AuthFlowProps) {
 
         {/* Code Step */}
         {step === 'code' && (
-          <form onSubmit={handleCodeSubmit} className="space-y-4">
-            <div className="mb-4 rounded-lg bg-accent/10 p-4 text-center">
+          <form onSubmit={handleCodeSubmit} className="space-y-6">
+            <div className="rounded-lg bg-accent/10 p-4 text-center">
               <p className="text-sm text-muted mb-1">Demo mode: Your code is</p>
               <p className="text-3xl font-mono font-bold tracking-widest text-accent">
                 123456
               </p>
             </div>
 
-            <Input
-              label="Confirmation code"
-              type="text"
-              placeholder="Enter 6-digit code"
-              value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              required
-              autoFocus
-              inputMode="numeric"
-              pattern="[0-9]*"
-            />
+            <div className="py-2">
+              <PinInput
+                length={6}
+                value={code}
+                onChange={setCode}
+                onComplete={handlePinComplete}
+                error={error ?? undefined}
+                disabled={isPending}
+                autoFocus
+                label="Enter your 6-digit confirmation code"
+                size="lg"
+              />
+            </div>
 
-            <p className="text-xs text-muted">
+            <p className="text-xs text-muted text-center">
               We sent a code to <strong>{email}</strong>
             </p>
-
-            {error && (
-              <p className="text-sm text-red-500 bg-red-500/10 rounded-lg p-3">
-                {error}
-              </p>
-            )}
 
             <Button fullWidth type="submit" disabled={isPending || code.length !== 6}>
               {isPending ? 'Verifying...' : 'Verify & Continue'}
