@@ -187,7 +187,7 @@ export function CensusConstellation({
                   r={star.size}
                   className={cn(isClickable && 'cursor-pointer', fillClass)}
                   style={{ pointerEvents: 'all' }}
-                  fillOpacity={isLocked ? 0.5 : 1}
+                  fillOpacity={isLocked ? 0.3 : 1}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.02 }}

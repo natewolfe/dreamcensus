@@ -181,7 +181,7 @@ export function generateConstellation(
   
   // Constants for spacing - enforce generous minimums
   const MIN_STAR_DISTANCE = 40
-  const MIN_LINE_DISTANCE = 38
+  const MIN_LINE_DISTANCE = 48
   
   // 1. Place Kind stars
   const kindStars = placeKindStarsGridBased(kinds, width, height, margin, rng)
