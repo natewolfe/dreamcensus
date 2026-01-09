@@ -1,0 +1,46 @@
+{
+  "name": "Dream Census",
+  "short_name": "Dreams",
+  "description": "A ritual-first dream reflection app with research-grade data collection",
+  "start_url": "/today",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0c0e1a",
+  "theme_color": "#b093ff",
+  "categories": ["health", "lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Morning Capture",
+      "short_name": "Capture",
+      "description": "Log a dream",
+      "url": "/today/morning"
+    },
+    {
+      "name": "Night Check-in",
+      "short_name": "Night",
+      "description": "Pre-sleep ritual",
+      "url": "/today/night"
+    }
+  ]
+}
