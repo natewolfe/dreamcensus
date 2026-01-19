@@ -13,6 +13,7 @@ export function SectionRunner({
   initialAnswers,
   onComplete,
   onExit,
+  onAnswersChange,
 }: SectionRunnerProps) {
   const nav = useQuestionNavigation(
     section.questions,
@@ -22,6 +23,21 @@ export function SectionRunner({
   const contentRef = useRef<HTMLDivElement>(null)
   
   void onExit // Exit handled at page level
+  
+  // Stable reference for initial state comparison
+  const initialAnswersJson = useRef(
+    JSON.stringify([...initialAnswers.entries()].sort(([a], [b]) => a.localeCompare(b)))
+  )
+  
+  // Notify parent of answer changes
+  useEffect(() => {
+    if (onAnswersChange) {
+      const currentJson = JSON.stringify(
+        [...nav.answers.entries()].sort(([a], [b]) => a.localeCompare(b))
+      )
+      onAnswersChange(nav.answers, currentJson !== initialAnswersJson.current)
+    }
+  }, [nav.answers, onAnswersChange])
   
   // Auto-save to localStorage
   useEffect(() => {

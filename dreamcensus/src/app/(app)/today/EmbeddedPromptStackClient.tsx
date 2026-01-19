@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { EmbeddedPromptStack } from '@/components/prompts'
 import { saveStreamResponse } from '../prompts/actions'
 import type { PromptQuestion } from '@/components/prompts'
-import type { BinaryValue } from '@/components/ui'
+import type { BinaryValue } from '@/lib/flow/types'
 
 interface EmbeddedPromptStackClientProps {
   initialQuestions: PromptQuestion[]

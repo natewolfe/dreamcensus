@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, useMotionValue, animate } from 'motion/react'
 import { useRouter } from 'next/navigation'
 import type { PromptQuestion } from './usePromptState'
-import type { BinaryValue } from '@/components/ui'
+import { BINARY_VARIANT_CONFIG, type BinaryValue } from '@/lib/flow/types'
 import Link from 'next/link'
 
 interface EmbeddedPromptStackProps {
@@ -15,9 +15,13 @@ interface EmbeddedPromptStackProps {
 export function EmbeddedPromptStack({ questions, onResponse }: EmbeddedPromptStackProps) {
   const router = useRouter()
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [answeredCount, setAnsweredCount] = useState(0)
+  const [lastDismissedAt, setLastDismissedAt] = useState(0) // Track when overlay was dismissed
   const x = useMotionValue(0)
   
   const currentQuestion = questions[currentIndex]
+  // Show "after 3 answers" overlay when 3+ answers since last dismissal
+  const showPromptsShortcut = currentQuestion && (answeredCount - lastDismissedAt) >= 3
 
   const handleDragEnd = (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
     const velocityThreshold = 500
@@ -43,25 +47,50 @@ export function EmbeddedPromptStack({ questions, onResponse }: EmbeddedPromptSta
     if (!currentQuestion) return
     
     await onResponse(currentQuestion.id, response)
-    setCurrentIndex(i => Math.min(i + 1, questions.length - 1))
+    setAnsweredCount(c => c + 1)
+    // Allow index to go beyond array length so currentQuestion becomes undefined after last answer
+    setCurrentIndex(i => i + 1)
   }
 
-  const getResponseLabels = () => {
-    if (!currentQuestion) return { left: 'NO', right: 'YES', leftValue: 'no' as BinaryValue, rightValue: 'yes' as BinaryValue }
-    
-    switch (currentQuestion.variant) {
-      case 'yes_no':
-        return { left: 'NO', right: 'YES', leftValue: 'no' as BinaryValue, rightValue: 'yes' as BinaryValue }
-      case 'agree_disagree':
-        return { left: 'DISAGREE', right: 'AGREE', leftValue: 'disagree' as BinaryValue, rightValue: 'agree' as BinaryValue }
-      case 'true_false':
-        return { left: 'FALSE', right: 'TRUE', leftValue: 'false' as BinaryValue, rightValue: 'true' as BinaryValue }
-    }
+  // Get response labels from shared config (uppercase for embedded UI)
+  const config = currentQuestion ? BINARY_VARIANT_CONFIG[currentQuestion.variant] : BINARY_VARIANT_CONFIG.yes_no
+  const labels = {
+    left: config.leftLabel.toUpperCase(),
+    right: config.rightLabel.toUpperCase(),
+    leftValue: config.left,
+    rightValue: config.right,
   }
-
-  const labels = getResponseLabels()
 
   if (!currentQuestion) {
+    // Show completion card if we've answered prompts, otherwise show empty state
+    if (answeredCount > 0) {
+      return (
+        <section aria-label="Daily prompts" className="mb-10">
+          <div className="flex items-center justify-end mb-4">
+            <Link
+              href="/prompts"
+              className="text-sm text-accent hover:text-accent/80 transition-colors duration-300"
+            >
+              See more →
+            </Link>
+          </div>
+          <div className="relative h-[300px] md:h-[340px]">
+            <div className="absolute inset-0 rounded-2xl border-2 border-dashed border-muted/20 flex flex-col items-center justify-center gap-4">
+              <p className="text-muted text-sm">
+                Excellent! You've answered {answeredCount} prompt{answeredCount !== 1 ? 's' : ''}
+              </p>
+              <button
+                onClick={() => router.push('/prompts')}
+                className="px-6 py-3 bg-accent text-foreground rounded-xl font-medium hover:bg-accent/90 transition-colors cursor-pointer"
+              >
+                Continue to Prompts →
+              </button>
+            </div>
+          </div>
+        </section>
+      )
+    }
+    
     return (
       <section className="rounded-2xl bg-card-bg border border-border p-8 text-center">
         <p className="text-muted">No prompts available</p>
@@ -115,14 +144,23 @@ export function EmbeddedPromptStack({ questions, onResponse }: EmbeddedPromptSta
           style={{ x, backfaceVisibility: 'hidden', willChange: 'transform' }}
           className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing rounded-2xl bg-card-bg border-2 border-border transition-all duration-300 hover:shadow-xl flex flex-col overflow-hidden"
         >
-            {/* Category badge */}
-            <div className="px-5 pt-4">
-              <span className="text-xs font-medium text-accent uppercase tracking-widest">
-                {currentQuestion.category}
-              </span>
+            {/* Category badge - absolutely positioned */}
+            <div className="absolute top-0 left-0 px-5 pt-4 text-xs font-medium text-accent uppercase tracking-widest">
+              {currentQuestion.category}
             </div>
 
-            {/* Question text - click to navigate to prompts stream */}
+            {/* Skip button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setCurrentIndex(i => i + 1)
+              }}
+              className="absolute top-3 right-4 text-sm text-muted hover:text-foreground transition-colors opacity-50 hover:opacity-100 z-10"
+            >
+              Skip
+            </button>
+
+            {/* Question text - click to open prompts page */}
             <div 
               className="flex-1 flex items-center justify-center px-6 py-4 cursor-pointer"
               onClick={() => router.push('/prompts')}
@@ -142,9 +180,9 @@ export function EmbeddedPromptStack({ questions, onResponse }: EmbeddedPromptSta
               </button>
               <button
                 onClick={handleExpand}
-                className="flex-1 py-3.5 text-sm font-medium text-muted hover:text-accent hover:bg-accent/10 transition-all border-r border-border cursor-pointer"
+                className="flex-1 py-3.5 text-sm font-medium text-muted hover:text-accent hover:bg-accent/10 transition-all border-r border-border cursor-pointer uppercase"
               >
-                Expand
+                More
               </button>
               <button
                 onClick={() => handleResponse(labels.rightValue)}
@@ -153,6 +191,27 @@ export function EmbeddedPromptStack({ questions, onResponse }: EmbeddedPromptSta
                 {labels.right}
               </button>
             </div>
+
+            {/* Shortcut overlay after 3 answers */}
+            {showPromptsShortcut && (
+              <div className="absolute inset-0 rounded-2xl flex flex-col items-center justify-center gap-4 z-20 bg-card-bg/95 backdrop-blur-sm">
+                <p className="text-muted text-sm">
+                  Nice! You've answered {answeredCount} prompts
+                </p>
+                <button
+                  onClick={() => router.push('/prompts')}
+                  className="px-6 py-3 bg-accent text-foreground rounded-xl font-medium hover:bg-accent/90 transition-colors cursor-pointer"
+                >
+                  Continue to Prompts →
+                </button>
+                <button
+                  onClick={() => setLastDismissedAt(answeredCount)}
+                  className="text-sm text-muted hover:text-foreground transition-colors cursor-pointer"
+                >
+                  Keep answering here
+                </button>
+              </div>
+            )}
         </motion.div>
       </div>
     </section>

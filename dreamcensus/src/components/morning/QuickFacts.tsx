@@ -74,7 +74,7 @@ export function QuickFacts({
                   'w-full rounded-xl px-5 py-4 text-center transition-all',
                   'border',
                   recallLevel === level.value
-                    ? 'bg-accent/20 border-2 border-accent text-foreground'
+                    ? 'bg-muted/20 border-2 border-muted text-foreground'
                     : 'bg-card-bg border border-border text-muted hover:border-accent/50 hover:text-foreground'
                 )}
               >

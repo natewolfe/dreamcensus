@@ -15,14 +15,14 @@ const ThemeContext = createContext<ThemeContextValue | null>(null)
 
 /**
  * Determine theme based on current time
- * Dawn: 5am-8am, Day: 8am-6pm, Dusk: 6pm-9pm, Night: 9pm-5am
+ * Dawn: 6am-11am, Day: 11am-5pm, Dusk: 5pm-10pm, Night: 10pm-6am
  */
 function getTimeBasedTheme(): ThemeName {
   const hour = new Date().getHours()
   
-  if (hour >= 5 && hour < 8) return 'dawn'
-  if (hour >= 8 && hour < 18) return 'day'
-  if (hour >= 18 && hour < 21) return 'dusk'
+  if (hour >= 6 && hour < 11) return 'dawn'
+  if (hour >= 11 && hour < 17) return 'day'
+  if (hour >= 17 && hour < 22) return 'dusk'
   return 'night'
 }
 

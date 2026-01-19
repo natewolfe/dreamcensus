@@ -53,7 +53,7 @@ export function AlarmWidget({
         aria-label={isArmed ? 'Alarm armed' : 'Alarm disarmed'}
       >
         <motion.div
-          className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm"
+          className="absolute top-0.5 left-0.5 w-5 h-5 bg-accent rounded-full shadow-sm"
           animate={{
             x: isArmed ? 24 : 0,
           }}

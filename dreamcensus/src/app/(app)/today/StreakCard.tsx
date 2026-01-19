@@ -21,7 +21,7 @@ export function StreakCard({ streakCount }: StreakCardProps) {
         </span>
         {streakCount > 0 ? (
           <>
-            <span className="text-2xl sm:text-3xl font-medium tabular-nums text-foreground">
+            <span className="text-2xl sm:text-3xl font-medium tabular-nums text-accent">
               {streakCount}
             </span>
             <span className="mt-0.5 text-[10px] tracking-wide text-muted">

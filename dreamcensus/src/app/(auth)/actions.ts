@@ -65,7 +65,7 @@ export async function sendAuthCode(
     // In production: send actual email here
     // For mock: code is always 123456 and shown in UI
 
-    return { success: true }
+    return { success: true, data: undefined }
   } catch {
     return { success: false, error: 'Failed to send verification code' }
   }
@@ -147,6 +147,31 @@ export async function resetUserDatabase(): Promise<ActionResult<void>> {
     return { success: true, data: undefined }
   } catch {
     return { success: false, error: 'Failed to reset database' }
+  }
+}
+
+/**
+ * Create a private (device-only) session without email
+ * User can later upgrade to email-based account
+ */
+export async function createPrivateSession(): Promise<ActionResult<void>> {
+  try {
+    // Create user without email (private/local mode)
+    const user = await db.user.create({
+      data: {
+        // No email - this is a private session
+        displayName: null,
+        keyRecoveryMethod: 'device', // Keys stored on device only
+      },
+    })
+
+    // Create session
+    await createSession(user.id)
+
+    return { success: true, data: undefined }
+  } catch (error) {
+    console.error('Failed to create private session:', error)
+    return { success: false, error: 'Failed to create session' }
   }
 }
 

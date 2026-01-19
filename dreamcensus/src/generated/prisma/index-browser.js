@@ -278,40 +278,6 @@ exports.Prisma.CensusProgressScalarFieldEnum = {
   completedAt: 'completedAt'
 };
 
-exports.Prisma.CensusCategoryScalarFieldEnum = {
-  id: 'id',
-  slug: 'slug',
-  name: 'name',
-  description: 'description',
-  icon: 'icon',
-  color: 'color',
-  sortOrder: 'sortOrder',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.CensusFormScalarFieldEnum = {
-  id: 'id',
-  categoryId: 'categoryId',
-  slug: 'slug',
-  name: 'name',
-  description: 'description',
-  estimatedMinutes: 'estimatedMinutes',
-  sortOrder: 'sortOrder',
-  prerequisiteFormId: 'prerequisiteFormId',
-  promptThreshold: 'promptThreshold',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.CategoryProgressScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  categoryId: 'categoryId',
-  promptAnswers: 'promptAnswers',
-  formsStarted: 'formsStarted',
-  formsComplete: 'formsComplete',
-  lastActivityAt: 'lastActivityAt'
-};
-
 exports.Prisma.PromptScalarFieldEnum = {
   id: 'id',
   text: 'text',
@@ -518,9 +484,6 @@ exports.Prisma.ModelName = {
   CensusQuestion: 'CensusQuestion',
   CensusAnswer: 'CensusAnswer',
   CensusProgress: 'CensusProgress',
-  CensusCategory: 'CensusCategory',
-  CensusForm: 'CensusForm',
-  CategoryProgress: 'CategoryProgress',
   Prompt: 'Prompt',
   PromptResponse: 'PromptResponse',
   Consent: 'Consent',

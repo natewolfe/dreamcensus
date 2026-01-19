@@ -53,7 +53,7 @@ export function EmotionChips({
                 'rounded-full px-4 py-2 text-sm font-medium transition-all',
                 'border',
                 selected.includes(emotion)
-                  ? 'bg-accent border-accent text-foreground'
+                  ? 'bg-muted border-muted text-foreground'
                   : 'bg-card-bg border-border text-muted hover:border-accent hover:text-foreground',
                 !selected.includes(emotion) && selected.length >= max && 'opacity-50 cursor-not-allowed'
               )}

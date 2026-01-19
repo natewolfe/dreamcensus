@@ -7,17 +7,24 @@ import { ChevronRight } from '@/components/ui'
 interface CensusCTACardProps {
   progress: number // 0-100
   answeredQuestions: number
+  nextSectionName?: string
+  nextSectionSlug?: string
 }
 
 export function CensusCTACard({ 
   progress, 
-  answeredQuestions 
+  answeredQuestions,
+  nextSectionName,
+  nextSectionSlug,
 }: CensusCTACardProps) {
   const isComplete = progress === 100
   const hasStarted = answeredQuestions > 0
+  
+  // Link directly to next section when available, otherwise to census overview
+  const href = nextSectionSlug ? `/census/${nextSectionSlug}` : '/census'
 
   return (
-    <Link href="/census" className="block">
+    <Link href={href} className="block">
       <motion.div
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.98 }}
@@ -33,7 +40,11 @@ export function CensusCTACard({
               {isComplete ? 'Census Complete' : hasStarted ? 'Continue Census' : 'Go Deeper'}
             </span>
             <span className="block text-xs md:text-sm text-muted truncate">
-              {isComplete ? 'Up-to-date!' : hasStarted ? 'Keep going' : 'Take the census'}
+              {isComplete 
+                ? 'Up-to-date!' 
+                : hasStarted && nextSectionName 
+                  ? `Next: ${nextSectionName}` 
+                  : 'Take the census'}
             </span>
           </div>
 

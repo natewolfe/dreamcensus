@@ -6,12 +6,16 @@ interface InsightsSectionProps {
   insights: InsightItem[]
   censusProgress: number
   censusAnswered: number
+  nextSectionName?: string
+  nextSectionSlug?: string
 }
 
 export function InsightsSection({
   insights,
   censusProgress,
   censusAnswered,
+  nextSectionName,
+  nextSectionSlug,
 }: InsightsSectionProps) {
   return (
     <div className="flex flex-col gap-5 h-[300px] md:h-[340px]">
@@ -28,6 +32,8 @@ export function InsightsSection({
       <CensusCTACard
         progress={censusProgress}
         answeredQuestions={censusAnswered}
+        nextSectionName={nextSectionName}
+        nextSectionSlug={nextSectionSlug}
       />
     </div>
   )

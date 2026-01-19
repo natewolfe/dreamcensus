@@ -5,17 +5,20 @@ import { motion, AnimatePresence } from 'motion/react'
 import { PromptCard } from './PromptCard'
 import { usePromptState, type PromptQuestion } from './usePromptState'
 import { useRouter } from 'next/navigation'
-import { UndoIcon, ListIcon, type BinaryValue } from '@/components/ui'
+import { UndoIcon, ListIcon } from '@/components/ui'
+import type { BinaryValue } from '@/lib/flow/types'
 
 interface PromptStreamProps {
   initialQuestions: PromptQuestion[]
   onResponse: (questionId: string, response: string, expandedText?: string) => void
+  onSkip: (questionId: string) => void
   onRequestMore: () => void
 }
 
 export function PromptStream({
   initialQuestions,
   onResponse,
+  onSkip,
   onRequestMore,
 }: PromptStreamProps) {
   const router = useRouter()
@@ -47,6 +50,7 @@ export function PromptStream({
       setExitDirections(prev => ({ ...prev, [questionId]: 'up' }))
     }
     
+    onSkip(questionId)
     setTimeout(() => state.nextCard(), state.isDesktop ? 0 : 300)
   }
 

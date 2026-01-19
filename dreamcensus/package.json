@@ -5,6 +5,9 @@
   "description": "A ritual-first dream reflection app with research-grade data collection",
   "scripts": {
     "dev": "next dev",
+    "dev:turbo": "next dev --turbo",
+    "dev:fast": "NEXT_TELEMETRY_DISABLED=1 next dev --turbo",
+    "dev:light": "NEXT_TELEMETRY_DISABLED=1 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

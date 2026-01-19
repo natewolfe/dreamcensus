@@ -16,6 +16,7 @@
     /* Emit */
     "noEmit": true,
     "incremental": true,
+    "tsBuildInfoFile": ".next/cache/tsbuildinfo",
     /* Interop Constraints */
     "isolatedModules": true,
     "esModuleInterop": true,

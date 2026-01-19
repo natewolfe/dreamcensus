@@ -282,7 +282,7 @@ export function DreamWeatherChart({ points, current, totalDreams, timeRange, var
                     </span>
                   </div>
                 </div>
-                <span className="text-xs text-muted/60 max-w-md mb-0 pb-0 hidden md:block">
+                <span className="text-xs text-muted/70 max-w-md mb-0 pb-0 hidden md:block">
                   {config.description}
                 </span>
               </div>
@@ -387,7 +387,7 @@ export function DreamWeatherChart({ points, current, totalDreams, timeRange, var
                     width={barWidth}
                     height={barHeight}
                     fill={config.cssVar}
-                    opacity="0.05"
+                    opacity="0.08"
                     rx="2"
                   />
                 )

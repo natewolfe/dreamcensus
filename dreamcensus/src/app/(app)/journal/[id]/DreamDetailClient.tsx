@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { DreamDetail, DreamEditor, type Dream } from '@/components/journal'
-import { deleteDream, updateDreamMetadata } from '../actions'
+import { deleteDreamEntry } from '@/lib/actions'
+import { updateDreamMetadata } from '../actions'
 
 interface DreamDetailClientProps {
   dream: Dream & {
@@ -42,8 +43,8 @@ export function DreamDetailClient({ dream }: DreamDetailClientProps) {
   }
 
   const handleDelete = async () => {
-    const result = await deleteDream(dream.id)
-    
+    const result = await deleteDreamEntry(dream.id)
+
     if (result.success) {
       router.push('/journal')
       router.refresh()

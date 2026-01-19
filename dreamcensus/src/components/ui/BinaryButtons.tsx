@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
-import type { BinaryVariant, BinaryValue } from '@/lib/flow/types'
+import { BINARY_VARIANT_CONFIG, type BinaryVariant, type BinaryValue } from '@/lib/flow/types'
 
 export type { BinaryVariant, BinaryValue }
 
@@ -16,27 +16,6 @@ export interface BinaryButtonsProps {
   onCommit?: () => void
 }
 
-const VARIANT_CONFIG: Record<BinaryVariant, { left: BinaryValue; right: BinaryValue; leftLabel: string; rightLabel: string }> = {
-  yes_no: {
-    left: 'no',
-    right: 'yes',
-    leftLabel: 'No',
-    rightLabel: 'Yes',
-  },
-  agree_disagree: {
-    left: 'disagree',
-    right: 'agree',
-    leftLabel: 'Disagree',
-    rightLabel: 'Agree',
-  },
-  true_false: {
-    left: 'false',
-    right: 'true',
-    leftLabel: 'False',
-    rightLabel: 'True',
-  },
-}
-
 export function BinaryButtons({
   variant,
   value,
@@ -45,7 +24,7 @@ export function BinaryButtons({
   className,
   onCommit,
 }: BinaryButtonsProps) {
-  const config = VARIANT_CONFIG[variant]
+  const config = BINARY_VARIANT_CONFIG[variant]
   const isLeftSelected = value === config.left
   const isRightSelected = value === config.right
   
@@ -56,20 +35,19 @@ export function BinaryButtons({
   }
 
   return (
-    <div className={cn('flex gap-3', className)}>
+    <div className={cn('flex', className)}>
       {/* Left button (No/Disagree/False) */}
       <motion.button
         type="button"
         onClick={() => handleSelect(config.left)}
         disabled={disabled}
-        whileHover={!disabled ? { scale: 1.02 } : undefined}
         whileTap={!disabled ? { scale: 0.98 } : undefined}
         className={cn(
-          'flex-1 rounded-xl px-6 py-4 text-lg font-medium transition-all',
-          'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
+          'flex-1 rounded-l-xl px-6 py-4 text-lg font-medium transition-all',
+          'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:z-10 uppercase',
           isLeftSelected
-            ? 'bg-[var(--response-no)] border-[var(--response-no)] text-foreground shadow-lg'
-            : 'bg-[var(--response-no-bg)] border-[var(--response-no)] text-[var(--response-no)] hover:bg-[var(--response-no)] hover:text-foreground',
+            ? 'bg-[var(--response-no-bg)] border-[var(--response-no)] text-[var(--response-no)] z-10'
+            : 'bg-card-bg border-border text-muted hover:bg-[var(--response-no-bg)] hover:text-[var(--response-no)] hover:border-[var(--response-no)] hover:z-10',
           disabled && 'opacity-50 cursor-not-allowed'
         )}
         aria-pressed={isLeftSelected}
@@ -77,19 +55,18 @@ export function BinaryButtons({
         {config.leftLabel}
       </motion.button>
 
-      {/* Right button (Yes/Agree/True) */}
+      {/* Right button (Yes/Agree/True) - overlaps left border with -ml-0.5 */}
       <motion.button
         type="button"
         onClick={() => handleSelect(config.right)}
         disabled={disabled}
-        whileHover={!disabled ? { scale: 1.02 } : undefined}
         whileTap={!disabled ? { scale: 0.98 } : undefined}
         className={cn(
-          'flex-1 rounded-xl px-6 py-4 text-lg font-medium transition-all',
-          'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
+          'flex-1 rounded-r-xl px-6 py-4 text-lg font-medium transition-all -ml-0.5',
+          'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:z-10 uppercase',
           isRightSelected
-            ? 'bg-[var(--response-yes)] border-[var(--response-yes)] text-foreground shadow-lg'
-            : 'bg-[var(--response-yes-bg)] border-[var(--response-yes)] text-[var(--response-yes)] hover:bg-[var(--response-yes)] hover:text-foreground',
+            ? 'bg-[var(--response-yes-bg)] border-[var(--response-yes)] text-[var(--response-yes)] z-10'
+            : 'bg-card-bg border-border text-muted hover:bg-[var(--response-yes-bg)] hover:text-[var(--response-yes)] hover:border-[var(--response-yes)]',
           disabled && 'opacity-50 cursor-not-allowed'
         )}
         aria-pressed={isRightSelected}

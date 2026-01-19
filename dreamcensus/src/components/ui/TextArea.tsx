@@ -11,6 +11,8 @@ export interface TextAreaProps {
   rows?: number
   disabled?: boolean
   className?: string
+  /** Auto-focus the textarea on mount */
+  autoFocus?: boolean
   /** Called when Ctrl/Cmd+Enter is pressed to advance to next step */
   onEnterAdvance?: () => void
 }
@@ -24,6 +26,7 @@ export function TextArea({
   rows = 4,
   disabled = false,
   className,
+  autoFocus = false,
   onEnterAdvance,
 }: TextAreaProps) {
   const remaining = maxLength - value.length
@@ -39,8 +42,10 @@ export function TextArea({
     }
   }
 
+  const showCount = value.length > 0 || remaining < maxLength * 0.1
+
   return (
-    <div className={cn('space-y-2', className)}>
+    <div className={cn('relative', className)}>
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -49,10 +54,11 @@ export function TextArea({
         maxLength={maxLength}
         rows={rows}
         disabled={disabled}
+        autoFocus={autoFocus}
         className={cn(
-          'w-full rounded-xl px-4 py-3 resize-none',
+          'w-full rounded-xl px-4 py-3 pb-8 resize-none',
           'bg-card-bg border border-border text-foreground',
-          'placeholder:text-muted/50',
+          'placeholder:text-muted/50 placeholder:italic',
           'focus:outline-none focus:border-accent',
           'focus-visible:outline-none',
           'transition-colors',
@@ -60,18 +66,21 @@ export function TextArea({
         )}
       />
       
-      <div className="flex items-center justify-between text-xs text-muted">
-        {minLength > 0 && (
-          <span>
-            {isValid ? '✓' : `At least ${minLength} characters required`}
+      {/* Character count inside textarea */}
+      <div className="absolute bottom-4 right-3 flex items-center gap-2 text-xs pointer-events-none">
+        {minLength > 0 && !isValid && (
+          <span className="text-muted">
+            {minLength - value.length} more
           </span>
         )}
         <span className={cn(
-          'ml-auto',
+          'tabular-nums transition-opacity',
+          showCount ? 'opacity-100' : 'opacity-0',
           remaining < 100 && 'text-orange-500',
-          remaining === 0 && 'text-red-500'
+          remaining < 20 && 'text-red-500',
+          remaining >= 100 && 'text-muted/50'
         )}>
-          {remaining} remaining
+          {remaining}
         </span>
       </div>
     </div>

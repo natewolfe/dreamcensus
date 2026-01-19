@@ -24,7 +24,7 @@ export function TimeRangeSelector({ currentRange }: TimeRangeSelectorProps) {
   }
 
   return (
-    <div className="flex items-center gap-1 md:gap-2">
+    <div className="flex items-center gap-1 md:gap-1.5">
       <svg className="hidden h-6 w-6 md:h-7 md:w-7 text-muted opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
           strokeLinecap="round"
@@ -39,7 +39,7 @@ export function TimeRangeSelector({ currentRange }: TimeRangeSelectorProps) {
           onClick={() => handleRangeChange(range)}
           className={`rounded-sm px-3 md:px-4 py-2 md:py-3 text-sm md:text-md font-medium transition-all ${
             currentRange === range
-              ? 'bg-subtle text-foreground'
+              ? 'bg-muted/20 border border-muted text-foreground'
               : 'bg-card-bg/30 border border-border/70 text-muted hover:text-foreground hover:bg-subtle/15 cursor-pointer'
           }`}
         >

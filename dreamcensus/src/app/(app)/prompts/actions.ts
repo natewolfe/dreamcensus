@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { emitEvent } from '@/lib/events'
 import { db } from '@/lib/db'
-import { withAuth, requireAuth, type ActionResult, getTodayRange } from '@/lib/actions'
+import { withAuth, type ActionResult } from '@/lib/actions'
 
 /**
  * Get stream of questions for prompts page
@@ -37,120 +37,6 @@ export async function getStreamQuestions(limit: number = 10): Promise<ActionResu
     } catch (error) {
       console.error('getStreamQuestions error:', error)
       return { success: false, error: 'Failed to load questions' }
-    }
-  })
-}
-
-/**
- * Get today's prompt for the user
- */
-export async function getTodayPrompt(): Promise<ActionResult<{
-  id: string
-  text: string
-  type: string
-  responseType: string
-  options?: string[]
-} | null>> {
-  return withAuth(async (session) => {
-    try {
-      // Check if user already responded today
-      const { start: today, end: tomorrow } = getTodayRange()
-
-    const existingResponse = await db.promptResponse.findFirst({
-      where: {
-        userId: session.userId,
-        respondedAt: {
-          gte: today,
-          lt: tomorrow,
-        },
-      },
-    })
-
-      if (existingResponse) {
-        return { success: true, data: null }
-      }
-
-      // Get a prompt the user hasn't seen recently
-      const recentResponses = await db.promptResponse.findMany({
-        where: {
-          userId: session.userId,
-          respondedAt: {
-            gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
-          },
-        },
-        select: { promptId: true },
-      })
-
-      const recentPromptIds = recentResponses.map((r) => r.promptId)
-
-      const prompt = await db.prompt.findFirst({
-        where: {
-          isActive: true,
-          id: {
-            notIn: recentPromptIds,
-          },
-        },
-        orderBy: {
-          createdAt: 'asc', // Rotate through prompts
-        },
-      })
-
-      if (!prompt) {
-        return { success: true, data: null }
-      }
-
-      // Emit prompt shown event
-      await emitEvent({
-        type: 'prompt.shown',
-        userId: session.userId,
-        payload: {
-          promptId: prompt.id,
-          shownAt: new Date().toISOString(),
-        },
-      })
-
-      return {
-        success: true,
-        data: {
-          id: prompt.id,
-          text: prompt.text,
-          type: prompt.type,
-          responseType: prompt.responseType,
-        },
-      }
-    } catch (error) {
-      console.error('getTodayPrompt error:', error)
-      return { success: false, error: 'Failed to load prompt' }
-    }
-  })
-}
-
-/**
- * Submit a response to a prompt
- */
-export async function respondToPrompt(
-  promptId: string,
-  value: Record<string, unknown>
-): Promise<ActionResult<void>> {
-  return withAuth(async (session) => {
-    try {
-      await emitEvent({
-        type: 'prompt.responded',
-        userId: session.userId,
-        payload: {
-          promptId,
-          value,
-          shownAt: new Date().toISOString(),
-        },
-      })
-
-      revalidatePath('/prompts')
-      revalidatePath('/today')
-
-      return { success: true, data: undefined }
-    } catch (error) {
-      console.error('respondToPrompt error:', error)
-      return { success: false, error: 'Failed to submit response' }
     }
   })
 }
@@ -259,6 +145,42 @@ export async function getStreamQuestionsFormatted(limit: number = 10): Promise<A
     } catch (error) {
       console.error('getStreamQuestionsFormatted error:', error)
       return { success: false, error: 'Failed to load questions' }
+    }
+  })
+}
+
+/**
+ * Get a single question by ID for the detail page
+ */
+export async function getQuestionById(questionId: string): Promise<ActionResult<{
+  id: string
+  text: string
+  category: string
+  variant: 'yes_no' | 'agree_disagree' | 'true_false'
+} | null>> {
+  return withAuth(async () => {
+    try {
+      const prompt = await db.prompt.findUnique({
+        where: { id: questionId },
+        select: { id: true, text: true, type: true, responseType: true, isActive: true },
+      })
+
+      if (!prompt || !prompt.isActive) {
+        return { success: true, data: null }
+      }
+
+      return {
+        success: true,
+        data: {
+          id: prompt.id,
+          text: prompt.text,
+          category: formatCategory(prompt.type),
+          variant: deriveVariant(prompt.responseType),
+        },
+      }
+    } catch (error) {
+      console.error('getQuestionById error:', error)
+      return { success: false, error: 'Failed to load question' }
     }
   })
 }

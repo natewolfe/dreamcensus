@@ -1,5 +1,5 @@
 import { PromptDetailClient } from './PromptDetailClient'
-import { getStreamQuestions } from '../actions'
+import { getStreamQuestionsFormatted } from '../actions'
 import { notFound } from 'next/navigation'
 
 interface PromptDetailPageProps {
@@ -9,19 +9,24 @@ interface PromptDetailPageProps {
 export default async function PromptDetailPage({ params }: PromptDetailPageProps) {
   const { questionId } = await params
   
-  // Fetch questions to find the one we need
-  const questionsResult = await getStreamQuestions(100)
+  const result = await getStreamQuestionsFormatted(50)
   
-  if (!questionsResult.success) {
+  if (!result.success || result.data.length === 0) {
     notFound()
   }
 
-  const question = questionsResult.data.find(q => q.id === questionId)
+  // Find the starting index for the requested question
+  const startIndex = result.data.findIndex(q => q.id === questionId)
   
-  if (!question) {
+  if (startIndex === -1) {
     notFound()
   }
 
-  return <PromptDetailClient question={question} />
+  return (
+    <PromptDetailClient 
+      questions={result.data} 
+      initialIndex={startIndex} 
+    />
+  )
 }
 

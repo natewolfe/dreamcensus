@@ -116,7 +116,7 @@ export function ChoiceGroup({
           className={cn(
             'w-full rounded-xl px-4 py-3 text-center',
             'transition-all border-2 focus:outline-none focus:ring-2 focus:ring-offset-2',
-            isSelected(option) && 'bg-accent border-accent text-foreground',
+            isSelected(option) && 'bg-muted border-muted text-foreground',
             !isSelected(option) && 'border-border bg-card-bg text-foreground hover:border-accent/50',
             disabled && 'opacity-50 cursor-not-allowed'
           )}

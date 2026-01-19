@@ -202,6 +202,8 @@ export interface SectionRunnerProps {
   initialAnswers: Map<string, unknown>
   onComplete?: (answers: Map<string, unknown>) => void
   onExit?: () => void
+  /** Called when answers change (for tracking unsaved changes) */
+  onAnswersChange?: (answers: Map<string, unknown>, hasChanges: boolean) => void
 }
 
 export interface QuestionRendererProps {

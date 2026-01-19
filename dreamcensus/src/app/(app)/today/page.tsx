@@ -11,6 +11,7 @@ import { getStreak, getWeekDreams } from './actions'
 import { getStreamQuestionsFormatted } from '../prompts/actions'
 import { getWeatherChart, getPersonalWeather } from '../weather/actions'
 import { getCensusSections, getCensusProgress } from '../census/actions'
+import { getNextSection } from '@/components/census/constants'
 import { generateInsights } from '@/lib/insights'
 
 export default async function TodayPage() {
@@ -35,6 +36,8 @@ export default async function TodayPage() {
   let censusProgress = 0
   let censusAnswered = 0
   let censusTotal = 0
+  let nextSectionName: string | undefined
+  let nextSectionSlug: string | undefined
   
   if (sectionsResult.success && progressResult.success) {
     const sections = sectionsResult.data
@@ -48,6 +51,11 @@ export default async function TodayPage() {
     censusProgress = censusTotal > 0
       ? Math.round((censusAnswered / censusTotal) * 100)
       : 0
+    
+    // Get next section for CTA subtitle and direct linking
+    const nextSection = getNextSection(sections, progress)
+    nextSectionName = nextSection?.name
+    nextSectionSlug = nextSection?.slug ?? nextSection?.id
   }
 
   // Generate insights from available data
@@ -231,6 +239,8 @@ export default async function TodayPage() {
               insights={insights}
               censusProgress={censusProgress}
               censusAnswered={censusAnswered}
+              nextSectionName={nextSectionName}
+              nextSectionSlug={nextSectionSlug}
             />
           </div>
 

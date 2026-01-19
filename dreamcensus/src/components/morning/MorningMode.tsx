@@ -46,6 +46,7 @@ export function MorningMode({
   onHasDataChange,
   onCompletionVisible,
   userId,
+  lastNightIntention,
   alarmContext,
 }: MorningModeProps) {
   // Determine actual initial step based on mode
@@ -458,6 +459,7 @@ export function MorningMode({
             onText={handleSelectText}
             onEmotionOnly={handleSelectMinimal}
             onSkip={onCancel}
+            lastNightIntention={lastNightIntention}
           />
         )}
 

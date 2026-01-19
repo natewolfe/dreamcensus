@@ -103,7 +103,7 @@ export function TagPool({
                 'border-2 transition-all duration-150',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
                 isSelected
-                  ? 'bg-accent text-foreground border-accent shadow-sm'
+                  ? 'bg-muted text-foreground border-muted shadow-sm'
                   : 'bg-transparent text-foreground border-border hover:border-accent',
                 isDimmed && 'opacity-40 cursor-not-allowed'
               )}
@@ -134,7 +134,7 @@ export function TagPool({
                 'h-11 px-5 rounded-full',
                 'text-sm font-medium',
                 'border-2 transition-all duration-150',
-                'bg-accent text-foreground border-accent shadow-sm',
+                'bg-muted text-foreground border-muted shadow-sm',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2'
               )}
               aria-pressed={true}

@@ -129,7 +129,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               className={cn(
                 'flex-1 min-w-0 bg-transparent outline-none',
                 'focus-visible:outline-none',
-                'placeholder:text-muted/50',
+                'placeholder:text-muted/50 placeholder:italic',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
                 showEffects && 'input-pulse-focus'
               )}
@@ -152,7 +152,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'w-full rounded-lg border px-4 py-2.5',
               'bg-background text-foreground',
               'border-border focus:border-accent',
-              'placeholder:text-muted/50',
+              'placeholder:text-muted/50 placeholder:italic',
               'transition-colors duration-150',
               'focus:outline-none focus-visible:outline-none',
               'disabled:opacity-50 disabled:cursor-not-allowed',

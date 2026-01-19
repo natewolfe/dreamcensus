@@ -1,7 +1,12 @@
 // Census Constellation Layout - Organic Positioning Algorithm
 
 import type { CensusSection, CensusProgress } from './types'
-import { SECTION_KINDS } from './constants'
+import { 
+  SECTION_KINDS, 
+  getCompletedSlugs, 
+  getNextSection, 
+  isSectionUnlocked 
+} from './constants'
 
 // ============================================================================
 // Types
@@ -21,6 +26,7 @@ export interface Star {
   isAvailable: boolean
   isLocked: boolean
   hasUnlockedSections: boolean
+  hasNextSection: boolean
   sectionId?: string
   slug?: string
   progress?: number
@@ -57,6 +63,7 @@ interface ConstellationKindNode {
   progress: number
   isComplete: boolean
   hasUnlockedSections: boolean
+  hasNextSection: boolean
   sections: ConstellationSectionNode[]
 }
 
@@ -187,11 +194,11 @@ export function generateConstellation(
   const kindStars = placeKindStarsGridBased(kinds, width, height, margin, rng)
   stars.push(...kindStars)
   
-  // 2. Build MST for inter-kind connections
-  const mstEdges = buildMinimumSpanningTree(kindStars)
+  // 2. Connect kinds sequentially (matches SECTION_KINDS order in census list)
+  const kindEdges = buildSequentialKindConnections(kindStars)
   
-  // Add MST edges to tracking
-  for (const edge of mstEdges) {
+  // Add kind edges to tracking
+  for (const edge of kindEdges) {
     lineSegments.push({ p1: edge.from, p2: edge.to })
     lines.push({
       from: edge.from,
@@ -321,6 +328,7 @@ function placeSectionStarsWithCollisionAvoidance(
       isAvailable: section.isAvailable,
       isLocked: section.isLocked,
       hasUnlockedSections: true,
+      hasNextSection: section.isAvailable,
       sectionId: section.id,
       slug: section.slug,
       progress: section.progress,
@@ -531,7 +539,8 @@ function findValidSectionPosition(
 }
 
 // ============================================================================
-// Kind Star Placement
+// Kind Star Placement - Sequential path layout
+// Places kinds along a meandering path that follows their sequential order
 // ============================================================================
 
 function placeKindStarsGridBased(
@@ -542,60 +551,27 @@ function placeKindStarsGridBased(
   rng: () => number
 ): Star[] {
   const count = kinds.length
+  if (count === 0) return []
   
   // Calculate usable area
   const usableWidth = width - margin.x * 2
   const usableHeight = height - margin.y * 2
-  
-  // Determine grid layout based on aspect ratio
   const aspectRatio = width / height
-  let cols: number
-  let rows: number
   
-  if (aspectRatio > 2) {
-    // Very wide (desktop): maximize horizontal spread
-    cols = Math.min(count, Math.ceil(count / 2) + 1)
-    rows = Math.ceil(count / cols)
-  } else if (aspectRatio > 1.2) {
-    // Wide landscape: favor horizontal but allow some rows
-    cols = Math.min(count, Math.ceil(Math.sqrt(count * 2)))
-    rows = Math.ceil(count / cols)
-  } else if (aspectRatio < 0.7) {
-    // Very tall/narrow: stack vertically
-    cols = Math.min(count, 2)
-    rows = Math.ceil(count / cols)
-  } else {
-    // Square-ish to slightly portrait (mobile 600x700 = 0.86): balanced 3-column grid
-    cols = Math.min(count, 3)
-    rows = Math.ceil(count / cols)
-  }
+  // Generate base path positions based on aspect ratio
+  // The path should meander in a constellation-like pattern while following sequential order
+  const basePositions = generateSequentialPath(count, usableWidth, usableHeight, aspectRatio, rng)
   
-  const cellWidth = usableWidth / cols
-  const cellHeight = usableHeight / rows
+  // Base jitter for organic feel
+  const jitterX = Math.min(usableWidth * 0.04, 40)
+  const jitterY = Math.min(usableHeight * 0.06, 40)
   
-  // Base jitter proportional to cell size
-  const baseJitterX = Math.min(cellWidth * 0.3, 100)
-  const baseJitterY = Math.min(cellHeight * 0.5, 100)
-  
-  return kinds.map((kind, i) => {
-    const col = i % cols
-    const row = Math.floor(i / cols)
+  return kinds.map((kind, i): Star => {
+    const basePos = basePositions[i] ?? { x: 0, y: 0 }
     
-    // Staggered offset: alternate rows/cols shift significantly
-    // This creates more diagonal connections instead of straight horizontal/vertical
-    const staggerX = (row % 2) * (cellWidth * 0.25)
-    const staggerY = (col % 2) * (cellHeight * 0.2)
-    
-    // Add wave-like offset with varying frequency per position
-    const waveOffsetX = Math.sin((row + col * 0.7) * 1.8) * (cellWidth * 0.2)
-    const waveOffsetY = Math.cos((col + row * 0.5) * 1.5) * (cellHeight * 0.25)
-    
-    const basex = margin.x + cellWidth * (col + 0.5) + staggerX + waveOffsetX
-    const basey = margin.y + cellHeight * (row + 0.5) + staggerY + waveOffsetY
-    
-    // Random jitter on top of the structured offsets
-    const x = basex + (rng() - 0.5) * baseJitterX * 2
-    const y = basey + (rng() - 0.5) * baseJitterY * 2
+    // Apply margin offset and jitter
+    const x = margin.x + basePos.x + (rng() - 0.5) * jitterX
+    const y = margin.y + basePos.y + (rng() - 0.5) * jitterY
     
     const baseSize = 12
     const sizeBoost = kind.isComplete ? 5 : kind.progress > 0 ? 3 : 0
@@ -621,54 +597,95 @@ function placeKindStarsGridBased(
       y,
       size: baseSize + sizeBoost + sizeJitter,
       brightness,
-      type: 'kind' as const,
+      type: 'kind',
       isComplete: kind.isComplete,
       isAvailable: !kind.isComplete && kind.progress >= 0,
       isLocked: false,
       hasUnlockedSections: kind.hasUnlockedSections,
+      hasNextSection: kind.hasNextSection,
       progress: kind.progress,
     }
   })
 }
 
+/**
+ * Generate a meandering path for kind stars that follows sequential order
+ * Creates an organic constellation shape adapted to screen aspect ratio
+ */
+function generateSequentialPath(
+  count: number,
+  width: number,
+  height: number,
+  aspectRatio: number,
+  rng: () => number
+): Point[] {
+  const positions: Point[] = []
+  
+  if (aspectRatio > 1.5) {
+    // Desktop/wide: Serpentine path flowing horizontally with vertical waves
+    // Pattern: start left, meander right with up/down movement
+    const verticalAmplitude = height * 0.35
+    const verticalCenter = height / 2
+    
+    for (let i = 0; i < count; i++) {
+      // Progress along horizontal axis
+      const progress = (i + 0.5) / count
+      const x = progress * width
+      
+      // Vertical position: wave pattern with alternating direction
+      // Creates a flowing S-curve or zigzag
+      const wavePhase = i * 0.8 + rng() * 0.3
+      const waveOffset = Math.sin(wavePhase) * verticalAmplitude
+      
+      // Add some drift to prevent too regular of a pattern
+      const drift = (rng() - 0.5) * verticalAmplitude * 0.3
+      const y = verticalCenter + waveOffset + drift
+      
+      positions.push({ x, y })
+    }
+  } else {
+    // Mobile/portrait: Zigzag descending path
+    // Pattern: alternate left-right while descending
+    const horizontalAmplitude = width * 0.35
+    const horizontalCenter = width / 2
+    
+    for (let i = 0; i < count; i++) {
+      // Progress along vertical axis (top to bottom)
+      const progress = (i + 0.5) / count
+      const y = progress * height
+      
+      // Horizontal position: zigzag alternating left/right
+      // Even indices go left of center, odd go right (or vice versa)
+      const zigzagDirection = i % 2 === 0 ? -1 : 1
+      const zigzagOffset = zigzagDirection * horizontalAmplitude * (0.5 + rng() * 0.5)
+      
+      // Add wave modulation for more organic feel
+      const waveOffset = Math.sin(i * 1.2) * horizontalAmplitude * 0.2
+      const x = horizontalCenter + zigzagOffset + waveOffset
+      
+      positions.push({ x, y })
+    }
+  }
+  
+  return positions
+}
+
 // ============================================================================
-// Minimum Spanning Tree
+// Sequential Kind Connections - Connect kinds in SECTION_KINDS order
 // ============================================================================
 
-function buildMinimumSpanningTree(stars: Star[]): Array<{ from: Star; to: Star }> {
-  if (stars.length < 2) return []
-  
-  const firstStar = stars[0]
-  if (!firstStar) return []
+function buildSequentialKindConnections(kindStars: Star[]): Array<{ from: Star; to: Star }> {
+  if (kindStars.length < 2) return []
   
   const edges: Array<{ from: Star; to: Star }> = []
-  const inTree = new Set<string>([firstStar.id])
-  const notInTree = new Set(stars.slice(1).map(s => s.id))
   
-  while (notInTree.size > 0) {
-    let minDist = Infinity
-    let bestEdge: { from: Star; to: Star } | null = null
-    
-    for (const star of stars) {
-      if (!inTree.has(star.id)) continue
-      
-      for (const candidate of stars) {
-        if (!notInTree.has(candidate.id)) continue
-        
-        const dist = distance(star, candidate)
-        if (dist < minDist) {
-          minDist = dist
-          bestEdge = { from: star, to: candidate }
-        }
-      }
-    }
-    
-    if (bestEdge) {
-      edges.push(bestEdge)
-      inTree.add(bestEdge.to.id)
-      notInTree.delete(bestEdge.to.id)
-    } else {
-      break
+  // Connect kinds sequentially in the order they appear (matches SECTION_KINDS order)
+  // Self → Sleep → Dreams → Cognition → Feelings → Experience
+  for (let i = 0; i < kindStars.length - 1; i++) {
+    const fromStar = kindStars[i]
+    const toStar = kindStars[i + 1]
+    if (fromStar && toStar) {
+      edges.push({ from: fromStar, to: toStar })
     }
   }
   
@@ -685,10 +702,9 @@ function buildKindNodes(
 ): ConstellationKindNode[] {
   const sortedSections = [...sections].sort((a, b) => a.order - b.order)
   
-  const nextIncompleteSection = sortedSections.find((s) => {
-    const sectionProgress = progress[s.id]
-    return !sectionProgress || !sectionProgress.completedAt
-  })
+  // Get completed slugs and next section using shared helpers
+  const completedSlugs = getCompletedSlugs(sortedSections, progress)
+  const nextIncompleteSection = getNextSection(sortedSections, progress)
   
   return SECTION_KINDS.map((kindDef) => {
     const kindSections = sortedSections.filter(
@@ -712,33 +728,19 @@ function buildKindNodes(
       (s) => progress[s.id]?.completedAt !== undefined
     )
     
-    const sectionNodes: ConstellationSectionNode[] = kindSections.map((section, kindSectionIndex) => {
+    const sectionNodes: ConstellationSectionNode[] = kindSections.map((section) => {
       const sectionProgress = progress[section.id] ?? {
         sectionId: section.id,
         totalQuestions: section.questions.length,
         answeredQuestions: 0,
       }
       
-      const sectionIndex = sortedSections.findIndex((s) => s.id === section.id)
       const isAvailable = section.id === nextIncompleteSection?.id
-      // Self kind's first section is always unlocked (entry point for new users)
-      // Other kinds unlock their first section after Self/personality is completed
-      const isFirstInKind = kindSectionIndex === 0
-      const isSelfKind = kindDef.slug === 'self'
-      const selfFirstSectionCompleted = (() => {
-        const selfKind = SECTION_KINDS.find(k => k.slug === 'self')
-        if (!selfKind) return true
-        const selfSection = sortedSections.find(s => 
-          s.slug && (selfKind.categorySlugs as readonly string[]).includes(s.slug)
-        )
-        return selfSection ? progress[selfSection.id]?.completedAt !== undefined : true
-      })()
-      const isLocked =
-        (isFirstInKind && !isSelfKind && !selfFirstSectionCompleted) ||
-        (!isFirstInKind &&
-          sectionIndex > 0 &&
-          section.id !== nextIncompleteSection?.id &&
-          !sectionProgress.completedAt)
+      
+      // Use prerequisites-based locking
+      const isLocked = section.slug 
+        ? !isSectionUnlocked(section.slug, completedSlugs) 
+        : false
       
       const sectionPercentage =
         sectionProgress.totalQuestions > 0
@@ -761,6 +763,7 @@ function buildKindNodes(
     })
     
     const hasUnlockedSections = sectionNodes.some(s => !s.isLocked)
+    const hasNextSection = sectionNodes.some(s => s.isAvailable)
     
     return {
       slug: kindDef.slug,
@@ -771,6 +774,7 @@ function buildKindNodes(
       progress: kindProgress,
       isComplete: isKindComplete,
       hasUnlockedSections,
+      hasNextSection,
       sections: sectionNodes,
     }
   }).filter((kind) => kind.sections.length > 0)

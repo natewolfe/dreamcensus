@@ -11,7 +11,7 @@ export interface CardProps {
 }
 
 const variantStyles = {
-  elevated: 'bg-muted/10 border border-muted/40',
+  elevated: 'bg-muted/5 border border-muted/40',
   outlined: 'bg-transparent border border-border/50',
   dashed: 'bg-transparent border border-border/50 border-dashed',
   ghost: 'bg-card-bg/50 border-0',

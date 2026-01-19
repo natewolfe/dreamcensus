@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useTransform, animate } from 'motion/react'
 import { useRef } from 'react'
 import { cn } from '@/lib/utils'
-import type { BinaryValue } from '@/lib/flow/types'
+import { BINARY_VARIANT_CONFIG, type BinaryValue } from '@/lib/flow/types'
 import type { PromptQuestion } from './usePromptState'
 
 interface PromptCardProps {
@@ -37,19 +37,14 @@ export function PromptCard({
   const noOpacity = useTransform(x, [-150, 0], [1, 0])
   const skipOpacity = useTransform(y, [-150, 0], [1, 0])
 
-  // Get response values based on variant
-  const getResponseValues = () => {
-    switch (question.variant) {
-      case 'yes_no':
-        return { left: 'no' as BinaryValue, right: 'yes' as BinaryValue, leftLabel: 'NO', rightLabel: 'YES' }
-      case 'agree_disagree':
-        return { left: 'disagree' as BinaryValue, right: 'agree' as BinaryValue, leftLabel: 'DISAGREE', rightLabel: 'AGREE' }
-      case 'true_false':
-        return { left: 'false' as BinaryValue, right: 'true' as BinaryValue, leftLabel: 'FALSE', rightLabel: 'TRUE' }
-    }
+  // Get response values from shared config (uppercase for card UI)
+  const config = BINARY_VARIANT_CONFIG[question.variant]
+  const responseValues = {
+    left: config.left,
+    right: config.right,
+    leftLabel: config.leftLabel.toUpperCase(),
+    rightLabel: config.rightLabel.toUpperCase(),
   }
-
-  const responseValues = getResponseValues()
 
   const handleDragStart = () => {
     isDragging.current = true
@@ -128,11 +123,9 @@ export function PromptCard({
         className="h-full w-full bg-card-bg rounded-3xl border-2 border-border shadow-2xl flex flex-col relative overflow-hidden"
         onClick={isTop && !isDesktop ? handleClick : undefined}
       >
-        {/* Category Tag */}
-        <div className="p-8 pb-0">
-          <div className="p-6 w-full text-xs font-medium text-accent uppercase tracking-widest absolute top-0 left-0">
-            {question.category}
-          </div>
+        {/* Category Tag - absolutely positioned */}
+        <div className="absolute top-0 left-0 p-6 text-xs font-medium text-accent uppercase tracking-widest">
+          {question.category}
         </div>
 
         {/* Skip Link */}
@@ -148,8 +141,14 @@ export function PromptCard({
           </button>
         )}
 
-        {/* Question */}
-        <div className="flex-1 flex items-center justify-center px-8 md:px-10">
+        {/* Question - click to expand on desktop */}
+        <div 
+          className={cn(
+            "flex-1 flex items-center justify-center pt-6 px-8 md:px-10",
+            isDesktop && isTop && "cursor-pointer hover:bg-accent/5 transition-colors"
+          )}
+          onClick={isDesktop && isTop ? onExpand : undefined}
+        >
           <h2 className="text-2xl md:text-3xl font-medium text-center leading-relaxed">
             {question.text}
           </h2>
@@ -179,9 +178,9 @@ export function PromptCard({
                 e.stopPropagation()
                 onExpand()
               }}
-              className="w-full max-w-[40%] py-5 px-8 text-muted hover:text-accent hover:bg-accent/10 transition-all border-r border-border font-medium"
+              className="w-full max-w-[40%] py-5 px-8 text-muted hover:text-accent hover:bg-accent/10 transition-all border-r border-border font-medium uppercase"
             >
-              Expand
+              More
             </button>
             <button
               onClick={(e) => {

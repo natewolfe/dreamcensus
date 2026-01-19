@@ -3,8 +3,8 @@
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
-import { slugify } from '@/lib/utils'
 import { withAuth, type ActionResult } from '@/lib/actions'
+import { getDreamTagsMap, getDreamTagNames, setDreamTags } from '@/lib/tags'
 
 // =============================================================================
 // SCHEMAS
@@ -58,38 +58,48 @@ export async function getDreams(
         where: { userId: session.userId },
       })
 
-    const dreams = await db.dreamEntry.findMany({
-      where: { userId: session.userId },
-      select: {
-        id: true,
-        userId: true,
-        title: true,
-        emotions: true,
-        vividness: true,
-        lucidity: true,
-        tags: true,
-        keyVersion: true,
-        capturedAt: true,
-        updatedAt: true,
-        // Don't return encrypted content for list view
-      },
-      orderBy: { capturedAt: 'desc' },
-      take: limit + 1, // Fetch one extra to check if there are more
-      skip: offset,
-    })
+      const dreams = await db.dreamEntry.findMany({
+        where: { userId: session.userId },
+        select: {
+          id: true,
+          userId: true,
+          title: true,
+          emotions: true,
+          vividness: true,
+          lucidity: true,
+          keyVersion: true,
+          capturedAt: true,
+          updatedAt: true,
+          // Don't return encrypted content for list view
+        },
+        orderBy: { capturedAt: 'desc' },
+        take: limit + 1, // Fetch one extra to check if there are more
+        skip: offset,
+      })
 
-    const hasMore = dreams.length > limit
-    const dreamList = hasMore ? dreams.slice(0, limit) : dreams
+      const hasMore = dreams.length > limit
+      const dreamList = hasMore ? dreams.slice(0, limit) : dreams
+
+      // Fetch tags for all dreams in one batch
+      const dreamIds = dreamList.map((d) => d.id)
+      const tagsMap = await getDreamTagsMap(dreamIds)
 
       return {
         success: true,
         data: {
           // For DESC ordering: dream at index 0 (most recent) = totalCount, index 1 = totalCount-1, etc.
           // Adjusted for offset: dreamNumber = totalCount - offset - index
-          dreams: dreamList.map((d: any, index: number) => ({
-            ...d,
+          dreams: dreamList.map((d, index) => ({
+            id: d.id,
+            userId: d.userId,
+            title: d.title ?? undefined,
             emotions: d.emotions as string[],
-            tags: d.tags as string[],
+            vividness: d.vividness ?? undefined,
+            lucidity: d.lucidity as DreamListItem['lucidity'],
+            tags: tagsMap.get(d.id) ?? [],
+            keyVersion: d.keyVersion,
+            capturedAt: d.capturedAt,
+            updatedAt: d.updatedAt,
             dreamNumber: totalCount - offset - index,
           })),
           hasMore,
@@ -133,6 +143,9 @@ export async function getDream(
         },
       })
 
+      // Fetch tags from the relation
+      const tags = await getDreamTagNames(dream.id)
+
       return {
         success: true,
         data: {
@@ -142,9 +155,11 @@ export async function getDream(
           emotions: dream.emotions as string[],
           vividness: dream.vividness ?? undefined,
           lucidity: dream.lucidity as 'no' | 'maybe' | 'yes' | null | undefined,
-          tags: (dream as any).tags as string[] ?? [],
+          tags,
           keyVersion: dream.keyVersion,
-          ciphertext: dream.ciphertext ? Buffer.from(dream.ciphertext).toString('base64') : undefined,
+          ciphertext: dream.ciphertext
+            ? Buffer.from(dream.ciphertext).toString('base64')
+            : undefined,
           iv: dream.iv ? Buffer.from(dream.iv).toString('base64') : undefined,
           wakingLifeLink: dream.wakingLifeLink ?? undefined,
           capturedAt: dream.capturedAt,
@@ -194,14 +209,13 @@ export async function searchDreams(
             // Would need to use raw SQL or PostgreSQL full-text search
           ],
         },
-          select: {
+        select: {
           id: true,
           userId: true,
           title: true,
           emotions: true,
           vividness: true,
           lucidity: true,
-          tags: true,
           keyVersion: true,
           capturedAt: true,
           updatedAt: true,
@@ -214,14 +228,25 @@ export async function searchDreams(
       const hasMore = dreams.length > limit
       const dreamList = hasMore ? dreams.slice(0, limit) : dreams
 
+      // Fetch tags for all dreams in one batch
+      const dreamIds = dreamList.map((d) => d.id)
+      const tagsMap = await getDreamTagsMap(dreamIds)
+
       return {
         success: true,
         data: {
           // For DESC ordering, calculate dream number based on position
-          dreams: dreamList.map((d: any, index: number) => ({
-            ...d,
+          dreams: dreamList.map((d, index) => ({
+            id: d.id,
+            userId: d.userId,
+            title: d.title ?? undefined,
             emotions: d.emotions as string[],
-            tags: d.tags as string[],
+            vividness: d.vividness ?? undefined,
+            lucidity: d.lucidity as DreamListItem['lucidity'],
+            tags: tagsMap.get(d.id) ?? [],
+            keyVersion: d.keyVersion,
+            capturedAt: d.capturedAt,
+            updatedAt: d.updatedAt,
             dreamNumber: totalCount - offset - index,
           })),
           hasMore,
@@ -244,25 +269,27 @@ export async function getTagSuggestions(
     try {
       const { query, limit } = GetTagSuggestionsSchema.parse(input)
 
-      // Get all dreams for this user
-      const dreams = await db.dreamEntry.findMany({
+      // Get user's dream IDs
+      const userDreams = await db.dreamEntry.findMany({
         where: { userId: session.userId },
-        select: { tags: true },
+        select: { id: true },
+      })
+      const dreamIds = userDreams.map((d) => d.id)
+
+      // Get unique tags from user's dreams via DreamTag relation
+      const tags = await db.tag.findMany({
+        where: {
+          dreamTags: {
+            some: { dreamEntryId: { in: dreamIds } },
+          },
+          name: { contains: query, mode: 'insensitive' },
+        },
+        select: { name: true },
+        take: limit,
+        orderBy: { usageCount: 'desc' },
       })
 
-      // Extract unique tags
-      const allTags = new Set<string>()
-      dreams.forEach((dream: any) => {
-        const tags = dream.tags as string[]
-        tags.forEach((tag: string) => allTags.add(tag))
-      })
-
-      // Filter by query
-      const filtered = Array.from(allTags)
-        .filter((tag) => tag.toLowerCase().includes(query.toLowerCase()))
-        .slice(0, limit)
-
-      return { success: true, data: filtered }
+      return { success: true, data: tags.map((t) => t.name) }
     } catch (error) {
       console.error('getTagSuggestions error:', error)
       return { success: false, error: 'Failed to fetch tag suggestions' }
@@ -304,39 +331,10 @@ export async function updateDreamMetadata(
           updatedAt: new Date(),
         },
       })
-      
-      // Handle tag updates via DreamTag relation
+
+      // Handle tag updates via shared utility
       if (updates.tags !== undefined) {
-        // Delete existing tag associations
-        await db.dreamTag.deleteMany({
-          where: { dreamEntryId: dreamId },
-        })
-        
-        // Create new associations
-        for (const tagName of updates.tags) {
-          // Upsert tag (create if doesn't exist, increment usage if it does)
-          const tag = await db.tag.upsert({
-            where: { slug: slugify(tagName) },
-            create: {
-              name: tagName,
-              slug: slugify(tagName),
-              category: 'custom',
-              usageCount: 1,
-            },
-            update: {
-              usageCount: { increment: 1 },
-            },
-          })
-          
-          // Create dream-tag association
-          await db.dreamTag.create({
-            data: {
-              dreamEntryId: dreamId,
-              tagId: tag.id,
-              source: 'user',
-            },
-          })
-        }
+        await setDreamTags(dreamId, updates.tags)
       }
 
       revalidatePath('/journal')
@@ -346,39 +344,6 @@ export async function updateDreamMetadata(
     } catch (error) {
       console.error('updateDreamMetadata error:', error)
       return { success: false, error: 'Failed to update dream' }
-    }
-  })
-}
-
-/**
- * Delete dream
- */
-export async function deleteDream(dreamId: string): Promise<ActionResult<void>> {
-  return withAuth(async (session) => {
-    try {
-      // Verify ownership
-      const dream = await db.dreamEntry.findFirst({
-        where: {
-          id: dreamId,
-          userId: session.userId,
-        },
-      })
-
-      if (!dream) {
-        return { success: false, error: 'Dream not found' }
-      }
-
-      // Delete
-      await db.dreamEntry.delete({
-        where: { id: dreamId },
-      })
-
-      revalidatePath('/journal')
-
-      return { success: true, data: undefined }
-    } catch (error) {
-      console.error('deleteDream error:', error)
-      return { success: false, error: 'Failed to delete dream' }
     }
   })
 }

@@ -7,7 +7,13 @@ import { Card, ProgressBar } from '@/components/ui'
 import { SectionCard } from './SectionCard'
 import { CensusConstellation } from './CensusConstellation'
 import { fadeInUp, fadeInUpLarge } from '@/lib/motion'
-import { SECTION_KINDS } from './constants'
+import { 
+  SECTION_KINDS, 
+  SECTION_PREREQUISITES,
+  getCompletedSlugs, 
+  getNextSection, 
+  isSectionUnlocked 
+} from './constants'
 import type { CensusSection, CensusProgress } from './types'
 
 interface CensusOverviewProps {
@@ -37,11 +43,14 @@ export function CensusOverview({
     ? Math.round((answeredQuestions / totalQuestions) * 100)
     : 0
 
-  // Find next incomplete section
-  const nextSection = sortedSections.find((s) => {
-    const sectionProgress = progress[s.id]
-    return !sectionProgress || !sectionProgress.completedAt
-  })
+  // Get completed sections and find next recommended section
+  const completedSlugs = getCompletedSlugs(sortedSections, progress)
+  const nextSection = getNextSection(sortedSections, progress)
+  
+  // Get completed sections with their icons for badges
+  const completedSections = sortedSections.filter(
+    s => s.slug && completedSlugs.has(s.slug) && s.icon
+  )
 
   // Group sections by kind
   const groupedByKind = SECTION_KINDS.map((kind) => {
@@ -111,17 +120,34 @@ export function CensusOverview({
             variant="default"
           />
 
-          {nextSection && (
-            <div className="flex items-end justify-end gap-2 mt-3">
+          {/* Footer: completed badges + next button */}
+          <div className="flex flex-col md:flex-row md:items-center gap-3 mt-3">
+            {/* Completed section badges */}
+            {completedSections.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {completedSections.map((section) => (
+                  <span
+                    key={section.id}
+                    className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-accent/15 text-sm"
+                    title={`${section.name} complete`}
+                  >
+                    {section.icon}
+                  </span>
+                ))}
+              </div>
+            )}
+            
+            {nextSection && (
               <Button
                 variant="special"
                 size="md"
                 onClick={() => handleSectionClick(nextSection)}
+                className="self-end md:ml-auto"
               >
                 {overallProgress === 0 ? '📝 Begin' : `Next: ${nextSection.name}`} →
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </Card>
       </motion.div>
 
@@ -158,33 +184,24 @@ export function CensusOverview({
 
             {/* Sections within this kind */}
             <div className="space-y-3">
-              {kind.sections.map((section, kindSectionIndex) => {
+              {kind.sections.map((section) => {
                 const sectionProgress = progress[section.id] ?? {
                   sectionId: section.id,
                   totalQuestions: section.questions.length,
                   answeredQuestions: 0,
                 }
                 
-                // Lock sections that haven't been reached yet
-                // Self kind's first section is always unlocked (entry point for new users)
-                // Other kinds unlock their first section after Self/personality is completed
-                const sectionIndex = sortedSections.findIndex((s) => s.id === section.id)
-                const prevSection = sortedSections[sectionIndex - 1]
-                const isFirstInKind = kindSectionIndex === 0
-                const isSelfKind = kind.slug === 'self'
-                const selfFirstSection = sortedSections.find(s => 
-                  s.slug && (SECTION_KINDS.find(k => k.slug === 'self')?.categorySlugs as readonly string[] | undefined)?.includes(s.slug)
-                )
-                const selfFirstSectionCompleted = selfFirstSection 
-                  ? progress[selfFirstSection.id]?.completedAt !== undefined 
-                  : true
-                const isLocked =
-                  (isFirstInKind && !isSelfKind && !selfFirstSectionCompleted) ||
-                  (!isFirstInKind &&
-                    sectionIndex > 0 &&
-                    prevSection?.id !== nextSection?.id &&
-                    section.id !== nextSection?.id &&
-                    !sectionProgress.completedAt)
+                // Use prerequisites-based locking
+                const isLocked = section.slug 
+                  ? !isSectionUnlocked(section.slug, completedSlugs) 
+                  : false
+                
+                // Find prerequisite names for locked sections
+                const prerequisites = section.slug ? SECTION_PREREQUISITES[section.slug] : undefined
+                const missingPrereqs = prerequisites?.filter(p => !completedSlugs.has(p)) ?? []
+                const prerequisiteSection = missingPrereqs.length > 0 
+                  ? sortedSections.find(s => s.slug === missingPrereqs[0])
+                  : undefined
 
                 return (
                   <SectionCard
@@ -192,7 +209,7 @@ export function CensusOverview({
                     section={section}
                     progress={sectionProgress}
                     isLocked={isLocked}
-                    prerequisiteName={isLocked ? nextSection?.name : undefined}
+                    prerequisiteName={isLocked ? prerequisiteSection?.name : undefined}
                     onClick={() => handleSectionClick(section)}
                   />
                 )
