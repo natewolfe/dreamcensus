@@ -22,10 +22,6 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Documentation
-
-See the [docs/](./docs/) directory for complete specifications:
-
 ### Core
 - [Architecture](./docs/architecture.md) - System design and technology choices
 - [Database Schema](./docs/schema.prisma.md) - Complete Prisma schema
@@ -46,7 +42,6 @@ See the [docs/](./docs/) directory for complete specifications:
 
 ```
 dreamcensus-v3/
-├── docs/              # Documentation
 ├── prisma/            # Database schema and migrations
 ├── src/
 │   ├── app/           # Next.js App Router pages
