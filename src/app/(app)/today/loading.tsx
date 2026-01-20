@@ -14,8 +14,8 @@ export default function TodayLoading() {
           <div className="relative flex flex-1 items-start justify-between px-1 sm:px-3">
             {/* Track line placeholder */}
             <div 
-              className="pointer-events-none absolute inset-x-6 sm:inset-x-8 h-[2px] bg-subtle/20"
-              style={{ top: 'calc(1rem + 14px + 10px)' }}
+              className="pointer-events-none absolute inset-x-6 sm:inset-x-8 h-[3px] bg-subtle/10 rounded-full"
+              style={{ top: 'calc(1rem + 14px + 5px)' }}
             />
             
             {Array.from({ length: 7 }).map((_, i) => (

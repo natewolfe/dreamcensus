@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'motion/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type React from 'react'
 import { Card } from '@/components/ui'
 import type { DreamWeatherPoint, DreamWeatherCurrent, TimeRange, WeatherCondition } from '@/lib/weather/types'
@@ -70,6 +70,11 @@ const WEATHER_CONFIG: Record<WeatherCondition, WeatherConfig> = {
 
 export function DreamWeatherChart({ points, current, totalDreams, timeRange, variant = 'full' }: DreamWeatherChartProps) {
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null)
+  // Capture "now" on client mount to avoid hydration mismatch from Date.now()
+  const [clientNow, setClientNow] = useState<number | null>(null)
+  useEffect(() => {
+    setClientNow(Date.now())
+  }, [])
   const config = WEATHER_CONFIG[current.condition]
   const timespanLabel = TIMERANGE_LABELS[timeRange]
   
@@ -153,10 +158,11 @@ export function DreamWeatherChart({ points, current, totalDreams, timeRange, var
 
   // Calculate time reference markers (vertical dividing lines)
   // These show boundaries like "1 day ago", "30 days ago", "90 days ago"
+  // Uses clientNow (set after mount) to avoid hydration mismatch
   const getTimeMarkers = () => {
-    if (chartData.length < 2) return []
+    if (chartData.length < 2 || clientNow === null) return []
     
-    const now = Date.now()
+    const now = clientNow
     const markers: { label: string; position: number | null }[] = []
     
     // Define which markers to show based on time range
@@ -276,7 +282,7 @@ export function DreamWeatherChart({ points, current, totalDreams, timeRange, var
                     </span>
                   </div>
                 </div>
-                <span className="text-xs text-muted/60 max-w-md mb-0 pb-0 hidden md:block">
+                <span className="text-xs text-muted/70 max-w-md mb-0 pb-0 hidden md:block">
                   {config.description}
                 </span>
               </div>
@@ -381,7 +387,7 @@ export function DreamWeatherChart({ points, current, totalDreams, timeRange, var
                     width={barWidth}
                     height={barHeight}
                     fill={config.cssVar}
-                    opacity="0.05"
+                    opacity="0.08"
                     rx="2"
                   />
                 )

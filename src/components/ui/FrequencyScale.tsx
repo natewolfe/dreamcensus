@@ -79,7 +79,7 @@ export function FrequencyScale({
               className={cn(
                 'flex-1 rounded-lg py-4 text-md font-semibold transition-all',
                 'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent',
-                isSelected && 'bg-accent border-accent text-foreground shadow-md',
+                isSelected && 'bg-muted border-muted text-foreground shadow-md',
                 !isSelected && 'border-border bg-card-bg text-muted hover:text-foreground hover:border-accent/50',
                 disabled && 'opacity-50 cursor-not-allowed'
               )}
@@ -102,7 +102,7 @@ export function FrequencyScale({
             className={cn(
               'px-3 py-2 rounded-lg text-xs font-medium transition-all ml-2',
               'border-2 border-dashed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent',
-              value === -1 && 'bg-accent/20 border-accent text-accent',
+              value === -1 && 'bg-muted/20 border-muted text-muted',
               value !== -1 && 'border-border bg-card-bg text-muted hover:text-foreground hover:border-accent/50',
               disabled && 'opacity-50 cursor-not-allowed'
             )}

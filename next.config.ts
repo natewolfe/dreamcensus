@@ -8,14 +8,16 @@ const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   
-  /* Webpack: Prevent traversing Windows junctions during build */
-  webpack: (config) => {
-    config.resolve = {
-      ...config.resolve,
-      symlinks: false,
-    }
-    return config
-  },
+  /* Webpack (prod builds only): Prevent traversing Windows junctions */
+  // Turbopack (dev) has no symlinks equivalent and doesn't need it
+  ...(process.env.TURBOPACK
+    ? {}
+    : {
+        webpack: (config) => {
+          config.resolve = { ...config.resolve, symlinks: false }
+          return config
+        },
+      }),
 
   /* Performance */
   images: {

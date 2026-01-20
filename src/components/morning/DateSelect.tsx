@@ -81,7 +81,7 @@ export function DateSelect({
             maxDate={today}
             className={cn(
               'transition-all',
-              specificDate && 'ring-2 ring-accent rounded-lg'
+              specificDate && 'ring-2 ring-muted rounded-lg'
             )}
           />
         </div>
@@ -102,7 +102,7 @@ export function DateSelect({
               className={cn(
                 'flex-1 rounded-xl p-3 flex flex-col items-center gap-2 transition-all',
                 selectedQuickOption === option.value
-                  ? 'bg-accent/20 border-2 border-accent'
+                  ? 'bg-muted/20 border-2 border-muted'
                   : 'bg-card-bg border border-border hover:border-accent/50'
               )}
             >

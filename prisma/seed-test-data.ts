@@ -7,6 +7,13 @@
  * Run with: pnpm db:seed-test
  */
 
+// Load environment variables from .env.local
+import { config } from 'dotenv'
+import { resolve } from 'path'
+
+// Load .env.local file
+config({ path: resolve(process.cwd(), '.env.local') })
+
 import { PrismaClient } from '@/generated/prisma'
 import { createHash } from 'crypto'
 

@@ -253,11 +253,11 @@ export async function getTodayData(): Promise<ActionResult<{
       where: {
         userId: session.userId,
         type: 'night.checked_in',
-        createdAt: {
+        timestamp: {
           gte: new Date(today.getTime() - 24 * 60 * 60 * 1000), // Last 24 hours
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { timestamp: 'desc' },
     })
 
     const nightCheckIn = nightEvent
@@ -349,7 +349,7 @@ export async function getWeekDreams(): Promise<number[]> {
         (entryDate.getTime() - weekStart.getTime()) / (24 * 60 * 60 * 1000)
       )
       if (dayIndex >= 0 && dayIndex < 7) {
-        weekDays[dayIndex]++
+        weekDays[dayIndex] = (weekDays[dayIndex] ?? 0) + 1
       }
     })
 
@@ -454,3 +454,28 @@ function extractKeywords(text: string): string[] {
     .sort((a, b) => (wordCounts.get(b) ?? 0) - (wordCounts.get(a) ?? 0))
 }
 
+// =============================================================================
+// NIGHT INTENTION
+// =============================================================================
+
+/**
+ * Get last night's intention from night check-in
+ * Used to display in morning mode as context
+ */
+export async function getLastNightIntention(): Promise<string | null> {
+  try {
+    const session = await requireAuth()
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    const dateStr = yesterday.toISOString().split('T')[0] ?? ''
+
+    const checkIn = await db.nightCheckIn.findUnique({
+      where: { userId_date: { userId: session.userId, date: dateStr } },
+      select: { intention: true },
+    })
+
+    return checkIn?.intention ?? null
+  } catch {
+    return null
+  }
+}

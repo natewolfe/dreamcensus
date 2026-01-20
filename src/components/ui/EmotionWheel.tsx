@@ -137,7 +137,7 @@ export function EmotionWheel({
                       'rounded-full px-4 py-2 text-sm font-medium transition-all',
                       'border-2',
                       value?.secondary === secondary
-                        ? 'bg-accent border-accent text-foreground'
+                        ? 'bg-muted border-muted text-foreground'
                         : 'border-border bg-card-bg text-foreground hover:border-accent/50'
                     )}
                   >

@@ -61,7 +61,7 @@ export function EmojiCard({
         'border-2',
         sizes.container,
         selected
-          ? 'bg-accent/20 border-accent text-foreground'
+          ? 'bg-muted/20 border-muted text-foreground'
           : 'bg-subtle/30 border-border text-muted hover:border-accent/50',
         className
       )}

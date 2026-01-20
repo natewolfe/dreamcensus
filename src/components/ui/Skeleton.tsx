@@ -144,7 +144,7 @@ export function SectionSkeleton({
 // Ritual card skeleton (Today page)
 export function RitualCardSkeleton() {
   return (
-    <div className="flex-1 min-w-0 rounded-2xl border-2 border-border bg-card-bg p-4 md:p-6 min-h-[180px] flex flex-col justify-between">
+    <div className="flex-1 min-w-0 rounded-lg border border-border bg-card-bg p-4 md:p-6 min-h-[180px] flex flex-col justify-between">
       <div className="flex flex-col items-center gap-3">
         <Skeleton variant="circular" className="h-10 w-10" />
         <Skeleton className="h-7 w-20" />

@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
 import { useTheme, type ThemePreference } from '@/hooks/use-theme'
-import { Card } from '@/components/ui'
+import { SearchableDropdown, type DropdownOption } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
 const THEME_OPTIONS: Array<{
@@ -70,97 +70,76 @@ const THEME_OPTIONS: Array<{
 export function ThemeSelector() {
   const { preference, resolved, setPreference } = useTheme()
 
+  // Convert theme options to dropdown format
+  const dropdownOptions: DropdownOption[] = THEME_OPTIONS.map((option) => ({
+    value: option.value,
+    label: option.label,
+    description: option.description,
+  }))
+
+  // Get the selected theme's colors for the swatch preview
+  const selectedTheme = THEME_OPTIONS.find((opt) => opt.value === preference)
+  const resolvedTheme = THEME_OPTIONS.find((opt) => opt.value === resolved)
+
+  const handleThemeChange = (value: string) => {
+    setPreference(value as ThemePreference)
+  }
+
   return (
-    <div className="space-y-2">
-      {THEME_OPTIONS.map((option) => {
-        const isSelected = preference === option.value
-        const isActive = resolved === option.value || (preference === 'auto' && option.value === 'auto')
-
-        return (
-          <motion.button
-            key={option.value}
-            onClick={() => setPreference(option.value)}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            className="w-full"
+    <div className="space-y-4">
+      <div className="flex gap-3 items-stretch">
+        {/* Color swatch preview */}
+        <div className="relative flex-shrink-0">
+          <div
+            className={cn(
+              'w-12 h-12 rounded-lg border-2 border-accent transition-all'
+            )}
+            style={{
+              background: selectedTheme?.colors.bg,
+            }}
           >
-            <Card
-              variant={isSelected ? 'elevated' : 'interactive'}
-              padding="md"
+            {/* Small accent dot */}
+            <div
+              className="absolute bottom-1 right-1 w-3 h-3 rounded-full"
+              style={{ backgroundColor: selectedTheme?.colors.accent }}
+            />
+          </div>
+
+          {/* Active indicator for auto mode */}
+          {preference === 'auto' && resolvedTheme && (
+            <div
+              className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center"
+              style={{ backgroundColor: resolvedTheme.colors.accent }}
             >
-              <div className="flex items-center gap-4">
-                {/* Color swatch */}
-                <div className="relative flex-shrink-0">
-                  <div
-                    className={cn(
-                      'w-12 h-12 rounded-lg border-2 transition-all',
-                      isSelected ? 'border-accent' : 'border-border'
-                    )}
-                    style={{
-                      background: option.colors.bg,
-                    }}
-                  >
-                    {/* Small accent dot */}
-                    <div
-                      className="absolute bottom-1 right-1 w-3 h-3 rounded-full"
-                      style={{ backgroundColor: option.colors.accent }}
-                    />
-                  </div>
-                  
-                  {/* Active indicator */}
-                  {isActive && preference === 'auto' && option.value !== 'auto' && (
-                    <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-accent flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    </div>
-                  )}
-                </div>
+              <div className="w-2 h-2 rounded-full bg-white" />
+            </div>
+          )}
+        </div>
 
-                {/* Label */}
-                <div className="flex-1 text-left">
-                  <div className="flex items-center gap-2">
-                    <h4 className="font-medium text-foreground">
-                      {option.label}
-                    </h4>
-                    {isActive && preference === 'auto' && option.value !== 'auto' && (
-                      <span className="text-xs text-accent">Active</span>
-                    )}
-                  </div>
-                  <p className="text-sm text-muted">
-                    {option.description}
-                  </p>
-                </div>
-
-                {/* Selection indicator */}
-                <div
-                  className={cn(
-                    'w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center',
-                    isSelected
-                      ? 'border-accent bg-accent'
-                      : 'border-border'
-                  )}
-                >
-                  {isSelected && (
-                    <svg className="w-3 h-3 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  )}
-                </div>
-              </div>
-            </Card>
-          </motion.button>
-        )
-      })}
+        {/* Dropdown selector */}
+        <SearchableDropdown
+          options={dropdownOptions}
+          value={preference}
+          onChange={handleThemeChange}
+          placeholder="Select a theme..."
+          showSearch={false}
+          className="flex-1"
+        />
+      </div>
 
       {/* Info note */}
-      {preference === 'auto' && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-xs text-muted px-2"
-        >
-          Auto mode cycles: Dawn (5-8am) → Day (8am-6pm) → Dusk (6-9pm) → Night (9pm-5am)
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {preference === 'auto' && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="text-xs text-muted overflow-hidden"
+          >
+            Auto mode cycles: Dawn (5-8am) → Day (8am-6pm) → Dusk (6-9pm) → Night (9pm-5am)
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

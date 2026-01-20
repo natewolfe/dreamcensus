@@ -14,6 +14,20 @@ export type BinaryValue = 'yes' | 'no' | 'agree' | 'disagree' | 'true' | 'false'
 export type BinaryVariant = 'yes_no' | 'agree_disagree' | 'true_false'
 
 /**
+ * Canonical configuration for binary variant labels and values
+ */
+export const BINARY_VARIANT_CONFIG: Record<BinaryVariant, {
+  left: BinaryValue
+  right: BinaryValue
+  leftLabel: string
+  rightLabel: string
+}> = {
+  yes_no: { left: 'no', right: 'yes', leftLabel: 'No', rightLabel: 'Yes' },
+  agree_disagree: { left: 'disagree', right: 'agree', leftLabel: 'Disagree', rightLabel: 'Agree' },
+  true_false: { left: 'false', right: 'true', leftLabel: 'False', rightLabel: 'True' },
+}
+
+/**
  * Base props for flow step components
  * Provides consistent navigation and progress tracking
  */

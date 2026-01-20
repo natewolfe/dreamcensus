@@ -140,7 +140,7 @@ export function ImageChoiceGroup({
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    className="w-12 h-12 rounded-full bg-accent text-foreground flex items-center justify-center shadow-lg"
+                    className="w-12 h-12 rounded-full bg-muted text-foreground flex items-center justify-center shadow-lg"
                   >
                     <svg
                       className="w-7 h-7"
@@ -164,7 +164,7 @@ export function ImageChoiceGroup({
             <div
               className={cn(
                 'px-3 py-2 text-sm font-medium transition-colors',
-                selected ? 'bg-accent text-foreground' : 'bg-card-bg text-foreground'
+                selected ? 'bg-muted text-foreground' : 'bg-card-bg text-foreground'
               )}
             >
               {option.label}

@@ -52,7 +52,7 @@ export function LucidityToggle({ value, onChange, onCommit }: LucidityToggleProp
       {value && (
         <motion.div
           layoutId="lucidity-indicator"
-          className="absolute inset-y-1 rounded-full bg-accent"
+          className="absolute inset-y-1 rounded-full bg-muted"
           animate={indicatorStyle}
           transition={{ type: 'spring', stiffness: 400, damping: 30 }}
         />

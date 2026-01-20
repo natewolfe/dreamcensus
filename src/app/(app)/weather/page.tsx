@@ -57,7 +57,7 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
         {/* Data Source Selector */}
         <div className="flex items-center flex gap-2">
           <div>
-            <Button variant="secondary" className="py-3 md:py-5 px-3 md:px-4 text-lg md:text-xl rounded-sm border border-border/0 hover:bg-subtle">
+            <Button variant="secondary" className="py-3 md:py-5 px-3 md:px-4 text-lg md:text-xl rounded-sm border bg-accent/20 border-border/45 text-foreground hover:bg-subtle">
               <span>Collective</span>
             </Button>
           </div>

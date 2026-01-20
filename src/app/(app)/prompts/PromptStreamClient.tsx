@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { PromptStream } from '@/components/prompts'
-import { saveStreamResponse, getStreamQuestions } from './actions'
+import { saveStreamResponse, getStreamQuestionsFormatted, skipPrompt } from './actions'
 import type { PromptQuestion } from '@/components/prompts'
 
 interface PromptStreamClientProps {
@@ -23,9 +23,17 @@ export function PromptStreamClient({ initialQuestions }: PromptStreamClientProps
     []
   )
 
+  const handleSkip = useCallback(async (questionId: string) => {
+    try {
+      await skipPrompt(questionId)
+    } catch (err) {
+      console.error('Failed to skip:', err)
+    }
+  }, [])
+
   const handleRequestMore = useCallback(async () => {
     try {
-      const result = await getStreamQuestions(10)
+      const result = await getStreamQuestionsFormatted(10)
       if (result.success) {
         setQuestions((prev) => {
           // Deduplicate by ID
@@ -43,6 +51,7 @@ export function PromptStreamClient({ initialQuestions }: PromptStreamClientProps
     <PromptStream
       initialQuestions={questions}
       onResponse={handleResponse}
+      onSkip={handleSkip}
       onRequestMore={handleRequestMore}
     />
   )

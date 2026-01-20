@@ -77,7 +77,7 @@ export function TomorrowSetup({
                   'border-2 transition-all',
                   armAlarm ? 'opacity-100' : 'opacity-50 cursor-not-allowed pointer-events-none',
                   enableReminder
-                    ? 'border-accent/50 bg-accent/5'
+                    ? 'border-muted/50 bg-muted/5'
                     : 'border-border bg-subtle/10 hover:border-accent/30'
                 )}
               >

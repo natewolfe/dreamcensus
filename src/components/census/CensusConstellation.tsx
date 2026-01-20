@@ -104,27 +104,31 @@ export function CensusConstellation({
     setTooltip(null)
   }, [])
 
-  if (stars.length === 0) return null
-
-  // Calculate responsive height
+  // Calculate responsive height - always reserve space to prevent layout shift
   const heightStyle = isMobile 
     ? { height: 'clamp(350px, 50vh, 500px)' }
     : { height: 'clamp(280px, 38vh, 450px)' }
 
+  const isReady = stars.length > 0
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: hasMounted ? 1 : 0, y: 0 }}
-      transition={{ duration: 0.5 }}
+    <div 
       className="relative w-full constellation-container"
+      style={heightStyle}
     >
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${layout.width} ${layout.height}`}
-        className="w-full rounded-xl"
-        style={heightStyle}
-        preserveAspectRatio="xMidYMid meet"
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isReady ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
+        className="absolute inset-0"
       >
+        {isReady && (
+          <svg
+            ref={svgRef}
+            viewBox={`0 0 ${layout.width} ${layout.height}`}
+            className="w-full h-full rounded-xl"
+            preserveAspectRatio="xMidYMid meet"
+          >
         {/* Constellation lines - use CSS variable for accent color */}
         <g className="constellation-lines">
           {lines.map((line, i) => (
@@ -134,8 +138,8 @@ export function CensusConstellation({
               y1={line.from.y}
               x2={line.to.x}
               y2={line.to.y}
-              className={line.isComplete ? 'stroke-accent/40' : 'stroke-accent/15'}
-              strokeWidth={line.isComplete ? 1.5 : 1}
+              className={line.isComplete ? 'stroke-accent' : line.isUnlocked ? 'stroke-accent/60' : 'stroke-accent/15'}
+              strokeWidth={line.isComplete ? 3 : line.isUnlocked ? 3 : 3}
               strokeDasharray={line.isComplete ? '0' : '4 4'}
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
@@ -148,22 +152,33 @@ export function CensusConstellation({
         <g className="constellation-stars">
           {stars.map((star, i) => {
             const isClickable = star.type === 'kind' || (star.type === 'section' && !star.isLocked)
-            const isTranslucent = star.type === 'kind' && !star.hasUnlockedSections
+            // Determine star state for coloring
+            const isLocked = star.type === 'kind' ? !star.hasUnlockedSections : star.isLocked
+            const isUnlocked = !isLocked && !star.isComplete
+            
+            // Stroke class: complete=foreground, unlocked=accent, locked=muted
+            const strokeClass = star.isComplete 
+              ? 'stroke-accent' 
+              : isUnlocked 
+                ? 'stroke-accent' 
+                : 'stroke-muted'
+            
+            // Stroke opacity based on state (only for incomplete stars)
+            const strokeOpacity = isLocked ? 0.4 : 1
             
             return (
               <g key={star.id}>
-                {/* Glow effect for bright stars */}
-                {star.brightness > 0.5 && !isTranslucent && (
+                {/* Glow effect for unlocked incomplete stars */}
+                {isUnlocked && (
                   <motion.circle
                     cx={star.x}
                     cy={star.y}
-                    r={star.size * 2.5}
+                    r={star.size * 2}
                     className="fill-accent"
-                    style={{ opacity: star.brightness * 0.15 }}
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ 
-                      scale: [1, 1.2, 1],
-                      opacity: star.brightness * 0.25
+                      scale: [1, 1.15, 1],
+                      opacity: 0.15
                     }}
                     transition={{ 
                       scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
@@ -179,14 +194,16 @@ export function CensusConstellation({
                   r={star.size}
                   className={cn(
                     isClickable && 'cursor-pointer',
-                    isTranslucent ? 'fill-foreground/15' : star.isLocked ? 'fill-foreground/20' : 'fill-foreground'
+                    // Complete: colored fill (foreground), no stroke
+                    // Incomplete: background fill with colored stroke
+                    star.isComplete ? 'fill-accent' : 'fill-background',
+                    !star.isComplete && strokeClass
                   )}
-                  style={{ 
-                    pointerEvents: 'all',
-                    opacity: isTranslucent ? 0.3 : star.brightness
-                  }}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: isTranslucent ? 0.3 : star.brightness }}
+                  style={{ pointerEvents: 'all' }}
+                  strokeWidth={!star.isComplete ? 3 : 0}
+                  strokeOpacity={!star.isComplete ? strokeOpacity : 1}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.02 }}
                   whileHover={isClickable ? { scale: 1.4 } : undefined}
                   onClick={() => handleStarClick(star)}
@@ -194,32 +211,35 @@ export function CensusConstellation({
                   onMouseLeave={handleMouseLeave}
                 />
 
-                {/* Completion ring for Kind stars */}
-                {star.type === 'kind' && star.isComplete && (
+                {/* Ring for Kind containing the "Next" section */}
+                {star.type === 'kind' && star.hasNextSection && (
                   <motion.circle
                     cx={star.x}
                     cy={star.y}
-                    r={star.size + 4}
+                    r={star.size + 5}
                     fill="none"
-                    className="stroke-accent/60"
+                    className="stroke-accent"
                     strokeWidth={2}
                     initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
+                    animate={{ scale: [1, 1.1, 1], opacity: 0.6 }}
+                    transition={{ 
+                      scale: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
+                      opacity: { duration: 0.5, delay: 0.3 }
+                    }}
                   />
                 )}
                 
                 {/* Available pulse ring */}
-                {star.isAvailable && !star.isLocked && !star.isComplete && (
+                {star.isAvailable && !isLocked && !star.isComplete && (
                   <motion.circle
                     cx={star.x}
                     cy={star.y}
                     r={star.size + 2}
                     fill="none"
-                    className="stroke-foreground/40"
-                    strokeWidth={1}
+                    className="stroke-accent/50"
+                    strokeWidth={1.5}
                     initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
+                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                   />
                 )}
@@ -227,7 +247,9 @@ export function CensusConstellation({
             )
           })}
         </g>
-      </svg>
+          </svg>
+        )}
+      </motion.div>
 
       {/* Tooltip */}
       <AnimatePresence>
@@ -287,6 +309,6 @@ export function CensusConstellation({
           </button>
         ))}
       </div>
-    </motion.div>
+    </div>
   )
 }

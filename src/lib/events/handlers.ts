@@ -1,7 +1,8 @@
 import type { Event } from '@/generated/prisma'
+import { getUserConsents } from '../consent'
 import { EVENT_TYPES } from '../constants'
 import { db } from '../db'
-import { slugify } from '../utils'
+import { setDreamTags } from '../tags'
 import type {
   JournalEntryCreatedPayload,
   JournalEntryUpdatedPayload,
@@ -61,25 +62,22 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
 
       // Create tag associations if tags provided
       if (payload.tags?.length) {
-        for (const tagName of payload.tags) {
-          const tag = await db.tag.upsert({
-            where: { slug: slugify(tagName) },
-            create: {
-              name: tagName,
-              slug: slugify(tagName),
-              category: 'custom',
-            },
-            update: { usageCount: { increment: 1 } },
-          })
-          
-          await db.dreamTag.create({
-            data: {
-              dreamEntryId: entry.id,
-              tagId: tag.id,
-              source: 'user',
-            },
-          })
-        }
+        await setDreamTags(entry.id, payload.tags)
+      }
+
+      // Gate AI and weather operations by consent
+      const consents = await getUserConsents(event.userId)
+
+      // Only queue AI extraction if user consented to insights
+      if (consents.has('insights')) {
+        // Future: Queue AI fact extraction job
+        // await queueJob('ai.extract', { dreamId: entry.id })
+      }
+
+      // Only contribute to weather if consented to commons
+      if (consents.has('commons')) {
+        // Future: Queue weather contribution
+        // await queueJob('weather.contribute', { dreamId: entry.id })
       }
     },
   ],

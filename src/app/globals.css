@@ -20,6 +20,10 @@
   --color-card-bg: var(--card-bg);
   --color-constellation-node: var(--constellation-node);
   --color-constellation-edge: var(--constellation-edge);
+  --color-special-start: var(--special-start);
+  --color-special-mid: var(--special-mid);
+  --color-special-end: var(--special-end);
+  --color-special-glow: var(--special-glow);
   
   /* Typography - Maps to font-sans, font-display */
   --font-sans: var(--font-body), system-ui, sans-serif;
@@ -34,6 +38,12 @@
   --animate-breathe: breathe 4s ease-in-out infinite;
   --animate-special-gradient: special-gradient 10s ease-in-out infinite;
   --animate-special-shimmer: special-shimmer 6s ease-in-out infinite;
+  
+  /* Shadows - Maps to shadow-sm, shadow-md, shadow-lg, shadow-xl */
+  --shadow-sm: var(--theme-shadow-sm);
+  --shadow-md: var(--theme-shadow-md);
+  --shadow-lg: var(--theme-shadow-lg);
+  --shadow-xl: var(--theme-shadow-xl);
 }
 
 /* =============================================================================
@@ -69,11 +79,12 @@
   --radius-xl: 1rem;        /* 16px */
   --radius-pill: 9999px;
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.07);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.07);
+  /* Shadows - color adapts per theme */
+  --shadow-color: 0 0 0;  /* default black, overridden per theme */
+  --theme-shadow-sm: 0 1px 2px 0 rgb(var(--shadow-color) / 0.06);
+  --theme-shadow-md: 0 4px 6px -1px rgb(var(--shadow-color) / 0.08);
+  --theme-shadow-lg: 0 10px 15px -3px rgb(var(--shadow-color) / 0.10);
+  --theme-shadow-xl: 0 20px 25px -5px rgb(var(--shadow-color) / 0.12);
   
   /* Animation timing */
   --duration-fast: 150ms;
@@ -126,7 +137,7 @@
   --weather-cloudy: #9fa8da;
   --weather-calm: var(--accent);
   --weather-pleasant: #c4a2ff;
-  --weather-radiant: #69f0ae;
+  --weather-radiant: #51dd99;
   
   /* Special button gradient colors */
   --special-start: #9575cd;       /* Deep lavender */
@@ -141,52 +152,62 @@
 
 /* Dawn (5-8am) - Soft warm awakening with pale blue and light tan */
 .theme-dawn {
-  --background: #f7f9fa;
-  --foreground: #2d3748;
-  --accent: #d4a574;
-  --muted: #8faabe;
-  --subtle: #e8f0f7;
-  --border: #e1e6eb;
-  --card-bg: #f8f7f4;
+  --background: #ece5d7;          /* warm cream */
+  --foreground: #504337;          /* warm brown-gray for readability */
+  --accent: #c28f6f;              /* soft orange */
+  --muted: #ae8793;               /* lavender */
+  --subtle: #b7a792;              /* pale cream-yellow */
+  --border: #e0cdc5;              /* warm cream border */
+  --card-bg: #f5ede2;             /* soft cream white */
+  --shadow-color: 74 54 40;         /* warm brown shadow */
+  --theme-shadow-sm: 0 1px 2px 0 rgb(var(--shadow-color) / 0.03);
+  --theme-shadow-md: 0 4px 6px -1px rgb(var(--shadow-color) / 0.04);
+  --theme-shadow-lg: 0 10px 15px -3px rgb(var(--shadow-color) / 0.05);
+  --theme-shadow-xl: 0 20px 25px -5px rgb(var(--shadow-color) / 0.06);
   
   /* Theme-specific elements */
-  --ring-track: #d0dce5;
+  --ring-track: #f5e6d8;          /* warm cream */
   --ring-fill: var(--accent);
-  --ring-glow: rgba(212, 165, 116, 0.3);
+  --ring-glow: rgba(232, 149, 109, 0.35);
   
-  --constellation-node: #d4a574;
-  --constellation-edge: rgba(212, 165, 116, 0.3);
-  --constellation-pulse: rgba(212, 165, 116, 0.5);
+  --constellation-node: #e8956d;  /* soft orange */
+  --constellation-edge: rgba(232, 149, 109, 0.3);
+  --constellation-pulse: rgba(232, 149, 109, 0.5);
   
-  --breathe-inhale: #d4a574;
-  --breathe-hold: #c09a6a;
-  --breathe-exhale: #a88f60;
+  --breathe-inhale: #f9d99a;      /* soft yellow */
+  --breathe-hold: #e8956d;        /* soft orange */
+  --breathe-exhale: #d4a3b8;      /* dusty pink */
   
   /* Response colors */
-  --response-no: #8f7ba8;
-  --response-no-bg: rgba(143, 123, 168, 0.15);
-  --response-yes: #5b9fbc;
-  --response-yes-bg: rgba(91, 159, 188, 0.15);
+  --response-no: #c4b0d9;         /* soft lavender */
+  --response-no-bg: rgba(196, 176, 217, 0.18);
+  --response-yes: #f9c784;        /* soft yellow-orange */
+  --response-yes-bg: rgba(249, 199, 132, 0.18);
   
   /* Weather chart colors */
   --weather-calm: var(--accent);
   
-  /* Special button - warm dawn tones */
-  --special-start: #e8b4a0;
-  --special-mid: #efd6bb;
-  --special-end: #e4c791;
-  --special-glow: #f2dfd3;
+  /* Special button - warm dawn gradient */
+  --special-start: #f5d0c5;       /* pale pink */
+  --special-mid: #fce5b5;         /* soft yellow */
+  --special-end: #e8b88a;         /* warm orange */
+  --special-glow: #fef0e5;        /* cream glow */
 }
 
 /* Day (8am-6pm) - Bright with off-white, gold and blue accents */
 .theme-day {
-  --background: #faf9f7;
+  --background: #e6ecf1;
   --foreground: #1a1a1a;
-  --accent: #c9a227;
-  --muted: #4a6fa5;
-  --subtle: #dce6f7;
-  --border: #e5e5e5;
-  --card-bg: #ffffff;
+  --accent: #b6aa84;
+  --muted: #5479b1;
+  --subtle: #dddced;
+  --border: #c9d0e0;
+  --card-bg: #e7eeef;
+  --shadow-color: 0 0 0;          /* neutral black shadow */
+  --theme-shadow-sm: 0 1px 2px 0 rgb(var(--shadow-color) / 0.03);
+  --theme-shadow-md: 0 4px 6px -1px rgb(var(--shadow-color) / 0.04);
+  --theme-shadow-lg: 0 10px 15px -3px rgb(var(--shadow-color) / 0.05);
+  --theme-shadow-xl: 0 20px 25px -5px rgb(var(--shadow-color) / 0.06);
   
   /* Theme-specific elements */
   --ring-track: #e5e5e5;
@@ -211,21 +232,22 @@
   --weather-calm: var(--accent);
   
   /* Special button - golden daylight */
-  --special-start: #90886a;
-  --special-mid: #5e88a6;
-  --special-end: #3d5a85;
-  --special-glow: #c4ab57;
+  --special-start: #f9eec6;
+  --special-mid: #bde3ff;
+  --special-end: #cadffd;
+  --special-glow: #fee48e;
 }
 
 /* Dusk (6-9pm) - Warm transition with gold, pale red and mauve */
 .theme-dusk {
   --background: #2a2030;
   --foreground: #f0e8e0;
-  --accent: #cea05e;
+  --accent: #f4d59b;
   --muted: #c08080;
   --subtle: #705860;
   --border: #453a50;
   --card-bg: #352a3d;
+  --shadow-color: 10 5 15;        /* deep purple-black shadow */
   
   /* Theme-specific elements */
   --ring-track: #453850;
@@ -250,9 +272,9 @@
   --weather-calm: var(--accent);
   
   /* Special button - warm dusk tones */
-  --special-start: #705860;
-  --special-mid: #a86868;
-  --special-end: #8a6f49;
+  --special-start: #835f6b;
+  --special-mid: #b46f6f;
+  --special-end: #b18d59;
   --special-glow: #cea05e;
 }
 
@@ -265,6 +287,7 @@
   --subtle: #3f4774;
   --border: #262942;
   --card-bg: #13152a;
+  --shadow-color: 3 4 12;         /* deep blue-black shadow */
   
   /* Theme-specific elements */
   --ring-track: #2d2d44;
@@ -577,8 +600,8 @@ a:not(.btn-link):not(.nav-link):hover {
 .chip-fill-animate {
   background-image: radial-gradient(
     circle at center,
-    var(--accent) 0%,
-    var(--accent) 40%,
+    var(--muted) 0%,
+    var(--muted) 40%,
     transparent 40%
   );
   background-position: center;

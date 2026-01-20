@@ -25,3 +25,4 @@ export {
   isAudioUnlocked,
 } from './sounds'
 export { getAlarmState, saveAlarmState, clearAlarmState, getInitialAlarmState } from './store'
+export { getScheduleRepeatLabel } from './schedule-labels'

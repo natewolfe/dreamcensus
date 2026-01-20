@@ -236,7 +236,7 @@ export function SearchableDropdown({
                       className={cn(
                         'w-full px-4 py-3 text-left opacity-80 transition-colors',
                         'hover:bg-accent/10',
-                        isSelected && 'bg-accent/20 text-foreground font-medium opacity-100'
+                        isSelected && 'bg-muted/20 text-foreground font-medium opacity-100'
                       )}
                     >
                       <span>{option.label}</span>

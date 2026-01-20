@@ -28,7 +28,7 @@ const variantStyles = {
   },
   subtle: {
     container: 'bg-subtle/20',
-    bar: 'bg-accent/60',
+    bar: 'bg-accent',
   },
 }
 

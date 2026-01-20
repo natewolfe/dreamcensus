@@ -5,6 +5,9 @@
   "description": "A ritual-first dream reflection app with research-grade data collection",
   "scripts": {
     "dev": "next dev",
+    "dev:turbo": "next dev --turbo",
+    "dev:fast": "NEXT_TELEMETRY_DISABLED=1 next dev --turbo",
+    "dev:light": "NEXT_TELEMETRY_DISABLED=1 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -44,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
     "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "^17.2.3",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.1.0",
     "jsdom": "^25.0.1",

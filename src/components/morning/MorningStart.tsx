@@ -12,7 +12,15 @@ function getTimeGreeting(): string {
   return 'Welcome back'
 }
 
-export function MorningStart({ globalStep, totalSteps, onVoice, onText, onEmotionOnly, onSkip: _onSkip }: MorningStartProps) {
+export function MorningStart({
+  globalStep,
+  totalSteps,
+  onVoice,
+  onText,
+  onEmotionOnly,
+  onSkip: _onSkip,
+  lastNightIntention,
+}: MorningStartProps) {
   const greeting = getTimeGreeting()
 
   return (
@@ -23,8 +31,7 @@ export function MorningStart({ globalStep, totalSteps, onVoice, onText, onEmotio
       transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
       className="space-y-8"
     >
-      <div className="flex min-h-[50vh] flex-col items-center justify-center px-4"
-      >
+      <div className="flex min-h-[50vh] flex-col items-center justify-center px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -34,10 +41,22 @@ export function MorningStart({ globalStep, totalSteps, onVoice, onText, onEmotio
           <h1 className="mb-2 text-3xl font-light text-foreground">
             {greeting}
           </h1>
-          <p className="text-lg text-muted">
-            Anything you remember?
-          </p>
+          <p className="text-lg text-muted">Anything you remember?</p>
         </motion.div>
+
+        {lastNightIntention && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-4 max-w-sm rounded-xl border border-border bg-card-bg px-4 py-3 text-center"
+          >
+            <p className="mb-1 text-sm text-muted">
+              Last night you set an intention:
+            </p>
+            <p className="italic text-foreground">"{lastNightIntention}"</p>
+          </motion.div>
+        )}
 
         <div className="mt-4 w-full max-w-sm space-y-4">
           {/* Primary: Voice */}

@@ -34,6 +34,7 @@ export function SectionCard({
         padding="lg"
         as={isLocked ? 'div' : 'button'}
         onClick={!isLocked ? onClick : undefined}
+        className={isComplete ? 'border-accent' : undefined}
       >
         <div className={cn(
           'text-left',
@@ -54,12 +55,13 @@ export function SectionCard({
                   )}
                 </div>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-sm text-muted">
+                  <span className={cn(
+                    "text-sm",
+                    isComplete ? "text-accent font-semibold" : "text-muted"
+                  )}>
                     {progress.answeredQuestions}/{progress.totalQuestions} complete
+                    {isComplete && ' ✓'}
                   </span>
-                  {isComplete && (
-                    <span className="text-accent text-sm">✓</span>
-                  )}
                 </div>
               </div>
             </div>

@@ -83,7 +83,7 @@ export function DreamIntention({
                   'rounded-full px-3 py-1.5 text-sm',
                   'border border-border bg-subtle/30 text-muted',
                   'hover:border-accent/50 hover:text-foreground transition-all',
-                  intention === suggestion && 'border-accent text-accent'
+                  intention === suggestion && 'border-muted text-muted'
                 )}
               >
                 {suggestion}

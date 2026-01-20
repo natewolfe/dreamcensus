@@ -138,7 +138,7 @@ export function PoolSelector({
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
                   sizes.chip,
                   isSelected
-                    ? 'bg-accent text-foreground border-accent'
+                    ? 'bg-muted text-foreground border-muted'
                     : 'bg-transparent text-foreground border-border hover:border-accent',
                   isDimmed && 'opacity-40 cursor-not-allowed'
                 )}
@@ -167,7 +167,7 @@ export function PoolSelector({
             className={cn(
               'inline-flex items-center gap-1.5 rounded-full',
               'font-medium border-2 transition-all duration-150',
-              'bg-accent text-foreground border-accent',
+              'bg-muted text-foreground border-muted',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2',
               sizes.chip
             )}

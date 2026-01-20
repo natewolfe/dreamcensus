@@ -70,7 +70,7 @@ export function Toggle<T extends string>({
               sizeStyles[size],
               isAnimating && 'chip-fill-animate',
               isSelected && !isAnimating
-                ? 'bg-accent text-foreground shadow-sm'
+                ? 'bg-muted text-foreground shadow-sm'
                 : 'text-muted hover:text-foreground'
             )}
             role="radio"

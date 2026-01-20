@@ -23,7 +23,6 @@ model User {
   keyRecoveryMethod    String?
   keySalt              Bytes?
   alarmSettings        AlarmSettings?
-  categoryProgress     CategoryProgress[]
   censusAnswers        CensusAnswer[]
   consents             Consent[]
   dreamEntries         DreamEntry[]
@@ -231,51 +230,6 @@ model CensusProgress {
   lastActivityAt  DateTime  @default(now())
   completedAt     DateTime?
 
-  @@index([userId])
-}
-
-model CensusCategory {
-  id          String       @id @default(cuid())
-  slug        String       @unique
-  name        String
-  description String?
-  icon        String?
-  color       String?
-  sortOrder   Int          @default(0)
-  createdAt   DateTime     @default(now())
-  forms       CensusForm[]
-
-  @@index([sortOrder])
-}
-
-model CensusForm {
-  id                 String         @id @default(cuid())
-  categoryId         String
-  slug               String
-  name               String
-  description        String?
-  estimatedMinutes   Int            @default(5)
-  sortOrder          Int            @default(0)
-  prerequisiteFormId String?
-  promptThreshold    Int?
-  createdAt          DateTime       @default(now())
-  category           CensusCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
-  @@unique([categoryId, slug])
-  @@index([categoryId, sortOrder])
-}
-
-model CategoryProgress {
-  id             String   @id @default(cuid())
-  userId         String
-  categoryId     String
-  promptAnswers  Int      @default(0)
-  formsStarted   String[] @default([])
-  formsComplete  String[] @default([])
-  lastActivityAt DateTime @default(now())
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, categoryId])
   @@index([userId])
 }
 

@@ -80,7 +80,7 @@ export function Chips<T extends string>({
               'active:scale-95',
               isAnimating && 'chip-fill-animate',
               isSelected && !isAnimating
-                ? 'bg-accent text-foreground border-accent'
+                ? 'bg-muted text-foreground border-muted'
                 : 'bg-transparent text-foreground border-border hover:border-accent'
             )}
             aria-pressed={isSelected}

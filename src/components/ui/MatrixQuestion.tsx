@@ -128,7 +128,7 @@ export function MatrixQuestion({
                             'w-full px-4 py-3 rounded-lg text-left transition-all',
                             'border-2',
                             isSelected
-                              ? 'bg-accent border-accent text-foreground'
+                              ? 'bg-muted border-muted text-foreground'
                               : 'bg-background border-border hover:border-accent/50'
                           )}
                         >
@@ -208,7 +208,7 @@ export function MatrixQuestion({
                           'w-8 h-8 rounded-full transition-all',
                           'border-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent',
                           isSelected
-                            ? 'bg-accent border-accent shadow-md'
+                            ? 'bg-muted border-muted shadow-md'
                             : 'bg-card-bg border-border hover:border-accent/50',
                           disabled && 'opacity-50 cursor-not-allowed'
                         )}

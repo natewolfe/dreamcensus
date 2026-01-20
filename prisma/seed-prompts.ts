@@ -3,7 +3,11 @@
  * Usage: npx tsx prisma/seed-prompts.ts
  */
 
+import { config } from 'dotenv'
 import { PrismaClient } from '@/generated/prisma'
+
+// Load environment variables from .env.local
+config({ path: '.env.local' })
 
 const prisma = new PrismaClient()
 

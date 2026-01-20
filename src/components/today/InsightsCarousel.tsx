@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from '@/components/ui'
@@ -35,6 +35,18 @@ export function InsightsCarousel({ insights }: InsightsCarouselProps) {
     }
   }
 
+  // Auto-cycle through insights every 12 seconds
+  useEffect(() => {
+    if (insights.length <= 1) return // No need to cycle with 0 or 1 insight
+
+    const interval = setInterval(() => {
+      setDirection('forward')
+      setCurrentIndex(i => (i + 1) % insights.length) // Loop back to start
+    }, 12000)
+
+    return () => clearInterval(interval)
+  }, [insights.length, currentIndex]) // Reset interval on manual navigation
+
   if (insights.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
@@ -58,7 +70,7 @@ export function InsightsCarousel({ insights }: InsightsCarouselProps) {
             initial={{ opacity: 0, x: direction === 'forward' ? 30 : -30 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: direction === 'forward' ? -30 : 30 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
             className="text-center"
           >
             {/* Small label */}

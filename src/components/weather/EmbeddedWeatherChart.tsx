@@ -25,7 +25,7 @@ export function EmbeddedWeatherChart({ chartData }: EmbeddedWeatherChartProps) {
             className={cn(
               'rounded-md px-3 py-1.5 text-md font-medium transition-colors',
               source === 'collective'
-                ? 'bg-subtle text-foreground'
+                ? 'bg-accent/20 border border-border/45 text-foreground'
                 : 'bg-card-bg/30 text-muted border border-border/70 hover:text-foreground hover:bg-subtle/50'
             )}
           >
