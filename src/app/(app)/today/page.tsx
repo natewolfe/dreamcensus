@@ -9,33 +9,41 @@ import { TodayAlarmWidget } from './TodayAlarmWidget'
 import { getTimeGreeting } from '@/lib/utils'
 import { getStreak, getWeekDreams } from './actions'
 import { getStreamQuestionsFormatted } from '../prompts/actions'
-import { getWeatherChart, getPersonalWeather } from '../weather/actions'
+import { getWeatherChart, getPersonalWeather, getPersonalWeatherChart } from '../weather/actions'
 import { getCensusSections, getCensusProgress } from '../census/actions'
 import { getNextSection } from '@/components/census/constants'
 import { generateInsights } from '@/lib/insights'
+import { getSession } from '@/lib/auth'
+import { getCensusProgressSummary } from '@/lib/census/progress'
 
 export default async function TodayPage() {
   const greeting = getTimeGreeting()
   const today = new Date()
+  const session = await getSession()
 
   // Fetch streak, week data, prompts, weather chart, personal weather, and census data
-  const [streakCount, weekDreams, promptsResult, chartResult, personalResult, sectionsResult, progressResult] = await Promise.all([
+  const [streakCount, weekDreams, promptsResult, chartResult, personalChartResult, personalResult, sectionsResult, progressResult, censusProgressSummary] = await Promise.all([
     getStreak(),
     getWeekDreams(),
     getStreamQuestionsFormatted(5),
     getWeatherChart('7d'),
+    getPersonalWeatherChart('7d'),
     getPersonalWeather('7d'),
     getCensusSections(),
     getCensusProgress(),
+    session ? getCensusProgressSummary(session.userId) : Promise.resolve({ answered: 0, total: 0, percentage: 0 }),
   ])
 
   const chartData = chartResult.success ? chartResult.data : null
+  const personalChartData = personalChartResult.success ? personalChartResult.data : null
   const personalWeather = personalResult.success ? personalResult.data : null
 
-  // Calculate census progress
-  let censusProgress = 0
-  let censusAnswered = 0
-  let censusTotal = 0
+  // Use shared census progress summary
+  const censusProgress = censusProgressSummary.percentage
+  const censusAnswered = censusProgressSummary.answered
+  const censusTotal = censusProgressSummary.total
+
+  // Get next section for CTA subtitle and direct linking
   let nextSectionName: string | undefined
   let nextSectionSlug: string | undefined
   
@@ -43,16 +51,6 @@ export default async function TodayPage() {
     const sections = sectionsResult.data
     const progress = progressResult.data
     
-    censusTotal = sections.reduce((sum, s) => sum + s.questions.length, 0)
-    censusAnswered = Object.values(progress).reduce(
-      (sum, p) => sum + p.answeredQuestions,
-      0
-    )
-    censusProgress = censusTotal > 0
-      ? Math.round((censusAnswered / censusTotal) * 100)
-      : 0
-    
-    // Get next section for CTA subtitle and direct linking
     const nextSection = getNextSection(sections, progress)
     nextSectionName = nextSection?.name
     nextSectionSlug = nextSection?.slug ?? nextSection?.id
@@ -254,7 +252,10 @@ export default async function TodayPage() {
 
         {/* Embedded Weather Chart */}
         {chartData && chartData.points.length >= 6 && (
-          <EmbeddedWeatherChart chartData={chartData} />
+          <EmbeddedWeatherChart 
+            collectiveChartData={chartData}
+            personalChartData={personalChartData}
+          />
         )}
 
         {/* Dream School Section */}

@@ -46,6 +46,7 @@ export function MorningMode({
   onHasDataChange,
   onCompletionVisible,
   userId,
+  displayName,
   lastNightIntention,
   alarmContext,
 }: MorningModeProps) {
@@ -459,6 +460,7 @@ export function MorningMode({
             onText={handleSelectText}
             onEmotionOnly={handleSelectMinimal}
             onSkip={onCancel}
+            displayName={displayName}
             lastNightIntention={lastNightIntention}
           />
         )}

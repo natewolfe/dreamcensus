@@ -41,3 +41,44 @@ export async function computeStreak(userId: string): Promise<number> {
 
   return streak
 }
+
+/**
+ * Compute longest streak ever for a user
+ * Finds the longest consecutive days with at least one dream entry
+ * 
+ * @param userId - User ID to compute longest streak for
+ * @returns Longest streak of consecutive days with dreams
+ */
+export async function computeLongestStreak(userId: string): Promise<number> {
+  const dreams = await db.dreamEntry.findMany({
+    where: { userId },
+    select: { capturedAt: true },
+    orderBy: { capturedAt: 'asc' },
+  })
+
+  if (dreams.length === 0) return 0
+
+  // Get unique dates sorted ascending
+  const dates = [...new Set(
+    dreams.map((d) => d.capturedAt.toISOString().split('T')[0])
+  )].sort()
+
+  let longestStreak = 1
+  let currentStreak = 1
+
+  for (let i = 1; i < dates.length; i++) {
+    const prevDate = new Date(dates[i - 1]!)
+    const currDate = new Date(dates[i]!)
+    
+    // Check if consecutive day
+    prevDate.setDate(prevDate.getDate() + 1)
+    if (prevDate.toISOString().split('T')[0] === currDate.toISOString().split('T')[0]) {
+      currentStreak++
+      longestStreak = Math.max(longestStreak, currentStreak)
+    } else {
+      currentStreak = 1
+    }
+  }
+
+  return longestStreak
+}

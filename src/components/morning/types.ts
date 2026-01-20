@@ -92,6 +92,8 @@ export interface MorningModeProps {
   onCompletionVisible?: (visible: boolean) => void
   /** User ID for draft loading (optional, gracefully degrades if not provided) */
   userId?: string
+  /** User's display name for personalized greeting */
+  displayName?: string
   /** Last night's dream intention from night check-in */
   lastNightIntention?: string
   /** When triggered by alarm, includes metadata for tracking */
@@ -110,6 +112,8 @@ export interface MorningStartProps {
   onText: () => void
   onEmotionOnly: () => void
   onSkip: () => void
+  /** User's display name for personalized greeting */
+  displayName?: string
   /** Last night's dream intention to display */
   lastNightIntention?: string
 }

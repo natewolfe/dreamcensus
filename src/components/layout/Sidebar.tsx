@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -13,6 +14,23 @@ import { ThemeCycleButton } from './ThemeCycleButton'
 export function Sidebar() {
   const pathname = usePathname()
   const { isOpen, toggle } = useSidebar()
+  const [avatarData, setAvatarData] = useState<{ emoji: string; color: string } | null>(null)
+
+  // Fetch avatar data on mount
+  useEffect(() => {
+    async function fetchAvatar() {
+      try {
+        const response = await fetch('/api/profile/avatar')
+        if (response.ok) {
+          const data = await response.json()
+          setAvatarData({ emoji: data.avatarEmoji, color: data.avatarBgColor })
+        }
+      } catch (error) {
+        console.error('Failed to fetch avatar:', error)
+      }
+    }
+    fetchAvatar()
+  }, [])
 
   return (
     <div className={cn(
@@ -92,7 +110,11 @@ export function Sidebar() {
 
       {/* Account Section */}
       <div className="border-t border-border/30 p-2">
-        <ProfileMenu isExpanded={isOpen} />
+        <ProfileMenu 
+          isExpanded={isOpen}
+          avatarEmoji={avatarData?.emoji}
+          avatarBgColor={avatarData?.color}
+        />
       </div>
     </div>
   )

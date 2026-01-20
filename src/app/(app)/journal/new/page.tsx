@@ -1,38 +1,22 @@
-'use client'
+import { redirect } from 'next/navigation'
+import { getSession } from '@/lib/auth'
+import { db } from '@/lib/db'
+import { JournalNewClient } from './JournalNewClient'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { MorningMode } from '@/components/morning'
-import { FlowPageWrapper } from '@/components/ui'
+export default async function JournalNewEntryPage() {
+  const session = await getSession()
+  if (!session) redirect('/login')
 
-export default function JournalNewEntryPage() {
-  const router = useRouter()
-  const [hasData, setHasData] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
-
-  const handleComplete = (dreamId: string) => {
-    router.push(`/journal/${dreamId}`)
-  }
-
-  const handleExit = () => {
-    // Only save if there's actual data
-    // For now, just exit - draft is already saved to IndexedDB automatically
-    router.push('/journal')
-  }
+  // Fetch user displayName for personalized greeting
+  const user = await db.user.findUnique({
+    where: { id: session.userId },
+    select: { displayName: true },
+  })
 
   return (
-    <FlowPageWrapper
-      onExit={handleExit}
-      exitText={hasData ? "Save & Exit" : "Exit"}
-      hideExit={isComplete}
-    >
-      <MorningMode
-        mode="journal"
-        onComplete={handleComplete}
-        onCancel={handleExit}
-        onHasDataChange={setHasData}
-        onCompletionVisible={setIsComplete}
-      />
-    </FlowPageWrapper>
+    <JournalNewClient
+      userId={session.userId}
+      displayName={user?.displayName ?? undefined}
+    />
   )
 }

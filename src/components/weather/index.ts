@@ -8,6 +8,7 @@ export { TimeRangeSelector } from './TimeRangeSelector'
 export { DismissibleLearnCard } from './DismissibleLearnCard'
 export { DreamWeatherChart } from './DreamWeatherChart'
 export { EmbeddedWeatherChart } from './EmbeddedWeatherChart'
+export { DataSourceToggle } from './DataSourceToggle'
 
 // New Collective Weather Components
 export { KeyMetricsRow } from './KeyMetricsRow'

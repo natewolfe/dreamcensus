@@ -15,6 +15,8 @@ model User {
   createdAt            DateTime             @default(now())
   updatedAt            DateTime             @updatedAt
   displayName          String?
+  avatarEmoji          String               @default("🌙")
+  avatarBgColor        String               @default("#5c6bc0")
   email                String?              @unique
   emailVerifiedAt      DateTime?
   timezone             String               @default("UTC")
@@ -26,6 +28,7 @@ model User {
   censusAnswers        CensusAnswer[]
   consents             Consent[]
   dreamEntries         DreamEntry[]
+  dreamerProfile       DreamerProfile?
   events               Event[]
   nightCheckIns        NightCheckIn[]
   promptResponses      PromptResponse[]
@@ -446,6 +449,53 @@ model AlarmSettings {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model DreamerProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  // Dimension scores (0-100, null = insufficient data)
+  boundaryScore   Int?
+  lucidityScore   Int?
+  emotionScore    Int?
+  meaningScore    Int?
+  engagementScore Int?
+
+  // Confidence per dimension (0-100)
+  boundaryConfidence   Int?
+  lucidityConfidence   Int?
+  emotionConfidence    Int?
+  meaningConfidence    Int?
+  engagementConfidence Int?
+
+  // Archetype assignment
+  primaryArchetype    String? // "navigator" | "oracle" | "witness" | "explorer"
+  secondaryArchetype  String?
+  archetypeConfidence Int?
+
+  // Unlock progress (points-based)
+  unlockPoints Int @default(0)
+  unlockLevel  Int @default(0)
+
+  // Cached journal metrics
+  journalDreamCount     Int      @default(0)
+  journalLucidPercent   Int?
+  journalAvgVividness   Int?
+  journalTopEmotions    String[]
+  journalTopTags        String[]
+  journalWakingLinkRate Int? // 0-100
+
+  // Metadata
+  scoringVersion   Int       @default(1)
+  isStale          Boolean   @default(true)
+  lastCalculatedAt DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }

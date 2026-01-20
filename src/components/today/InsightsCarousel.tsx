@@ -12,9 +12,11 @@ export interface InsightItem {
 
 interface InsightsCarouselProps {
   insights: InsightItem[]
+  /** Where the "More" link goes. null = no link, undefined = default to /profile#insights */
+  linkTo?: string | null
 }
 
-export function InsightsCarousel({ insights }: InsightsCarouselProps) {
+export function InsightsCarousel({ insights, linkTo }: InsightsCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState<'forward' | 'back'>('forward')
 
@@ -85,13 +87,15 @@ export function InsightsCarousel({ insights }: InsightsCarouselProps) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Link to weather */}
-        <Link
-          href="/weather"
-          className="mt-3 text-sm text-accent font-medium hover:text-accent/80 transition-colors"
-        >
-          More →
-        </Link>
+        {/* Link to full insights */}
+        {linkTo !== null && (
+          <Link
+            href={linkTo ?? "/profile#insights"}
+            className="mt-3 text-sm text-accent font-medium hover:text-accent/80 transition-colors"
+          >
+            {linkTo === undefined ? "See all insights →" : "More →"}
+          </Link>
+        )}
       </div>
 
       {/* Bottom navigation: arrows + dots */}

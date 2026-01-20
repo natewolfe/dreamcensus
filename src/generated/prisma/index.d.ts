@@ -143,6 +143,11 @@ export type SyncQueueItem = $Result.DefaultSelection<Prisma.$SyncQueueItemPayloa
  * 
  */
 export type AlarmSettings = $Result.DefaultSelection<Prisma.$AlarmSettingsPayload>
+/**
+ * Model DreamerProfile
+ * 
+ */
+export type DreamerProfile = $Result.DefaultSelection<Prisma.$DreamerProfilePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -521,6 +526,16 @@ export class PrismaClient<
     * ```
     */
   get alarmSettings(): Prisma.AlarmSettingsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dreamerProfile`: Exposes CRUD operations for the **DreamerProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DreamerProfiles
+    * const dreamerProfiles = await prisma.dreamerProfile.findMany()
+    * ```
+    */
+  get dreamerProfile(): Prisma.DreamerProfileDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -987,7 +1002,8 @@ export namespace Prisma {
     Theme: 'Theme',
     NightCheckIn: 'NightCheckIn',
     SyncQueueItem: 'SyncQueueItem',
-    AlarmSettings: 'AlarmSettings'
+    AlarmSettings: 'AlarmSettings',
+    DreamerProfile: 'DreamerProfile'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1006,7 +1022,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "verificationToken" | "event" | "dreamEntry" | "journalFact" | "tag" | "dreamTag" | "censusInstrument" | "censusSection" | "censusQuestion" | "censusAnswer" | "censusProgress" | "prompt" | "promptResponse" | "consent" | "weatherAggregate" | "personalWeather" | "study" | "studyParticipation" | "emotion" | "symbol" | "theme" | "nightCheckIn" | "syncQueueItem" | "alarmSettings"
+      modelProps: "user" | "session" | "verificationToken" | "event" | "dreamEntry" | "journalFact" | "tag" | "dreamTag" | "censusInstrument" | "censusSection" | "censusQuestion" | "censusAnswer" | "censusProgress" | "prompt" | "promptResponse" | "consent" | "weatherAggregate" | "personalWeather" | "study" | "studyParticipation" | "emotion" | "symbol" | "theme" | "nightCheckIn" | "syncQueueItem" | "alarmSettings" | "dreamerProfile"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2934,6 +2950,80 @@ export namespace Prisma {
           }
         }
       }
+      DreamerProfile: {
+        payload: Prisma.$DreamerProfilePayload<ExtArgs>
+        fields: Prisma.DreamerProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DreamerProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DreamerProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.DreamerProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DreamerProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>
+          }
+          findMany: {
+            args: Prisma.DreamerProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>[]
+          }
+          create: {
+            args: Prisma.DreamerProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>
+          }
+          createMany: {
+            args: Prisma.DreamerProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DreamerProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.DreamerProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>
+          }
+          update: {
+            args: Prisma.DreamerProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.DreamerProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DreamerProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DreamerProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.DreamerProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DreamerProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.DreamerProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDreamerProfile>
+          }
+          groupBy: {
+            args: Prisma.DreamerProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DreamerProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DreamerProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<DreamerProfileCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3056,6 +3146,7 @@ export namespace Prisma {
     nightCheckIn?: NightCheckInOmit
     syncQueueItem?: SyncQueueItemOmit
     alarmSettings?: AlarmSettingsOmit
+    dreamerProfile?: DreamerProfileOmit
   }
 
   /* Types for Logging */
@@ -3520,6 +3611,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     displayName: string | null
+    avatarEmoji: string | null
+    avatarBgColor: string | null
     email: string | null
     emailVerifiedAt: Date | null
     timezone: string | null
@@ -3534,6 +3627,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     displayName: string | null
+    avatarEmoji: string | null
+    avatarBgColor: string | null
     email: string | null
     emailVerifiedAt: Date | null
     timezone: string | null
@@ -3548,6 +3643,8 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     displayName: number
+    avatarEmoji: number
+    avatarBgColor: number
     email: number
     emailVerifiedAt: number
     timezone: number
@@ -3572,6 +3669,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     displayName?: true
+    avatarEmoji?: true
+    avatarBgColor?: true
     email?: true
     emailVerifiedAt?: true
     timezone?: true
@@ -3586,6 +3685,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     displayName?: true
+    avatarEmoji?: true
+    avatarBgColor?: true
     email?: true
     emailVerifiedAt?: true
     timezone?: true
@@ -3600,6 +3701,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     displayName?: true
+    avatarEmoji?: true
+    avatarBgColor?: true
     email?: true
     emailVerifiedAt?: true
     timezone?: true
@@ -3701,6 +3804,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     displayName: string | null
+    avatarEmoji: string
+    avatarBgColor: string
     email: string | null
     emailVerifiedAt: Date | null
     timezone: string
@@ -3734,6 +3839,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     displayName?: boolean
+    avatarEmoji?: boolean
+    avatarBgColor?: boolean
     email?: boolean
     emailVerifiedAt?: boolean
     timezone?: boolean
@@ -3745,6 +3852,7 @@ export namespace Prisma {
     censusAnswers?: boolean | User$censusAnswersArgs<ExtArgs>
     consents?: boolean | User$consentsArgs<ExtArgs>
     dreamEntries?: boolean | User$dreamEntriesArgs<ExtArgs>
+    dreamerProfile?: boolean | User$dreamerProfileArgs<ExtArgs>
     events?: boolean | User$eventsArgs<ExtArgs>
     nightCheckIns?: boolean | User$nightCheckInsArgs<ExtArgs>
     promptResponses?: boolean | User$promptResponsesArgs<ExtArgs>
@@ -3758,6 +3866,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     displayName?: boolean
+    avatarEmoji?: boolean
+    avatarBgColor?: boolean
     email?: boolean
     emailVerifiedAt?: boolean
     timezone?: boolean
@@ -3772,6 +3882,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     displayName?: boolean
+    avatarEmoji?: boolean
+    avatarBgColor?: boolean
     email?: boolean
     emailVerifiedAt?: boolean
     timezone?: boolean
@@ -3786,6 +3898,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     displayName?: boolean
+    avatarEmoji?: boolean
+    avatarBgColor?: boolean
     email?: boolean
     emailVerifiedAt?: boolean
     timezone?: boolean
@@ -3795,12 +3909,13 @@ export namespace Prisma {
     keySalt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "displayName" | "email" | "emailVerifiedAt" | "timezone" | "locale" | "encryptionKeyVersion" | "keyRecoveryMethod" | "keySalt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "displayName" | "avatarEmoji" | "avatarBgColor" | "email" | "emailVerifiedAt" | "timezone" | "locale" | "encryptionKeyVersion" | "keyRecoveryMethod" | "keySalt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alarmSettings?: boolean | User$alarmSettingsArgs<ExtArgs>
     censusAnswers?: boolean | User$censusAnswersArgs<ExtArgs>
     consents?: boolean | User$consentsArgs<ExtArgs>
     dreamEntries?: boolean | User$dreamEntriesArgs<ExtArgs>
+    dreamerProfile?: boolean | User$dreamerProfileArgs<ExtArgs>
     events?: boolean | User$eventsArgs<ExtArgs>
     nightCheckIns?: boolean | User$nightCheckInsArgs<ExtArgs>
     promptResponses?: boolean | User$promptResponsesArgs<ExtArgs>
@@ -3818,6 +3933,7 @@ export namespace Prisma {
       censusAnswers: Prisma.$CensusAnswerPayload<ExtArgs>[]
       consents: Prisma.$ConsentPayload<ExtArgs>[]
       dreamEntries: Prisma.$DreamEntryPayload<ExtArgs>[]
+      dreamerProfile: Prisma.$DreamerProfilePayload<ExtArgs> | null
       events: Prisma.$EventPayload<ExtArgs>[]
       nightCheckIns: Prisma.$NightCheckInPayload<ExtArgs>[]
       promptResponses: Prisma.$PromptResponsePayload<ExtArgs>[]
@@ -3829,6 +3945,8 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       displayName: string | null
+      avatarEmoji: string
+      avatarBgColor: string
       email: string | null
       emailVerifiedAt: Date | null
       timezone: string
@@ -4234,6 +4352,7 @@ export namespace Prisma {
     censusAnswers<T extends User$censusAnswersArgs<ExtArgs> = {}>(args?: Subset<T, User$censusAnswersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CensusAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     consents<T extends User$consentsArgs<ExtArgs> = {}>(args?: Subset<T, User$consentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     dreamEntries<T extends User$dreamEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$dreamEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DreamEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dreamerProfile<T extends User$dreamerProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$dreamerProfileArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     events<T extends User$eventsArgs<ExtArgs> = {}>(args?: Subset<T, User$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     nightCheckIns<T extends User$nightCheckInsArgs<ExtArgs> = {}>(args?: Subset<T, User$nightCheckInsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NightCheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promptResponses<T extends User$promptResponsesArgs<ExtArgs> = {}>(args?: Subset<T, User$promptResponsesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromptResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4272,6 +4391,8 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly displayName: FieldRef<"User", 'String'>
+    readonly avatarEmoji: FieldRef<"User", 'String'>
+    readonly avatarBgColor: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerifiedAt: FieldRef<"User", 'DateTime'>
     readonly timezone: FieldRef<"User", 'String'>
@@ -4755,6 +4876,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DreamEntryScalarFieldEnum | DreamEntryScalarFieldEnum[]
+  }
+
+  /**
+   * User.dreamerProfile
+   */
+  export type User$dreamerProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    where?: DreamerProfileWhereInput
   }
 
   /**
@@ -33162,6 +33302,1457 @@ export namespace Prisma {
 
 
   /**
+   * Model DreamerProfile
+   */
+
+  export type AggregateDreamerProfile = {
+    _count: DreamerProfileCountAggregateOutputType | null
+    _avg: DreamerProfileAvgAggregateOutputType | null
+    _sum: DreamerProfileSumAggregateOutputType | null
+    _min: DreamerProfileMinAggregateOutputType | null
+    _max: DreamerProfileMaxAggregateOutputType | null
+  }
+
+  export type DreamerProfileAvgAggregateOutputType = {
+    boundaryScore: number | null
+    lucidityScore: number | null
+    emotionScore: number | null
+    meaningScore: number | null
+    engagementScore: number | null
+    boundaryConfidence: number | null
+    lucidityConfidence: number | null
+    emotionConfidence: number | null
+    meaningConfidence: number | null
+    engagementConfidence: number | null
+    archetypeConfidence: number | null
+    unlockPoints: number | null
+    unlockLevel: number | null
+    journalDreamCount: number | null
+    journalLucidPercent: number | null
+    journalAvgVividness: number | null
+    journalWakingLinkRate: number | null
+    scoringVersion: number | null
+  }
+
+  export type DreamerProfileSumAggregateOutputType = {
+    boundaryScore: number | null
+    lucidityScore: number | null
+    emotionScore: number | null
+    meaningScore: number | null
+    engagementScore: number | null
+    boundaryConfidence: number | null
+    lucidityConfidence: number | null
+    emotionConfidence: number | null
+    meaningConfidence: number | null
+    engagementConfidence: number | null
+    archetypeConfidence: number | null
+    unlockPoints: number | null
+    unlockLevel: number | null
+    journalDreamCount: number | null
+    journalLucidPercent: number | null
+    journalAvgVividness: number | null
+    journalWakingLinkRate: number | null
+    scoringVersion: number | null
+  }
+
+  export type DreamerProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    boundaryScore: number | null
+    lucidityScore: number | null
+    emotionScore: number | null
+    meaningScore: number | null
+    engagementScore: number | null
+    boundaryConfidence: number | null
+    lucidityConfidence: number | null
+    emotionConfidence: number | null
+    meaningConfidence: number | null
+    engagementConfidence: number | null
+    primaryArchetype: string | null
+    secondaryArchetype: string | null
+    archetypeConfidence: number | null
+    unlockPoints: number | null
+    unlockLevel: number | null
+    journalDreamCount: number | null
+    journalLucidPercent: number | null
+    journalAvgVividness: number | null
+    journalWakingLinkRate: number | null
+    scoringVersion: number | null
+    isStale: boolean | null
+    lastCalculatedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DreamerProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    boundaryScore: number | null
+    lucidityScore: number | null
+    emotionScore: number | null
+    meaningScore: number | null
+    engagementScore: number | null
+    boundaryConfidence: number | null
+    lucidityConfidence: number | null
+    emotionConfidence: number | null
+    meaningConfidence: number | null
+    engagementConfidence: number | null
+    primaryArchetype: string | null
+    secondaryArchetype: string | null
+    archetypeConfidence: number | null
+    unlockPoints: number | null
+    unlockLevel: number | null
+    journalDreamCount: number | null
+    journalLucidPercent: number | null
+    journalAvgVividness: number | null
+    journalWakingLinkRate: number | null
+    scoringVersion: number | null
+    isStale: boolean | null
+    lastCalculatedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DreamerProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    boundaryScore: number
+    lucidityScore: number
+    emotionScore: number
+    meaningScore: number
+    engagementScore: number
+    boundaryConfidence: number
+    lucidityConfidence: number
+    emotionConfidence: number
+    meaningConfidence: number
+    engagementConfidence: number
+    primaryArchetype: number
+    secondaryArchetype: number
+    archetypeConfidence: number
+    unlockPoints: number
+    unlockLevel: number
+    journalDreamCount: number
+    journalLucidPercent: number
+    journalAvgVividness: number
+    journalTopEmotions: number
+    journalTopTags: number
+    journalWakingLinkRate: number
+    scoringVersion: number
+    isStale: number
+    lastCalculatedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DreamerProfileAvgAggregateInputType = {
+    boundaryScore?: true
+    lucidityScore?: true
+    emotionScore?: true
+    meaningScore?: true
+    engagementScore?: true
+    boundaryConfidence?: true
+    lucidityConfidence?: true
+    emotionConfidence?: true
+    meaningConfidence?: true
+    engagementConfidence?: true
+    archetypeConfidence?: true
+    unlockPoints?: true
+    unlockLevel?: true
+    journalDreamCount?: true
+    journalLucidPercent?: true
+    journalAvgVividness?: true
+    journalWakingLinkRate?: true
+    scoringVersion?: true
+  }
+
+  export type DreamerProfileSumAggregateInputType = {
+    boundaryScore?: true
+    lucidityScore?: true
+    emotionScore?: true
+    meaningScore?: true
+    engagementScore?: true
+    boundaryConfidence?: true
+    lucidityConfidence?: true
+    emotionConfidence?: true
+    meaningConfidence?: true
+    engagementConfidence?: true
+    archetypeConfidence?: true
+    unlockPoints?: true
+    unlockLevel?: true
+    journalDreamCount?: true
+    journalLucidPercent?: true
+    journalAvgVividness?: true
+    journalWakingLinkRate?: true
+    scoringVersion?: true
+  }
+
+  export type DreamerProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    boundaryScore?: true
+    lucidityScore?: true
+    emotionScore?: true
+    meaningScore?: true
+    engagementScore?: true
+    boundaryConfidence?: true
+    lucidityConfidence?: true
+    emotionConfidence?: true
+    meaningConfidence?: true
+    engagementConfidence?: true
+    primaryArchetype?: true
+    secondaryArchetype?: true
+    archetypeConfidence?: true
+    unlockPoints?: true
+    unlockLevel?: true
+    journalDreamCount?: true
+    journalLucidPercent?: true
+    journalAvgVividness?: true
+    journalWakingLinkRate?: true
+    scoringVersion?: true
+    isStale?: true
+    lastCalculatedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DreamerProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    boundaryScore?: true
+    lucidityScore?: true
+    emotionScore?: true
+    meaningScore?: true
+    engagementScore?: true
+    boundaryConfidence?: true
+    lucidityConfidence?: true
+    emotionConfidence?: true
+    meaningConfidence?: true
+    engagementConfidence?: true
+    primaryArchetype?: true
+    secondaryArchetype?: true
+    archetypeConfidence?: true
+    unlockPoints?: true
+    unlockLevel?: true
+    journalDreamCount?: true
+    journalLucidPercent?: true
+    journalAvgVividness?: true
+    journalWakingLinkRate?: true
+    scoringVersion?: true
+    isStale?: true
+    lastCalculatedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DreamerProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    boundaryScore?: true
+    lucidityScore?: true
+    emotionScore?: true
+    meaningScore?: true
+    engagementScore?: true
+    boundaryConfidence?: true
+    lucidityConfidence?: true
+    emotionConfidence?: true
+    meaningConfidence?: true
+    engagementConfidence?: true
+    primaryArchetype?: true
+    secondaryArchetype?: true
+    archetypeConfidence?: true
+    unlockPoints?: true
+    unlockLevel?: true
+    journalDreamCount?: true
+    journalLucidPercent?: true
+    journalAvgVividness?: true
+    journalTopEmotions?: true
+    journalTopTags?: true
+    journalWakingLinkRate?: true
+    scoringVersion?: true
+    isStale?: true
+    lastCalculatedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DreamerProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DreamerProfile to aggregate.
+     */
+    where?: DreamerProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DreamerProfiles to fetch.
+     */
+    orderBy?: DreamerProfileOrderByWithRelationInput | DreamerProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DreamerProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DreamerProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DreamerProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DreamerProfiles
+    **/
+    _count?: true | DreamerProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DreamerProfileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DreamerProfileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DreamerProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DreamerProfileMaxAggregateInputType
+  }
+
+  export type GetDreamerProfileAggregateType<T extends DreamerProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateDreamerProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDreamerProfile[P]>
+      : GetScalarType<T[P], AggregateDreamerProfile[P]>
+  }
+
+
+
+
+  export type DreamerProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DreamerProfileWhereInput
+    orderBy?: DreamerProfileOrderByWithAggregationInput | DreamerProfileOrderByWithAggregationInput[]
+    by: DreamerProfileScalarFieldEnum[] | DreamerProfileScalarFieldEnum
+    having?: DreamerProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DreamerProfileCountAggregateInputType | true
+    _avg?: DreamerProfileAvgAggregateInputType
+    _sum?: DreamerProfileSumAggregateInputType
+    _min?: DreamerProfileMinAggregateInputType
+    _max?: DreamerProfileMaxAggregateInputType
+  }
+
+  export type DreamerProfileGroupByOutputType = {
+    id: string
+    userId: string
+    boundaryScore: number | null
+    lucidityScore: number | null
+    emotionScore: number | null
+    meaningScore: number | null
+    engagementScore: number | null
+    boundaryConfidence: number | null
+    lucidityConfidence: number | null
+    emotionConfidence: number | null
+    meaningConfidence: number | null
+    engagementConfidence: number | null
+    primaryArchetype: string | null
+    secondaryArchetype: string | null
+    archetypeConfidence: number | null
+    unlockPoints: number
+    unlockLevel: number
+    journalDreamCount: number
+    journalLucidPercent: number | null
+    journalAvgVividness: number | null
+    journalTopEmotions: string[]
+    journalTopTags: string[]
+    journalWakingLinkRate: number | null
+    scoringVersion: number
+    isStale: boolean
+    lastCalculatedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: DreamerProfileCountAggregateOutputType | null
+    _avg: DreamerProfileAvgAggregateOutputType | null
+    _sum: DreamerProfileSumAggregateOutputType | null
+    _min: DreamerProfileMinAggregateOutputType | null
+    _max: DreamerProfileMaxAggregateOutputType | null
+  }
+
+  type GetDreamerProfileGroupByPayload<T extends DreamerProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DreamerProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DreamerProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DreamerProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], DreamerProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DreamerProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    boundaryScore?: boolean
+    lucidityScore?: boolean
+    emotionScore?: boolean
+    meaningScore?: boolean
+    engagementScore?: boolean
+    boundaryConfidence?: boolean
+    lucidityConfidence?: boolean
+    emotionConfidence?: boolean
+    meaningConfidence?: boolean
+    engagementConfidence?: boolean
+    primaryArchetype?: boolean
+    secondaryArchetype?: boolean
+    archetypeConfidence?: boolean
+    unlockPoints?: boolean
+    unlockLevel?: boolean
+    journalDreamCount?: boolean
+    journalLucidPercent?: boolean
+    journalAvgVividness?: boolean
+    journalTopEmotions?: boolean
+    journalTopTags?: boolean
+    journalWakingLinkRate?: boolean
+    scoringVersion?: boolean
+    isStale?: boolean
+    lastCalculatedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dreamerProfile"]>
+
+  export type DreamerProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    boundaryScore?: boolean
+    lucidityScore?: boolean
+    emotionScore?: boolean
+    meaningScore?: boolean
+    engagementScore?: boolean
+    boundaryConfidence?: boolean
+    lucidityConfidence?: boolean
+    emotionConfidence?: boolean
+    meaningConfidence?: boolean
+    engagementConfidence?: boolean
+    primaryArchetype?: boolean
+    secondaryArchetype?: boolean
+    archetypeConfidence?: boolean
+    unlockPoints?: boolean
+    unlockLevel?: boolean
+    journalDreamCount?: boolean
+    journalLucidPercent?: boolean
+    journalAvgVividness?: boolean
+    journalTopEmotions?: boolean
+    journalTopTags?: boolean
+    journalWakingLinkRate?: boolean
+    scoringVersion?: boolean
+    isStale?: boolean
+    lastCalculatedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dreamerProfile"]>
+
+  export type DreamerProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    boundaryScore?: boolean
+    lucidityScore?: boolean
+    emotionScore?: boolean
+    meaningScore?: boolean
+    engagementScore?: boolean
+    boundaryConfidence?: boolean
+    lucidityConfidence?: boolean
+    emotionConfidence?: boolean
+    meaningConfidence?: boolean
+    engagementConfidence?: boolean
+    primaryArchetype?: boolean
+    secondaryArchetype?: boolean
+    archetypeConfidence?: boolean
+    unlockPoints?: boolean
+    unlockLevel?: boolean
+    journalDreamCount?: boolean
+    journalLucidPercent?: boolean
+    journalAvgVividness?: boolean
+    journalTopEmotions?: boolean
+    journalTopTags?: boolean
+    journalWakingLinkRate?: boolean
+    scoringVersion?: boolean
+    isStale?: boolean
+    lastCalculatedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dreamerProfile"]>
+
+  export type DreamerProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    boundaryScore?: boolean
+    lucidityScore?: boolean
+    emotionScore?: boolean
+    meaningScore?: boolean
+    engagementScore?: boolean
+    boundaryConfidence?: boolean
+    lucidityConfidence?: boolean
+    emotionConfidence?: boolean
+    meaningConfidence?: boolean
+    engagementConfidence?: boolean
+    primaryArchetype?: boolean
+    secondaryArchetype?: boolean
+    archetypeConfidence?: boolean
+    unlockPoints?: boolean
+    unlockLevel?: boolean
+    journalDreamCount?: boolean
+    journalLucidPercent?: boolean
+    journalAvgVividness?: boolean
+    journalTopEmotions?: boolean
+    journalTopTags?: boolean
+    journalWakingLinkRate?: boolean
+    scoringVersion?: boolean
+    isStale?: boolean
+    lastCalculatedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DreamerProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "boundaryScore" | "lucidityScore" | "emotionScore" | "meaningScore" | "engagementScore" | "boundaryConfidence" | "lucidityConfidence" | "emotionConfidence" | "meaningConfidence" | "engagementConfidence" | "primaryArchetype" | "secondaryArchetype" | "archetypeConfidence" | "unlockPoints" | "unlockLevel" | "journalDreamCount" | "journalLucidPercent" | "journalAvgVividness" | "journalTopEmotions" | "journalTopTags" | "journalWakingLinkRate" | "scoringVersion" | "isStale" | "lastCalculatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["dreamerProfile"]>
+  export type DreamerProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DreamerProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DreamerProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DreamerProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DreamerProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      boundaryScore: number | null
+      lucidityScore: number | null
+      emotionScore: number | null
+      meaningScore: number | null
+      engagementScore: number | null
+      boundaryConfidence: number | null
+      lucidityConfidence: number | null
+      emotionConfidence: number | null
+      meaningConfidence: number | null
+      engagementConfidence: number | null
+      primaryArchetype: string | null
+      secondaryArchetype: string | null
+      archetypeConfidence: number | null
+      unlockPoints: number
+      unlockLevel: number
+      journalDreamCount: number
+      journalLucidPercent: number | null
+      journalAvgVividness: number | null
+      journalTopEmotions: string[]
+      journalTopTags: string[]
+      journalWakingLinkRate: number | null
+      scoringVersion: number
+      isStale: boolean
+      lastCalculatedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dreamerProfile"]>
+    composites: {}
+  }
+
+  type DreamerProfileGetPayload<S extends boolean | null | undefined | DreamerProfileDefaultArgs> = $Result.GetResult<Prisma.$DreamerProfilePayload, S>
+
+  type DreamerProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DreamerProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DreamerProfileCountAggregateInputType | true
+    }
+
+  export interface DreamerProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DreamerProfile'], meta: { name: 'DreamerProfile' } }
+    /**
+     * Find zero or one DreamerProfile that matches the filter.
+     * @param {DreamerProfileFindUniqueArgs} args - Arguments to find a DreamerProfile
+     * @example
+     * // Get one DreamerProfile
+     * const dreamerProfile = await prisma.dreamerProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DreamerProfileFindUniqueArgs>(args: SelectSubset<T, DreamerProfileFindUniqueArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DreamerProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DreamerProfileFindUniqueOrThrowArgs} args - Arguments to find a DreamerProfile
+     * @example
+     * // Get one DreamerProfile
+     * const dreamerProfile = await prisma.dreamerProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DreamerProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, DreamerProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DreamerProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DreamerProfileFindFirstArgs} args - Arguments to find a DreamerProfile
+     * @example
+     * // Get one DreamerProfile
+     * const dreamerProfile = await prisma.dreamerProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DreamerProfileFindFirstArgs>(args?: SelectSubset<T, DreamerProfileFindFirstArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DreamerProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DreamerProfileFindFirstOrThrowArgs} args - Arguments to find a DreamerProfile
+     * @example
+     * // Get one DreamerProfile
+     * const dreamerProfile = await prisma.dreamerProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DreamerProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, DreamerProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DreamerProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DreamerProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DreamerProfiles
+     * const dreamerProfiles = await prisma.dreamerProfile.findMany()
+     * 
+     * // Get first 10 DreamerProfiles
+     * const dreamerProfiles = await prisma.dreamerProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dreamerProfileWithIdOnly = await prisma.dreamerProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DreamerProfileFindManyArgs>(args?: SelectSubset<T, DreamerProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DreamerProfile.
+     * @param {DreamerProfileCreateArgs} args - Arguments to create a DreamerProfile.
+     * @example
+     * // Create one DreamerProfile
+     * const DreamerProfile = await prisma.dreamerProfile.create({
+     *   data: {
+     *     // ... data to create a DreamerProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends DreamerProfileCreateArgs>(args: SelectSubset<T, DreamerProfileCreateArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DreamerProfiles.
+     * @param {DreamerProfileCreateManyArgs} args - Arguments to create many DreamerProfiles.
+     * @example
+     * // Create many DreamerProfiles
+     * const dreamerProfile = await prisma.dreamerProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DreamerProfileCreateManyArgs>(args?: SelectSubset<T, DreamerProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DreamerProfiles and returns the data saved in the database.
+     * @param {DreamerProfileCreateManyAndReturnArgs} args - Arguments to create many DreamerProfiles.
+     * @example
+     * // Create many DreamerProfiles
+     * const dreamerProfile = await prisma.dreamerProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DreamerProfiles and only return the `id`
+     * const dreamerProfileWithIdOnly = await prisma.dreamerProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DreamerProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, DreamerProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DreamerProfile.
+     * @param {DreamerProfileDeleteArgs} args - Arguments to delete one DreamerProfile.
+     * @example
+     * // Delete one DreamerProfile
+     * const DreamerProfile = await prisma.dreamerProfile.delete({
+     *   where: {
+     *     // ... filter to delete one DreamerProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DreamerProfileDeleteArgs>(args: SelectSubset<T, DreamerProfileDeleteArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DreamerProfile.
+     * @param {DreamerProfileUpdateArgs} args - Arguments to update one DreamerProfile.
+     * @example
+     * // Update one DreamerProfile
+     * const dreamerProfile = await prisma.dreamerProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DreamerProfileUpdateArgs>(args: SelectSubset<T, DreamerProfileUpdateArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DreamerProfiles.
+     * @param {DreamerProfileDeleteManyArgs} args - Arguments to filter DreamerProfiles to delete.
+     * @example
+     * // Delete a few DreamerProfiles
+     * const { count } = await prisma.dreamerProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DreamerProfileDeleteManyArgs>(args?: SelectSubset<T, DreamerProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DreamerProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DreamerProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DreamerProfiles
+     * const dreamerProfile = await prisma.dreamerProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DreamerProfileUpdateManyArgs>(args: SelectSubset<T, DreamerProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DreamerProfiles and returns the data updated in the database.
+     * @param {DreamerProfileUpdateManyAndReturnArgs} args - Arguments to update many DreamerProfiles.
+     * @example
+     * // Update many DreamerProfiles
+     * const dreamerProfile = await prisma.dreamerProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DreamerProfiles and only return the `id`
+     * const dreamerProfileWithIdOnly = await prisma.dreamerProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DreamerProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, DreamerProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DreamerProfile.
+     * @param {DreamerProfileUpsertArgs} args - Arguments to update or create a DreamerProfile.
+     * @example
+     * // Update or create a DreamerProfile
+     * const dreamerProfile = await prisma.dreamerProfile.upsert({
+     *   create: {
+     *     // ... data to create a DreamerProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DreamerProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DreamerProfileUpsertArgs>(args: SelectSubset<T, DreamerProfileUpsertArgs<ExtArgs>>): Prisma__DreamerProfileClient<$Result.GetResult<Prisma.$DreamerProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DreamerProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DreamerProfileCountArgs} args - Arguments to filter DreamerProfiles to count.
+     * @example
+     * // Count the number of DreamerProfiles
+     * const count = await prisma.dreamerProfile.count({
+     *   where: {
+     *     // ... the filter for the DreamerProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends DreamerProfileCountArgs>(
+      args?: Subset<T, DreamerProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DreamerProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DreamerProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DreamerProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DreamerProfileAggregateArgs>(args: Subset<T, DreamerProfileAggregateArgs>): Prisma.PrismaPromise<GetDreamerProfileAggregateType<T>>
+
+    /**
+     * Group by DreamerProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DreamerProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DreamerProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DreamerProfileGroupByArgs['orderBy'] }
+        : { orderBy?: DreamerProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DreamerProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDreamerProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DreamerProfile model
+   */
+  readonly fields: DreamerProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DreamerProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DreamerProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DreamerProfile model
+   */
+  interface DreamerProfileFieldRefs {
+    readonly id: FieldRef<"DreamerProfile", 'String'>
+    readonly userId: FieldRef<"DreamerProfile", 'String'>
+    readonly boundaryScore: FieldRef<"DreamerProfile", 'Int'>
+    readonly lucidityScore: FieldRef<"DreamerProfile", 'Int'>
+    readonly emotionScore: FieldRef<"DreamerProfile", 'Int'>
+    readonly meaningScore: FieldRef<"DreamerProfile", 'Int'>
+    readonly engagementScore: FieldRef<"DreamerProfile", 'Int'>
+    readonly boundaryConfidence: FieldRef<"DreamerProfile", 'Int'>
+    readonly lucidityConfidence: FieldRef<"DreamerProfile", 'Int'>
+    readonly emotionConfidence: FieldRef<"DreamerProfile", 'Int'>
+    readonly meaningConfidence: FieldRef<"DreamerProfile", 'Int'>
+    readonly engagementConfidence: FieldRef<"DreamerProfile", 'Int'>
+    readonly primaryArchetype: FieldRef<"DreamerProfile", 'String'>
+    readonly secondaryArchetype: FieldRef<"DreamerProfile", 'String'>
+    readonly archetypeConfidence: FieldRef<"DreamerProfile", 'Int'>
+    readonly unlockPoints: FieldRef<"DreamerProfile", 'Int'>
+    readonly unlockLevel: FieldRef<"DreamerProfile", 'Int'>
+    readonly journalDreamCount: FieldRef<"DreamerProfile", 'Int'>
+    readonly journalLucidPercent: FieldRef<"DreamerProfile", 'Int'>
+    readonly journalAvgVividness: FieldRef<"DreamerProfile", 'Int'>
+    readonly journalTopEmotions: FieldRef<"DreamerProfile", 'String[]'>
+    readonly journalTopTags: FieldRef<"DreamerProfile", 'String[]'>
+    readonly journalWakingLinkRate: FieldRef<"DreamerProfile", 'Int'>
+    readonly scoringVersion: FieldRef<"DreamerProfile", 'Int'>
+    readonly isStale: FieldRef<"DreamerProfile", 'Boolean'>
+    readonly lastCalculatedAt: FieldRef<"DreamerProfile", 'DateTime'>
+    readonly createdAt: FieldRef<"DreamerProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"DreamerProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DreamerProfile findUnique
+   */
+  export type DreamerProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which DreamerProfile to fetch.
+     */
+    where: DreamerProfileWhereUniqueInput
+  }
+
+  /**
+   * DreamerProfile findUniqueOrThrow
+   */
+  export type DreamerProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which DreamerProfile to fetch.
+     */
+    where: DreamerProfileWhereUniqueInput
+  }
+
+  /**
+   * DreamerProfile findFirst
+   */
+  export type DreamerProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which DreamerProfile to fetch.
+     */
+    where?: DreamerProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DreamerProfiles to fetch.
+     */
+    orderBy?: DreamerProfileOrderByWithRelationInput | DreamerProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DreamerProfiles.
+     */
+    cursor?: DreamerProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DreamerProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DreamerProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DreamerProfiles.
+     */
+    distinct?: DreamerProfileScalarFieldEnum | DreamerProfileScalarFieldEnum[]
+  }
+
+  /**
+   * DreamerProfile findFirstOrThrow
+   */
+  export type DreamerProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which DreamerProfile to fetch.
+     */
+    where?: DreamerProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DreamerProfiles to fetch.
+     */
+    orderBy?: DreamerProfileOrderByWithRelationInput | DreamerProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DreamerProfiles.
+     */
+    cursor?: DreamerProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DreamerProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DreamerProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DreamerProfiles.
+     */
+    distinct?: DreamerProfileScalarFieldEnum | DreamerProfileScalarFieldEnum[]
+  }
+
+  /**
+   * DreamerProfile findMany
+   */
+  export type DreamerProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which DreamerProfiles to fetch.
+     */
+    where?: DreamerProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DreamerProfiles to fetch.
+     */
+    orderBy?: DreamerProfileOrderByWithRelationInput | DreamerProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DreamerProfiles.
+     */
+    cursor?: DreamerProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DreamerProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DreamerProfiles.
+     */
+    skip?: number
+    distinct?: DreamerProfileScalarFieldEnum | DreamerProfileScalarFieldEnum[]
+  }
+
+  /**
+   * DreamerProfile create
+   */
+  export type DreamerProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DreamerProfile.
+     */
+    data: XOR<DreamerProfileCreateInput, DreamerProfileUncheckedCreateInput>
+  }
+
+  /**
+   * DreamerProfile createMany
+   */
+  export type DreamerProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DreamerProfiles.
+     */
+    data: DreamerProfileCreateManyInput | DreamerProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DreamerProfile createManyAndReturn
+   */
+  export type DreamerProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many DreamerProfiles.
+     */
+    data: DreamerProfileCreateManyInput | DreamerProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DreamerProfile update
+   */
+  export type DreamerProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DreamerProfile.
+     */
+    data: XOR<DreamerProfileUpdateInput, DreamerProfileUncheckedUpdateInput>
+    /**
+     * Choose, which DreamerProfile to update.
+     */
+    where: DreamerProfileWhereUniqueInput
+  }
+
+  /**
+   * DreamerProfile updateMany
+   */
+  export type DreamerProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DreamerProfiles.
+     */
+    data: XOR<DreamerProfileUpdateManyMutationInput, DreamerProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which DreamerProfiles to update
+     */
+    where?: DreamerProfileWhereInput
+    /**
+     * Limit how many DreamerProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DreamerProfile updateManyAndReturn
+   */
+  export type DreamerProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update DreamerProfiles.
+     */
+    data: XOR<DreamerProfileUpdateManyMutationInput, DreamerProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which DreamerProfiles to update
+     */
+    where?: DreamerProfileWhereInput
+    /**
+     * Limit how many DreamerProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DreamerProfile upsert
+   */
+  export type DreamerProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DreamerProfile to update in case it exists.
+     */
+    where: DreamerProfileWhereUniqueInput
+    /**
+     * In case the DreamerProfile found by the `where` argument doesn't exist, create a new DreamerProfile with this data.
+     */
+    create: XOR<DreamerProfileCreateInput, DreamerProfileUncheckedCreateInput>
+    /**
+     * In case the DreamerProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DreamerProfileUpdateInput, DreamerProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * DreamerProfile delete
+   */
+  export type DreamerProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+    /**
+     * Filter which DreamerProfile to delete.
+     */
+    where: DreamerProfileWhereUniqueInput
+  }
+
+  /**
+   * DreamerProfile deleteMany
+   */
+  export type DreamerProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DreamerProfiles to delete
+     */
+    where?: DreamerProfileWhereInput
+    /**
+     * Limit how many DreamerProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DreamerProfile without action
+   */
+  export type DreamerProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DreamerProfile
+     */
+    select?: DreamerProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DreamerProfile
+     */
+    omit?: DreamerProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DreamerProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -33180,6 +34771,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     displayName: 'displayName',
+    avatarEmoji: 'avatarEmoji',
+    avatarBgColor: 'avatarBgColor',
     email: 'email',
     emailVerifiedAt: 'emailVerifiedAt',
     timezone: 'timezone',
@@ -33571,6 +35164,40 @@ export namespace Prisma {
   export type AlarmSettingsScalarFieldEnum = (typeof AlarmSettingsScalarFieldEnum)[keyof typeof AlarmSettingsScalarFieldEnum]
 
 
+  export const DreamerProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    boundaryScore: 'boundaryScore',
+    lucidityScore: 'lucidityScore',
+    emotionScore: 'emotionScore',
+    meaningScore: 'meaningScore',
+    engagementScore: 'engagementScore',
+    boundaryConfidence: 'boundaryConfidence',
+    lucidityConfidence: 'lucidityConfidence',
+    emotionConfidence: 'emotionConfidence',
+    meaningConfidence: 'meaningConfidence',
+    engagementConfidence: 'engagementConfidence',
+    primaryArchetype: 'primaryArchetype',
+    secondaryArchetype: 'secondaryArchetype',
+    archetypeConfidence: 'archetypeConfidence',
+    unlockPoints: 'unlockPoints',
+    unlockLevel: 'unlockLevel',
+    journalDreamCount: 'journalDreamCount',
+    journalLucidPercent: 'journalLucidPercent',
+    journalAvgVividness: 'journalAvgVividness',
+    journalTopEmotions: 'journalTopEmotions',
+    journalTopTags: 'journalTopTags',
+    journalWakingLinkRate: 'journalWakingLinkRate',
+    scoringVersion: 'scoringVersion',
+    isStale: 'isStale',
+    lastCalculatedAt: 'lastCalculatedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DreamerProfileScalarFieldEnum = (typeof DreamerProfileScalarFieldEnum)[keyof typeof DreamerProfileScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -33740,6 +35367,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     displayName?: StringNullableFilter<"User"> | string | null
+    avatarEmoji?: StringFilter<"User"> | string
+    avatarBgColor?: StringFilter<"User"> | string
     email?: StringNullableFilter<"User"> | string | null
     emailVerifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     timezone?: StringFilter<"User"> | string
@@ -33751,6 +35380,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerListRelationFilter
     consents?: ConsentListRelationFilter
     dreamEntries?: DreamEntryListRelationFilter
+    dreamerProfile?: XOR<DreamerProfileNullableScalarRelationFilter, DreamerProfileWhereInput> | null
     events?: EventListRelationFilter
     nightCheckIns?: NightCheckInListRelationFilter
     promptResponses?: PromptResponseListRelationFilter
@@ -33763,6 +35393,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     displayName?: SortOrderInput | SortOrder
+    avatarEmoji?: SortOrder
+    avatarBgColor?: SortOrder
     email?: SortOrderInput | SortOrder
     emailVerifiedAt?: SortOrderInput | SortOrder
     timezone?: SortOrder
@@ -33774,6 +35406,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerOrderByRelationAggregateInput
     consents?: ConsentOrderByRelationAggregateInput
     dreamEntries?: DreamEntryOrderByRelationAggregateInput
+    dreamerProfile?: DreamerProfileOrderByWithRelationInput
     events?: EventOrderByRelationAggregateInput
     nightCheckIns?: NightCheckInOrderByRelationAggregateInput
     promptResponses?: PromptResponseOrderByRelationAggregateInput
@@ -33790,6 +35423,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     displayName?: StringNullableFilter<"User"> | string | null
+    avatarEmoji?: StringFilter<"User"> | string
+    avatarBgColor?: StringFilter<"User"> | string
     emailVerifiedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     timezone?: StringFilter<"User"> | string
     locale?: StringFilter<"User"> | string
@@ -33800,6 +35435,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerListRelationFilter
     consents?: ConsentListRelationFilter
     dreamEntries?: DreamEntryListRelationFilter
+    dreamerProfile?: XOR<DreamerProfileNullableScalarRelationFilter, DreamerProfileWhereInput> | null
     events?: EventListRelationFilter
     nightCheckIns?: NightCheckInListRelationFilter
     promptResponses?: PromptResponseListRelationFilter
@@ -33812,6 +35448,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     displayName?: SortOrderInput | SortOrder
+    avatarEmoji?: SortOrder
+    avatarBgColor?: SortOrder
     email?: SortOrderInput | SortOrder
     emailVerifiedAt?: SortOrderInput | SortOrder
     timezone?: SortOrder
@@ -33834,6 +35472,8 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     displayName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    avatarEmoji?: StringWithAggregatesFilter<"User"> | string
+    avatarBgColor?: StringWithAggregatesFilter<"User"> | string
     email?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerifiedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     timezone?: StringWithAggregatesFilter<"User"> | string
@@ -35795,11 +37435,185 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"AlarmSettings"> | Date | string
   }
 
+  export type DreamerProfileWhereInput = {
+    AND?: DreamerProfileWhereInput | DreamerProfileWhereInput[]
+    OR?: DreamerProfileWhereInput[]
+    NOT?: DreamerProfileWhereInput | DreamerProfileWhereInput[]
+    id?: StringFilter<"DreamerProfile"> | string
+    userId?: StringFilter<"DreamerProfile"> | string
+    boundaryScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    lucidityScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    emotionScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    meaningScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    engagementScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    boundaryConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    lucidityConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    emotionConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    meaningConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    engagementConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    primaryArchetype?: StringNullableFilter<"DreamerProfile"> | string | null
+    secondaryArchetype?: StringNullableFilter<"DreamerProfile"> | string | null
+    archetypeConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    unlockPoints?: IntFilter<"DreamerProfile"> | number
+    unlockLevel?: IntFilter<"DreamerProfile"> | number
+    journalDreamCount?: IntFilter<"DreamerProfile"> | number
+    journalLucidPercent?: IntNullableFilter<"DreamerProfile"> | number | null
+    journalAvgVividness?: IntNullableFilter<"DreamerProfile"> | number | null
+    journalTopEmotions?: StringNullableListFilter<"DreamerProfile">
+    journalTopTags?: StringNullableListFilter<"DreamerProfile">
+    journalWakingLinkRate?: IntNullableFilter<"DreamerProfile"> | number | null
+    scoringVersion?: IntFilter<"DreamerProfile"> | number
+    isStale?: BoolFilter<"DreamerProfile"> | boolean
+    lastCalculatedAt?: DateTimeNullableFilter<"DreamerProfile"> | Date | string | null
+    createdAt?: DateTimeFilter<"DreamerProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"DreamerProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DreamerProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    boundaryScore?: SortOrderInput | SortOrder
+    lucidityScore?: SortOrderInput | SortOrder
+    emotionScore?: SortOrderInput | SortOrder
+    meaningScore?: SortOrderInput | SortOrder
+    engagementScore?: SortOrderInput | SortOrder
+    boundaryConfidence?: SortOrderInput | SortOrder
+    lucidityConfidence?: SortOrderInput | SortOrder
+    emotionConfidence?: SortOrderInput | SortOrder
+    meaningConfidence?: SortOrderInput | SortOrder
+    engagementConfidence?: SortOrderInput | SortOrder
+    primaryArchetype?: SortOrderInput | SortOrder
+    secondaryArchetype?: SortOrderInput | SortOrder
+    archetypeConfidence?: SortOrderInput | SortOrder
+    unlockPoints?: SortOrder
+    unlockLevel?: SortOrder
+    journalDreamCount?: SortOrder
+    journalLucidPercent?: SortOrderInput | SortOrder
+    journalAvgVividness?: SortOrderInput | SortOrder
+    journalTopEmotions?: SortOrder
+    journalTopTags?: SortOrder
+    journalWakingLinkRate?: SortOrderInput | SortOrder
+    scoringVersion?: SortOrder
+    isStale?: SortOrder
+    lastCalculatedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type DreamerProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: DreamerProfileWhereInput | DreamerProfileWhereInput[]
+    OR?: DreamerProfileWhereInput[]
+    NOT?: DreamerProfileWhereInput | DreamerProfileWhereInput[]
+    boundaryScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    lucidityScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    emotionScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    meaningScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    engagementScore?: IntNullableFilter<"DreamerProfile"> | number | null
+    boundaryConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    lucidityConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    emotionConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    meaningConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    engagementConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    primaryArchetype?: StringNullableFilter<"DreamerProfile"> | string | null
+    secondaryArchetype?: StringNullableFilter<"DreamerProfile"> | string | null
+    archetypeConfidence?: IntNullableFilter<"DreamerProfile"> | number | null
+    unlockPoints?: IntFilter<"DreamerProfile"> | number
+    unlockLevel?: IntFilter<"DreamerProfile"> | number
+    journalDreamCount?: IntFilter<"DreamerProfile"> | number
+    journalLucidPercent?: IntNullableFilter<"DreamerProfile"> | number | null
+    journalAvgVividness?: IntNullableFilter<"DreamerProfile"> | number | null
+    journalTopEmotions?: StringNullableListFilter<"DreamerProfile">
+    journalTopTags?: StringNullableListFilter<"DreamerProfile">
+    journalWakingLinkRate?: IntNullableFilter<"DreamerProfile"> | number | null
+    scoringVersion?: IntFilter<"DreamerProfile"> | number
+    isStale?: BoolFilter<"DreamerProfile"> | boolean
+    lastCalculatedAt?: DateTimeNullableFilter<"DreamerProfile"> | Date | string | null
+    createdAt?: DateTimeFilter<"DreamerProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"DreamerProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type DreamerProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    boundaryScore?: SortOrderInput | SortOrder
+    lucidityScore?: SortOrderInput | SortOrder
+    emotionScore?: SortOrderInput | SortOrder
+    meaningScore?: SortOrderInput | SortOrder
+    engagementScore?: SortOrderInput | SortOrder
+    boundaryConfidence?: SortOrderInput | SortOrder
+    lucidityConfidence?: SortOrderInput | SortOrder
+    emotionConfidence?: SortOrderInput | SortOrder
+    meaningConfidence?: SortOrderInput | SortOrder
+    engagementConfidence?: SortOrderInput | SortOrder
+    primaryArchetype?: SortOrderInput | SortOrder
+    secondaryArchetype?: SortOrderInput | SortOrder
+    archetypeConfidence?: SortOrderInput | SortOrder
+    unlockPoints?: SortOrder
+    unlockLevel?: SortOrder
+    journalDreamCount?: SortOrder
+    journalLucidPercent?: SortOrderInput | SortOrder
+    journalAvgVividness?: SortOrderInput | SortOrder
+    journalTopEmotions?: SortOrder
+    journalTopTags?: SortOrder
+    journalWakingLinkRate?: SortOrderInput | SortOrder
+    scoringVersion?: SortOrder
+    isStale?: SortOrder
+    lastCalculatedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DreamerProfileCountOrderByAggregateInput
+    _avg?: DreamerProfileAvgOrderByAggregateInput
+    _max?: DreamerProfileMaxOrderByAggregateInput
+    _min?: DreamerProfileMinOrderByAggregateInput
+    _sum?: DreamerProfileSumOrderByAggregateInput
+  }
+
+  export type DreamerProfileScalarWhereWithAggregatesInput = {
+    AND?: DreamerProfileScalarWhereWithAggregatesInput | DreamerProfileScalarWhereWithAggregatesInput[]
+    OR?: DreamerProfileScalarWhereWithAggregatesInput[]
+    NOT?: DreamerProfileScalarWhereWithAggregatesInput | DreamerProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DreamerProfile"> | string
+    userId?: StringWithAggregatesFilter<"DreamerProfile"> | string
+    boundaryScore?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    lucidityScore?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    emotionScore?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    meaningScore?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    engagementScore?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    boundaryConfidence?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    lucidityConfidence?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    emotionConfidence?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    meaningConfidence?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    engagementConfidence?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    primaryArchetype?: StringNullableWithAggregatesFilter<"DreamerProfile"> | string | null
+    secondaryArchetype?: StringNullableWithAggregatesFilter<"DreamerProfile"> | string | null
+    archetypeConfidence?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    unlockPoints?: IntWithAggregatesFilter<"DreamerProfile"> | number
+    unlockLevel?: IntWithAggregatesFilter<"DreamerProfile"> | number
+    journalDreamCount?: IntWithAggregatesFilter<"DreamerProfile"> | number
+    journalLucidPercent?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    journalAvgVividness?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    journalTopEmotions?: StringNullableListFilter<"DreamerProfile">
+    journalTopTags?: StringNullableListFilter<"DreamerProfile">
+    journalWakingLinkRate?: IntNullableWithAggregatesFilter<"DreamerProfile"> | number | null
+    scoringVersion?: IntWithAggregatesFilter<"DreamerProfile"> | number
+    isStale?: BoolWithAggregatesFilter<"DreamerProfile"> | boolean
+    lastCalculatedAt?: DateTimeNullableWithAggregatesFilter<"DreamerProfile"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DreamerProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DreamerProfile"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -35811,6 +37625,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
@@ -35823,6 +37638,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -35834,6 +37651,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
@@ -35846,6 +37664,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -35857,6 +37677,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
@@ -35869,6 +37690,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -35880,6 +37703,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
@@ -35892,6 +37716,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -35906,6 +37732,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -35920,6 +37748,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -38078,6 +39908,222 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DreamerProfileCreateInput = {
+    id?: string
+    boundaryScore?: number | null
+    lucidityScore?: number | null
+    emotionScore?: number | null
+    meaningScore?: number | null
+    engagementScore?: number | null
+    boundaryConfidence?: number | null
+    lucidityConfidence?: number | null
+    emotionConfidence?: number | null
+    meaningConfidence?: number | null
+    engagementConfidence?: number | null
+    primaryArchetype?: string | null
+    secondaryArchetype?: string | null
+    archetypeConfidence?: number | null
+    unlockPoints?: number
+    unlockLevel?: number
+    journalDreamCount?: number
+    journalLucidPercent?: number | null
+    journalAvgVividness?: number | null
+    journalTopEmotions?: DreamerProfileCreatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileCreatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: number | null
+    scoringVersion?: number
+    isStale?: boolean
+    lastCalculatedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutDreamerProfileInput
+  }
+
+  export type DreamerProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    boundaryScore?: number | null
+    lucidityScore?: number | null
+    emotionScore?: number | null
+    meaningScore?: number | null
+    engagementScore?: number | null
+    boundaryConfidence?: number | null
+    lucidityConfidence?: number | null
+    emotionConfidence?: number | null
+    meaningConfidence?: number | null
+    engagementConfidence?: number | null
+    primaryArchetype?: string | null
+    secondaryArchetype?: string | null
+    archetypeConfidence?: number | null
+    unlockPoints?: number
+    unlockLevel?: number
+    journalDreamCount?: number
+    journalLucidPercent?: number | null
+    journalAvgVividness?: number | null
+    journalTopEmotions?: DreamerProfileCreatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileCreatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: number | null
+    scoringVersion?: number
+    isStale?: boolean
+    lastCalculatedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DreamerProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    boundaryScore?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityScore?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionScore?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningScore?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementScore?: NullableIntFieldUpdateOperationsInput | number | null
+    boundaryConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    primaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetypeConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    unlockPoints?: IntFieldUpdateOperationsInput | number
+    unlockLevel?: IntFieldUpdateOperationsInput | number
+    journalDreamCount?: IntFieldUpdateOperationsInput | number
+    journalLucidPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    journalAvgVividness?: NullableIntFieldUpdateOperationsInput | number | null
+    journalTopEmotions?: DreamerProfileUpdatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileUpdatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: NullableIntFieldUpdateOperationsInput | number | null
+    scoringVersion?: IntFieldUpdateOperationsInput | number
+    isStale?: BoolFieldUpdateOperationsInput | boolean
+    lastCalculatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDreamerProfileNestedInput
+  }
+
+  export type DreamerProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    boundaryScore?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityScore?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionScore?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningScore?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementScore?: NullableIntFieldUpdateOperationsInput | number | null
+    boundaryConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    primaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetypeConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    unlockPoints?: IntFieldUpdateOperationsInput | number
+    unlockLevel?: IntFieldUpdateOperationsInput | number
+    journalDreamCount?: IntFieldUpdateOperationsInput | number
+    journalLucidPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    journalAvgVividness?: NullableIntFieldUpdateOperationsInput | number | null
+    journalTopEmotions?: DreamerProfileUpdatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileUpdatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: NullableIntFieldUpdateOperationsInput | number | null
+    scoringVersion?: IntFieldUpdateOperationsInput | number
+    isStale?: BoolFieldUpdateOperationsInput | boolean
+    lastCalculatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DreamerProfileCreateManyInput = {
+    id?: string
+    userId: string
+    boundaryScore?: number | null
+    lucidityScore?: number | null
+    emotionScore?: number | null
+    meaningScore?: number | null
+    engagementScore?: number | null
+    boundaryConfidence?: number | null
+    lucidityConfidence?: number | null
+    emotionConfidence?: number | null
+    meaningConfidence?: number | null
+    engagementConfidence?: number | null
+    primaryArchetype?: string | null
+    secondaryArchetype?: string | null
+    archetypeConfidence?: number | null
+    unlockPoints?: number
+    unlockLevel?: number
+    journalDreamCount?: number
+    journalLucidPercent?: number | null
+    journalAvgVividness?: number | null
+    journalTopEmotions?: DreamerProfileCreatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileCreatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: number | null
+    scoringVersion?: number
+    isStale?: boolean
+    lastCalculatedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DreamerProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    boundaryScore?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityScore?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionScore?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningScore?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementScore?: NullableIntFieldUpdateOperationsInput | number | null
+    boundaryConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    primaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetypeConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    unlockPoints?: IntFieldUpdateOperationsInput | number
+    unlockLevel?: IntFieldUpdateOperationsInput | number
+    journalDreamCount?: IntFieldUpdateOperationsInput | number
+    journalLucidPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    journalAvgVividness?: NullableIntFieldUpdateOperationsInput | number | null
+    journalTopEmotions?: DreamerProfileUpdatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileUpdatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: NullableIntFieldUpdateOperationsInput | number | null
+    scoringVersion?: IntFieldUpdateOperationsInput | number
+    isStale?: BoolFieldUpdateOperationsInput | boolean
+    lastCalculatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DreamerProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    boundaryScore?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityScore?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionScore?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningScore?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementScore?: NullableIntFieldUpdateOperationsInput | number | null
+    boundaryConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    primaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetypeConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    unlockPoints?: IntFieldUpdateOperationsInput | number
+    unlockLevel?: IntFieldUpdateOperationsInput | number
+    journalDreamCount?: IntFieldUpdateOperationsInput | number
+    journalLucidPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    journalAvgVividness?: NullableIntFieldUpdateOperationsInput | number | null
+    journalTopEmotions?: DreamerProfileUpdatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileUpdatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: NullableIntFieldUpdateOperationsInput | number | null
+    scoringVersion?: IntFieldUpdateOperationsInput | number
+    isStale?: BoolFieldUpdateOperationsInput | boolean
+    lastCalculatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -38171,6 +40217,11 @@ export namespace Prisma {
     none?: DreamEntryWhereInput
   }
 
+  export type DreamerProfileNullableScalarRelationFilter = {
+    is?: DreamerProfileWhereInput | null
+    isNot?: DreamerProfileWhereInput | null
+  }
+
   export type EventListRelationFilter = {
     every?: EventWhereInput
     some?: EventWhereInput
@@ -38243,6 +40294,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     displayName?: SortOrder
+    avatarEmoji?: SortOrder
+    avatarBgColor?: SortOrder
     email?: SortOrder
     emailVerifiedAt?: SortOrder
     timezone?: SortOrder
@@ -38261,6 +40314,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     displayName?: SortOrder
+    avatarEmoji?: SortOrder
+    avatarBgColor?: SortOrder
     email?: SortOrder
     emailVerifiedAt?: SortOrder
     timezone?: SortOrder
@@ -38275,6 +40330,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     displayName?: SortOrder
+    avatarEmoji?: SortOrder
+    avatarBgColor?: SortOrder
     email?: SortOrder
     emailVerifiedAt?: SortOrder
     timezone?: SortOrder
@@ -39809,6 +41866,137 @@ export namespace Prisma {
     maxSnoozes?: SortOrder
   }
 
+  export type DreamerProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    boundaryScore?: SortOrder
+    lucidityScore?: SortOrder
+    emotionScore?: SortOrder
+    meaningScore?: SortOrder
+    engagementScore?: SortOrder
+    boundaryConfidence?: SortOrder
+    lucidityConfidence?: SortOrder
+    emotionConfidence?: SortOrder
+    meaningConfidence?: SortOrder
+    engagementConfidence?: SortOrder
+    primaryArchetype?: SortOrder
+    secondaryArchetype?: SortOrder
+    archetypeConfidence?: SortOrder
+    unlockPoints?: SortOrder
+    unlockLevel?: SortOrder
+    journalDreamCount?: SortOrder
+    journalLucidPercent?: SortOrder
+    journalAvgVividness?: SortOrder
+    journalTopEmotions?: SortOrder
+    journalTopTags?: SortOrder
+    journalWakingLinkRate?: SortOrder
+    scoringVersion?: SortOrder
+    isStale?: SortOrder
+    lastCalculatedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DreamerProfileAvgOrderByAggregateInput = {
+    boundaryScore?: SortOrder
+    lucidityScore?: SortOrder
+    emotionScore?: SortOrder
+    meaningScore?: SortOrder
+    engagementScore?: SortOrder
+    boundaryConfidence?: SortOrder
+    lucidityConfidence?: SortOrder
+    emotionConfidence?: SortOrder
+    meaningConfidence?: SortOrder
+    engagementConfidence?: SortOrder
+    archetypeConfidence?: SortOrder
+    unlockPoints?: SortOrder
+    unlockLevel?: SortOrder
+    journalDreamCount?: SortOrder
+    journalLucidPercent?: SortOrder
+    journalAvgVividness?: SortOrder
+    journalWakingLinkRate?: SortOrder
+    scoringVersion?: SortOrder
+  }
+
+  export type DreamerProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    boundaryScore?: SortOrder
+    lucidityScore?: SortOrder
+    emotionScore?: SortOrder
+    meaningScore?: SortOrder
+    engagementScore?: SortOrder
+    boundaryConfidence?: SortOrder
+    lucidityConfidence?: SortOrder
+    emotionConfidence?: SortOrder
+    meaningConfidence?: SortOrder
+    engagementConfidence?: SortOrder
+    primaryArchetype?: SortOrder
+    secondaryArchetype?: SortOrder
+    archetypeConfidence?: SortOrder
+    unlockPoints?: SortOrder
+    unlockLevel?: SortOrder
+    journalDreamCount?: SortOrder
+    journalLucidPercent?: SortOrder
+    journalAvgVividness?: SortOrder
+    journalWakingLinkRate?: SortOrder
+    scoringVersion?: SortOrder
+    isStale?: SortOrder
+    lastCalculatedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DreamerProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    boundaryScore?: SortOrder
+    lucidityScore?: SortOrder
+    emotionScore?: SortOrder
+    meaningScore?: SortOrder
+    engagementScore?: SortOrder
+    boundaryConfidence?: SortOrder
+    lucidityConfidence?: SortOrder
+    emotionConfidence?: SortOrder
+    meaningConfidence?: SortOrder
+    engagementConfidence?: SortOrder
+    primaryArchetype?: SortOrder
+    secondaryArchetype?: SortOrder
+    archetypeConfidence?: SortOrder
+    unlockPoints?: SortOrder
+    unlockLevel?: SortOrder
+    journalDreamCount?: SortOrder
+    journalLucidPercent?: SortOrder
+    journalAvgVividness?: SortOrder
+    journalWakingLinkRate?: SortOrder
+    scoringVersion?: SortOrder
+    isStale?: SortOrder
+    lastCalculatedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DreamerProfileSumOrderByAggregateInput = {
+    boundaryScore?: SortOrder
+    lucidityScore?: SortOrder
+    emotionScore?: SortOrder
+    meaningScore?: SortOrder
+    engagementScore?: SortOrder
+    boundaryConfidence?: SortOrder
+    lucidityConfidence?: SortOrder
+    emotionConfidence?: SortOrder
+    meaningConfidence?: SortOrder
+    engagementConfidence?: SortOrder
+    archetypeConfidence?: SortOrder
+    unlockPoints?: SortOrder
+    unlockLevel?: SortOrder
+    journalDreamCount?: SortOrder
+    journalLucidPercent?: SortOrder
+    journalAvgVividness?: SortOrder
+    journalWakingLinkRate?: SortOrder
+    scoringVersion?: SortOrder
+  }
+
   export type AlarmSettingsCreateNestedOneWithoutUserInput = {
     create?: XOR<AlarmSettingsCreateWithoutUserInput, AlarmSettingsUncheckedCreateWithoutUserInput>
     connectOrCreate?: AlarmSettingsCreateOrConnectWithoutUserInput
@@ -39834,6 +42022,12 @@ export namespace Prisma {
     connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
     createMany?: DreamEntryCreateManyUserInputEnvelope
     connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+  }
+
+  export type DreamerProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<DreamerProfileCreateWithoutUserInput, DreamerProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: DreamerProfileCreateOrConnectWithoutUserInput
+    connect?: DreamerProfileWhereUniqueInput
   }
 
   export type EventCreateNestedManyWithoutUserInput = {
@@ -39896,6 +42090,12 @@ export namespace Prisma {
     connectOrCreate?: DreamEntryCreateOrConnectWithoutUserInput | DreamEntryCreateOrConnectWithoutUserInput[]
     createMany?: DreamEntryCreateManyUserInputEnvelope
     connect?: DreamEntryWhereUniqueInput | DreamEntryWhereUniqueInput[]
+  }
+
+  export type DreamerProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<DreamerProfileCreateWithoutUserInput, DreamerProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: DreamerProfileCreateOrConnectWithoutUserInput
+    connect?: DreamerProfileWhereUniqueInput
   }
 
   export type EventUncheckedCreateNestedManyWithoutUserInput = {
@@ -40011,6 +42211,16 @@ export namespace Prisma {
     update?: DreamEntryUpdateWithWhereUniqueWithoutUserInput | DreamEntryUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: DreamEntryUpdateManyWithWhereWithoutUserInput | DreamEntryUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: DreamEntryScalarWhereInput | DreamEntryScalarWhereInput[]
+  }
+
+  export type DreamerProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<DreamerProfileCreateWithoutUserInput, DreamerProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: DreamerProfileCreateOrConnectWithoutUserInput
+    upsert?: DreamerProfileUpsertWithoutUserInput
+    disconnect?: DreamerProfileWhereInput | boolean
+    delete?: DreamerProfileWhereInput | boolean
+    connect?: DreamerProfileWhereUniqueInput
+    update?: XOR<XOR<DreamerProfileUpdateToOneWithWhereWithoutUserInput, DreamerProfileUpdateWithoutUserInput>, DreamerProfileUncheckedUpdateWithoutUserInput>
   }
 
   export type EventUpdateManyWithoutUserNestedInput = {
@@ -40133,6 +42343,16 @@ export namespace Prisma {
     update?: DreamEntryUpdateWithWhereUniqueWithoutUserInput | DreamEntryUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: DreamEntryUpdateManyWithWhereWithoutUserInput | DreamEntryUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: DreamEntryScalarWhereInput | DreamEntryScalarWhereInput[]
+  }
+
+  export type DreamerProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<DreamerProfileCreateWithoutUserInput, DreamerProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: DreamerProfileCreateOrConnectWithoutUserInput
+    upsert?: DreamerProfileUpsertWithoutUserInput
+    disconnect?: DreamerProfileWhereInput | boolean
+    delete?: DreamerProfileWhereInput | boolean
+    connect?: DreamerProfileWhereUniqueInput
+    update?: XOR<XOR<DreamerProfileUpdateToOneWithWhereWithoutUserInput, DreamerProfileUpdateWithoutUserInput>, DreamerProfileUncheckedUpdateWithoutUserInput>
   }
 
   export type EventUncheckedUpdateManyWithoutUserNestedInput = {
@@ -40958,6 +43178,38 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAlarmSettingsInput, UserUpdateWithoutAlarmSettingsInput>, UserUncheckedUpdateWithoutAlarmSettingsInput>
   }
 
+  export type DreamerProfileCreatejournalTopEmotionsInput = {
+    set: string[]
+  }
+
+  export type DreamerProfileCreatejournalTopTagsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutDreamerProfileInput = {
+    create?: XOR<UserCreateWithoutDreamerProfileInput, UserUncheckedCreateWithoutDreamerProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDreamerProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DreamerProfileUpdatejournalTopEmotionsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type DreamerProfileUpdatejournalTopTagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutDreamerProfileNestedInput = {
+    create?: XOR<UserCreateWithoutDreamerProfileInput, UserUncheckedCreateWithoutDreamerProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDreamerProfileInput
+    upsert?: UserUpsertWithoutDreamerProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDreamerProfileInput, UserUpdateWithoutDreamerProfileInput>, UserUncheckedUpdateWithoutDreamerProfileInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -41426,6 +43678,71 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DreamerProfileCreateWithoutUserInput = {
+    id?: string
+    boundaryScore?: number | null
+    lucidityScore?: number | null
+    emotionScore?: number | null
+    meaningScore?: number | null
+    engagementScore?: number | null
+    boundaryConfidence?: number | null
+    lucidityConfidence?: number | null
+    emotionConfidence?: number | null
+    meaningConfidence?: number | null
+    engagementConfidence?: number | null
+    primaryArchetype?: string | null
+    secondaryArchetype?: string | null
+    archetypeConfidence?: number | null
+    unlockPoints?: number
+    unlockLevel?: number
+    journalDreamCount?: number
+    journalLucidPercent?: number | null
+    journalAvgVividness?: number | null
+    journalTopEmotions?: DreamerProfileCreatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileCreatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: number | null
+    scoringVersion?: number
+    isStale?: boolean
+    lastCalculatedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DreamerProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    boundaryScore?: number | null
+    lucidityScore?: number | null
+    emotionScore?: number | null
+    meaningScore?: number | null
+    engagementScore?: number | null
+    boundaryConfidence?: number | null
+    lucidityConfidence?: number | null
+    emotionConfidence?: number | null
+    meaningConfidence?: number | null
+    engagementConfidence?: number | null
+    primaryArchetype?: string | null
+    secondaryArchetype?: string | null
+    archetypeConfidence?: number | null
+    unlockPoints?: number
+    unlockLevel?: number
+    journalDreamCount?: number
+    journalLucidPercent?: number | null
+    journalAvgVividness?: number | null
+    journalTopEmotions?: DreamerProfileCreatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileCreatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: number | null
+    scoringVersion?: number
+    isStale?: boolean
+    lastCalculatedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DreamerProfileCreateOrConnectWithoutUserInput = {
+    where: DreamerProfileWhereUniqueInput
+    create: XOR<DreamerProfileCreateWithoutUserInput, DreamerProfileUncheckedCreateWithoutUserInput>
+  }
+
   export type EventCreateWithoutUserInput = {
     id?: string
     type: string
@@ -41715,6 +44032,77 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"DreamEntry"> | Date | string
   }
 
+  export type DreamerProfileUpsertWithoutUserInput = {
+    update: XOR<DreamerProfileUpdateWithoutUserInput, DreamerProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<DreamerProfileCreateWithoutUserInput, DreamerProfileUncheckedCreateWithoutUserInput>
+    where?: DreamerProfileWhereInput
+  }
+
+  export type DreamerProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: DreamerProfileWhereInput
+    data: XOR<DreamerProfileUpdateWithoutUserInput, DreamerProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DreamerProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    boundaryScore?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityScore?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionScore?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningScore?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementScore?: NullableIntFieldUpdateOperationsInput | number | null
+    boundaryConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    primaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetypeConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    unlockPoints?: IntFieldUpdateOperationsInput | number
+    unlockLevel?: IntFieldUpdateOperationsInput | number
+    journalDreamCount?: IntFieldUpdateOperationsInput | number
+    journalLucidPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    journalAvgVividness?: NullableIntFieldUpdateOperationsInput | number | null
+    journalTopEmotions?: DreamerProfileUpdatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileUpdatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: NullableIntFieldUpdateOperationsInput | number | null
+    scoringVersion?: IntFieldUpdateOperationsInput | number
+    isStale?: BoolFieldUpdateOperationsInput | boolean
+    lastCalculatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DreamerProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    boundaryScore?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityScore?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionScore?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningScore?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementScore?: NullableIntFieldUpdateOperationsInput | number | null
+    boundaryConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    lucidityConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    emotionConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    meaningConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    engagementConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    primaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    secondaryArchetype?: NullableStringFieldUpdateOperationsInput | string | null
+    archetypeConfidence?: NullableIntFieldUpdateOperationsInput | number | null
+    unlockPoints?: IntFieldUpdateOperationsInput | number
+    unlockLevel?: IntFieldUpdateOperationsInput | number
+    journalDreamCount?: IntFieldUpdateOperationsInput | number
+    journalLucidPercent?: NullableIntFieldUpdateOperationsInput | number | null
+    journalAvgVividness?: NullableIntFieldUpdateOperationsInput | number | null
+    journalTopEmotions?: DreamerProfileUpdatejournalTopEmotionsInput | string[]
+    journalTopTags?: DreamerProfileUpdatejournalTopTagsInput | string[]
+    journalWakingLinkRate?: NullableIntFieldUpdateOperationsInput | number | null
+    scoringVersion?: IntFieldUpdateOperationsInput | number
+    isStale?: BoolFieldUpdateOperationsInput | boolean
+    lastCalculatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type EventUpsertWithWhereUniqueWithoutUserInput = {
     where: EventWhereUniqueInput
     update: XOR<EventUpdateWithoutUserInput, EventUncheckedUpdateWithoutUserInput>
@@ -41871,6 +44259,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -41882,6 +44272,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
@@ -41893,6 +44284,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -41904,6 +44297,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
@@ -41931,6 +44325,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -41942,6 +44338,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
@@ -41953,6 +44350,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -41964,6 +44363,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
@@ -41975,6 +44375,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -41986,6 +44388,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -41997,6 +44400,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -42008,6 +44413,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -42035,6 +44441,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -42046,6 +44454,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -42057,6 +44466,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -42068,6 +44479,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -42079,6 +44491,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -42089,6 +44503,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
@@ -42101,6 +44516,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -42111,6 +44528,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
@@ -42199,6 +44617,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -42209,6 +44629,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
@@ -42221,6 +44642,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -42231,6 +44654,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
@@ -42952,6 +45376,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -42962,6 +45388,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
@@ -42974,6 +45401,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -42984,6 +45413,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
@@ -43057,6 +45487,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43067,6 +45499,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
@@ -43079,6 +45512,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43089,6 +45524,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
@@ -43270,6 +45706,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43281,6 +45719,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -43292,6 +45731,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43303,6 +45744,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -43369,6 +45811,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43380,6 +45824,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -43391,6 +45836,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43402,6 +45849,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -43413,6 +45861,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43423,6 +45873,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
@@ -43435,6 +45886,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43445,6 +45898,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
@@ -43473,6 +45927,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43483,6 +45939,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
@@ -43495,6 +45952,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43505,6 +45964,7 @@ export namespace Prisma {
     alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
@@ -43679,6 +46139,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43690,6 +46152,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
@@ -43701,6 +46164,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43712,6 +46177,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
@@ -43788,6 +46254,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43799,6 +46267,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
@@ -43810,6 +46279,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -43821,6 +46292,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
@@ -43954,6 +46426,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43965,6 +46439,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -43976,6 +46451,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -43987,6 +46464,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -44014,6 +46492,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -44025,6 +46505,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -44036,6 +46517,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -44047,6 +46530,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
     events?: EventUncheckedUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -44058,6 +46542,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -44068,6 +46554,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
     consents?: ConsentCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileCreateNestedOneWithoutUserInput
     events?: EventCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
@@ -44080,6 +46567,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
     email?: string | null
     emailVerifiedAt?: Date | string | null
     timezone?: string
@@ -44090,6 +46579,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
     consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
     dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    dreamerProfile?: DreamerProfileUncheckedCreateNestedOneWithoutUserInput
     events?: EventUncheckedCreateNestedManyWithoutUserInput
     nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
     promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
@@ -44118,6 +46608,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -44128,6 +46620,7 @@ export namespace Prisma {
     censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
     consents?: ConsentUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUpdateOneWithoutUserNestedInput
     events?: EventUpdateManyWithoutUserNestedInput
     nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
     promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
@@ -44140,6 +46633,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     timezone?: StringFieldUpdateOperationsInput | string
@@ -44147,6 +46642,123 @@ export namespace Prisma {
     encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
     keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
+    consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput
+    dreamerProfile?: DreamerProfileUncheckedUpdateOneWithoutUserNestedInput
+    events?: EventUncheckedUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUncheckedUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutDreamerProfileInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsCreateNestedOneWithoutUserInput
+    censusAnswers?: CensusAnswerCreateNestedManyWithoutUserInput
+    consents?: ConsentCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryCreateNestedManyWithoutUserInput
+    events?: EventCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDreamerProfileInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    displayName?: string | null
+    avatarEmoji?: string
+    avatarBgColor?: string
+    email?: string | null
+    emailVerifiedAt?: Date | string | null
+    timezone?: string
+    locale?: string
+    encryptionKeyVersion?: number
+    keyRecoveryMethod?: string | null
+    keySalt?: Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedCreateNestedOneWithoutUserInput
+    censusAnswers?: CensusAnswerUncheckedCreateNestedManyWithoutUserInput
+    consents?: ConsentUncheckedCreateNestedManyWithoutUserInput
+    dreamEntries?: DreamEntryUncheckedCreateNestedManyWithoutUserInput
+    events?: EventUncheckedCreateNestedManyWithoutUserInput
+    nightCheckIns?: NightCheckInUncheckedCreateNestedManyWithoutUserInput
+    promptResponses?: PromptResponseUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    studyParticipations?: StudyParticipationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDreamerProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDreamerProfileInput, UserUncheckedCreateWithoutDreamerProfileInput>
+  }
+
+  export type UserUpsertWithoutDreamerProfileInput = {
+    update: XOR<UserUpdateWithoutDreamerProfileInput, UserUncheckedUpdateWithoutDreamerProfileInput>
+    create: XOR<UserCreateWithoutDreamerProfileInput, UserUncheckedCreateWithoutDreamerProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDreamerProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDreamerProfileInput, UserUncheckedUpdateWithoutDreamerProfileInput>
+  }
+
+  export type UserUpdateWithoutDreamerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUpdateOneWithoutUserNestedInput
+    censusAnswers?: CensusAnswerUpdateManyWithoutUserNestedInput
+    consents?: ConsentUpdateManyWithoutUserNestedInput
+    dreamEntries?: DreamEntryUpdateManyWithoutUserNestedInput
+    events?: EventUpdateManyWithoutUserNestedInput
+    nightCheckIns?: NightCheckInUpdateManyWithoutUserNestedInput
+    promptResponses?: PromptResponseUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    studyParticipations?: StudyParticipationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDreamerProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarEmoji?: StringFieldUpdateOperationsInput | string
+    avatarBgColor?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    encryptionKeyVersion?: IntFieldUpdateOperationsInput | number
+    keyRecoveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    keySalt?: NullableBytesFieldUpdateOperationsInput | Bytes | null
+    alarmSettings?: AlarmSettingsUncheckedUpdateOneWithoutUserNestedInput
     censusAnswers?: CensusAnswerUncheckedUpdateManyWithoutUserNestedInput
     consents?: ConsentUncheckedUpdateManyWithoutUserNestedInput
     dreamEntries?: DreamEntryUncheckedUpdateManyWithoutUserNestedInput

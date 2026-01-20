@@ -162,6 +162,13 @@ export interface AlarmMissedPayload {
   reason: 'tab_closed' | 'browser_closed' | 'unknown'
 }
 
+// Profile Events
+export interface UserProfileUpdatedPayload {
+  displayName?: string
+  avatarEmoji?: string
+  avatarBgColor?: string
+}
+
 /**
  * Map of event types to their payload types
  */
@@ -187,6 +194,7 @@ export interface EventPayloadMap {
   [EVENT_TYPES.ALARM_SNOOZED]: AlarmSnoozedPayload
   [EVENT_TYPES.ALARM_STOPPED]: AlarmStoppedPayload
   [EVENT_TYPES.ALARM_MISSED]: AlarmMissedPayload
+  [EVENT_TYPES.USER_PROFILE_UPDATED]: UserProfileUpdatedPayload
 }
 
 /**

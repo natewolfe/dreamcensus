@@ -7,11 +7,13 @@ import { FlowPageWrapper } from '@/components/ui'
 
 interface MorningPageClientProps {
   userId: string
+  displayName?: string
   lastNightIntention?: string
 }
 
 export function MorningPageClient({
   userId,
+  displayName,
   lastNightIntention,
 }: MorningPageClientProps) {
   const router = useRouter()
@@ -41,6 +43,7 @@ export function MorningPageClient({
     >
       <MorningMode
         userId={userId}
+        displayName={displayName}
         lastNightIntention={lastNightIntention}
         onComplete={handleComplete}
         onCancel={handleCancel}

@@ -35,48 +35,28 @@ const BUCKET_HOURS: Record<TimeRange, number> = {
 }
 
 /**
- * Compute weather chart data for collective dreams
- * 
- * @param timeRange - Time range to look back ('1d', '3d', '7d', '30d', '90d')
- * @returns Chart data or null if insufficient data
+ * Shared helper to bucket dreams into chart data
+ * DRY principle: used by both collective and personal chart functions
  */
-export async function computeWeatherChartData(
-  timeRange: TimeRange = '7d'
-): Promise<DreamWeatherChartData | null> {
-  const hours = TIMERANGE_TO_HOURS[timeRange]
-  const bucketSize = BUCKET_HOURS[timeRange]
-  const since = new Date(Date.now() - hours * 60 * 60 * 1000)
-  
-  // Fetch dreams with commons consent
-  const dreams = await db.dreamEntry.findMany({
-    where: {
-      capturedAt: { gte: since },
-      user: {
-        consents: {
-          some: {
-            scope: 'commons',
-            granted: true,
-          },
-        },
-      },
-    },
-    select: {
-      emotions: true,
-      vividness: true,
-      dreamTypes: true,
-      capturedAt: true,
-    },
-    orderBy: { capturedAt: 'asc' },
-  })
-  
+function bucketDreamsToChartData(
+  dreams: Array<{
+    emotions: unknown
+    vividness: number | null
+    dreamTypes: unknown
+    capturedAt: Date
+  }>,
+  timeRange: TimeRange
+): DreamWeatherChartData | null {
   // Need minimum data for meaningful chart
   if (dreams.length < 3) {
     return null
   }
+
+  const bucketSize = BUCKET_HOURS[timeRange]
+  const bucketMs = bucketSize * 60 * 60 * 1000 // Convert bucket size to milliseconds
   
   // Bucket dreams with adaptive granularity
   const buckets = new Map<string, DreamWeatherPoint>()
-  const bucketMs = bucketSize * 60 * 60 * 1000 // Convert bucket size to milliseconds
   
   for (const dream of dreams) {
     // Create bucket key based on adaptive granularity
@@ -172,3 +152,71 @@ export async function computeWeatherChartData(
   }
 }
 
+/**
+ * Compute weather chart data for collective dreams
+ * 
+ * @param timeRange - Time range to look back ('1d', '3d', '7d', '30d', '90d')
+ * @returns Chart data or null if insufficient data
+ */
+export async function computeWeatherChartData(
+  timeRange: TimeRange = '7d'
+): Promise<DreamWeatherChartData | null> {
+  const hours = TIMERANGE_TO_HOURS[timeRange]
+  const since = new Date(Date.now() - hours * 60 * 60 * 1000)
+  
+  // Fetch dreams with commons consent
+  const dreams = await db.dreamEntry.findMany({
+    where: {
+      capturedAt: { gte: since },
+      user: {
+        consents: {
+          some: {
+            scope: 'commons',
+            granted: true,
+          },
+        },
+      },
+    },
+    select: {
+      emotions: true,
+      vividness: true,
+      dreamTypes: true,
+      capturedAt: true,
+    },
+    orderBy: { capturedAt: 'asc' },
+  })
+  
+  return bucketDreamsToChartData(dreams, timeRange)
+}
+
+/**
+ * Compute weather chart data for a specific user's personal dreams
+ * 
+ * @param userId - User ID to fetch dreams for
+ * @param timeRange - Time range to look back ('1d', '3d', '7d', '30d', '90d')
+ * @returns Chart data or null if insufficient data
+ */
+export async function computePersonalWeatherChartData(
+  userId: string,
+  timeRange: TimeRange = '7d'
+): Promise<DreamWeatherChartData | null> {
+  const hours = TIMERANGE_TO_HOURS[timeRange]
+  const since = new Date(Date.now() - hours * 60 * 60 * 1000)
+  
+  // Fetch only this user's dreams (no consent filter needed for personal data)
+  const dreams = await db.dreamEntry.findMany({
+    where: {
+      userId,
+      capturedAt: { gte: since },
+    },
+    select: {
+      emotions: true,
+      vividness: true,
+      dreamTypes: true,
+      capturedAt: true,
+    },
+    orderBy: { capturedAt: 'asc' },
+  })
+  
+  return bucketDreamsToChartData(dreams, timeRange)
+}

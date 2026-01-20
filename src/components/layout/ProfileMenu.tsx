@@ -9,9 +9,11 @@ import { signOut } from '@/app/(auth)/actions'
 
 interface ProfileMenuProps {
   isExpanded: boolean
+  avatarEmoji?: string
+  avatarBgColor?: string
 }
 
-export function ProfileMenu({ isExpanded }: ProfileMenuProps) {
+export function ProfileMenu({ isExpanded, avatarEmoji, avatarBgColor }: ProfileMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [menuPosition, setMenuPosition] = useState({ bottom: 0, left: 0 })
   const [mounted, setMounted] = useState(false)
@@ -66,7 +68,7 @@ export function ProfileMenu({ isExpanded }: ProfileMenuProps) {
   }
 
   const menuItems = [
-    { label: 'Profile', href: '/settings', icon: UserIcon },
+    { label: 'Profile', href: '/profile', icon: UserIcon },
     { label: 'Settings', href: '/settings', icon: SettingsIcon },
   ]
 
@@ -85,10 +87,11 @@ export function ProfileMenu({ isExpanded }: ProfileMenuProps) {
         aria-expanded={isOpen}
         aria-haspopup="menu"
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-subtle/30">
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
+        <div 
+          className="flex h-8 w-8 items-center justify-center rounded-full text-sm"
+          style={{ backgroundColor: avatarBgColor ?? '#5c6bc0' }}
+        >
+          {avatarEmoji ?? '🌙'}
         </div>
         {isExpanded && <span>Account</span>}
       </button>

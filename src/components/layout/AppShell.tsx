@@ -24,7 +24,7 @@ function AppShellInner({
   useSidebar()
 
   return (
-    <div className="flex h-screen flex-col bg-background text-foreground md:flex-row">
+    <div className="app-shell flex h-screen flex-col bg-background text-foreground md:flex-row">
       {/* Ambient Background */}
       <AmbientBackground />
 

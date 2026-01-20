@@ -75,6 +75,13 @@ export const EVENT_TYPES = {
   ALARM_SNOOZED: 'alarm.snoozed',
   ALARM_STOPPED: 'alarm.stopped',
   ALARM_MISSED: 'alarm.missed',
+
+  // Profile
+  USER_PROFILE_UPDATED: 'user.profile.updated',
+  
+  // Dream Profile
+  PROFILE_RECALCULATED: 'profile.recalculated',
+  PROFILE_LEVEL_UNLOCKED: 'profile.level.unlocked',
 } as const
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES]

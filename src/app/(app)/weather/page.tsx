@@ -1,4 +1,4 @@
-import { Button, Card } from '@/components/ui'
+import { Card } from '@/components/ui'
 import {
   DreamWeatherChart,
   CollectiveEmotions,
@@ -6,10 +6,11 @@ import {
   TrendingSymbols,
   TimeRangeSelector,
   DismissibleLearnCard,
+  DataSourceToggle,
 } from '@/components/weather'
 import { LearnCard } from '@/components/school'
 import type { DreamSchoolTopic } from '@/components/school'
-import { getCollectiveWeather, getWeatherChart } from './actions'
+import { getCollectiveWeather, getWeatherChart, getPersonalWeatherChart } from './actions'
 import type { TimeRange } from '@/lib/weather/types'
 
 // Learn topics for contextual education on this page
@@ -32,7 +33,7 @@ const OUR_MISSION_TOPIC: DreamSchoolTopic = {
 }
 
 interface WeatherPageProps {
-  searchParams: Promise<{ range?: string }>
+  searchParams: Promise<{ range?: string; source?: string }>
 }
 
 export default async function WeatherPage({ searchParams }: WeatherPageProps) {
@@ -40,10 +41,11 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
   const timeRange = (['1d', '3d', '7d', '30d', '90d'].includes(params.range ?? '')
     ? params.range
     : '7d') as TimeRange
+  const source = params.source === 'personal' ? 'personal' : 'collective'
 
   const [collectiveResult, chartResult] = await Promise.all([
     getCollectiveWeather(timeRange),
-    getWeatherChart(timeRange),
+    source === 'personal' ? getPersonalWeatherChart(timeRange) : getWeatherChart(timeRange),
   ])
 
   const collective = collectiveResult.success ? collectiveResult.data : null
@@ -55,18 +57,12 @@ export default async function WeatherPage({ searchParams }: WeatherPageProps) {
       <div className="flex items-end justify-between mb-8 md:mb-6">
 
         {/* Data Source Selector */}
-        <div className="flex items-center flex gap-2">
-          <div>
-            <Button variant="secondary" className="py-3 md:py-5 px-3 md:px-4 text-lg md:text-xl rounded-sm border bg-accent/20 border-border/45 text-foreground hover:bg-subtle">
-              <span>Collective</span>
-            </Button>
-          </div>
-          <div>
-            <Button variant="secondary" className="py-3 md:py-5 px-3 md:px-4 text-lg md:text-xl rounded-sm bg-card-bg/30 border border-border/70 text-muted hover:text-foreground hover:bg-subtle/15">
-              <span>Personal</span>
-            </Button>
-          </div>
-        </div>
+        <DataSourceToggle 
+          value={source}
+          size="lg"
+          basePath="/weather"
+          preserveParams={['range']}
+        />
 
         {/* Time Range Selector */}
         <TimeRangeSelector currentRange={timeRange} />

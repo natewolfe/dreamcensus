@@ -22,6 +22,50 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Database Setup & Seeding
+
+### First Time Setup
+
+```bash
+# 1. Create a migration for current schema changes
+pnpm prisma migrate dev --name add_avatar_and_dreamer_profile
+
+# 2. Seed census questions (16 sections, ~120 questions)
+pnpm db:seed-questions
+
+# 3. Seed prompts (10 reflection questions)
+pnpm db:seed-prompts
+
+# 4. Seed test data (5 users, ~500 dreams, census answers)
+pnpm db:seed-test
+```
+
+### Reset & Rebuild (Development)
+
+If you need to reset your database:
+
+```bash
+# Option A: Reset with migrations (preserves migration history)
+pnpm prisma migrate reset --skip-seed
+pnpm db:seed-questions
+pnpm db:seed-prompts
+pnpm db:seed-test
+
+# Option B: Fresh push (for rapid iteration)
+pnpm prisma db push --force-reset
+pnpm db:seed-questions
+pnpm db:seed-prompts
+pnpm db:seed-test
+```
+
+### Seed Scripts
+
+- `pnpm db:seed-questions` - Census questionnaire (must run first)
+- `pnpm db:seed-prompts` - Daily reflection prompts
+- `pnpm db:seed-test` - Test users and dream entries (requires questions)
+
+**Important:** Always seed questions before test data, as test data references census questions.
+
 ## Documentation
 
 See the [docs/](./docs/) directory for complete specifications:
@@ -58,6 +102,7 @@ dreamcensus-v3/
 
 ## Available Scripts
 
+### Development
 - `pnpm dev` - Start development server
 - `pnpm build` - Build for production
 - `pnpm start` - Start production server
@@ -65,10 +110,15 @@ dreamcensus-v3/
 - `pnpm format` - Format code with Prettier
 - `pnpm type-check` - Run TypeScript type checking
 - `pnpm test` - Run tests with Vitest
+
+### Database
 - `pnpm db:generate` - Generate Prisma client
-- `pnpm db:push` - Push schema changes to database
+- `pnpm db:push` - Push schema changes to database (no migrations)
 - `pnpm db:migrate` - Run database migrations
 - `pnpm db:studio` - Open Prisma Studio
+- `pnpm db:seed-questions` - Seed census questions
+- `pnpm db:seed-prompts` - Seed daily prompts
+- `pnpm db:seed-test` - Seed test users and dreams
 
 ## Tech Stack
 

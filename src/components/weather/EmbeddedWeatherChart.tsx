@@ -4,55 +4,74 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'motion/react'
 import { DreamWeatherChart } from './DreamWeatherChart'
-import { cn } from '@/lib/utils'
+import { DataSourceToggle } from './DataSourceToggle'
 import type { DreamWeatherChartData } from '@/lib/weather/types'
 
+type DataSource = 'collective' | 'personal'
+
 interface EmbeddedWeatherChartProps {
-  chartData: DreamWeatherChartData
+  /** Collective chart data (always provided) */
+  collectiveChartData: DreamWeatherChartData
+  /** Personal chart data (optional, enables toggle) */
+  personalChartData?: DreamWeatherChartData | null
+  /** 'full' shows toggle buttons, 'compact' shows simple header, 'inline' shows nothing */
+  variant?: 'full' | 'compact' | 'inline'
+  /** Initial data source (when both datasets available) */
+  initialSource?: DataSource
 }
 
-export function EmbeddedWeatherChart({ chartData }: EmbeddedWeatherChartProps) {
-  const [source, setSource] = useState<'collective' | 'personal'>('collective')
+export function EmbeddedWeatherChart({ 
+  collectiveChartData,
+  personalChartData,
+  variant = 'full',
+  initialSource = 'collective',
+}: EmbeddedWeatherChartProps) {
+  const [source, setSource] = useState<DataSource>(initialSource)
+  
+  // Determine which chart to show
+  const chartData = source === 'personal' && personalChartData
+    ? personalChartData
+    : collectiveChartData
+  
+  // Determine link destination
+  const href = source === 'personal' ? '/weather?source=personal' : '/weather'
+  
+  // Which sources are available
+  const hasPersonal = !!personalChartData
+  const disabled: DataSource[] = hasPersonal ? [] : ['personal']
 
   return (
     <section aria-label="Dream weather">
-      {/* Header row */}
-      <div className="flex items-center justify-between mb-2">
-        {/* Toggle buttons - left */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => setSource('collective')}
-            className={cn(
-              'rounded-md px-3 py-1.5 text-md font-medium transition-colors',
-              source === 'collective'
-                ? 'bg-accent/20 border border-border/45 text-foreground'
-                : 'bg-card-bg/30 text-muted border border-border/70 hover:text-foreground hover:bg-subtle/50'
-            )}
-          >
-            Collective
-          </button>
-          <button
-            disabled
-            className={cn(
-              'rounded-md px-3 py-1.5 text-md transition-colors cursor-not-allowed',
-              'bg-card-bg/30 text-muted/50 border border-border/70'
-            )}
-          >
-            Personal
-          </button>
-        </div>
+      {/* Header row (not shown for inline variant) */}
+      {variant !== 'inline' && (
+        <div className="flex items-center justify-between mb-2">
+          {variant === 'full' ? (
+            // Full variant: toggle buttons
+            <DataSourceToggle
+              value={source}
+              onChange={setSource}
+              disabled={disabled}
+              size="md"
+            />
+          ) : (
+            // Compact variant: simple title
+            <h3 className="text-base font-semibold text-foreground">
+              {source === 'personal' ? 'Your Dream Weather' : 'Collective Dream Weather'}
+            </h3>
+          )}
 
-        {/* See more link - right */}
-        <Link
-          href="/weather"
-          className="text-sm text-accent hover:text-accent/80 transition-colors"
-        >
-          See more →
-        </Link>
-      </div>
+          {/* See more link */}
+          <Link
+            href={href}
+            className="text-sm text-accent hover:text-accent/80 transition-colors"
+          >
+            See more →
+          </Link>
+        </div>
+      )}
 
       {/* Chart */}
-      <Link href="/weather" className="block">
+      <Link href={href} className="block">
         <motion.div
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}

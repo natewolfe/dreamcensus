@@ -1,6 +1,6 @@
 'use server'
 
-import { computePersonalWeather, computeCollectiveWeather, computeWeatherChartData } from '@/lib/weather'
+import { computePersonalWeather, computeCollectiveWeather, computeWeatherChartData, computePersonalWeatherChartData } from '@/lib/weather'
 import type { PersonalWeatherData, CollectiveWeatherData, DreamWeatherChartData, TimeRange } from '@/lib/weather/types'
 import { withAuth, type ActionResult } from '@/lib/actions'
 
@@ -54,3 +54,20 @@ export async function getWeatherChart(
   }
 }
 
+/**
+ * Get personal weather chart data for current user (time-series sentiment)
+ */
+export async function getPersonalWeatherChart(
+  timeRange: TimeRange = '7d'
+): Promise<ActionResult<DreamWeatherChartData | null>> {
+  return withAuth(async (session) => {
+    try {
+      const data = await computePersonalWeatherChartData(session.userId, timeRange)
+
+      return { success: true, data }
+    } catch (error) {
+      console.error('getPersonalWeatherChart error:', error)
+      return { success: false, error: 'Failed to compute personal weather chart' }
+    }
+  })
+}

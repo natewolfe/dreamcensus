@@ -4,12 +4,13 @@ import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import type { MorningStartProps } from './types'
 
-function getTimeGreeting(): string {
+function getTimeGreeting(displayName?: string): string {
   const hour = new Date().getHours()
-  if (hour >= 5 && hour < 12) return 'Good morning'
-  if (hour >= 12 && hour < 17) return 'Good day'
-  if (hour >= 17 && hour < 21) return 'Good evening'
-  return 'Welcome back'
+  const name = displayName ? `, ${displayName}` : ''
+  if (hour >= 5 && hour < 12) return `Good morning${name}`
+  if (hour >= 12 && hour < 17) return `Good day${name}`
+  if (hour >= 17 && hour < 21) return `Good evening${name}`
+  return `Welcome back${name ? name : ''}`
 }
 
 export function MorningStart({
@@ -19,9 +20,10 @@ export function MorningStart({
   onText,
   onEmotionOnly,
   onSkip: _onSkip,
+  displayName,
   lastNightIntention,
 }: MorningStartProps) {
-  const greeting = getTimeGreeting()
+  const greeting = getTimeGreeting(displayName)
 
   return (
     <motion.div

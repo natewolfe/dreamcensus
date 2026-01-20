@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
-import { Card, Button, Switch } from '@/components/ui'
+import { Card, Button, Switch, Input } from '@/components/ui'
+import { updateProfile } from '@/app/(app)/profile/actions'
 
-type OnboardingStep = 'privacy' | 'rhythm' | 'first_moment' | 'complete'
+type OnboardingStep = 'name' | 'privacy' | 'rhythm' | 'first_moment' | 'complete'
 type Direction = 'forward' | 'back'
 
 interface PrivacySelections {
@@ -45,8 +46,10 @@ const slideTransition = {
 
 export default function OnboardingSetupPage() {
   const router = useRouter()
-  const [step, setStep] = useState<OnboardingStep>('privacy')
+  const [step, setStep] = useState<OnboardingStep>('name')
   const [direction, setDirection] = useState<Direction>('forward')
+  const [displayName, setDisplayName] = useState('')
+  const [isSavingName, setIsSavingName] = useState(false)
 
   const [privacy, setPrivacy] = useState<PrivacySelections>({
     insights: true,
@@ -66,6 +69,26 @@ export default function OnboardingSetupPage() {
   const goTo = (nextStep: OnboardingStep, dir: Direction = 'forward') => {
     setDirection(dir)
     setStep(nextStep)
+  }
+
+  const handleNameContinue = async () => {
+    if (!displayName.trim()) {
+      // Allow skipping name, just continue
+      goTo('privacy', 'forward')
+      return
+    }
+
+    setIsSavingName(true)
+    try {
+      await updateProfile({ displayName: displayName.trim() })
+      goTo('privacy', 'forward')
+    } catch (error) {
+      console.error('Failed to save name:', error)
+      // Continue anyway - can set name later
+      goTo('privacy', 'forward')
+    } finally {
+      setIsSavingName(false)
+    }
   }
 
   const handleComplete = (action: 'morning' | 'census' | 'prompts' | 'skip') => {
@@ -89,9 +112,9 @@ export default function OnboardingSetupPage() {
     }, 2000)
   }
 
-  // Progress indicator
-  const stepIndex = ['privacy', 'rhythm', 'first_moment'].indexOf(step)
-  const progress = step === 'complete' ? 100 : ((stepIndex + 1) / 3) * 100
+  // Progress indicator (4 steps now: name, privacy, rhythm, first_moment)
+  const stepIndex = ['name', 'privacy', 'rhythm', 'first_moment'].indexOf(step)
+  const progress = step === 'complete' ? 100 : ((stepIndex + 1) / 4) * 100
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -113,7 +136,7 @@ export default function OnboardingSetupPage() {
               />
             </div>
             <p className="text-xs text-subtle mt-2">
-              Step {stepIndex + 1} of 3
+              Step {stepIndex + 1} of 4
             </p>
           </div>
         </div>
@@ -122,6 +145,26 @@ export default function OnboardingSetupPage() {
       {/* Main content */}
       <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-8">
         <AnimatePresence mode="wait" custom={direction}>
+          {step === 'name' && (
+            <motion.div
+              key="name"
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={slideTransition}
+              className="w-full max-w-xl"
+            >
+              <NameScreen
+                value={displayName}
+                onChange={setDisplayName}
+                onContinue={handleNameContinue}
+                isLoading={isSavingName}
+              />
+            </motion.div>
+          )}
+
           {step === 'privacy' && (
             <motion.div
               key="privacy"
@@ -137,6 +180,7 @@ export default function OnboardingSetupPage() {
                 selections={privacy}
                 onChange={setPrivacy}
                 onContinue={() => goTo('rhythm', 'forward')}
+                onBack={() => goTo('name', 'back')}
               />
             </motion.div>
           )}
@@ -196,18 +240,93 @@ export default function OnboardingSetupPage() {
   )
 }
 
+// Name Screen Component
+function NameScreen({
+  value,
+  onChange,
+  onContinue,
+  isLoading,
+}: {
+  value: string
+  onChange: (name: string) => void
+  onContinue: () => void
+  isLoading: boolean
+}) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !isLoading) {
+      onContinue()
+    }
+  }
+
+  return (
+    <Card className="bg-card-bg/80 backdrop-blur-sm border-border" padding="lg">
+      <div className="mb-8 text-center">
+        <div className="text-5xl mb-4">👋</div>
+        <h1 className="text-2xl font-bold mb-2">What should we call you?</h1>
+        <p className="text-muted">Your first name is perfect</p>
+      </div>
+
+      <div className="mb-8">
+        <Input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Enter your name"
+          className="text-center text-lg h-14"
+          maxLength={50}
+          autoFocus
+          autoComplete="given-name"
+        />
+        <p className="text-xs text-subtle text-center mt-3">
+          This will be shown on your profile. You can change it later.
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        <Button 
+          fullWidth 
+          onClick={onContinue} 
+          size="lg"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Saving...' : 'Continue'}
+        </Button>
+        
+        {!value.trim() && (
+          <p className="text-xs text-subtle text-center">
+            You can skip this and set your name later
+          </p>
+        )}
+      </div>
+    </Card>
+  )
+}
+
 // Privacy Screen Component
 function PrivacyScreen({
   selections,
   onChange,
   onContinue,
+  onBack,
 }: {
   selections: PrivacySelections
   onChange: (s: PrivacySelections) => void
   onContinue: () => void
+  onBack: () => void
 }) {
   return (
     <Card className="bg-card-bg/80 backdrop-blur-sm border-border" padding="lg">
+      <button
+        onClick={onBack}
+        className="mb-6 flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors"
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back
+      </button>
+
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-bold mb-2">Your privacy choices</h1>
         <p className="text-muted">You can change these anytime in settings</p>

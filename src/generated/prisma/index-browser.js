@@ -126,6 +126,8 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   displayName: 'displayName',
+  avatarEmoji: 'avatarEmoji',
+  avatarBgColor: 'avatarBgColor',
   email: 'email',
   emailVerifiedAt: 'emailVerifiedAt',
   timezone: 'timezone',
@@ -439,6 +441,37 @@ exports.Prisma.AlarmSettingsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DreamerProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  boundaryScore: 'boundaryScore',
+  lucidityScore: 'lucidityScore',
+  emotionScore: 'emotionScore',
+  meaningScore: 'meaningScore',
+  engagementScore: 'engagementScore',
+  boundaryConfidence: 'boundaryConfidence',
+  lucidityConfidence: 'lucidityConfidence',
+  emotionConfidence: 'emotionConfidence',
+  meaningConfidence: 'meaningConfidence',
+  engagementConfidence: 'engagementConfidence',
+  primaryArchetype: 'primaryArchetype',
+  secondaryArchetype: 'secondaryArchetype',
+  archetypeConfidence: 'archetypeConfidence',
+  unlockPoints: 'unlockPoints',
+  unlockLevel: 'unlockLevel',
+  journalDreamCount: 'journalDreamCount',
+  journalLucidPercent: 'journalLucidPercent',
+  journalAvgVividness: 'journalAvgVividness',
+  journalTopEmotions: 'journalTopEmotions',
+  journalTopTags: 'journalTopTags',
+  journalWakingLinkRate: 'journalWakingLinkRate',
+  scoringVersion: 'scoringVersion',
+  isStale: 'isStale',
+  lastCalculatedAt: 'lastCalculatedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -496,7 +529,8 @@ exports.Prisma.ModelName = {
   Theme: 'Theme',
   NightCheckIn: 'NightCheckIn',
   SyncQueueItem: 'SyncQueueItem',
-  AlarmSettings: 'AlarmSettings'
+  AlarmSettings: 'AlarmSettings',
+  DreamerProfile: 'DreamerProfile'
 };
 
 /**

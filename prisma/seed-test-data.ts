@@ -122,6 +122,69 @@ async function seedTestUsers() {
 }
 
 /**
+ * Seed census answers for test users to enable Dream Profile
+ */
+async function seedCensusAnswers(users: Array<{ id: string; email: string | null }>) {
+  console.log('📋 Creating census answers...')
+  
+  // Get some key questions for Dream Profile dimensions
+  const questions = await prisma.censusQuestion.findMany({
+    where: {
+      slug: {
+        in: [
+          'vivid-thoughts', 'mind-wanders', 'thin-boundaries',  // boundary
+          'lucid-dream-frequency', 'control-level-when-lucid',  // lucidity
+          'emotional-intensity-rating', 'wake-with-residual-emotion',  // emotion
+          'search-for-dream-meaning', 'seek-symbol-interpretation',  // meaning
+          'reflect-on-dreams', 'dreams-important-to-identity',  // engagement
+        ],
+      },
+    },
+  })
+  
+  if (questions.length === 0) {
+    console.log('  ⚠ No census questions found - run seed-questions.ts first')
+    return
+  }
+  
+  // Create varied answers for each test user
+  for (const user of users) {
+    for (const question of questions) {
+      // Generate random answer based on question type
+      let value: number | string = 0
+      
+      if (question.type === 'frequency' || question.type === 'statement') {
+        value = Math.floor(Math.random() * 5) // 0-4 scale
+      } else if (question.type === 'vas') {
+        value = Math.floor(Math.random() * 101) // 0-100 scale
+      } else if (question.type === 'binary') {
+        value = Math.random() > 0.5 ? 'yes' : 'no'
+      }
+      
+      await prisma.censusAnswer.upsert({
+        where: {
+          userId_questionId: {
+            userId: user.id,
+            questionId: question.id,
+          },
+        },
+        create: {
+          userId: user.id,
+          questionId: question.id,
+          value: value,
+          instrumentVersion: 1,
+        },
+        update: {
+          value: value,
+        },
+      })
+    }
+  }
+  
+  console.log(`  ✓ Created census answers for ${users.length} users`)
+}
+
+/**
  * Create dream entries distributed across 90 days
  */
 async function seedDreamEntries(users: Array<{ id: string; email: string | null }>) {
@@ -193,6 +256,10 @@ async function main() {
     const users = await seedTestUsers()
     console.log(`✓ ${users.length} users ready\n`)
     
+    // Create census answers (for Dream Profile)
+    await seedCensusAnswers(users)
+    console.log('')
+    
     // Create dream entries
     await seedDreamEntries(users)
     console.log('')
@@ -204,13 +271,18 @@ async function main() {
       where: { scope: 'commons', granted: true },
     })
     
+    // Count dream profiles
+    const totalProfiles = await prisma.dreamerProfile.count()
+    
     console.log('📊 Database Summary:')
     console.log(`  • Total users: ${totalUsers}`)
     console.log(`  • Users with commons consent: ${commonsConsents}`)
     console.log(`  • Total dreams: ${totalDreams}`)
+    console.log(`  • Dream profiles: ${totalProfiles}`)
     console.log('')
     console.log('✅ Test data seeded successfully!')
     console.log('   Visit /weather to see the Dream Weather Chart')
+    console.log('   Visit /profile to see your Dream Profile')
   } catch (error) {
     console.error('❌ Seeding failed:', error)
     throw error

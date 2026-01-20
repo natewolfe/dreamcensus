@@ -12,6 +12,7 @@ import type {
   PromptRespondedPayload,
   PromptSkippedPayload,
   NightCheckedInPayload,
+  UserProfileUpdatedPayload,
 } from './types'
 
 /**
@@ -80,6 +81,14 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
         // await queueJob('weather.contribute', { dreamId: entry.id })
       }
     },
+    // Mark dream profile as stale
+    async (event) => {
+      await db.dreamerProfile.upsert({
+        where: { userId: event.userId },
+        create: { userId: event.userId, isStale: true },
+        update: { isStale: true },
+      })
+    },
   ],
 
   // Journal entry updated - update projection
@@ -100,6 +109,13 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
         },
       })
     },
+    // Mark dream profile as stale
+    async (event) => {
+      await db.dreamerProfile.updateMany({
+        where: { userId: event.userId },
+        data: { isStale: true },
+      })
+    },
   ],
 
   // Journal entry deleted - soft delete projection
@@ -107,6 +123,13 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
     async (event) => {
       await db.dreamEntry.delete({
         where: { id: event.aggregateId! },
+      })
+    },
+    // Mark dream profile as stale
+    async (event) => {
+      await db.dreamerProfile.updateMany({
+        where: { userId: event.userId },
+        data: { isStale: true },
       })
     },
   ],
@@ -132,6 +155,13 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
         update: {
           value: payload.value,
         },
+      })
+    },
+    // Mark dream profile as stale
+    async (event) => {
+      await db.dreamerProfile.updateMany({
+        where: { userId: event.userId },
+        data: { isStale: true },
       })
     },
   ],
@@ -237,6 +267,25 @@ const handlers: Partial<Record<string, EventHandler[]>> = {
           reminderEnabled: payload.reminderEnabled ?? false,
         },
       })
+    },
+  ],
+
+  // Profile update
+  [EVENT_TYPES.USER_PROFILE_UPDATED]: [
+    async (event) => {
+      const payload = event.payload as unknown as UserProfileUpdatedPayload
+      const updateData: Partial<{ displayName: string; avatarEmoji: string; avatarBgColor: string }> = {}
+      
+      if (payload.displayName !== undefined) updateData.displayName = payload.displayName
+      if (payload.avatarEmoji !== undefined) updateData.avatarEmoji = payload.avatarEmoji
+      if (payload.avatarBgColor !== undefined) updateData.avatarBgColor = payload.avatarBgColor
+
+      if (Object.keys(updateData).length > 0) {
+        await db.user.update({
+          where: { id: event.userId },
+          data: updateData,
+        })
+      }
     },
   ],
 }

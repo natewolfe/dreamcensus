@@ -20,6 +20,8 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed-questions": "tsx prisma/seed-questions.ts",
+    "db:seed-prompts": "tsx prisma/seed-prompts.ts",
     "db:seed-test": "tsx prisma/seed-test-data.ts"
   },
   "dependencies": {

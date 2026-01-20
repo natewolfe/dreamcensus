@@ -62,9 +62,9 @@ export function JournalList({ dreams, initialSearch, onSearch }: JournalListProp
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Search */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm pb-4 text-lg">
+      <div className="sticky top-0 z-10 backdrop-blur-sm pb-4 text-lg">
         <Input
           type="text"
           placeholder="Search dreams, emotions, tags..."
@@ -103,11 +103,11 @@ export function JournalList({ dreams, initialSearch, onSearch }: JournalListProp
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="space-y-3"
+              className="space-y-4"
             >
               {/* Date header */}
-              <h3 className="text-sm font-medium text-muted sticky top-16 bg-background pb-3">
-                {date}
+              <h3 className="text-md font-medium text-muted sticky top-16 pb-3">
+                📆 {date}
               </h3>
 
               {/* Dreams for this date */}
