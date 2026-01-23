@@ -43,7 +43,7 @@ export function ProfileHeader({
   })
 
   return (
-    <div className="relative flex flex-col items-center gap-4">
+    <div className="relative flex flex-col items-center gap-3">
       {/* Share button - top right */}
       <Button
         variant="ghost"
